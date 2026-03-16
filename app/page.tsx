@@ -15,8 +15,8 @@ export default function Home() {
       <Header />
       <Hero />
       <OttawaFeature />
-      <VoiceSection />
       <FoundationsGrid />
+      <VoiceSection />
       <InfluenceLetterBlock />
       <CityAgeMagazine />
       <Footer />
