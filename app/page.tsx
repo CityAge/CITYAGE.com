@@ -3,8 +3,11 @@ import { Hero } from '@/components/hero'
 import { OttawaFeature } from '@/components/ottawa-feature'
 import { VoiceSection } from '@/components/voice-section'
 import { FoundationsGrid } from '@/components/foundations-grid'
+import { InfluenceLetterBlock } from '@/components/influence-letter-block'
 import { CityAgeMagazine } from '@/components/cityage-magazine'
 import { Footer } from '@/components/footer'
+
+export const revalidate = 60
 
 export default function Home() {
   return (
@@ -14,6 +17,7 @@ export default function Home() {
       <OttawaFeature />
       <VoiceSection />
       <FoundationsGrid />
+      <InfluenceLetterBlock />
       <CityAgeMagazine />
       <Footer />
     </main>
