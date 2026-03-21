@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #F9F9F7;
+  --foreground: #000000;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #F9F9F7;
+  --secondary: #F0EEE9;
+  --secondary-foreground: #000000;
+  --muted: #F0EEE9;
+  --muted-foreground: #666666;
+  --accent: #C5A059;
+  --accent-foreground: #000000;
+  --destructive: #dc2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #000000;
+  --input: #E8E6E1;
+  --ring: #C5A059;
+  --radius: 0px;
+  --gold: #C5A059;
+  --navy: #1A365D;
+  --cream: #F9F9F7;
+}
+
+@theme inline {
+  --font-sans: var(--font-serif);
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+}
+
+.monocle-wordmark {
+  font-weight: 900;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.035em;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.tagline-lock {
+  color: #000000;
+  text-align: center;
+  letter-spacing: 0.15em;
+  font-weight: 800;
+  line-height: 1.2;
+  font-size: 1.05rem;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #F9F9F7; }
+::-webkit-scrollbar-thumb { background: #000; }
+
+@keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+.animate-marquee { animation: marquee 65s linear infinite; }
+.animate-marquee:hover { animation-play-state: paused; }
+
+::selection { background: #1A365D; color: white; }
