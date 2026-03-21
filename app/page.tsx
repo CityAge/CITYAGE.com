@@ -15,37 +15,40 @@ export const revalidate = 60
 const images = ['/ottawa-feature.jpg', '/wildfire-evacuation.jpg', '/editor-portrait.jpg']
 
 export default async function Home() {
-  let briefs: any[] | null = null
+  let articles: { id: string; title: string; vertical: string; tagline: string | null; date: string; index: number }[] = []
 
   try {
-    const supabase = await createClient()
-    const { data } = await supabase
-      .from('briefs')
-      .select('id, title, vertical, published_at, body')
-      .eq('status', 'published')
-      .order('published_at', { ascending: false })
-      .limit(18)
-    briefs = data
-  } catch {
-    // Supabase not configured yet — render empty state
-    briefs = null
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    
+    if (url && key) {
+      const supabase = await createClient()
+      const { data: briefs } = await supabase
+        .from('briefs')
+        .select('id, title, vertical, published_at, body')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+        .limit(18)
+
+      articles = (briefs ?? []).map((b: any, i: number) => {
+        const tagline = b.body
+          ?.split('\n')
+          .find((l: string) => l.startsWith('*') && l.endsWith('*') && !l.includes('Defence.'))
+          ?.replace(/\*/g, '')
+          ?.trim() || null
+
+        const date = new Date(b.published_at).toLocaleDateString('en-CA', {
+          weekday: 'short', month: 'short', day: 'numeric',
+          timeZone: 'America/Toronto',
+        })
+
+        return { id: b.id, title: b.title, vertical: b.vertical, tagline, date, index: i }
+      })
+    }
+  } catch (e) {
+    console.error('Supabase error:', e)
+    articles = []
   }
-
-  // Process briefs into article data
-  const articles = (briefs ?? []).map((b, i) => {
-    const tagline = b.body
-      ?.split('\n')
-      .find((l: string) => l.startsWith('*') && l.endsWith('*') && !l.includes('Defence.'))
-      ?.replace(/\*/g, '')
-      ?.trim() || null
-
-    const date = new Date(b.published_at).toLocaleDateString('en-CA', {
-      weekday: 'short', month: 'short', day: 'numeric',
-      timeZone: 'America/Toronto',
-    })
-
-    return { id: b.id, title: b.title, vertical: b.vertical, tagline, date, index: i }
-  })
 
   // Distribute into 3 columns with subscription cards every 5 articles
   const columns: (typeof articles[0] | 'subscription')[][] = [[], [], []]
