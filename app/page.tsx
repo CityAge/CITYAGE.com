@@ -15,14 +15,21 @@ export const revalidate = 60
 const images = ['/ottawa-feature.jpg', '/wildfire-evacuation.jpg', '/editor-portrait.jpg']
 
 export default async function Home() {
-  const supabase = await createClient()
+  let briefs: any[] | null = null
 
-  const { data: briefs } = await supabase
-    .from('briefs')
-    .select('id, title, vertical, published_at, body')
-    .eq('status', 'published')
-    .order('published_at', { ascending: false })
-    .limit(18)
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase
+      .from('briefs')
+      .select('id, title, vertical, published_at, body')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false })
+      .limit(18)
+    briefs = data
+  } catch {
+    // Supabase not configured yet — render empty state
+    briefs = null
+  }
 
   // Process briefs into article data
   const articles = (briefs ?? []).map((b, i) => {
