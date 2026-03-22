@@ -1,11 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 interface MagazineArticle {
   id: string
@@ -30,7 +27,7 @@ export default function ReviewPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const supabase = createClient(supabaseUrl, supabaseKey)
+  const supabase = createClient()
 
   const fetchArticles = useCallback(async () => {
     setLoading(true)
