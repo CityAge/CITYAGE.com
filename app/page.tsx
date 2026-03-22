@@ -59,7 +59,7 @@ export default async function Home() {
             title: a.headline,
             vertical: a.vertical,
             tagline: a.deck || null,
-            excerpt: a.deck || bodyExcerpt || null,
+            excerpt: bodyExcerpt || a.deck || null,
             date: new Date(a.published_at).toLocaleDateString('en-CA', {
               weekday: 'short', month: 'short', day: 'numeric',
               timeZone: 'America/Toronto',

@@ -61,6 +61,18 @@
 @layer base {
   * { @apply border-border outline-ring/50; }
   body { @apply bg-background text-foreground; }
+  
+  /* Heavier headline rendering — closer to Monocle's Plantin weight */
+  h1, h2, h3, h4 {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Make font-black render heavier with text stroke */
+  .font-black, .font-bold {
+    -webkit-text-stroke: 0.2px currentColor;
+  }
 }
 
 .monocle-wordmark {
