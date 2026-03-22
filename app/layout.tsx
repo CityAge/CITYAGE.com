@@ -6,8 +6,7 @@ import './globals.css'
 const sourceSerif = Source_Serif_4({ 
   subsets: ["latin"],
   variable: '--font-serif',
-  weight: ['400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
+  display: 'swap',
 })
 
 const jetbrains = JetBrains_Mono({ 
