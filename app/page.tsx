@@ -7,13 +7,12 @@ import { MagazineFooter } from '@/components/magazine-footer'
 
 export const revalidate = 60
 
-const leadImages = ['/ottawa-feature.jpg', '/wildfire-evacuation.jpg', '/guest-portrait.jpg']
-
 export default async function Home() {
   let articles: {
     id: string; title: string; vertical: string;
     tagline: string | null; excerpt: string | null;
-    date: string; index: number
+    date: string; index: number; image: string | null;
+    readTime: string; source: 'magazine' | 'briefs'
   }[] = []
 
   try {
@@ -22,47 +21,73 @@ export default async function Home() {
 
     if (url && key) {
       const supabase = await createClient()
-      const { data: briefs } = await supabase
-        .from('briefs')
-        .select('id, title, vertical, published_at, body')
+
+      // ── Try magazine table first ──
+      const { data: magArticles } = await supabase
+        .from('magazine')
+        .select('id, headline, deck, body, vertical, sub_vertical, image_url, read_time, published_at, featured')
         .eq('status', 'published')
+        .order('featured', { ascending: false })
         .order('published_at', { ascending: false })
         .limit(18)
 
-      articles = (briefs ?? []).map((b: any, i: number) => {
-        // Extract tagline (italic line)
-        const tagline = b.body
-          ?.split('\n')
-          .find((l: string) => l.startsWith('*') && l.endsWith('*') && !l.includes('Defence.'))
-          ?.replace(/\*/g, '')
-          ?.trim() || null
+      if (magArticles && magArticles.length > 0) {
+        articles = magArticles.map((a: any, i: number) => ({
+          id: a.id,
+          title: a.headline,
+          vertical: a.vertical,
+          tagline: a.deck || null,
+          excerpt: a.body?.split('\n').find((l: string) => l.trim().length > 60 && !l.startsWith('#'))?.trim().slice(0, 160) + '…' || null,
+          date: new Date(a.published_at).toLocaleDateString('en-CA', {
+            weekday: 'short', month: 'short', day: 'numeric',
+            timeZone: 'America/Toronto',
+          }),
+          index: i,
+          image: a.image_url || null,
+          readTime: `${a.read_time || 5} min read`,
+          source: 'magazine' as const,
+        }))
+      } else {
+        // ── Fallback to briefs table ──
+        const { data: briefs } = await supabase
+          .from('briefs')
+          .select('id, title, vertical, published_at, body')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false })
+          .limit(18)
 
-        // Extract excerpt (first substantial paragraph after headers)
-        const lines = b.body?.split('\n') || []
-        const excerptLine = lines.find((l: string) => {
-          const trimmed = l.trim()
-          return trimmed.length > 60
-            && !trimmed.startsWith('#')
-            && !trimmed.startsWith('*')
-            && !trimmed.startsWith('**')
-            && !trimmed.startsWith('---')
+        articles = (briefs ?? []).map((b: any, i: number) => {
+          const tagline = b.body
+            ?.split('\n')
+            .find((l: string) => l.startsWith('*') && l.endsWith('*') && !l.includes('Defence.'))
+            ?.replace(/\*/g, '')
+            ?.trim() || null
+
+          const lines = b.body?.split('\n') || []
+          const excerptLine = lines.find((l: string) => {
+            const trimmed = l.trim()
+            return trimmed.length > 60
+              && !trimmed.startsWith('#')
+              && !trimmed.startsWith('*')
+              && !trimmed.startsWith('**')
+              && !trimmed.startsWith('---')
+          })
+          let rawExcerpt = excerptLine?.trim() || ''
+          rawExcerpt = rawExcerpt.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+          rawExcerpt = rawExcerpt.replace(/https?:\/\/\S+/g, '')
+          rawExcerpt = rawExcerpt.replace(/\s{2,}/g, ' ').trim()
+          const excerpt = rawExcerpt.length > 0
+            ? rawExcerpt.slice(0, 160) + (rawExcerpt.length > 160 ? '…' : '')
+            : null
+
+          const date = new Date(b.published_at).toLocaleDateString('en-CA', {
+            weekday: 'short', month: 'short', day: 'numeric',
+            timeZone: 'America/Toronto',
+          })
+
+          return { id: b.id, title: b.title, vertical: b.vertical, tagline, excerpt, date, index: i, image: null, readTime: '5 min read', source: 'briefs' as const }
         })
-        // Clean excerpt: strip markdown links [text](url) → text, and raw URLs
-        let rawExcerpt = excerptLine?.trim() || ''
-        rawExcerpt = rawExcerpt.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) → text
-        rawExcerpt = rawExcerpt.replace(/https?:\/\/\S+/g, '') // remove raw URLs
-        rawExcerpt = rawExcerpt.replace(/\s{2,}/g, ' ').trim() // collapse whitespace
-        const excerpt = rawExcerpt.length > 0
-          ? rawExcerpt.slice(0, 160) + (rawExcerpt.length > 160 ? '…' : '')
-          : null
-
-        const date = new Date(b.published_at).toLocaleDateString('en-CA', {
-          weekday: 'short', month: 'short', day: 'numeric',
-          timeZone: 'America/Toronto',
-        })
-
-        return { id: b.id, title: b.title, vertical: b.vertical, tagline, excerpt, date, index: i }
-      })
+      }
     }
   } catch (e) {
     console.error('Supabase error:', e)
@@ -74,6 +99,7 @@ export default async function Home() {
   // Band 2: Featured row — next 4 articles, equal weight
   // Band 3: By Vertical — remaining articles grouped by vertical
   const hasArticles = articles.length > 0
+  const linkPrefix = articles[0]?.source === 'magazine' ? '/magazine' : '/dispatches'
 
   const heroLead = articles[0] || null
   const heroSecondary = articles.slice(1, 3)
@@ -127,9 +153,10 @@ export default async function Home() {
                       excerpt={heroLead.excerpt}
                       date={heroLead.date}
                       isLead={true}
-                      image={leadImages[0]}
-                      readTime="5 min read"
+                      image={heroLead.image || undefined}
+                      readTime={heroLead.readTime}
                       variant="hero-lead"
+                      linkPrefix={linkPrefix}
                     />
                   </div>
                 )}
@@ -145,9 +172,10 @@ export default async function Home() {
                         tagline={article.tagline}
                         excerpt={article.excerpt}
                         date={article.date}
-                        image={leadImages[(i + 1) % leadImages.length]}
-                        readTime="5 min read"
+                        image={article.image || undefined}
+                        readTime={article.readTime}
                         variant="hero-secondary"
+                        linkPrefix={linkPrefix}
                       />
                     </div>
                   ))}
@@ -228,9 +256,10 @@ export default async function Home() {
                       tagline={article.tagline}
                       excerpt={article.excerpt}
                       date={article.date}
-                      image={i === 0 ? leadImages[2] : undefined}
-                      readTime="5 min read"
+                      image={article.image || undefined}
+                      readTime={article.readTime}
                       variant="featured-card"
+                      linkPrefix={linkPrefix}
                     />
                   ))}
                 </div>
@@ -263,8 +292,9 @@ export default async function Home() {
                             tagline={null}
                             excerpt={null}
                             date={article.date}
-                            readTime="5 min read"
+                            readTime={article.readTime}
                             variant="category-list"
+                            linkPrefix={linkPrefix}
                           />
                         </div>
                       ))}

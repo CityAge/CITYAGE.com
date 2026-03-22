@@ -12,14 +12,16 @@ interface ArticleCardProps {
   image?: string
   readTime?: string
   variant?: 'hero-lead' | 'hero-secondary' | 'hero-tertiary' | 'featured-card' | 'category-list' | 'default'
+  linkPrefix?: string
 }
 
-export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default' }: ArticleCardProps) {
+export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default', linkPrefix = '/dispatches' }: ArticleCardProps) {
+  const href = `${linkPrefix}/${id}`
 
   // ── HERO LEAD: Large headline, image, then excerpt ──
   if (variant === 'hero-lead') {
     return (
-      <Link href={`/dispatches/${id}`} className="block group">
+      <Link href={href} className="block group">
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
@@ -57,7 +59,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   // ── HERO SECONDARY: Medium headline with image (or placeholder) ──
   if (variant === 'hero-secondary') {
     return (
-      <Link href={`/dispatches/${id}`} className="block group">
+      <Link href={href} className="block group">
         {image ? (
           <div className="w-full relative overflow-hidden bg-gray-100 aspect-video mb-4">
             <Image
@@ -91,7 +93,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   // ── HERO TERTIARY: Headline-only, compact ──
   if (variant === 'hero-tertiary') {
     return (
-      <Link href={`/dispatches/${id}`} className="flex flex-col group">
+      <Link href={href} className="flex flex-col group">
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
@@ -106,7 +108,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   // ── FEATURED CARD: Equal-width card with image, category, headline, excerpt ──
   if (variant === 'featured-card') {
     return (
-      <Link href={`/dispatches/${id}`} className="block group">
+      <Link href={href} className="block group">
         {image ? (
           <div className="w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-4">
             <Image
@@ -140,7 +142,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   // ── CATEGORY LIST: Headline + read time only, very compact ──
   if (variant === 'category-list') {
     return (
-      <Link href={`/dispatches/${id}`} className="block group">
+      <Link href={href} className="block group">
         <h4 className="font-serif font-bold text-[15px] leading-snug tracking-tight mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h4>
@@ -152,7 +154,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   // ── DEFAULT: Original card style (fallback) ──
   return (
     <Link
-      href={`/dispatches/${id}`}
+      href={href}
       className="block border-b border-black/10 group bg-[#F9F9F7] hover:bg-white transition-colors"
     >
       {image && (
