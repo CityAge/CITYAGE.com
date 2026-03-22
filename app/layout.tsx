@@ -1,24 +1,27 @@
 import type { Metadata, Viewport } from 'next'
-import { Source_Serif_4, JetBrains_Mono, Inter } from 'next/font/google'
+import { Libre_Baskerville, JetBrains_Mono, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const sourceSerif = Source_Serif_4({ 
+const libreBaskerville = Libre_Baskerville({ 
   subsets: ["latin"],
   variable: '--font-serif',
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
   display: 'swap',
 })
 
 const jetbrains = JetBrains_Mono({ 
   subsets: ["latin"],
   variable: '--font-mono',
-  weight: ['400', '500', '600', '700']
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
 })
 
 const inter = Inter({
   subsets: ["latin"],
   variable: '--font-ui',
-  weight: ['400', '500', '600', '700', '800', '900']
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -44,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${sourceSerif.variable} ${jetbrains.variable} ${inter.variable}`}>
+    <html lang="en" className={`${libreBaskerville.variable} ${jetbrains.variable} ${inter.variable}`}>
       <body className="font-serif antialiased bg-[#F9F9F7] text-black selection:bg-[#1A365D] selection:text-white">
         {children}
         <Analytics />
