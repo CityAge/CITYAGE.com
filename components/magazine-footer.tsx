@@ -50,9 +50,15 @@ export function MagazineFooter() {
         <span className="font-mono text-[10px] text-white/20 tracking-wider uppercase">
           © 2026 CityAge Media. All Rights Reserved.
         </span>
-        <span className="font-mono text-[10px] text-white/20 tracking-wider uppercase">
-          100+ Convenings · 50+ Cities · 15 Years
-        </span>
+        <div className="flex items-center gap-4">
+          <a href="/privacy" className="font-mono text-[10px] text-white/20 tracking-wider uppercase hover:text-[#C5A059] transition-colors">
+            Privacy Policy
+          </a>
+          <span className="text-white/10">·</span>
+          <span className="font-mono text-[10px] text-white/20 tracking-wider uppercase">
+            100+ Convenings · 50+ Cities · 15 Years
+          </span>
+        </div>
       </div>
     </footer>
   )
