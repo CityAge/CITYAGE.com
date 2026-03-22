@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 
@@ -17,6 +18,7 @@ export default async function DispatchesPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
+      <CampaignBanner />
       <MagazineHeader />
 
       <main className="flex-grow max-w-[900px] mx-auto w-full px-6 md:px-12 py-12">

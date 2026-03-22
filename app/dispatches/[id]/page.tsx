@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
@@ -90,6 +91,9 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
+      {/* Campaign banner */}
+      <CampaignBanner />
+
       {/* Full masthead */}
       <MagazineHeader />
 
