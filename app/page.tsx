@@ -330,37 +330,6 @@ export default async function Home() {
         )}
       </main>
 
-      {/* From Our Partners section */}
-      <section className="max-w-[1200px] mx-auto w-full border-t border-black/10 bg-[#F9F9F7] px-6 md:px-10 py-16">
-        <div className="flex items-center justify-between mb-10">
-          <h3 className="font-serif font-black text-xl tracking-tight">
-            From Our Partners
-          </h3>
-          <a href="#partners" className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-black transition-colors">
-            See All
-          </a>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { partner: 'Orbit', title: 'Building the Future Space Economy', desc: 'Washington, D.C. — Join the launch event shaping the $1.8-trillion space economy.' },
-            { partner: 'Canada Europe Connects', title: 'Transatlantic Defence & Trade', desc: 'Ottawa — Defence procurement, dual-use technology, and trans-Atlantic trade corridors.' },
-            { partner: 'The Next Vancouver', title: 'Campaign Starts June 19', desc: 'Vancouver — The city\'s future in infrastructure, housing, and economic transformation.' },
-          ].map((item, i) => (
-            <a key={i} href="#" className="group">
-              <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] font-bold">
-                {item.partner}
-              </span>
-              <h4 className="font-serif font-bold text-base leading-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
-                {item.title}
-              </h4>
-              <p className="font-serif text-black/50 text-xs leading-relaxed">
-                {item.desc}
-              </p>
-            </a>
-          ))}
-        </div>
-      </section>
-
       <MagazineFooter />
     </div>
   )
