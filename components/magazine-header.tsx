@@ -56,12 +56,12 @@ export function MagazineHeader() {
           <div className={`flex items-center justify-between transition-all duration-500 ${isScrolled ? 'py-3' : 'py-6 md:py-10'}`}>
 
             {/* Left: menu */}
-            <button className="flex items-center gap-2 text-[10px] font-black tracking-[0.2em] uppercase hover:text-[#C5A059] transition-colors">
+            <a href="/" className="flex items-center gap-2 text-[10px] font-black tracking-[0.2em] uppercase hover:text-[#C5A059] transition-colors">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
               </svg>
               <span className="hidden sm:inline">Menu</span>
-            </button>
+            </a>
 
             {/* Center: masthead */}
             <div className="flex flex-col items-center">

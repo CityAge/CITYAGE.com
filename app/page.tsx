@@ -32,39 +32,44 @@ export default async function Home() {
         .limit(18)
 
       if (magArticles && magArticles.length > 0) {
-        articles = magArticles.map((a: any, i: number) => ({
-          id: a.id,
-          title: a.headline,
-          vertical: a.vertical,
-          tagline: a.deck || null,
-          excerpt: a.deck || (() => {
-            const lines = (a.body || '').split('\n')
-            const goodLine = lines.find((l: string) => {
-              const t = l.trim()
-              return t.length > 80
-                && !t.startsWith('#')
-                && !t.startsWith('*')
-                && !t.startsWith('**')
-                && !t.startsWith('---')
-                && !t.startsWith('|')
-            })
-            if (!goodLine) return null
-            let clean = goodLine.trim()
-            clean = clean.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-            clean = clean.replace(/https?:\/\/\S+/g, '')
-            clean = clean.replace(/\*\*/g, '').replace(/\*/g, '')
-            clean = clean.replace(/\s{2,}/g, ' ').trim()
-            return clean.slice(0, 200) + (clean.length > 200 ? '…' : '')
-          })(),
-          date: new Date(a.published_at).toLocaleDateString('en-CA', {
-            weekday: 'short', month: 'short', day: 'numeric',
-            timeZone: 'America/Toronto',
-          }),
-          index: i,
-          image: a.image_url || null,
-          readTime: `${a.read_time || 5} min read`,
-          source: 'magazine' as const,
-        }))
+        articles = magArticles.map((a: any, i: number) => {
+          // Extract a clean excerpt from body
+          const lines = (a.body || '').split('\n')
+          const goodLine = lines.find((l: string) => {
+            const t = l.trim()
+            return t.length > 80
+              && !t.startsWith('#')
+              && !t.startsWith('*')
+              && !t.startsWith('**')
+              && !t.startsWith('---')
+              && !t.startsWith('|')
+          })
+          let bodyExcerpt = ''
+          if (goodLine) {
+            bodyExcerpt = goodLine.trim()
+              .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+              .replace(/https?:\/\/\S+/g, '')
+              .replace(/\*\*/g, '').replace(/\*/g, '')
+              .replace(/\s{2,}/g, ' ').trim()
+            bodyExcerpt = bodyExcerpt.slice(0, 220) + (bodyExcerpt.length > 220 ? '…' : '')
+          }
+
+          return {
+            id: a.id,
+            title: a.headline,
+            vertical: a.vertical,
+            tagline: a.deck || null,
+            excerpt: a.deck || bodyExcerpt || null,
+            date: new Date(a.published_at).toLocaleDateString('en-CA', {
+              weekday: 'short', month: 'short', day: 'numeric',
+              timeZone: 'America/Toronto',
+            }),
+            index: i,
+            image: a.image_url || null,
+            readTime: `${a.read_time || 5} min read`,
+            source: 'magazine' as const,
+          }
+        })
       } else {
         // ── Fallback to briefs table ──
         const { data: briefs } = await supabase

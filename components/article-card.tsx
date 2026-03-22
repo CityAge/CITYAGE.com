@@ -29,7 +29,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           {title}
         </h2>
         {(excerpt || tagline) && (
-          <p className="font-serif text-black/50 text-[15px] leading-[1.6] mb-5">
+          <p className="font-serif text-black/60 text-[16px] leading-[1.65] mb-5">
             {excerpt || tagline}
           </p>
         )}
@@ -39,7 +39,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               src={image}
               alt={title}
               fill
-              className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
         ) : (
@@ -70,7 +70,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               src={image}
               alt={title}
               fill
-              className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
         ) : (
@@ -85,7 +85,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           {title}
         </h3>
         {(excerpt || tagline) && (
-          <p className="font-serif text-black/45 text-[13px] leading-relaxed mb-3">
+          <p className="font-serif text-black/60 text-[14px] leading-relaxed mb-3">
             {excerpt || tagline}
           </p>
         )}
@@ -119,7 +119,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               src={image}
               alt={title}
               fill
-              className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
         ) : (
@@ -134,7 +134,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           {title}
         </h3>
         {(excerpt || tagline) && (
-          <p className="font-serif text-black/45 text-xs leading-relaxed mb-2">
+          <p className="font-serif text-black/55 text-[13px] leading-relaxed mb-2">
             {(excerpt || tagline || '').slice(0, 100)}{(excerpt || tagline || '').length > 100 ? '…' : ''}
           </p>
         )}
@@ -167,7 +167,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             src={image}
             alt={title}
             fill
-            className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+            className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
           />
         </div>
       )}
