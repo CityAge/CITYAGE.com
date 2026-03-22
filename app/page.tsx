@@ -3,10 +3,7 @@ import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
 import { ColumnistStrip } from '@/components/columnist-strip'
-import { PartnerMarquee } from '@/components/partner-marquee'
-import { Ticker } from '@/components/ticker'
 import { ArticleCard } from '@/components/article-card'
-import { SubscriptionCard } from '@/components/subscription-card'
 import { MagazineFooter } from '@/components/magazine-footer'
 
 export const revalidate = 60
@@ -67,16 +64,15 @@ export default async function Home() {
   }
 
   // ── Distribute articles into editorial bands ──
-  // Band 1: Hero — lead (1) + secondary (2) + tertiary (3-4 headlines)
+  // Band 1: Hero — lead (1) + secondary (2) + Influence Letter sidebar
   // Band 2: Featured row — next 4 articles, equal weight
   // Band 3: By Vertical — remaining articles grouped by vertical
   const hasArticles = articles.length > 0
 
   const heroLead = articles[0] || null
   const heroSecondary = articles.slice(1, 3)
-  const heroTertiary = articles.slice(3, 7)
-  const featuredArticles = articles.slice(7, 11)
-  const remainingArticles = articles.slice(11)
+  const featuredArticles = articles.slice(3, 7)
+  const remainingArticles = articles.slice(7)
 
   // Group remaining by vertical for category sections
   const byVertical: Record<string, typeof articles> = {}
@@ -100,12 +96,6 @@ export default async function Home() {
       {/* Columnist strip */}
       <ColumnistStrip />
 
-      {/* Partner marquee */}
-      <PartnerMarquee />
-
-      {/* Ticker */}
-      <Ticker />
-
       {/* ═══ MAIN CONTENT ═══ */}
       <main className="flex-grow max-w-[1200px] mx-auto w-full bg-[#F9F9F7]">
         {!hasArticles ? (
@@ -121,9 +111,9 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] min-h-[480px]">
+              <div className="grid grid-cols-1 lg:grid-cols-[6fr_4fr_3fr] min-h-[480px]">
 
-                {/* Lead story — dominant left column */}
+                {/* Lead story — dominant left column (~46%) */}
                 {heroLead && (
                   <div className="lg:border-r border-black/10 lg:pr-12 py-12">
                     <ArticleCard
@@ -141,8 +131,8 @@ export default async function Home() {
                   </div>
                 )}
 
-                {/* Secondary stories — middle column */}
-                <div className="lg:border-r border-black/10 lg:px-12 py-12 flex flex-col">
+                {/* Secondary stories — middle column with images */}
+                <div className="lg:border-r border-black/10 lg:px-10 py-12 flex flex-col">
                   {heroSecondary.map((article, i) => (
                     <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-8 mt-8' : ''}`}>
                       <ArticleCard
@@ -152,7 +142,7 @@ export default async function Home() {
                         tagline={article.tagline}
                         excerpt={article.excerpt}
                         date={article.date}
-                        image={i === 0 ? leadImages[1] : undefined}
+                        image={leadImages[(i + 1) % leadImages.length]}
                         readTime="5 min read"
                         variant="hero-secondary"
                       />
@@ -160,22 +150,55 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Tertiary stories — right column, headlines only */}
-                <div className="lg:pl-12 py-12 flex flex-col">
-                  {heroTertiary.map((article, i) => (
-                    <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-6 mt-6' : ''}`}>
-                      <ArticleCard
-                        id={article.id}
-                        title={article.title}
-                        vertical={article.vertical}
-                        tagline={null}
-                        excerpt={null}
-                        date={article.date}
-                        readTime="5 min read"
-                        variant="hero-tertiary"
-                      />
+                {/* Right sidebar — The Influence Letter (dark, like Monocle Radio) */}
+                <div className="bg-black text-white lg:ml-0 p-8 lg:p-8 flex flex-col">
+                  <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
+                    The Influence Letter
+                  </h3>
+                  <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-6">
+                    Daily Intelligence Brief
+                  </span>
+
+                  <p className="font-serif text-white/50 text-[13px] leading-relaxed mb-6">
+                    Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
+                  </p>
+
+                  <div className="mb-6">
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
+                    />
+                    <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
+                      Subscribe Free
+                    </button>
+                  </div>
+
+                  <div className="border-t border-white/10 pt-6 mt-auto">
+                    <span className="font-mono text-[8px] tracking-[0.3em] uppercase text-white/25 block mb-4">
+                      Upcoming Events
+                    </span>
+                    <div className="space-y-4">
+                      <a href="#" className="block group">
+                        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">May 26 · Ottawa</span>
+                        <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
+                      </a>
+                      <a href="#" className="block group">
+                        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19 · Vancouver</span>
+                        <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
+                      </a>
+                      <a href="#" className="block group">
+                        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">2026 · Washington DC</span>
+                        <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Orbit — Space Economy</span>
+                      </a>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="border-t border-white/10 pt-4 mt-6">
+                    <span className="font-mono text-[8px] tracking-[0.15em] text-white/20 uppercase">
+                      Est. 2012 · 25,000+ Leaders
+                    </span>
+                  </div>
                 </div>
 
               </div>
@@ -211,10 +234,7 @@ export default async function Home() {
               </section>
             )}
 
-            {/* ─── BAND 3: SUBSCRIPTION ─── */}
-            <SubscriptionCard />
-
-            {/* ─── BAND 4: BY VERTICAL ─── */}
+            {/* ─── BAND 3: BY VERTICAL ─── */}
             {verticalKeys.length > 0 && (
               <section className="px-6 md:px-10 pt-14 pb-20">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-0">

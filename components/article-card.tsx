@@ -23,7 +23,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-2xl md:text-3xl leading-tight tracking-tight mt-3 mb-5 group-hover:text-[#1A365D] transition-colors">
+        <h2 className="font-serif font-black text-3xl md:text-4xl leading-[1.1] tracking-tight mt-3 mb-5 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h2>
         {image && (
@@ -54,11 +54,11 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
     )
   }
 
-  // ── HERO SECONDARY: Medium headline with optional image ──
+  // ── HERO SECONDARY: Medium headline with image (or placeholder) ──
   if (variant === 'hero-secondary') {
     return (
       <Link href={`/dispatches/${id}`} className="block group">
-        {image && (
+        {image ? (
           <div className="w-full relative overflow-hidden bg-gray-100 aspect-video mb-4">
             <Image
               src={image}
@@ -66,6 +66,10 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               fill
               className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
             />
+          </div>
+        ) : (
+          <div className="w-full aspect-video mb-4 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
@@ -103,7 +107,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'featured-card') {
     return (
       <Link href={`/dispatches/${id}`} className="block group">
-        {image && (
+        {image ? (
           <div className="w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-4">
             <Image
               src={image}
@@ -111,6 +115,10 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               fill
               className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
             />
+          </div>
+        ) : (
+          <div className="w-full aspect-[4/3] mb-4 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
