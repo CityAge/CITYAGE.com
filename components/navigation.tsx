@@ -10,8 +10,8 @@ const sections = [
 
 export function Navigation() {
   return (
-    <nav className="border-b border-black/20 bg-[#F9F9F7]">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-center gap-0">
+    <nav className="border-b border-black/20 bg-[#F9F9F7] overflow-x-auto">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-12 flex items-center justify-start md:justify-center gap-0 min-w-max md:min-w-0">
         {sections.map((section, i) => (
           <div key={section.name} className="relative group">
             <a

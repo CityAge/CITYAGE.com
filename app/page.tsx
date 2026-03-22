@@ -118,7 +118,7 @@ export default async function Home() {
 
                 {/* Lead story — dominant left column (~46%) */}
                 {heroLead && (
-                  <div className="lg:border-r border-black/10 lg:pr-12 py-12">
+                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -135,7 +135,7 @@ export default async function Home() {
                 )}
 
                 {/* Secondary stories — middle column with images */}
-                <div className="lg:border-r border-black/10 lg:px-10 py-12 flex flex-col">
+                <div className="lg:border-r border-black/10 lg:px-10 py-8 lg:py-12 flex flex-col border-t lg:border-t-0 border-black/10">
                   {heroSecondary.map((article, i) => (
                     <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-8 mt-8' : ''}`}>
                       <ArticleCard
@@ -154,7 +154,7 @@ export default async function Home() {
                 </div>
 
                 {/* Right sidebar — The Influence Letter (dark, like Monocle Radio) */}
-                <div className="bg-black text-white lg:ml-0 p-8 lg:p-8 flex flex-col">
+                <div className="bg-black text-white p-8 flex flex-col">
                   <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
                     The Influence Letter
                   </h3>
@@ -244,7 +244,7 @@ export default async function Home() {
                   {verticalKeys.map((vertical, vIdx) => (
                     <div
                       key={vertical}
-                      className={`${vIdx === 0 ? 'md:pr-12' : vIdx === 1 ? 'md:px-12 md:border-x border-black/10' : 'md:pl-12'}`}
+                      className={`${vIdx === 0 ? 'md:pr-12' : vIdx === 1 ? 'md:px-12 md:border-x border-black/10' : 'md:pl-12'} ${vIdx > 0 ? 'mt-10 pt-10 border-t border-black/10 md:mt-0 md:pt-0 md:border-t-0' : ''}`}
                     >
                       <div className="flex items-baseline justify-between pb-5 mb-8 border-b-2 border-black">
                         <h3 className="font-serif font-black text-xl tracking-tight uppercase">

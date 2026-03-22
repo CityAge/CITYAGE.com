@@ -31,20 +31,20 @@ export function MagazineHeader() {
       {/* Top utility bar */}
       <div className="border-b border-black/10 bg-[#F9F9F7] px-6 md:px-12 py-2">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4 md:gap-6 overflow-x-auto">
+          <div className="flex items-center gap-4 md:gap-6">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/30 hidden lg:block shrink-0">
               Vancouver · {time}
             </span>
             <span className="text-black/10 text-[9px] hidden lg:block">|</span>
-            <a href="https://cityage.com/events" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0">Events</a>
-            <a href="https://cityage.com/about-us/purpose" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0">Purpose</a>
-            <a href="https://cityage.com/about-us" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0">Contact</a>
-            <a href="https://cityage.com/podcasts" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0">Podcast</a>
+            <a href="https://cityage.com/events" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden md:block">Events</a>
+            <a href="https://cityage.com/about-us/purpose" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden md:block">Purpose</a>
+            <a href="https://cityage.com/about-us" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden lg:block">Contact</a>
+            <a href="https://cityage.com/podcasts" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden lg:block">Podcast</a>
             <a href="#sponsors" className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059] hover:text-black transition-colors shrink-0">Be a Sponsor</a>
           </div>
           <div className="flex items-center gap-4 md:gap-6 shrink-0">
-            <a href="#" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors">Subscribe</a>
-            <span className="text-black/15 text-[9px]">|</span>
+            <a href="#" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors hidden sm:block">Subscribe</a>
+            <span className="text-black/15 text-[9px] hidden sm:block">|</span>
             <a href="#" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors">Log in</a>
           </div>
         </div>
