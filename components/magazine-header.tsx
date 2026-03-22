@@ -37,9 +37,10 @@ export function MagazineHeader() {
             </span>
             <span className="text-black/10 text-[9px] hidden lg:block">|</span>
             <a href="https://cityage.com/events" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden md:block">Events</a>
-            <a href="https://cityage.com/about-us/purpose" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden md:block">Purpose</a>
+            <a href="/partners" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden md:block">Knowledge Partners</a>
+            <a href="/past-events" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden lg:block">Past Events</a>
+            <a href="https://cityage.com/about-us/purpose" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden lg:block">Purpose</a>
             <a href="https://cityage.com/about-us" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden lg:block">Contact</a>
-            <a href="https://cityage.com/podcasts" className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors shrink-0 hidden lg:block">Podcast</a>
             <a href="#sponsors" className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059] hover:text-black transition-colors shrink-0">Be a Sponsor</a>
           </div>
           <div className="flex items-center gap-4 md:gap-6 shrink-0">

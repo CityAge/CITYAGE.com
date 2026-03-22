@@ -23,8 +23,10 @@ export function MagazineFooter() {
           </h3>
           <ul className="text-[11px] space-y-4 font-bold tracking-widest uppercase">
             <li><a href="/dispatches" className="hover:text-[#C5A059] transition-all">Dispatches</a></li>
-            <li><a href="#events" className="hover:text-[#C5A059] transition-all">Events 2026</a></li>
-            <li><a href="#partners" className="hover:text-[#C5A059] transition-all">Knowledge Partners</a></li>
+            <li><a href="/canada-europe-connects" className="hover:text-[#C5A059] transition-all">Canada–Europe Connects</a></li>
+            <li><a href="https://cityage.com/events" className="hover:text-[#C5A059] transition-all">Events 2026</a></li>
+            <li><a href="/past-events" className="hover:text-[#C5A059] transition-all">Past Events</a></li>
+            <li><a href="/partners" className="hover:text-[#C5A059] transition-all">Knowledge Partners</a></li>
             <li><a href="https://orbit.cityage.com" className="hover:text-[#C5A059] transition-all">Orbit — Space Economy</a></li>
           </ul>
         </div>
