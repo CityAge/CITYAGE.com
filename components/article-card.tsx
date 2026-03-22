@@ -20,7 +20,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-lead') {
     return (
       <Link href={`/dispatches/${id}`} className="block group">
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
         <h2 className="font-serif font-black text-3xl md:text-4xl leading-[1.1] tracking-tight mt-3 mb-5 group-hover:text-[#1A365D] transition-colors">
@@ -72,7 +72,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
         <h3 className="font-serif font-bold text-lg leading-snug tracking-tight mt-2 mb-3 group-hover:text-[#1A365D] transition-colors">
@@ -92,7 +92,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-tertiary') {
     return (
       <Link href={`/dispatches/${id}`} className="flex flex-col group">
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
         <h3 className="font-serif font-bold text-base leading-snug tracking-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
@@ -121,7 +121,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
         <h3 className="font-serif font-bold text-[15px] leading-snug tracking-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
@@ -168,7 +168,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
 
       <div className={`${image ? 'px-5 py-4' : 'px-5 py-5'}`}>
         <div className="flex items-center gap-3 mb-2">
-          <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+          <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
             {vertical}
           </span>
         </div>

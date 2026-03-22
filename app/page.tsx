@@ -2,7 +2,6 @@ import { createClient } from '@/lib/supabase/server'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
-import { ColumnistStrip } from '@/components/columnist-strip'
 import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
 
@@ -48,7 +47,14 @@ export default async function Home() {
             && !trimmed.startsWith('**')
             && !trimmed.startsWith('---')
         })
-        const excerpt = excerptLine?.trim().slice(0, 160) + (excerptLine && excerptLine.length > 160 ? '…' : '') || null
+        // Clean excerpt: strip markdown links [text](url) → text, and raw URLs
+        let rawExcerpt = excerptLine?.trim() || ''
+        rawExcerpt = rawExcerpt.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [text](url) → text
+        rawExcerpt = rawExcerpt.replace(/https?:\/\/\S+/g, '') // remove raw URLs
+        rawExcerpt = rawExcerpt.replace(/\s{2,}/g, ' ').trim() // collapse whitespace
+        const excerpt = rawExcerpt.length > 0
+          ? rawExcerpt.slice(0, 160) + (rawExcerpt.length > 160 ? '…' : '')
+          : null
 
         const date = new Date(b.published_at).toLocaleDateString('en-CA', {
           weekday: 'short', month: 'short', day: 'numeric',
@@ -93,9 +99,6 @@ export default async function Home() {
       {/* Navigation */}
       <Navigation />
 
-      {/* Columnist strip */}
-      <ColumnistStrip />
-
       {/* ═══ MAIN CONTENT ═══ */}
       <main className="flex-grow max-w-[1200px] mx-auto w-full bg-[#F9F9F7]">
         {!hasArticles ? (
@@ -111,7 +114,7 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[6fr_4fr_3fr] min-h-[480px]">
+              <div className="grid grid-cols-1 lg:grid-cols-[7fr_4fr_3fr] min-h-[480px]">
 
                 {/* Lead story — dominant left column (~46%) */}
                 {heroLead && (
