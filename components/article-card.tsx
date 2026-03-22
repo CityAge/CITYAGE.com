@@ -22,14 +22,19 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-lead') {
     return (
       <Link href={href} className="block group">
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
+        <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-3xl md:text-4xl leading-[1.1] tracking-tight mt-3 mb-5 group-hover:text-[#1A365D] transition-colors">
+        <h2 className="font-serif font-black text-2xl md:text-[2.5rem] leading-[1.1] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h2>
-        {image && (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[16/10] mb-5">
+        {(excerpt || tagline) && (
+          <p className="font-serif text-black/50 text-[15px] leading-[1.6] mb-5">
+            {excerpt || tagline}
+          </p>
+        )}
+        {image ? (
+          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[16/9] mb-4">
             <Image
               src={image}
               alt={title}
@@ -37,11 +42,10 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
             />
           </div>
-        )}
-        {(excerpt || tagline) && (
-          <p className="font-serif text-black/50 text-sm leading-relaxed mb-5">
-            {excerpt || tagline}
-          </p>
+        ) : (
+          <div className="w-full aspect-[16/9] mb-4 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
+          </div>
         )}
         <div className="flex items-center gap-3">
           <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30">{date}</span>

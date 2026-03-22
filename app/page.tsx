@@ -37,7 +37,25 @@ export default async function Home() {
           title: a.headline,
           vertical: a.vertical,
           tagline: a.deck || null,
-          excerpt: a.body?.split('\n').find((l: string) => l.trim().length > 60 && !l.startsWith('#'))?.trim().slice(0, 160) + '…' || null,
+          excerpt: a.deck || (() => {
+            const lines = (a.body || '').split('\n')
+            const goodLine = lines.find((l: string) => {
+              const t = l.trim()
+              return t.length > 80
+                && !t.startsWith('#')
+                && !t.startsWith('*')
+                && !t.startsWith('**')
+                && !t.startsWith('---')
+                && !t.startsWith('|')
+            })
+            if (!goodLine) return null
+            let clean = goodLine.trim()
+            clean = clean.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+            clean = clean.replace(/https?:\/\/\S+/g, '')
+            clean = clean.replace(/\*\*/g, '').replace(/\*/g, '')
+            clean = clean.replace(/\s{2,}/g, ' ').trim()
+            return clean.slice(0, 200) + (clean.length > 200 ? '…' : '')
+          })(),
           date: new Date(a.published_at).toLocaleDateString('en-CA', {
             weekday: 'short', month: 'short', day: 'numeric',
             timeZone: 'America/Toronto',
