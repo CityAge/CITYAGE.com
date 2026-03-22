@@ -1,12 +1,27 @@
 import type { Metadata, Viewport } from 'next'
-import { Playfair_Display, JetBrains_Mono, Inter } from 'next/font/google'
+import localFont from 'next/font/local'
+import { JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const playfair = Playfair_Display({ 
-  subsets: ["latin"],
+const crimsonPro = localFont({
+  src: [
+    {
+      path: '../public/fonts/crimson-pro-latin-wght-normal.woff2',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/crimson-pro-latin-wght-italic.woff2',
+      style: 'italic',
+    },
+  ],
   variable: '--font-serif',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+})
+
+const inter = localFont({
+  src: '../public/fonts/inter-latin-wght-normal.woff2',
+  variable: '--font-ui',
   display: 'swap',
 })
 
@@ -14,12 +29,6 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   variable: '--font-mono',
   weight: ['400', '500', '600', '700'],
-  display: 'swap',
-})
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: '--font-ui',
   display: 'swap',
 })
 
@@ -46,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${jetbrains.variable} ${inter.variable}`}>
+    <html lang="en" className={`${crimsonPro.variable} ${inter.variable} ${jetbrains.variable}`}>
       <body className="font-serif antialiased bg-[#F9F9F7] text-black selection:bg-[#1A365D] selection:text-white">
         {children}
         <Analytics />
