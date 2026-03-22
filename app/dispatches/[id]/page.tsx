@@ -45,7 +45,25 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
     ?.replace(/\*/g, '')
     ?.trim() || null
 
-  const html = renderMarkdown(brief.body)
+  // Strip the title, tagline, and first header from body to avoid duplication
+  const cleanedBody = brief.body
+    ?.split('\n')
+    .filter((l: string) => {
+      const trimmed = l.trim()
+      // Remove lines that match the title
+      if (trimmed === `# ${brief.title}` || trimmed === brief.title) return false
+      // Remove the first H1/H2 if it matches the title
+      if (trimmed.startsWith('# ') && trimmed.includes(brief.title.split('—')[0]?.trim())) return false
+      if (trimmed.startsWith('## ') && trimmed.includes(brief.title.split('—')[0]?.trim())) return false
+      // Remove tagline line (italic)
+      if (tagline && trimmed === `*${tagline}*`) return false
+      // Remove standalone date/read-time lines near the top
+      if (trimmed.match(/^Sunrise\s*·/i)) return false
+      return true
+    })
+    .join('\n') || ''
+
+  const html = renderMarkdown(cleanedBody)
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
