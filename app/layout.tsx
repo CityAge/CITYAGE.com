@@ -1,13 +1,12 @@
 import type { Metadata, Viewport } from 'next'
-import { Libre_Baskerville, JetBrains_Mono, Inter } from 'next/font/google'
+import { Playfair_Display, JetBrains_Mono, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const libreBaskerville = Libre_Baskerville({ 
+const playfair = Playfair_Display({ 
   subsets: ["latin"],
   variable: '--font-serif',
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
 })
 
@@ -47,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${libreBaskerville.variable} ${jetbrains.variable} ${inter.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${jetbrains.variable} ${inter.variable}`}>
       <body className="font-serif antialiased bg-[#F9F9F7] text-black selection:bg-[#1A365D] selection:text-white">
         {children}
         <Analytics />
