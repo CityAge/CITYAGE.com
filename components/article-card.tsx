@@ -39,7 +39,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               src={image}
               alt={title}
               fill
-              className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+              className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
         ) : (
@@ -70,7 +70,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               src={image}
               alt={title}
               fill
-              className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+              className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
         ) : (
@@ -119,7 +119,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               src={image}
               alt={title}
               fill
-              className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+              className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
         ) : (
@@ -167,7 +167,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             src={image}
             alt={title}
             fill
-            className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+            className="object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
           />
         </div>
       )}
