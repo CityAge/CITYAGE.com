@@ -1,11 +1,11 @@
 'use client'
 
 const sections = [
-  { name: 'Capital', sub: ['Markets', 'Infrastructure', 'Real Estate', 'Investment'] },
-  { name: 'Policy', sub: ['Defence', 'Trade', 'Governance'] },
-  { name: 'Culture', sub: ['Cities', 'Architecture', 'Design'] },
-  { name: 'Frontiers', sub: ['Space', 'AI', 'Energy', 'Food Systems'] },
-  { name: 'Partners', sub: null },
+  { name: 'Power', sub: ['Defence', 'Trade', 'Governance', 'Diplomacy'] },
+  { name: 'Money', sub: ['Markets', 'Investment', 'Real Estate', 'Infrastructure Finance'] },
+  { name: 'Cities', sub: ['Mobility', 'Infrastructure', 'Housing', 'Architecture'] },
+  { name: 'Frontiers', sub: ['Space', 'AI & Tech', 'Energy', 'Oceans', 'Health'] },
+  { name: 'Culture', sub: ['Design', 'Urban Life', 'Film & Media', 'Food', 'Tourism'] },
 ]
 
 export function Navigation() {
