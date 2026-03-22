@@ -66,19 +66,25 @@ export default async function Home() {
     articles = []
   }
 
-  // Distribute into 3 columns — lead article gets image, sub card every 5
-  const columns: (typeof articles[0] | 'subscription')[][] = [[], [], []]
-  let colIdx = 0
-  articles.forEach((article, i) => {
-    columns[colIdx].push(article)
-    colIdx = (colIdx + 1) % 3
-    if ((i + 1) % 5 === 0) {
-      columns[colIdx].push('subscription')
-      colIdx = (colIdx + 1) % 3
-    }
-  })
-
+  // ── Distribute articles into editorial bands ──
+  // Band 1: Hero — lead (1) + secondary (2) + tertiary (3-4 headlines)
+  // Band 2: Featured row — next 4 articles, equal weight
+  // Band 3: By Vertical — remaining articles grouped by vertical
   const hasArticles = articles.length > 0
+
+  const heroLead = articles[0] || null
+  const heroSecondary = articles.slice(1, 3)
+  const heroTertiary = articles.slice(3, 7)
+  const featuredArticles = articles.slice(7, 11)
+  const remainingArticles = articles.slice(11)
+
+  // Group remaining by vertical for category sections
+  const byVertical: Record<string, typeof articles> = {}
+  remainingArticles.forEach((a) => {
+    if (!byVertical[a.vertical]) byVertical[a.vertical] = []
+    byVertical[a.vertical].push(a)
+  })
+  const verticalKeys = Object.keys(byVertical).slice(0, 3)
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
@@ -100,8 +106,8 @@ export default async function Home() {
       {/* Ticker */}
       <Ticker />
 
-      {/* Main article grid */}
-      <main className="flex-grow max-w-[1400px] mx-auto w-full md:border-x border-black bg-[#F9F9F7]">
+      {/* ═══ MAIN CONTENT ═══ */}
+      <main className="flex-grow max-w-[1200px] mx-auto w-full bg-[#F9F9F7]">
         {!hasArticles ? (
           <div className="py-24 px-8 text-center">
             <p className="font-serif italic text-2xl text-black/20 mb-3">
@@ -112,37 +118,146 @@ export default async function Home() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-black">
-            {columns.map((col, cIdx) => (
-              <div key={cIdx} className="flex flex-col">
-                {col.map((item, idx) => (
-                  item === 'subscription' ? (
-                    <SubscriptionCard key={`sub-${cIdx}-${idx}`} />
-                  ) : (
+          <>
+            {/* ─── BAND 1: HERO EDITORIAL ─── */}
+            <section className="border-b border-black/10 px-6 md:px-10">
+              <div className="grid grid-cols-1 lg:grid-cols-3 min-h-[420px]">
+
+                {/* Lead story — dominant left column */}
+                {heroLead && (
+                  <div className="lg:col-span-1 lg:border-r border-black/10 lg:pr-10 py-10">
                     <ArticleCard
-                      key={item.id}
-                      id={item.id}
-                      title={item.title}
-                      vertical={item.vertical}
-                      tagline={item.tagline}
-                      excerpt={item.excerpt}
-                      date={item.date}
-                      isLead={idx === 0}
-                      image={idx === 0 ? leadImages[cIdx % leadImages.length] : undefined}
+                      id={heroLead.id}
+                      title={heroLead.title}
+                      vertical={heroLead.vertical}
+                      tagline={heroLead.tagline}
+                      excerpt={heroLead.excerpt}
+                      date={heroLead.date}
+                      isLead={true}
+                      image={leadImages[0]}
                       readTime="5 min read"
+                      variant="hero-lead"
                     />
-                  )
-                ))}
+                  </div>
+                )}
+
+                {/* Secondary stories — middle column */}
+                <div className="lg:border-r border-black/10 lg:px-10 py-10 flex flex-col">
+                  {heroSecondary.map((article, i) => (
+                    <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-8 mt-8' : ''}`}>
+                      <ArticleCard
+                        id={article.id}
+                        title={article.title}
+                        vertical={article.vertical}
+                        tagline={article.tagline}
+                        excerpt={article.excerpt}
+                        date={article.date}
+                        image={i === 0 ? leadImages[1] : undefined}
+                        readTime="5 min read"
+                        variant="hero-secondary"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Tertiary stories — right column, headlines only */}
+                <div className="lg:pl-10 py-10 flex flex-col">
+                  {heroTertiary.map((article, i) => (
+                    <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-6 mt-6' : ''}`}>
+                      <ArticleCard
+                        id={article.id}
+                        title={article.title}
+                        vertical={article.vertical}
+                        tagline={null}
+                        excerpt={null}
+                        date={article.date}
+                        readTime="5 min read"
+                        variant="hero-tertiary"
+                      />
+                    </div>
+                  ))}
+                </div>
+
               </div>
-            ))}
-          </div>
+            </section>
+
+            {/* ─── BAND 2: FEATURED ROW ─── */}
+            {featuredArticles.length > 0 && (
+              <section className="border-b border-black/10 px-6 md:px-10">
+                <div className="flex items-baseline justify-between pt-10 pb-7">
+                  <h3 className="font-serif font-black text-2xl tracking-tight">
+                    Featured
+                  </h3>
+                  <a href="/dispatches" className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
+                    See All
+                  </a>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-12">
+                  {featuredArticles.map((article, i) => (
+                    <ArticleCard
+                      key={article.id}
+                      id={article.id}
+                      title={article.title}
+                      vertical={article.vertical}
+                      tagline={article.tagline}
+                      excerpt={article.excerpt}
+                      date={article.date}
+                      image={i === 0 ? leadImages[2] : undefined}
+                      readTime="5 min read"
+                      variant="featured-card"
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* ─── BAND 3: SUBSCRIPTION ─── */}
+            <SubscriptionCard />
+
+            {/* ─── BAND 4: BY VERTICAL ─── */}
+            {verticalKeys.length > 0 && (
+              <section className="px-6 md:px-10 pt-12 pb-16">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                  {verticalKeys.map((vertical, vIdx) => (
+                    <div
+                      key={vertical}
+                      className={`${vIdx === 0 ? 'md:pr-10' : vIdx === 1 ? 'md:px-10 md:border-x border-black/10' : 'md:pl-10'}`}
+                    >
+                      <div className="flex items-baseline justify-between pb-5 mb-6 border-b-2 border-black">
+                        <h3 className="font-serif font-black text-xl tracking-tight uppercase">
+                          {vertical}
+                        </h3>
+                        <a href="/dispatches" className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
+                          See All
+                        </a>
+                      </div>
+                      {byVertical[vertical].map((article, aIdx) => (
+                        <div key={article.id} className={`${aIdx > 0 ? 'border-t border-black/10 pt-5 mt-5' : ''}`}>
+                          <ArticleCard
+                            id={article.id}
+                            title={article.title}
+                            vertical={article.vertical}
+                            tagline={null}
+                            excerpt={null}
+                            date={article.date}
+                            readTime="5 min read"
+                            variant="category-list"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
         )}
       </main>
 
       {/* From Our Partners section */}
-      <section className="max-w-[1400px] mx-auto w-full md:border-x border-black border-t bg-white px-6 md:px-12 py-12">
+      <section className="max-w-[1200px] mx-auto w-full border-t border-black/10 bg-[#F9F9F7] px-6 md:px-10 py-12">
         <div className="flex items-center justify-between mb-8">
-          <h3 className="font-mono text-[11px] tracking-[0.3em] uppercase text-black/40 font-bold">
+          <h3 className="font-serif font-black text-xl tracking-tight">
             From Our Partners
           </h3>
           <a href="#partners" className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-black transition-colors">
