@@ -4,29 +4,32 @@ import Image from 'next/image'
 
 export function CampaignBanner() {
   return (
-    <a href="https://cityage.com/events/canada-europe-connect/" className="block relative w-full h-[180px] md:h-[220px] overflow-hidden group">
-      <Image
-        src="/ottawa-feature.jpg"
-        alt="Canada–Europe Connects — Ottawa, May 26, 2026"
-        fill
-        className="object-cover brightness-[0.3] group-hover:brightness-[0.4] transition-all duration-700"
-        priority
-      />
-      <div className="absolute inset-0 flex items-center justify-center text-white px-8">
-        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10">
-          <div className="text-center md:text-left">
-            <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-[#C5A059] mb-2 block">
+    <div className="bg-[#F0EEE9] py-6 md:py-8">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-10">
+        <a href="https://cityage.com/events/canada-europe-connect/" className="block relative w-full h-[200px] md:h-[280px] overflow-hidden group">
+          <Image
+            src="/ottawa-feature.jpg"
+            alt="Canada–Europe Connects — Ottawa, May 26, 2026"
+            fill
+            className="object-cover brightness-[0.45] group-hover:brightness-[0.55] transition-all duration-700"
+            priority
+          />
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-8">
+            <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-[#C5A059] mb-3">
               Invitation Only · Ottawa · May 26, 2026
             </span>
-            <h2 className="font-serif font-black text-2xl md:text-4xl leading-[1.05] tracking-tight">
+            <h2 className="font-serif font-black text-2xl md:text-5xl text-center leading-[1.05] tracking-tight mb-3">
               Canada–Europe Connects
             </h2>
+            <p className="font-serif italic text-white/60 text-sm md:text-base text-center max-w-lg mb-4 hidden md:block">
+              Defence procurement, dual-use technology, and trans-Atlantic trade corridors.
+            </p>
+            <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-[#C5A059] border border-[#C5A059]/40 px-6 py-2 group-hover:bg-[#C5A059] group-hover:text-black transition-all">
+              Discover More
+            </span>
           </div>
-          <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-[#C5A059] border border-[#C5A059]/40 px-6 py-2 group-hover:bg-[#C5A059] group-hover:text-black transition-all shrink-0">
-            Request Access
-          </span>
-        </div>
+        </a>
       </div>
-    </a>
+    </div>
   )
 }
