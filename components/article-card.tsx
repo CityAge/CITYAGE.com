@@ -16,21 +16,16 @@ interface ArticleCardProps {
 
 export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default' }: ArticleCardProps) {
 
-  // ── HERO LEAD: Large headline, excerpt, prominent image ──
+  // ── HERO LEAD: Large headline, image, then excerpt ──
   if (variant === 'hero-lead') {
     return (
       <Link href={`/dispatches/${id}`} className="block group">
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-2xl md:text-3xl leading-tight tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors">
+        <h2 className="font-serif font-black text-2xl md:text-3xl leading-tight tracking-tight mt-3 mb-5 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h2>
-        {(excerpt || tagline) && (
-          <p className="font-serif text-black/50 text-sm leading-relaxed mb-5">
-            {excerpt || tagline}
-          </p>
-        )}
         {image && (
           <div className="w-full relative overflow-hidden bg-gray-100 aspect-[16/10] mb-5">
             <Image
@@ -40,6 +35,11 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
             />
           </div>
+        )}
+        {(excerpt || tagline) && (
+          <p className="font-serif text-black/50 text-sm leading-relaxed mb-5">
+            {excerpt || tagline}
+          </p>
         )}
         <div className="flex items-center gap-3">
           <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30">{date}</span>
@@ -87,7 +87,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   // ── HERO TERTIARY: Headline-only, compact ──
   if (variant === 'hero-tertiary') {
     return (
-      <Link href={`/dispatches/${id}`} className="block group flex flex-col">
+      <Link href={`/dispatches/${id}`} className="flex flex-col group">
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
           {vertical}
         </span>
