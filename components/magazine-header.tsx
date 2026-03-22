@@ -30,7 +30,7 @@ export function MagazineHeader() {
     <>
       {/* Top utility bar */}
       <div className="border-b border-black/10 bg-[#F9F9F7] px-6 md:px-12 py-2">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/30 hidden md:block">
               Vancouver · {time}
@@ -46,7 +46,7 @@ export function MagazineHeader() {
 
       {/* Main masthead */}
       <header className={`bg-[#F9F9F7] z-[60] ${isScrolled ? 'fixed top-0 left-0 right-0 border-b border-black shadow-sm' : 'relative border-b border-black'}`}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className={`flex items-center justify-between transition-all duration-500 ${isScrolled ? 'py-3' : 'py-6 md:py-10'}`}>
 
             {/* Left: menu */}

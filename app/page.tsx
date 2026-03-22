@@ -121,11 +121,11 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] min-h-[420px]">
+              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] min-h-[480px]">
 
                 {/* Lead story — dominant left column */}
                 {heroLead && (
-                  <div className="lg:border-r border-black/10 lg:pr-10 py-10">
+                  <div className="lg:border-r border-black/10 lg:pr-12 py-12">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -142,7 +142,7 @@ export default async function Home() {
                 )}
 
                 {/* Secondary stories — middle column */}
-                <div className="lg:border-r border-black/10 lg:px-10 py-10 flex flex-col">
+                <div className="lg:border-r border-black/10 lg:px-12 py-12 flex flex-col">
                   {heroSecondary.map((article, i) => (
                     <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-8 mt-8' : ''}`}>
                       <ArticleCard
@@ -161,7 +161,7 @@ export default async function Home() {
                 </div>
 
                 {/* Tertiary stories — right column, headlines only */}
-                <div className="lg:pl-10 py-10 flex flex-col">
+                <div className="lg:pl-12 py-12 flex flex-col">
                   {heroTertiary.map((article, i) => (
                     <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-6 mt-6' : ''}`}>
                       <ArticleCard
@@ -184,7 +184,7 @@ export default async function Home() {
             {/* ─── BAND 2: FEATURED ROW ─── */}
             {featuredArticles.length > 0 && (
               <section className="border-b border-black/10 px-6 md:px-10">
-                <div className="flex items-baseline justify-between pt-10 pb-7">
+                <div className="flex items-baseline justify-between pt-14 pb-8">
                   <h3 className="font-serif font-black text-2xl tracking-tight">
                     Featured
                   </h3>
@@ -192,7 +192,7 @@ export default async function Home() {
                     See All
                   </a>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-14">
                   {featuredArticles.map((article, i) => (
                     <ArticleCard
                       key={article.id}
@@ -216,14 +216,14 @@ export default async function Home() {
 
             {/* ─── BAND 4: BY VERTICAL ─── */}
             {verticalKeys.length > 0 && (
-              <section className="px-6 md:px-10 pt-12 pb-16">
+              <section className="px-6 md:px-10 pt-14 pb-20">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
                   {verticalKeys.map((vertical, vIdx) => (
                     <div
                       key={vertical}
-                      className={`${vIdx === 0 ? 'md:pr-10' : vIdx === 1 ? 'md:px-10 md:border-x border-black/10' : 'md:pl-10'}`}
+                      className={`${vIdx === 0 ? 'md:pr-12' : vIdx === 1 ? 'md:px-12 md:border-x border-black/10' : 'md:pl-12'}`}
                     >
-                      <div className="flex items-baseline justify-between pb-5 mb-6 border-b-2 border-black">
+                      <div className="flex items-baseline justify-between pb-5 mb-8 border-b-2 border-black">
                         <h3 className="font-serif font-black text-xl tracking-tight uppercase">
                           {vertical}
                         </h3>
@@ -255,8 +255,8 @@ export default async function Home() {
       </main>
 
       {/* From Our Partners section */}
-      <section className="max-w-[1200px] mx-auto w-full border-t border-black/10 bg-[#F9F9F7] px-6 md:px-10 py-12">
-        <div className="flex items-center justify-between mb-8">
+      <section className="max-w-[1200px] mx-auto w-full border-t border-black/10 bg-[#F9F9F7] px-6 md:px-10 py-16">
+        <div className="flex items-center justify-between mb-10">
           <h3 className="font-serif font-black text-xl tracking-tight">
             From Our Partners
           </h3>
