@@ -79,7 +79,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
         {/* ─── CENTERED ARTICLE HEADER ─── */}
         <div className="border-b border-black/10">
           <div className="max-w-[900px] mx-auto px-6 pt-10 pb-10 text-center">
-            <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="flex items-center justify-center gap-3 mb-4">
               <span className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-black/70">
                 {article.vertical}
               </span>
@@ -91,15 +91,11 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                   </span>
                 </>
               )}
-              <span className="text-black/20 text-[8px]">|</span>
-              <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-black/40">
-                {shortDate}
-              </span>
-              <span className="text-black/20 text-[8px]">|</span>
-              <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-black/40">
-                {article.read_time || 5} Min Read
-              </span>
             </div>
+
+            <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 mb-6">
+              Vancouver · {new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {new Date(article.published_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })} GMT · {article.read_time || 5} Min Read
+            </p>
 
             <h1 className="font-serif font-black text-3xl md:text-[2.75rem] leading-[1.15] tracking-tight mb-5 max-w-[750px] mx-auto">
               {article.headline}
@@ -110,16 +106,6 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                 {article.deck}
               </p>
             )}
-
-            {article.author && (
-              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 mb-2">
-                By {article.author}
-              </p>
-            )}
-
-            <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30 mb-4">
-              {new Date(article.published_at).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })} · {new Date(article.published_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })} GMT
-            </p>
 
             <div className="flex items-center justify-center gap-4 pt-2">
               <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/30">Share</span>
@@ -160,6 +146,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
             <div className="max-w-[720px]">
               <div className="brief-content" dangerouslySetInnerHTML={{ __html: html }} />
               <div className="border-t border-black/10 mt-12 pt-8">
+                <p className="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-black/50 mb-6">CityAge Media</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-black/70">{article.vertical}</span>
