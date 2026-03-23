@@ -67,12 +67,9 @@ export function MagazineFooter() {
           <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
             We are transparent. Every piece of content has a human in the loop. When we make mistakes — and we will — we correct them as quickly as we can.
           </p>
-          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-6">
+          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
             That is the essence of <a href="https://thehumantouch.ai" className="text-[#C5A059] hover:text-white transition-colors">TheHumanTouch.AI</a>.
           </p>
-          <a href="/ai-policy" className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-white transition-colors">
-            Read Our Full AI &amp; Editorial Policy →
-          </a>
         </div>
       </div>
 
