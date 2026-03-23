@@ -67,15 +67,15 @@ export function MagazineHeader() {
             {/* Center: masthead */}
             <div className="flex flex-col items-center">
               {!isScrolled && (
-                <span className="font-mono text-[8px] tracking-[0.4em] uppercase text-black/30 mb-1">
+                <span className="font-mono text-[9px] md:text-[10px] tracking-[0.4em] uppercase text-black/50 mb-2">
                   Published by CityAge Media
                 </span>
               )}
-              <a href="/" className={`font-serif font-black uppercase monocle-wordmark leading-none transition-all duration-500 ${isScrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl lg:text-6xl'}`}>
+              <a href="/" className={`font-serif font-black uppercase monocle-wordmark leading-none transition-all duration-500 ${isScrolled ? 'text-xl md:text-2xl' : 'text-4xl md:text-6xl lg:text-8xl'}`}>
                 CityAge
               </a>
               {!isScrolled && (
-                <span className="font-mono text-[8px] tracking-[0.35em] uppercase text-[#C5A059] mt-2">
+                <span className="font-mono text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-[#C5A059] mt-3">
                   Intelligence for the 3 per cent
                 </span>
               )}

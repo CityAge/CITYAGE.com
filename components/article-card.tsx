@@ -25,11 +25,11 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-black/70">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-2xl md:text-[2.5rem] leading-[1.1] tracking-tight mt-3 mb-5 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
+        <h2 className="font-serif font-black text-2xl md:text-[2.5rem] leading-[1.1] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
           {title}
         </h2>
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[16/9] mb-5">
+          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[16/9] mb-4">
             <Image
               src={image}
               alt={title}
@@ -38,17 +38,17 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             />
           </div>
         ) : (
-          <div className="w-full aspect-[16/9] mb-5 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+          <div className="w-full aspect-[16/9] mb-4 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
         {tagline && (
-          <p className="font-serif font-medium text-black/70 text-[16px] leading-[1.6] mb-3">
+          <p className="font-serif font-medium text-black/75 text-[17px] leading-[1.7] mb-3">
             {tagline}
           </p>
         )}
         {excerpt && excerpt !== tagline && (
-          <p className="font-serif text-black/50 text-[15px] leading-[1.6] mb-4">
+          <p className="font-serif text-black/55 text-[15px] leading-[1.7] mb-4">
             {excerpt}
           </p>
         )}
