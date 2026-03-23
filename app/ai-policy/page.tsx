@@ -91,6 +91,100 @@ export default function AIPolicy() {
             </div>
           </div>
 
+          {/* ─── CONTRIBUTORS ─── */}
+          <div className="mt-16 pt-12 border-t border-black/10">
+            <h2 className="font-serif font-black text-2xl tracking-tight mb-4">
+              Contributors
+            </h2>
+            <p className="font-serif text-[17px] leading-[1.8] text-black/70 mb-10">
+              CityAge welcomes contributors from both our networks and beyond. If you have something you&apos;d like to write, or you&apos;d like CityAge to cover a special report, please let us know.
+            </p>
+
+            <form action="https://formsubmit.co/info@cityage.com" method="POST" className="space-y-5">
+              {/* FormSubmit config */}
+              <input type="hidden" name="_subject" value="CityAge Contributor Inquiry" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_next" value="https://cityagemag.vercel.app/ai-policy?submitted=true" />
+              <input type="text" name="_honey" style={{ display: 'none' }} />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">First Name</label>
+                  <input
+                    type="text"
+                    name="first_name"
+                    required
+                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Last Name</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    required
+                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div>
+                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">City</label>
+                  <input
+                    type="text"
+                    name="city"
+                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Company</label>
+                  <input
+                    type="text"
+                    name="company"
+                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Your Message</label>
+                <textarea
+                  name="message"
+                  rows={5}
+                  required
+                  placeholder="Tell us what you'd like to write about or what you'd like us to cover…"
+                  className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors resize-none placeholder-black/25"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="bg-black text-white px-8 py-3 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-[#C5A059] hover:text-black transition-all"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+
           <div className="mt-12 pt-8 border-t border-black/10 text-center">
             <a href="/" className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
               ← Back to CityAge
