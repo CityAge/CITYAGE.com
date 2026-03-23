@@ -51,20 +51,24 @@ export function MagazineFooter() {
       {/* ─── AI & EDITORIAL POLICY ─── */}
       <div className="max-w-7xl mx-auto mt-20 pt-12 border-t border-white/10">
         <div className="max-w-2xl">
-          <h3 className="font-serif font-black text-lg tracking-tight mb-4">
+          <h3 className="font-serif font-black text-lg tracking-tight mb-1">
             The Human Touch
           </h3>
-          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
-            CityAge uses artificial intelligence throughout our editorial process — from research and data analysis to drafting and image generation. We believe AI is one of the most powerful tools ever created for journalism and intelligence work, and we use it extensively.
+          <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059]">Our AI &amp; Editorial Philosophy</span>
+          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mt-5 mb-4">
+            CityAge is built on human insight, human intuition, and the spark of human creation. Everything we publish is directed, shaped, and approved by people. We use AI tools extensively — for research, data analysis, drafting, and image generation — because we believe they are among the most powerful instruments ever created for journalism and intelligence work. But the instruments do not play themselves. We direct the AI we use.
           </p>
           <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
-            We are also transparent about it. Every piece of content has a human in the loop. Every article is reviewed and approved by our editorial team before publication. We do not access content behind paywalls. We respect copyright. We link to original sources whenever possible, because we respect the people who create the work we build upon.
+            We also credit and value the human-generated content we build upon. We do not go behind paywalls. We respect copyright. We link to original sources whenever possible, because we respect the journalists, researchers, and creators whose work informs ours. Their labour makes what we do possible, and we honour it.
+          </p>
+          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
+            We are transparent. Every piece of content has a human in the loop. When we make mistakes — and we will — we correct them as quickly as we can.
           </p>
           <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-6">
-            When we make mistakes — and we will — we correct them as quickly as we can. This is our commitment to the readers, leaders, and communities we serve.
+            That is the essence of <a href="https://thehumantouch.ai" className="text-[#C5A059] hover:text-white transition-colors">TheHumanTouch.ai</a>.
           </p>
           <a href="/ai-policy" className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-white transition-colors">
-            Read Our Full AI & Editorial Policy →
+            Read Our Full AI &amp; Editorial Policy →
           </a>
         </div>
       </div>
