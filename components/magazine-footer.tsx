@@ -48,7 +48,28 @@ export function MagazineFooter() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* ─── AI & EDITORIAL POLICY ─── */}
+      <div className="max-w-7xl mx-auto mt-20 pt-12 border-t border-white/10">
+        <div className="max-w-2xl">
+          <h3 className="font-serif font-black text-lg tracking-tight mb-4">
+            The Human Touch
+          </h3>
+          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
+            CityAge uses artificial intelligence throughout our editorial process — from research and data analysis to drafting and image generation. We believe AI is one of the most powerful tools ever created for journalism and intelligence work, and we use it extensively.
+          </p>
+          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
+            We are also transparent about it. Every piece of content has a human in the loop. Every article is reviewed and approved by our editorial team before publication. We do not access content behind paywalls. We respect copyright. We link to original sources whenever possible, because we respect the people who create the work we build upon.
+          </p>
+          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-6">
+            When we make mistakes — and we will — we correct them as quickly as we can. This is our commitment to the readers, leaders, and communities we serve.
+          </p>
+          <a href="/ai-policy" className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-white transition-colors">
+            Read Our Full AI & Editorial Policy →
+          </a>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
         <span className="font-mono text-[10px] text-white/20 tracking-wider uppercase">
           © 2026 CityAge Media. All Rights Reserved.
         </span>
