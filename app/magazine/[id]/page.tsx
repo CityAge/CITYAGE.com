@@ -111,11 +111,15 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
               </p>
             )}
 
-            {article.author && article.author !== 'CityAge' && (
-              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 mb-4">
-                Writer {article.author}
+            {article.author && (
+              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 mb-2">
+                By {article.author}
               </p>
             )}
+
+            <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30 mb-4">
+              {new Date(article.published_at).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })} · {new Date(article.published_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })} GMT
+            </p>
 
             <div className="flex items-center justify-center gap-4 pt-2">
               <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/30">Share</span>
