@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
-import { JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
@@ -25,10 +24,9 @@ const inter = localFont({
   display: 'swap',
 })
 
-const jetbrains = JetBrains_Mono({ 
-  subsets: ["latin"],
+const jetbrains = localFont({
+  src: '../public/fonts/jetbrains-mono-latin-wght-normal.woff2',
   variable: '--font-mono',
-  weight: ['400', '500', '600', '700'],
   display: 'swap',
 })
 
