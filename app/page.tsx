@@ -33,25 +33,29 @@ export default async function Home() {
 
       if (magArticles && magArticles.length > 0) {
         articles = magArticles.map((a: any, i: number) => {
-          // Extract a clean excerpt from body
+          // Extract a clean body excerpt (first real paragraph)
           const lines = (a.body || '').split('\n')
-          const goodLine = lines.find((l: string) => {
-            const t = l.trim()
-            return t.length > 80
+          let bodyExcerpt = ''
+          for (const line of lines) {
+            const t = line.trim()
+            if (t.length > 40
               && !t.startsWith('#')
               && !t.startsWith('*')
               && !t.startsWith('**')
               && !t.startsWith('---')
               && !t.startsWith('|')
-          })
-          let bodyExcerpt = ''
-          if (goodLine) {
-            bodyExcerpt = goodLine.trim()
-              .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-              .replace(/https?:\/\/\S+/g, '')
-              .replace(/\*\*/g, '').replace(/\*/g, '')
-              .replace(/\s{2,}/g, ' ').trim()
-            bodyExcerpt = bodyExcerpt.slice(0, 220) + (bodyExcerpt.length > 220 ? '…' : '')
+              && !t.startsWith('>')
+            ) {
+              bodyExcerpt = t
+                .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+                .replace(/https?:\/\/\S+/g, '')
+                .replace(/\*\*/g, '').replace(/\*/g, '')
+                .replace(/\s{2,}/g, ' ').trim()
+              break
+            }
+          }
+          if (bodyExcerpt.length > 240) {
+            bodyExcerpt = bodyExcerpt.slice(0, 240) + '…'
           }
 
           return {
