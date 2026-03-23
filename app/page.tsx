@@ -191,7 +191,7 @@ export default async function Home() {
                 {/* Secondary stories — middle column with images */}
                 <div className="lg:border-r border-black/10 lg:px-10 py-8 lg:py-12 flex flex-col border-t lg:border-t-0 border-black/10">
                   {heroSecondary.map((article, i) => (
-                    <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-8 mt-8' : ''}`}>
+                    <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}`}>
                       <ArticleCard
                         id={article.id}
                         title={article.title}
@@ -208,8 +208,8 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Right sidebar — The Influence Letter (dark, like Monocle Radio) */}
-                <div className="bg-black text-white p-8 flex flex-col">
+                {/* Right sidebar — sticky like Monocle Radio panel */}
+                <div className="bg-black text-white lg:sticky lg:top-0 lg:self-start lg:max-h-screen lg:overflow-y-auto p-8 flex flex-col">
                   <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
                     The Influence Letter
                   </h3>
@@ -292,6 +292,38 @@ export default async function Home() {
                 </div>
               </section>
             )}
+
+            {/* ─── VOICES FROM THE URBAN PLANET ─── */}
+            <section className="border-b border-black/10 px-6 md:px-10 py-14">
+              <div className="flex items-baseline justify-between pb-8">
+                <div>
+                  <h3 className="font-serif font-black text-2xl tracking-tight">
+                    Voices From The Urban Planet
+                  </h3>
+                  <p className="font-serif text-black/50 text-[15px] mt-2">The leaders, thinkers, and builders shaping the age of cities.</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
+                {[
+                  { name: 'Bob Bhagwanani', title: 'Founder, CityAge', image: 'https://media.licdn.com/dms/image/v2/C5603AQEXBjluF3YQPQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1653332357795?e=1748476800&v=beta&t=Xmjcr42Q6e66M_PFCc2tftPXSoV8-LJLzHNBPYG_YYY', topic: 'Infrastructure & Urban Leadership' },
+                  { name: 'Mark Carney', title: 'Prime Minister of Canada', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Mark_Carney_official_portrait_%28cropped%29.jpg/440px-Mark_Carney_official_portrait_%28cropped%29.jpg', topic: 'Global Finance & Trade' },
+                  { name: 'Jennifer Keesmaat', title: 'CEO, Creative Housing Society', image: 'https://media.licdn.com/dms/image/v2/D5603AQFJbZCgAv1xyA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1718728490078?e=1748476800&v=beta&t=EJHBVjHd12TdxVbnT-45QxlIa6Nq5kUxu0dZ5K1BQEQ', topic: 'Cities & Housing' },
+                  { name: 'Saadia Muzaffar', title: 'Founder, TechGirls Canada', image: 'https://media.licdn.com/dms/image/v2/D5603AQHzMXhHH8NNHQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1719433395498?e=1748476800&v=beta&t=CiAR1PcBJFsv8cONHhYKKJ-LkqE3KH-CQoNZvMJJlMo', topic: 'AI & Inclusive Tech' },
+                  { name: 'Gil Penalosa', title: 'Founder, 8 80 Cities', image: 'https://media.licdn.com/dms/image/v2/C4D03AQGJ2qx2L2Xq0g/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1596467547498?e=1748476800&v=beta&t=Zh1i-dPlk3ycAuXxBjGTaJ6Jkx5tKM0nR5IqoGQsVGo', topic: 'Mobility & Public Space' },
+                  { name: 'Mariana Mazzucato', title: 'Professor, UCL', image: 'https://media.licdn.com/dms/image/v2/C4E03AQGwTypSgusbhg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1517698505498?e=1748476800&v=beta&t=0zxSh6VX_SxS8JhEpSDxTz7sWTmLBMjqBkCjTvJ9E1Y', topic: 'Mission Economy & Innovation' },
+                ].map((person) => (
+                  <div key={person.name} className="group cursor-pointer text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200 grayscale group-hover:grayscale-0 transition-all duration-500">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={person.image} alt={person.name} className="w-full h-full object-cover" />
+                    </div>
+                    <h4 className="font-serif font-bold text-[14px] leading-tight group-hover:text-[#1A365D] transition-colors">{person.name}</h4>
+                    <p className="font-mono text-[8px] tracking-[0.15em] uppercase text-black/40 mt-1">{person.title}</p>
+                    <p className="font-mono text-[8px] tracking-[0.15em] uppercase text-[#C5A059] mt-0.5">{person.topic}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
 
             {/* ─── BAND 3: BY VERTICAL ─── */}
             {verticalKeys.length > 0 && (
