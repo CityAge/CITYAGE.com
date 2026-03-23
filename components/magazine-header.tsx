@@ -72,7 +72,7 @@ export function MagazineHeader() {
                 </span>
               )}
               <a href="/" className={`font-serif font-black uppercase monocle-wordmark leading-none transition-all duration-500 ${isScrolled ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl lg:text-6xl'}`}>
-                The Urban Planet
+                CityAge
               </a>
               {!isScrolled && (
                 <span className="font-mono text-[8px] tracking-[0.35em] uppercase text-[#C5A059] mt-2">

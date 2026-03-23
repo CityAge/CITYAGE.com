@@ -111,7 +111,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
               </p>
             )}
 
-            {article.author && article.author !== 'The Urban Planet' && (
+            {article.author && article.author !== 'CityAge' && (
               <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 mb-4">
                 Writer {article.author}
               </p>

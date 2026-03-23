@@ -157,7 +157,7 @@ export default async function Home() {
         {!hasArticles ? (
           <div className="py-24 px-8 text-center">
             <p className="font-serif italic text-2xl text-black/20 mb-3">
-              The Urban Planet
+              CityAge
             </p>
             <p className="font-mono text-[10px] text-black/30 tracking-widest uppercase">
               Magazine content will appear here once the editorial pipeline is active

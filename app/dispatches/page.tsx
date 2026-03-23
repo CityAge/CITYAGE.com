@@ -31,7 +31,7 @@ export default async function DispatchesPage() {
             Dispatches
           </h1>
           <p className="font-serif italic text-black/50 text-lg mt-3">
-            Intelligence briefs from the Urban Planet.
+            Intelligence briefs from the CityAge.
           </p>
         </div>
 

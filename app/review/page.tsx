@@ -85,7 +85,7 @@ export default function ReviewPage() {
         <div className="max-w-[1200px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="font-serif font-black text-xl uppercase tracking-tight hover:text-[#C5A059] transition-colors">
-              The Urban Planet
+              CityAge
             </Link>
             <span className="text-white/20">|</span>
             <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#C5A059]">

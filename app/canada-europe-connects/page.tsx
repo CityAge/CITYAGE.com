@@ -35,7 +35,7 @@ export default async function CECPage() {
         <div className="border-b border-white/10 px-6 md:px-12 py-2">
           <div className="max-w-[1200px] mx-auto flex items-center justify-between">
             <Link href="/" className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30 hover:text-[#C5A059] transition-colors">
-              ← The Urban Planet
+              ← CityAge
             </Link>
             <div className="flex items-center gap-4">
               <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30">
