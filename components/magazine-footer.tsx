@@ -52,9 +52,9 @@ export function MagazineFooter() {
       <div className="max-w-7xl mx-auto mt-20 pt-12 border-t border-white/10">
         <div className="max-w-2xl">
           <h3 className="font-serif font-black text-lg tracking-tight mb-1">
-            <a href="https://thehumantouch.ai" className="hover:text-[#C5A059] transition-colors">TheHumanTouch.AI</a>
+            <a href="/ai-policy" className="hover:text-[#C5A059] transition-colors">TheHumanTouch.AI</a>
           </h3>
-          <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059]">Our AI &amp; Editorial Philosophy</span>
+          <a href="/ai-policy" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] hover:text-white transition-colors">Read Our Full AI &amp; Editorial Policy →</a>
           <p className="font-serif text-white/50 text-[15px] leading-[1.8] mt-5 mb-4">
             CityAge is built on human insight, human intuition, and the spark of human creation. We produce our own journalism and original content, building on our founder's decades of experience working at the top levels of media nationally and internationally. Everything we publish is directed, shaped, and approved by people.
           </p>
