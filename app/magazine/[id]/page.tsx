@@ -94,7 +94,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
             </div>
 
             <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 mb-6">
-              Vancouver · {new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {new Date(article.published_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })} GMT · {article.read_time || 5} Min Read
+              {(article.dateline_city || 'VANCOUVER').toUpperCase()} · {new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {new Date(article.published_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })} GMT · {article.read_time || 5} Min Read
             </p>
 
             <h1 className="font-serif font-black text-3xl md:text-[2.75rem] leading-[1.15] tracking-tight mb-5 max-w-[750px] mx-auto">
