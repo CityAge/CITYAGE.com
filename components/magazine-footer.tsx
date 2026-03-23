@@ -7,8 +7,7 @@ export function MagazineFooter() {
             CITYAGE
           </h2>
           <p className="text-sm text-white/40 leading-relaxed max-w-md font-medium uppercase tracking-[0.15em]">
-            The primary intelligence source for global urban leadership. 
-            25,000+ decision-makers across infrastructure, space, energy, defence, and food systems.
+            Intelligence for The Urban Planet.
           </p>
           <div className="flex space-x-6">
             <span className="text-[10px] font-black tracking-[0.4em] uppercase text-[#C5A059]">

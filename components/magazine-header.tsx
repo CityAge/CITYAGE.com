@@ -67,16 +67,13 @@ export function MagazineHeader() {
             {/* Center: masthead */}
             <div className="flex flex-col items-center">
               {!isScrolled && (
-                <span className="font-mono text-[9px] md:text-[10px] tracking-[0.4em] uppercase text-black/50 mb-2">
-                  Published by CityAge Media
-                </span>
               )}
               <a href="/" className={`font-serif font-black uppercase monocle-wordmark leading-none transition-all duration-500 ${isScrolled ? 'text-xl md:text-2xl' : 'text-4xl md:text-6xl lg:text-8xl'}`}>
                 CityAge
               </a>
               {!isScrolled && (
-                <span className="font-mono text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-[#C5A059] mt-3">
-                  Intelligence for the 3 per cent
+                <span className="font-mono text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-[#C5A059]/60 mt-3 hover:text-[#C5A059] hover:font-bold transition-all cursor-default">
+                  Intelligence for The Urban Planet
                 </span>
               )}
             </div>
