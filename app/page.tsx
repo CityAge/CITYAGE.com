@@ -165,11 +165,12 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[7fr_4fr_3fr] items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] items-start">
 
                 {/* Lead story — STICKY: holds position while cols 2-3 scroll */}
                 {heroLead && (
-                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12 lg:sticky lg:top-[120px] lg:self-start">
+                  <div className="lg:border-r border-black/10 lg:pr-10 py-8 lg:py-10">
+                    <div className="lg:sticky lg:top-[120px]">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -183,6 +184,7 @@ export default async function Home() {
                       variant="hero-lead"
                       linkPrefix={linkPrefix}
                     />
+                    </div>
                   </div>
                 )}
 
