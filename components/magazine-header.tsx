@@ -1,47 +1,22 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 export function MagazineHeader() {
-  const [scrollY, setScrollY] = useState(0)
-  const headerRef = useRef<HTMLElement>(null)
+  const [compact, setCompact] = useState(false)
 
   useEffect(() => {
-    let ticking = false
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          setScrollY(window.scrollY)
-          ticking = false
-        })
-        ticking = true
-      }
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setCompact(window.scrollY > 80)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Progress: 0 at top → 1 fully compressed over 300px
-  const progress = Math.min(scrollY / 300, 1)
-
-  // Logo: 10rem → 1.8rem on desktop, 3rem → 1.2rem mobile
-  const desktopRem = 10 - progress * 8.2
-  const mobileRem = 3 - progress * 1.8
-
-  // Masthead padding: 40px → 6px
-  const vertPad = Math.max(6, 40 - progress * 34)
-
-  // Fade brackets + tagline — gone by 40% scroll
-  const fadeOut = Math.max(0, 1 - progress * 2.5)
-
-  // Utility bar padding: 10px → 4px
-  const utilPad = Math.max(4, 10 - progress * 6)
-
   return (
-    <header ref={headerRef} className="sticky top-0 z-[100] bg-[#F9F9F7]">
+    <header className="sticky top-0 z-[100] bg-[#F9F9F7]">
 
       {/* ─── UTILITY BAR ─── */}
-      <div className="border-b border-black/15 px-6 md:px-12" style={{ paddingTop: utilPad, paddingBottom: utilPad }}>
+      <div className={`border-b border-black/15 px-6 md:px-12 transition-all duration-500 ${compact ? 'py-1' : 'py-2.5'}`}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-5 md:gap-7">
             <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity">
@@ -67,45 +42,39 @@ export function MagazineHeader() {
         </div>
       </div>
 
-      {/* ─── MASTHEAD: continuously shrinking logo ─── */}
-      <div className="border-b border-black px-6 md:px-12" style={{ paddingTop: vertPad, paddingBottom: vertPad }}>
-        <div className="max-w-[1400px] mx-auto relative">
+      {/* ─── MASTHEAD ─── */}
+      <div className={`border-b border-black px-6 md:px-12 transition-all duration-500 ${compact ? 'py-2' : 'py-8 md:py-10'}`}>
+        <div className="max-w-[1400px] mx-auto relative flex items-center">
 
-          {/* Left bracket — text only, no cartoon */}
-          {fadeOut > 0 && (
-            <div className="hidden xl:flex absolute left-0 top-1/2 -translate-y-1/2 flex-col items-start text-left" style={{ opacity: fadeOut }}>
-              <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 leading-relaxed">
-                Currently being<br />edited in Vancouver
-              </span>
-            </div>
-          )}
+          {/* Left bracket — only when expanded */}
+          <div className={`hidden xl:flex absolute left-0 top-1/2 -translate-y-1/2 flex-col items-start text-left transition-opacity duration-500 ${compact ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 leading-relaxed">
+              Currently being<br />edited in Vancouver
+            </span>
+          </div>
 
-          {/* Center: shrinking wordmark */}
-          <div className="flex flex-col items-center">
+          {/* Center: wordmark — transitions between large and small */}
+          <div className="flex flex-col items-center w-full">
             <a
               href="/"
-              className="font-serif font-black uppercase monocle-wordmark leading-[0.85] text-black tracking-[-0.02em]"
-              style={{ fontSize: `clamp(${mobileRem}rem, ${desktopRem}rem, 10rem)` }}
+              className={`font-serif font-black uppercase monocle-wordmark leading-[0.85] text-black tracking-[-0.02em] transition-all duration-500 ${compact ? 'text-xl md:text-2xl' : 'text-[3rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem]'}`}
             >
               CityAge
             </a>
-            {fadeOut > 0 && (
-              <div className="overflow-hidden" style={{ maxHeight: fadeOut > 0.1 ? 30 : 0, opacity: fadeOut }}>
-                <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3 block">
-                  Intelligence for The Urban Planet
-                </span>
-              </div>
-            )}
+            {/* Tagline — collapses when compact */}
+            <div className={`transition-all duration-500 overflow-hidden ${compact ? 'max-h-0 opacity-0 mt-0' : 'max-h-10 opacity-100 mt-3'}`}>
+              <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 block">
+                Intelligence for The Urban Planet
+              </span>
+            </div>
           </div>
 
-          {/* Right bracket */}
-          {fadeOut > 0 && (
-            <div className="hidden xl:flex absolute right-0 top-1/2 -translate-y-1/2 flex-col items-end text-right" style={{ opacity: fadeOut }}>
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 hover:text-black transition-colors leading-relaxed">
-                Daily intelligence<br />from CityAge
-              </a>
-            </div>
-          )}
+          {/* Right bracket — only when expanded */}
+          <div className={`hidden xl:flex absolute right-0 top-1/2 -translate-y-1/2 flex-col items-end text-right transition-opacity duration-500 ${compact ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 hover:text-black transition-colors leading-relaxed">
+              Daily intelligence<br />from CityAge
+            </a>
+          </div>
         </div>
       </div>
 

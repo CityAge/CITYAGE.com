@@ -170,7 +170,7 @@ export default async function Home() {
 
                 {/* Lead story — STICKY: holds position while cols 2-3 scroll */}
                 {heroLead && (
-                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12 lg:sticky lg:top-[120px] lg:self-start">
+                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12 lg:sticky lg:top-[130px]">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -210,7 +210,7 @@ export default async function Home() {
                 {/* Right sidebar — Influence Letter box + stories below */}
                 <div className="flex flex-col py-8 lg:py-0">
                   {/* Influence Letter — STICKY black box */}
-                  <div className="bg-black text-white lg:sticky lg:top-[120px] p-8 flex flex-col">
+                  <div className="bg-black text-white lg:sticky lg:top-[130px] p-8 flex flex-col">
                     <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
                       The Influence Letter
                     </h3>
