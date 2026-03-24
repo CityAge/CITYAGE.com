@@ -1,38 +1,47 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function MagazineHeader() {
   const [scrollY, setScrollY] = useState(0)
+  const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
+    let ticking = false
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrollY(window.scrollY)
+          ticking = false
+        })
+        ticking = true
+      }
+    }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Progress from 0 (top of page) to 1 (fully compressed) over 300px of scroll
+  // Progress: 0 at top → 1 fully compressed over 300px
   const progress = Math.min(scrollY / 300, 1)
-  const isCompressed = progress > 0.95
 
-  // Logo font size: desktop 12rem → 1.5rem, mobile 3.5rem → 1.25rem
-  const desktopSize = 12 - progress * 10.5 // 12rem → 1.5rem
-  const mobileSize = 3.5 - progress * 2.25 // 3.5rem → 1.25rem
+  // Logo: 10rem → 1.8rem on desktop, 3rem → 1.2rem mobile
+  const desktopRem = 10 - progress * 8.2
+  const mobileRem = 3 - progress * 1.8
 
-  // Padding: 48px → 8px
-  const vertPad = Math.max(8, 48 - progress * 40)
+  // Masthead padding: 40px → 6px
+  const vertPad = Math.max(6, 40 - progress * 34)
 
-  // Fade out brackets and tagline
-  const fadeOut = Math.max(0, 1 - progress * 2.5) // gone by 40% scroll
+  // Fade brackets + tagline — gone by 40% scroll
+  const fadeOut = Math.max(0, 1 - progress * 2.5)
+
+  // Utility bar padding: 10px → 4px
+  const utilPad = Math.max(4, 10 - progress * 6)
 
   return (
-    <header className="sticky top-0 z-[100] bg-[#F9F9F7]">
+    <header ref={headerRef} className="sticky top-0 z-[100] bg-[#F9F9F7]">
 
-      {/* ─── TOP UTILITY BAR ─── */}
-      <div className="border-b border-black/15 px-6 md:px-12" style={{
-        paddingTop: `${Math.max(4, 10 - progress * 6)}px`,
-        paddingBottom: `${Math.max(4, 10 - progress * 6)}px`,
-      }}>
+      {/* ─── UTILITY BAR ─── */}
+      <div className="border-b border-black/15 px-6 md:px-12" style={{ paddingTop: utilPad, paddingBottom: utilPad }}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-5 md:gap-7">
             <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity">
@@ -58,53 +67,43 @@ export function MagazineHeader() {
         </div>
       </div>
 
-      {/* ─── MASTHEAD: Logo shrinks continuously, never disappears ─── */}
-      <div className="border-b border-black px-6 md:px-12 relative overflow-hidden" style={{
-        paddingTop: `${vertPad}px`,
-        paddingBottom: `${vertPad}px`,
-      }}>
+      {/* ─── MASTHEAD: continuously shrinking logo ─── */}
+      <div className="border-b border-black px-6 md:px-12" style={{ paddingTop: vertPad, paddingBottom: vertPad }}>
         <div className="max-w-[1400px] mx-auto relative">
 
-          {/* Left bracket — illustration + CTA, like Monocle's book drawing */}
+          {/* Left bracket — text only, no cartoon */}
           {fadeOut > 0 && (
-            <div className="hidden xl:flex absolute left-0 bottom-2 flex-col items-start text-left gap-2" style={{ opacity: fadeOut }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src="https://rniqmxpmtqmnwqtawlnz.supabase.co/storage/v1/object/public/magazine-images/masthead-thinker-v5.png" 
-                alt="Got an idea? Write it for us." 
-                className="w-[90px] h-[90px] rounded object-cover"
-              />
-              <span className="text-[9px] font-bold tracking-[0.12em] uppercase text-black/50 leading-tight">
-                Got an idea?<br />Write it for us.
+            <div className="hidden xl:flex absolute left-0 top-1/2 -translate-y-1/2 flex-col items-start text-left" style={{ opacity: fadeOut }}>
+              <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 leading-relaxed">
+                Currently being<br />edited in Vancouver
               </span>
             </div>
           )}
 
-          {/* Center: continuously shrinking wordmark */}
+          {/* Center: shrinking wordmark */}
           <div className="flex flex-col items-center">
-            <a href="/" className="font-serif font-black uppercase monocle-wordmark leading-[0.85] text-black tracking-[-0.02em]" style={{
-              fontSize: `max(${mobileSize}rem, min(${desktopSize}rem, 12rem))`,
-            }}>
+            <a
+              href="/"
+              className="font-serif font-black uppercase monocle-wordmark leading-[0.85] text-black tracking-[-0.02em]"
+              style={{ fontSize: `clamp(${mobileRem}rem, ${desktopRem}rem, 10rem)` }}
+            >
               CityAge
             </a>
-
-            {/* Tagline — fades out */}
             {fadeOut > 0 && (
-              <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3" style={{ opacity: fadeOut }}>
-                Intelligence for The Urban Planet
-              </span>
+              <div className="overflow-hidden" style={{ maxHeight: fadeOut > 0.1 ? 30 : 0, opacity: fadeOut }}>
+                <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3 block">
+                  Intelligence for The Urban Planet
+                </span>
+              </div>
             )}
           </div>
 
-          {/* Right bracket — newsletter CTA + location */}
+          {/* Right bracket */}
           {fadeOut > 0 && (
-            <div className="hidden xl:flex absolute right-0 bottom-2 flex-col items-end text-right gap-2" style={{ opacity: fadeOut }}>
-              <a href="#subscribe" className="text-[9px] font-bold tracking-[0.12em] uppercase text-black/50 hover:text-black transition-colors leading-tight">
+            <div className="hidden xl:flex absolute right-0 top-1/2 -translate-y-1/2 flex-col items-end text-right" style={{ opacity: fadeOut }}>
+              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 hover:text-black transition-colors leading-relaxed">
                 Daily intelligence<br />from CityAge
               </a>
-              <span className="text-[8px] tracking-[0.12em] uppercase text-black/30">
-                Edited in Vancouver
-              </span>
             </div>
           )}
         </div>
