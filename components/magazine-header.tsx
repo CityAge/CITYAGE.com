@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 
 export function MagazineHeader() {
   const [scrollY, setScrollY] = useState(0)
-  const isScrolled = scrollY > 400
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -12,13 +11,28 @@ export function MagazineHeader() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Smooth logo size: starts at 12rem, shrinks to 3rem over 400px of scroll
-  const logoProgress = Math.min(scrollY / 400, 1)
+  // Progress from 0 (top of page) to 1 (fully compressed) over 300px of scroll
+  const progress = Math.min(scrollY / 300, 1)
+  const isCompressed = progress > 0.95
+
+  // Logo font size: desktop 12rem → 1.5rem, mobile 3.5rem → 1.25rem
+  const desktopSize = 12 - progress * 10.5 // 12rem → 1.5rem
+  const mobileSize = 3.5 - progress * 2.25 // 3.5rem → 1.25rem
+
+  // Padding: 48px → 8px
+  const vertPad = Math.max(8, 48 - progress * 40)
+
+  // Fade out brackets and tagline
+  const fadeOut = Math.max(0, 1 - progress * 2.5) // gone by 40% scroll
 
   return (
-    <>
+    <header className="sticky top-0 z-[100] bg-[#F9F9F7]">
+
       {/* ─── TOP UTILITY BAR ─── */}
-      <div className="border-b border-black/15 bg-[#F9F9F7] px-6 md:px-12 py-2.5">
+      <div className="border-b border-black/15 px-6 md:px-12" style={{
+        paddingTop: `${Math.max(4, 10 - progress * 6)}px`,
+        paddingBottom: `${Math.max(4, 10 - progress * 6)}px`,
+      }}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-5 md:gap-7">
             <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity">
@@ -44,90 +58,65 @@ export function MagazineHeader() {
         </div>
       </div>
 
-      {/* ─── HERO MASTHEAD with shrinking logo ─── */}
-      {!isScrolled && (
-        <div className="bg-[#F9F9F7] border-b border-black overflow-hidden">
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative" style={{
-            paddingTop: `${Math.max(16, 48 - logoProgress * 32)}px`,
-            paddingBottom: `${Math.max(16, 48 - logoProgress * 32)}px`,
-          }}>
+      {/* ─── MASTHEAD: Logo shrinks continuously, never disappears ─── */}
+      <div className="border-b border-black px-6 md:px-12 relative overflow-hidden" style={{
+        paddingTop: `${vertPad}px`,
+        paddingBottom: `${vertPad}px`,
+      }}>
+        <div className="max-w-[1400px] mx-auto relative">
 
-            {/* Left bracket */}
-            <div className="hidden xl:flex absolute left-12 bottom-6 flex-col items-start text-left" style={{
-              opacity: Math.max(0, 1 - logoProgress * 2)
-            }}>
+          {/* Left bracket — fades out as you scroll */}
+          {fadeOut > 0 && (
+            <div className="hidden xl:flex absolute left-0 bottom-0 flex-col items-start text-left" style={{ opacity: fadeOut }}>
               <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 leading-relaxed">
                 Currently being<br />edited in Vancouver
               </span>
             </div>
+          )}
 
-            {/* Center: shrinking wordmark + tagline */}
-            <div className="flex flex-col items-center">
-              <a href="/" className="font-serif font-black uppercase monocle-wordmark leading-[0.85] text-black tracking-[-0.02em] transition-none" style={{
-                fontSize: `clamp(3.5rem, ${12 - logoProgress * 9}rem, 12rem)`
-              }}>
-                CityAge
-              </a>
-              <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3 md:mt-4" style={{
-                opacity: Math.max(0, 1 - logoProgress * 1.5)
-              }}>
+          {/* Center: continuously shrinking wordmark */}
+          <div className="flex flex-col items-center">
+            <a href="/" className="font-serif font-black uppercase monocle-wordmark leading-[0.85] text-black tracking-[-0.02em]" style={{
+              fontSize: `max(${mobileSize}rem, min(${desktopSize}rem, 12rem))`,
+            }}>
+              CityAge
+            </a>
+
+            {/* Tagline — fades out */}
+            {fadeOut > 0 && (
+              <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3" style={{ opacity: fadeOut }}>
                 Intelligence for The Urban Planet
               </span>
-            </div>
+            )}
+          </div>
 
-            {/* Right bracket */}
-            <div className="hidden xl:flex absolute right-12 bottom-6 flex-col items-end text-right" style={{
-              opacity: Math.max(0, 1 - logoProgress * 2)
-            }}>
+          {/* Right bracket — fades out */}
+          {fadeOut > 0 && (
+            <div className="hidden xl:flex absolute right-0 bottom-0 flex-col items-end text-right" style={{ opacity: fadeOut }}>
               <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
                 Daily intelligence<br />from CityAge
               </a>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ─── VERTICAL NAV BAR — pins to top on scroll ─── */}
-      <nav className={`bg-[#F9F9F7] z-[100] transition-shadow duration-300 ${isScrolled ? 'fixed top-0 left-0 right-0 border-b border-black shadow-sm' : 'border-b border-black/20'}`}>
-        <div className="max-w-[1400px] mx-auto px-4 md:px-12 flex items-center">
-
-          {/* Compact logo — visible only when fully scrolled */}
-          {isScrolled && (
-            <a href="/" className="font-serif font-black uppercase monocle-wordmark text-xl md:text-2xl leading-none mr-6 md:mr-10 shrink-0 py-3">
-              CityAge
-            </a>
           )}
+        </div>
+      </div>
 
-          {/* Vertical links — centered, bold, black */}
-          <div className={`flex items-center flex-1 overflow-x-auto md:overflow-visible ${isScrolled ? 'justify-start' : 'justify-center'}`}>
-            {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
-              <div key={name} className="flex items-center shrink-0">
-                {i > 0 && <span className="text-black/20 mx-2 md:mx-3 hidden md:inline">|</span>}
-                <a
-                  href={`#${name.toLowerCase()}`}
-                  className="px-3 md:px-5 py-3 text-[12px] md:text-[13px] font-bold tracking-[0.2em] uppercase text-black hover:opacity-60 transition-opacity"
-                >
-                  {name}
-                </a>
-              </div>
-            ))}
-          </div>
-
-          {/* Sticky bar utilities */}
-          {isScrolled && (
-            <div className="flex items-center gap-4 shrink-0">
-              <button className="hover:opacity-60 transition-opacity text-black">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-              <a href="#" className="bg-[#C5A059] text-black px-5 py-1.5 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
-                Subscribe
+      {/* ─── VERTICAL NAV ─── */}
+      <div className="border-b border-black/20 px-4 md:px-12">
+        <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
+          {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
+            <div key={name} className="flex items-center shrink-0">
+              {i > 0 && <span className="text-black/20 mx-2 md:mx-3 hidden md:inline">|</span>}
+              <a
+                href={`#${name.toLowerCase()}`}
+                className="px-3 md:px-5 py-2.5 text-[12px] md:text-[13px] font-bold tracking-[0.2em] uppercase text-black hover:opacity-60 transition-opacity"
+              >
+                {name}
               </a>
             </div>
-          )}
+          ))}
         </div>
-      </nav>
-    </>
+      </div>
+    </header>
   )
 }
