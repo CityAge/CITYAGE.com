@@ -43,21 +43,21 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           </div>
         )}
         {tagline && (
-          <p className="font-serif font-medium text-black/75 text-[17px] leading-[1.7] mb-3">
+          <p className="font-serif font-medium text-black/80 text-[18px] md:text-[20px] leading-[1.7] mb-3">
             {tagline}
           </p>
         )}
         {excerpt && excerpt !== tagline && (
-          <p className="font-serif text-black/55 text-[15px] leading-[1.7] mb-4">
+          <p className="font-serif text-black/60 text-[16px] md:text-[17px] leading-[1.7] mb-4">
             {excerpt}
           </p>
         )}
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/40">{date}</span>
+          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">{date}</span>
           {readTime && (
             <>
               <span className="text-black/15 text-[8px]">·</span>
-              <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/40">
+              <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
                 <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
                 {readTime}
               </span>
@@ -97,7 +97,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             {excerpt || tagline}
           </p>
         )}
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/40">
+        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -115,7 +115,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <h3 className="font-serif font-bold text-base leading-snug tracking-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30 mt-auto">{readTime}</span>
+        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60 mt-auto">{readTime}</span>
       </Link>
     )
   }
@@ -145,11 +145,11 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           {title}
         </h3>
         {(excerpt || tagline) && (
-          <p className="font-serif text-black/55 text-[14px] leading-[1.7] mb-2">
-            {(excerpt || tagline || '').slice(0, 100)}{(excerpt || tagline || '').length > 100 ? '…' : ''}
+          <p className="font-serif text-black/60 text-[15px] leading-[1.7] mb-2">
+            {excerpt || tagline}
           </p>
         )}
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/40">
+        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -164,7 +164,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <h4 className="font-serif font-bold text-[16px] leading-snug tracking-tight mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h4>
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/40">
+        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -207,13 +207,13 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         )}
 
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30">
+          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
             {date}
           </span>
           {readTime && (
             <>
               <span className="text-black/15 text-[8px]">·</span>
-              <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30">
+              <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
                 {readTime}
               </span>
             </>
