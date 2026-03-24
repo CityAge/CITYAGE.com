@@ -165,11 +165,11 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr]">
+              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] lg:gap-8">
 
                 {/* Lead story — STICKY: column stretches, content sticks */}
                 {heroLead && (
-                  <div className="lg:border-r border-black/10 lg:pr-10 py-8 lg:py-10">
+                  <div className="lg:pr-10 py-8 lg:py-10">
                     <div className="lg:sticky lg:top-[140px]">
                     <ArticleCard
                       id={heroLead.id}
@@ -189,7 +189,7 @@ export default async function Home() {
                 )}
 
                 {/* Secondary stories — middle column with images */}
-                <div className="lg:border-r border-black/10 lg:px-10 py-8 lg:py-12 flex flex-col border-t lg:border-t-0 border-black/10">
+                <div className="lg:px-10 py-8 lg:py-12 flex flex-col border-t lg:border-t-0 border-black/10">
                   {heroSecondary.map((article, i) => (
                     <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}`}>
                       <ArticleCard
