@@ -1,29 +1,34 @@
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
+import { Playfair_Display, Libre_Baskerville } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const crimsonPro = localFont({
-  src: [
-    {
-      path: '../public/fonts/crimson-pro-latin-wght-normal.woff2',
-      style: 'normal',
-    },
-    {
-      path: '../public/fonts/crimson-pro-latin-wght-italic.woff2',
-      style: 'italic',
-    },
-  ],
+// Editorial display serif — wordmark + headlines
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['400', '700', '900'],
+  variable: '--font-display',
+  display: 'swap',
+})
+
+// Warm body serif — article text, taglines, excerpts
+const baskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
   variable: '--font-serif',
   display: 'swap',
 })
 
+// UI sans-serif (kept for utility text)
 const inter = localFont({
   src: '../public/fonts/inter-latin-wght-normal.woff2',
   variable: '--font-ui',
   display: 'swap',
 })
 
+// Monospace for metadata, dates, verticals
 const jetbrains = localFont({
   src: '../public/fonts/jetbrains-mono-latin-wght-normal.woff2',
   variable: '--font-mono',
@@ -53,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${crimsonPro.variable} ${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${baskerville.variable} ${inter.variable} ${jetbrains.variable}`}>
       <body className="font-serif antialiased bg-[#F9F9F7] text-black selection:bg-[#1A365D] selection:text-white">
         {children}
         <Analytics />
