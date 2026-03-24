@@ -23,25 +23,41 @@ function renderMarkdown(md: string): string {
 
 export default async function BriefPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const supabase = await createClient()
 
-  const { data: brief } = await supabase
-    .from('briefs')
-    .select('*')
-    .eq('id', id)
-    .eq('status', 'published')
-    .single()
+  let brief: any = null
+  let related: any[] = []
+
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (url && key) {
+      const supabase = await createClient()
+
+      const { data } = await supabase
+        .from('briefs')
+        .select('*')
+        .eq('id', id)
+        .eq('status', 'published')
+        .single()
+
+      brief = data
+
+      if (brief) {
+        const { data: rel } = await supabase
+          .from('briefs')
+          .select('id, title, vertical, published_at')
+          .eq('status', 'published')
+          .neq('id', id)
+          .order('published_at', { ascending: false })
+          .limit(6)
+        related = rel || []
+      }
+    }
+  } catch (e) {
+    console.error('Supabase error:', e)
+  }
 
   if (!brief) notFound()
-
-  // Fetch related articles for sidebar + bottom section
-  const { data: related } = await supabase
-    .from('briefs')
-    .select('id, title, vertical, published_at')
-    .eq('status', 'published')
-    .neq('id', id)
-    .order('published_at', { ascending: false })
-    .limit(6)
 
   const relatedArticles = (related ?? []).map((b: any) => ({
     id: b.id,

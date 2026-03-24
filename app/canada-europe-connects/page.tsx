@@ -5,13 +5,23 @@ import { MagazineFooter } from '@/components/magazine-footer'
 export const revalidate = 60
 
 export default async function CECPage() {
-  const supabase = await createClient()
+  let articles: any[] | null = null
 
-  const { data: articles } = await supabase
-    .from('canada_europe_connects_intelligence')
-    .select('id, title, summary, topic, source_urls, published_at')
-    .eq('status', 'published')
-    .order('published_at', { ascending: false })
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (url && key) {
+      const supabase = await createClient()
+      const { data } = await supabase
+        .from('canada_europe_connects_intelligence')
+        .select('id, title, summary, topic, source_urls, published_at')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+      articles = data
+    }
+  } catch (e) {
+    console.error('Supabase error:', e)
+  }
 
   const allArticles = articles || []
 

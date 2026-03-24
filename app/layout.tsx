@@ -1,22 +1,25 @@
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
-import { Playfair_Display, Libre_Baskerville } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-// Editorial display serif — wordmark + headlines
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '700', '900'],
+// Editorial display serif — wordmark + headlines (variable weight, local)
+const playfair = localFont({
+  src: [
+    { path: '../public/fonts/playfair-display-latin-wght-normal.woff2', style: 'normal' },
+    { path: '../public/fonts/playfair-display-latin-wght-italic.woff2', style: 'italic' },
+  ],
   variable: '--font-display',
   display: 'swap',
 })
 
-// Warm body serif — article text, taglines, excerpts
-const baskerville = Libre_Baskerville({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
+// Warm body serif — article text, taglines, excerpts (local)
+const baskerville = localFont({
+  src: [
+    { path: '../public/fonts/libre-baskerville-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../public/fonts/libre-baskerville-latin-700-normal.woff2', weight: '700', style: 'normal' },
+    { path: '../public/fonts/libre-baskerville-latin-400-italic.woff2', weight: '400', style: 'italic' },
+  ],
   variable: '--font-serif',
   display: 'swap',
 })

@@ -24,26 +24,42 @@ function renderMarkdown(md: string): string {
 
 export default async function MagazineArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const supabase = await createClient()
 
-  const { data: article } = await supabase
-    .from('magazine')
-    .select('*')
-    .eq('id', id)
-    .eq('status', 'published')
-    .single()
+  let article: any = null
+  let related: any[] = []
+
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (url && key) {
+      const supabase = await createClient()
+
+      const { data } = await supabase
+        .from('magazine')
+        .select('*')
+        .eq('id', id)
+        .eq('status', 'published')
+        .single()
+
+      article = data
+
+      if (article) {
+        const { data: rel } = await supabase
+          .from('magazine')
+          .select('id, headline, vertical, image_url, read_time, published_at')
+          .eq('status', 'published')
+          .eq('vertical', article.vertical)
+          .neq('id', id)
+          .order('published_at', { ascending: false })
+          .limit(3)
+        related = rel || []
+      }
+    }
+  } catch (e) {
+    console.error('Supabase error:', e)
+  }
 
   if (!article) notFound()
-
-  // Fetch related articles from same vertical
-  const { data: related } = await supabase
-    .from('magazine')
-    .select('id, headline, vertical, image_url, read_time, published_at')
-    .eq('status', 'published')
-    .eq('vertical', article.vertical)
-    .neq('id', id)
-    .order('published_at', { ascending: false })
-    .limit(6)
 
   const relatedArticles = (related ?? []).map((a: any) => ({
     id: a.id,

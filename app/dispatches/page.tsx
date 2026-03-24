@@ -7,14 +7,24 @@ import { MagazineFooter } from '@/components/magazine-footer'
 export const revalidate = 60
 
 export default async function DispatchesPage() {
-  const supabase = await createClient()
+  let briefs: any[] | null = null
 
-  const { data: briefs } = await supabase
-    .from('briefs')
-    .select('id, title, vertical, published_at, body')
-    .eq('status', 'published')
-    .order('published_at', { ascending: false })
-    .limit(30)
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (url && key) {
+      const supabase = await createClient()
+      const { data } = await supabase
+        .from('briefs')
+        .select('id, title, vertical, published_at, body')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+        .limit(30)
+      briefs = data
+    }
+  } catch (e) {
+    console.error('Supabase error:', e)
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
