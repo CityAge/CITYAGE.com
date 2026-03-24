@@ -165,12 +165,11 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] lg:gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] lg:gap-8 items-start">
 
-                {/* Lead story — STICKY: column stretches, content sticks */}
+                {/* Lead story — no sticky, natural flow, no white space */}
                 {heroLead && (
-                  <div className="lg:pr-10 py-8 lg:py-10 flex flex-col">
-                    <div className="lg:sticky lg:top-[140px] flex flex-col flex-grow">
+                  <div className="lg:pr-10 py-8 lg:py-10">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -184,7 +183,6 @@ export default async function Home() {
                       variant="hero-lead"
                       linkPrefix={linkPrefix}
                     />
-                    </div>
                   </div>
                 )}
 
