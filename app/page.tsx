@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
-import { Navigation } from '@/components/navigation'
 import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { UrbanPlanetVoices } from '@/components/urban-planet-voices'
@@ -166,11 +165,11 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[7fr_4fr_3fr]">
+              <div className="grid grid-cols-1 lg:grid-cols-[7fr_4fr_3fr] items-start">
 
                 {/* Lead story — STICKY: holds position while cols 2-3 scroll */}
                 {heroLead && (
-                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12 lg:sticky lg:top-[130px]">
+                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12 lg:sticky lg:top-[120px] lg:self-start">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -210,7 +209,7 @@ export default async function Home() {
                 {/* Right sidebar — Influence Letter box + stories below */}
                 <div className="flex flex-col py-8 lg:py-0">
                   {/* Influence Letter — STICKY black box */}
-                  <div className="bg-black text-white lg:sticky lg:top-[130px] p-8 flex flex-col">
+                  <div className="bg-black text-white lg:sticky lg:top-[120px] p-8 flex flex-col">
                     <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
                       The Influence Letter
                     </h3>
