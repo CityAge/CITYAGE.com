@@ -74,7 +74,7 @@ export async function UrbanPlanetVoices() {
                       {voice.title}
                     </p>
                     <p className="font-mono text-[7px] tracking-[0.1em] uppercase text-[#C5A059] truncate">
-                      {voice.city} · {voice.topic}
+                      {voice.city}
                     </p>
                   </div>
                 </div>
