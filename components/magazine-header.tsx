@@ -65,11 +65,17 @@ export function MagazineHeader() {
       }}>
         <div className="max-w-[1400px] mx-auto relative">
 
-          {/* Left bracket — fades out as you scroll */}
+          {/* Left bracket — illustration + CTA, like Monocle's book drawing */}
           {fadeOut > 0 && (
-            <div className="hidden xl:flex absolute left-0 bottom-0 flex-col items-start text-left" style={{ opacity: fadeOut }}>
-              <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 leading-relaxed">
-                Currently being<br />edited in Vancouver
+            <div className="hidden xl:flex absolute left-0 bottom-2 flex-col items-start text-left gap-2" style={{ opacity: fadeOut }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src="https://rniqmxpmtqmnwqtawlnz.supabase.co/storage/v1/object/public/magazine-images/masthead-thinker-v5.png" 
+                alt="Got an idea? Write it for us." 
+                className="w-[90px] h-[90px] rounded object-cover"
+              />
+              <span className="text-[9px] font-bold tracking-[0.12em] uppercase text-black/50 leading-tight">
+                Got an idea?<br />Write it for us.
               </span>
             </div>
           )}
@@ -90,12 +96,15 @@ export function MagazineHeader() {
             )}
           </div>
 
-          {/* Right bracket — fades out */}
+          {/* Right bracket — newsletter CTA + location */}
           {fadeOut > 0 && (
-            <div className="hidden xl:flex absolute right-0 bottom-0 flex-col items-end text-right" style={{ opacity: fadeOut }}>
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
+            <div className="hidden xl:flex absolute right-0 bottom-2 flex-col items-end text-right gap-2" style={{ opacity: fadeOut }}>
+              <a href="#subscribe" className="text-[9px] font-bold tracking-[0.12em] uppercase text-black/50 hover:text-black transition-colors leading-tight">
                 Daily intelligence<br />from CityAge
               </a>
+              <span className="text-[8px] tracking-[0.12em] uppercase text-black/30">
+                Edited in Vancouver
+              </span>
             </div>
           )}
         </div>
