@@ -21,7 +21,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   // ── HERO LEAD: Large headline, image, then excerpt ──
   if (variant === 'hero-lead') {
     return (
-      <Link href={href} className="block group">
+      <Link href={href} className="block group flex flex-col h-full">
         <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
@@ -51,7 +51,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           )}
         </div>
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[4/5]">
+          <div className="w-full relative overflow-hidden bg-gray-100 flex-grow min-h-[300px]">
             <Image
               src={image}
               alt={title}
@@ -60,7 +60,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             />
           </div>
         ) : (
-          <div className="w-full aspect-[3/4] md:aspect-[4/5] bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+          <div className="w-full flex-grow min-h-[300px] bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}

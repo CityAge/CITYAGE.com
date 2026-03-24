@@ -169,8 +169,8 @@ export default async function Home() {
 
                 {/* Lead story — STICKY: column stretches, content sticks */}
                 {heroLead && (
-                  <div className="lg:pr-10 py-8 lg:py-10">
-                    <div className="lg:sticky lg:top-[140px]">
+                  <div className="lg:pr-10 py-8 lg:py-10 flex flex-col">
+                    <div className="lg:sticky lg:top-[140px] flex flex-col flex-grow">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
