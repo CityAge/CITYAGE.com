@@ -131,9 +131,9 @@ export default async function Home() {
 
   const heroLead = articles[0] || null
   const heroSecondary = articles.slice(1, 5)  // 4 stories for middle column
-  const heroTertiary = articles.slice(5, 8)   // 3 stories for below Influence Letter
-  const featuredArticles = articles.slice(8, 12)
-  const remainingArticles = articles.slice(12)
+  const heroTertiary = articles.slice(5, 11)  // 6 stories for below Influence Letter in sidebar
+  const featuredArticles = articles.slice(11, 15)
+  const remainingArticles = articles.slice(15)
 
   // Group remaining by vertical for category sections
   const byVertical: Record<string, typeof articles> = {}

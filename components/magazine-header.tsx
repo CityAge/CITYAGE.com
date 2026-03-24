@@ -85,10 +85,10 @@ export function MagazineHeader() {
         <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
           {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
             <div key={name} className="flex items-center shrink-0">
-              {i > 0 && <span className="text-black/20 mx-2 md:mx-3 hidden md:inline">|</span>}
+              {i > 0 && <span className="text-black/20 mx-3 md:mx-4 hidden md:inline">|</span>}
               <a
                 href={`#${name.toLowerCase()}`}
-                className="px-3 md:px-5 py-2.5 text-[12px] md:text-[13px] font-bold tracking-[0.2em] uppercase text-black hover:opacity-60 transition-opacity"
+                className="px-3 md:px-6 py-3 text-[13px] md:text-[14px] font-bold tracking-[0.2em] uppercase text-black hover:opacity-60 transition-opacity"
               >
                 {name}
               </a>
