@@ -164,11 +164,11 @@ export default async function Home() {
           <>
             {/* ─── BAND 1: HERO EDITORIAL ─── */}
             <section className="border-b border-black/10 px-6 md:px-10">
-              <div className="grid grid-cols-1 lg:grid-cols-[7fr_4fr_3fr] min-h-[480px]">
+              <div className="grid grid-cols-1 lg:grid-cols-[7fr_4fr_3fr]">
 
-                {/* Lead story — dominant left column (~46%) */}
+                {/* Lead story — STICKY: holds position while cols 2-3 scroll */}
                 {heroLead && (
-                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12">
+                  <div className="lg:border-r border-black/10 lg:pr-12 py-8 lg:py-12 lg:sticky lg:top-[140px] lg:self-start">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -205,8 +205,8 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Right sidebar — sticky like Monocle Radio panel */}
-                <div className="bg-black text-white lg:sticky lg:top-0 lg:self-start lg:max-h-screen lg:overflow-y-auto p-8 flex flex-col">
+                {/* Right sidebar — STICKY like Monocle Radio panel */}
+                <div className="bg-black text-white lg:sticky lg:top-[140px] lg:self-start p-8 flex flex-col">
                   <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
                     The Influence Letter
                   </h3>
