@@ -146,14 +146,11 @@ export default async function Home() {
       {/* Campaign banner — full width event promotion */}
       <CampaignBanner />
 
-      {/* Masthead */}
+      {/* Masthead (includes vertical nav) */}
       <MagazineHeader />
 
-      {/* Navigation */}
-      <Navigation />
-
       {/* ═══ MAIN CONTENT ═══ */}
-      <main className="flex-grow max-w-[1200px] mx-auto w-full bg-[#F9F9F7]">
+      <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
         {!hasArticles ? (
           <div className="py-24 px-8 text-center">
             <p className="font-serif italic text-2xl text-black/20 mb-3">
