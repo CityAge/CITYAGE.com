@@ -22,26 +22,12 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-lead') {
     return (
       <Link href={href} className="block group">
-        <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-black/70">
+        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
         <h2 className="font-serif font-black text-2xl md:text-[2.5rem] leading-[1.1] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
           {title}
         </h2>
-        {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[16/9] mb-4">
-            <Image
-              src={image}
-              alt={title}
-              fill
-              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
-            />
-          </div>
-        ) : (
-          <div className="w-full aspect-[16/9] mb-4 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
-          </div>
-        )}
         {tagline && (
           <p className="font-serif font-medium text-black/80 text-[18px] md:text-[20px] leading-[1.7] mb-3">
             {tagline}
@@ -52,7 +38,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             {excerpt}
           </p>
         )}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mb-6">
           <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">{date}</span>
           {readTime && (
             <>
@@ -64,6 +50,20 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             </>
           )}
         </div>
+        {image ? (
+          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[3/4] md:aspect-[4/5]">
+            <Image
+              src={image}
+              alt={title}
+              fill
+              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+            />
+          </div>
+        ) : (
+          <div className="w-full aspect-[3/4] md:aspect-[4/5] bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
+          </div>
+        )}
       </Link>
     )
   }

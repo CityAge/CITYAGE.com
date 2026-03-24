@@ -208,9 +208,8 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Right sidebar — STICKY like Monocle Radio box */}
+                {/* Right sidebar — scrolls with column 2 (NOT sticky) */}
                 <div className="flex flex-col py-8 lg:py-0">
-                  <div className="lg:sticky lg:top-[140px]">
                   {/* Influence Letter — black box */}
                   <div className="bg-black text-white p-8 flex flex-col">
                     <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
@@ -276,7 +275,6 @@ export default async function Home() {
                       ))}
                     </div>
                   )}
-                  </div>{/* close sticky wrapper */}
                 </div>
 
               </div>{/* close grid */}
