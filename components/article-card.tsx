@@ -53,11 +53,11 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           </p>
         )}
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">{date}</span>
+          <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">{date}</span>
           {readTime && (
             <>
               <span className="text-black/15 text-[8px]">·</span>
-              <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
+              <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
                 <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
                 {readTime}
               </span>
@@ -86,7 +86,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
+        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
         <h3 className="font-serif font-bold text-xl leading-snug tracking-tight mt-2 mb-3 group-hover:text-[#1A365D] transition-colors">
@@ -97,7 +97,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             {excerpt || tagline}
           </p>
         )}
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
+        <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -109,13 +109,13 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-tertiary') {
     return (
       <Link href={href} className="flex flex-col group">
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
+        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
         <h3 className="font-serif font-bold text-base leading-snug tracking-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60 mt-auto">{readTime}</span>
+        <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60 mt-auto">{readTime}</span>
       </Link>
     )
   }
@@ -138,7 +138,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
-        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
+        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
         <h3 className="font-serif font-bold text-[17px] leading-snug tracking-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
@@ -149,7 +149,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             {excerpt || tagline}
           </p>
         )}
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
+        <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -164,7 +164,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <h4 className="font-serif font-bold text-[16px] leading-snug tracking-tight mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h4>
-        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
+        <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -191,7 +191,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
 
       <div className={`${image ? 'px-5 py-4' : 'px-5 py-5'}`}>
         <div className="flex items-center gap-3 mb-2">
-          <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase text-black/70">
+          <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/70">
             {vertical}
           </span>
         </div>
@@ -207,13 +207,13 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         )}
 
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
+          <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
             {date}
           </span>
           {readTime && (
             <>
               <span className="text-black/15 text-[8px]">·</span>
-              <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/60">
+              <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
                 {readTime}
               </span>
             </>
