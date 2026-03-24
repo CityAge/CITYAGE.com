@@ -183,96 +183,93 @@ export default async function Home() {
                   />
                 ) : null
               }
-              scrollColumns={
+              middleColumn={
+                <div className="flex flex-col">
+                  {heroSecondary.map((article, i) => (
+                    <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}`}>
+                      <ArticleCard
+                        id={article.id}
+                        title={article.title}
+                        vertical={article.vertical}
+                        tagline={article.tagline}
+                        excerpt={article.excerpt}
+                        date={article.date}
+                        image={article.image || undefined}
+                        readTime={article.readTime}
+                        variant="hero-secondary"
+                        linkPrefix={linkPrefix}
+                      />
+                    </div>
+                  ))}
+                </div>
+              }
+              sidebarColumn={
                 <>
-                  {/* Column 2: secondary stories with images */}
-                  <div className="flex-1 py-8 lg:py-12 flex flex-col">
-                    {heroSecondary.map((article, i) => (
-                      <div key={article.id} className={`flex-1 ${i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}`}>
-                        <ArticleCard
-                          id={article.id}
-                          title={article.title}
-                          vertical={article.vertical}
-                          tagline={article.tagline}
-                          excerpt={article.excerpt}
-                          date={article.date}
-                          image={article.image || undefined}
-                          readTime={article.readTime}
-                          variant="hero-secondary"
-                          linkPrefix={linkPrefix}
-                        />
-                      </div>
-                    ))}
-                  </div>
+                  {/* Influence Letter — black box */}
+                  <div className="bg-black text-white p-8 flex flex-col">
+                    <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
+                      The Influence Letter
+                    </h3>
+                    <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-6">
+                      Daily Intelligence Brief
+                    </span>
 
-                  {/* Column 3: Influence Letter + tertiary stories */}
-                  <div className="flex flex-col py-8 lg:py-0 w-[280px] shrink-0">
-                    {/* Influence Letter — black box */}
-                    <div className="bg-black text-white p-8 flex flex-col">
-                      <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
-                        The Influence Letter
-                      </h3>
-                      <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-6">
-                        Daily Intelligence Brief
-                      </span>
+                    <p className="font-serif text-white/50 text-[13px] leading-relaxed mb-6">
+                      Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
+                    </p>
 
-                      <p className="font-serif text-white/50 text-[13px] leading-relaxed mb-6">
-                        Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
-                      </p>
-
-                      <div className="mb-6">
-                        <input
-                          type="email"
-                          placeholder="your@email.com"
-                          className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
-                        />
-                        <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
-                          Subscribe Free
-                        </button>
-                      </div>
-
-                      <div className="border-t border-white/10 pt-6 mt-auto">
-                        <span className="font-mono text-[8px] tracking-[0.3em] uppercase text-white/25 block mb-4">
-                          Upcoming Events
-                        </span>
-                        <div className="space-y-4">
-                          <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                            <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">May 26 · Ottawa</span>
-                            <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
-                          </a>
-                          <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                            <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19 · Vancouver</span>
-                            <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
-                          </a>
-                          <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                            <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">2026 · Washington DC</span>
-                            <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Orbit — Space Economy</span>
-                          </a>
-                        </div>
-                      </div>
+                    <div className="mb-6">
+                      <input
+                        type="email"
+                        placeholder="your@email.com"
+                        className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
+                      />
+                      <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
+                        Subscribe Free
+                      </button>
                     </div>
 
-                    {/* Stories below the Influence Letter */}
-                    {heroTertiary.length > 0 && (
-                      <div className="pt-8 space-y-6">
-                        {heroTertiary.map((article, i) => (
-                          <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-6' : ''}`}>
-                            <ArticleCard
-                              id={article.id}
-                              title={article.title}
-                              vertical={article.vertical}
-                              tagline={null}
-                              excerpt={null}
-                              date={article.date}
-                              readTime={article.readTime}
-                              variant="hero-tertiary"
-                              linkPrefix={linkPrefix}
-                            />
-                          </div>
-                        ))}
+                    <div className="border-t border-white/10 pt-6 mt-auto">
+                      <span className="font-mono text-[8px] tracking-[0.3em] uppercase text-white/25 block mb-4">
+                        Upcoming Events
+                      </span>
+                      <div className="space-y-4">
+                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">May 26 · Ottawa</span>
+                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
+                        </a>
+                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19 · Vancouver</span>
+                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
+                        </a>
+                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">2026 · Washington DC</span>
+                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Orbit — Space Economy</span>
+                        </a>
                       </div>
-                    )}
+                    </div>
                   </div>
+
+                  {/* Stories below the Influence Letter */}
+                  {heroTertiary.length > 0 && (
+                    <div className="pt-8 space-y-6">
+                      {heroTertiary.map((article, i) => (
+                        <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-6' : ''}`}>
+                          <ArticleCard
+                            id={article.id}
+                            title={article.title}
+                            vertical={article.vertical}
+                            tagline={null}
+                            excerpt={null}
+                            date={article.date}
+                            readTime={article.readTime}
+                            variant="hero-tertiary"
+                            linkPrefix={linkPrefix}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </>
               }
             />
