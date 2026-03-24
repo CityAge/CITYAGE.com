@@ -70,7 +70,10 @@ export async function UrbanPlanetVoices() {
                     <p className="font-serif font-bold text-[12px] text-white leading-tight truncate">
                       {voice.name}
                     </p>
-                    <p className="font-mono text-[8px] tracking-[0.1em] uppercase text-[#C5A059] truncate">
+                    <p className="font-mono text-[7px] tracking-[0.1em] uppercase text-white/50 mt-0.5 truncate">
+                      {voice.title}
+                    </p>
+                    <p className="font-mono text-[7px] tracking-[0.1em] uppercase text-[#C5A059] truncate">
                       {voice.city} · {voice.topic}
                     </p>
                   </div>
