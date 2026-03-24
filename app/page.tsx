@@ -167,9 +167,10 @@ export default async function Home() {
             <section className="border-b border-black/10 px-6 md:px-10">
               <div className="grid grid-cols-1 lg:grid-cols-[5fr_4fr_3fr] items-start">
 
-                {/* Lead story — flows naturally, no sticky */}
+                {/* Lead story — STICKY like Monocle: holds while col 2 scrolls */}
                 {heroLead && (
                   <div className="lg:border-r border-black/10 lg:pr-10 py-8 lg:py-10">
+                    <div className="lg:sticky lg:top-[130px] lg:self-start">
                     <ArticleCard
                       id={heroLead.id}
                       title={heroLead.title}
@@ -183,6 +184,7 @@ export default async function Home() {
                       variant="hero-lead"
                       linkPrefix={linkPrefix}
                     />
+                    </div>
                   </div>
                 )}
 
@@ -206,9 +208,10 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Right sidebar — Influence Letter box + stories below */}
+                {/* Right sidebar — STICKY like Monocle Radio box */}
                 <div className="flex flex-col py-8 lg:py-0">
-                  {/* Influence Letter — STICKY black box */}
+                  <div className="lg:sticky lg:top-[130px] lg:self-start">
+                  {/* Influence Letter — black box */}
                   <div className="bg-black text-white p-8 flex flex-col">
                     <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
                       The Influence Letter
@@ -273,9 +276,10 @@ export default async function Home() {
                       ))}
                     </div>
                   )}
+                  </div>{/* close sticky wrapper */}
                 </div>
 
-              </div>
+              </div>{/* close grid */}
             </section>
 
             {/* ─── VOICES FROM THE URBAN PLANET ─── */}

@@ -1,52 +1,24 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
+
+// When compressed, header height is exactly: utility(36) + masthead(48) + nav(40) = 124px
+export const HEADER_COMPRESSED_HEIGHT = 124
 
 export function MagazineHeader() {
-  const [scrollY, setScrollY] = useState(0)
+  const [isCompressed, setIsCompressed] = useState(false)
 
   useEffect(() => {
-    let ticking = false
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          setScrollY(window.scrollY)
-          ticking = false
-        })
-        ticking = true
-      }
-    }
+    const handleScroll = () => setIsCompressed(window.scrollY > 100)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Shrink over 500px of scroll for a smooth, gradual compression
-  const progress = Math.min(scrollY / 500, 1)
-
-  // Logo: 11rem → 2rem on desktop, 3.5rem → 1.5rem on mobile
-  const desktopRem = 11 - progress * 9    // 11 → 2
-  const mobileRem = 3.5 - progress * 2    // 3.5 → 1.5
-
-  // Masthead vertical padding: 40px → 6px
-  const mastheadPad = Math.max(6, 40 - progress * 34)
-
-  // Utility bar padding: 10px → 4px
-  const utilPad = Math.max(4, 10 - progress * 6)
-
-  // Fade out tagline, brackets (gone by 50% of scroll)
-  const fadeOut = Math.max(0, 1 - progress * 2)
-
-  // Show shadow once compressed
-  const showShadow = progress > 0.8
-
   return (
-    <header className={`sticky top-0 z-[100] bg-[#F9F9F7] transition-shadow duration-300 ${showShadow ? 'shadow-md' : ''}`}>
+    <header className="sticky top-0 z-[100] bg-[#F9F9F7]">
 
       {/* ─── TOP UTILITY BAR ─── */}
-      <div className="border-b border-black/15 px-6 md:px-12" style={{
-        paddingTop: `${utilPad}px`,
-        paddingBottom: `${utilPad}px`,
-      }}>
+      <div className="border-b border-black/15 px-6 md:px-12 py-2">
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-5 md:gap-7">
             <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity">
@@ -72,42 +44,34 @@ export function MagazineHeader() {
         </div>
       </div>
 
-      {/* ─── MASTHEAD: continuous shrink, always visible ─── */}
-      <div className="border-b border-black px-6 md:px-12" style={{
-        paddingTop: `${mastheadPad}px`,
-        paddingBottom: `${mastheadPad}px`,
-      }}>
+      {/* ─── MASTHEAD: two states, snaps instantly ─── */}
+      <div className={`border-b border-black px-6 md:px-12 transition-all duration-200 ${isCompressed ? 'py-2' : 'py-8 md:py-12'}`}>
         <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
 
-          {/* Left bracket — fades out */}
-          {fadeOut > 0.01 && (
-            <div className="hidden xl:block absolute left-0 top-1/2 -translate-y-1/2" style={{ opacity: fadeOut }}>
+          {/* Left bracket — hidden when compressed */}
+          {!isCompressed && (
+            <div className="hidden xl:block absolute left-0 bottom-0">
               <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 leading-relaxed">
                 Currently being<br />edited in Vancouver
               </span>
             </div>
           )}
 
-          {/* Center: continuously shrinking wordmark + fading tagline */}
-          <div className="flex flex-col items-center min-w-0">
-            <a href="/" className="font-serif font-black uppercase monocle-wordmark text-black tracking-[-0.02em] whitespace-nowrap" style={{
-              fontSize: `${mobileRem}rem`,
-              lineHeight: 0.85,
-            }}>
-              <span className="hidden md:inline" style={{ fontSize: `${desktopRem}rem` }}>CityAge</span>
-              <span className="md:hidden">CityAge</span>
+          {/* Wordmark: big or small */}
+          <div className="flex flex-col items-center">
+            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[-0.02em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]'}`}>
+              CityAge
             </a>
-
-            {fadeOut > 0.01 && (
-              <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-2 md:mt-3" style={{ opacity: fadeOut }}>
+            {!isCompressed && (
+              <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3 md:mt-4">
                 Intelligence for The Urban Planet
               </span>
             )}
           </div>
 
-          {/* Right bracket — fades out */}
-          {fadeOut > 0.01 && (
-            <div className="hidden xl:block absolute right-0 top-1/2 -translate-y-1/2 text-right" style={{ opacity: fadeOut }}>
+          {/* Right bracket — hidden when compressed */}
+          {!isCompressed && (
+            <div className="hidden xl:block absolute right-0 bottom-0 text-right">
               <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
                 Daily intelligence<br />from CityAge
               </a>
