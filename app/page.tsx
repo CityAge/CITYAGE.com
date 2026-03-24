@@ -29,7 +29,7 @@ export default async function Home() {
         .eq('status', 'published')
         .order('featured', { ascending: false })
         .order('published_at', { ascending: false })
-        .limit(18)
+        .limit(24)
 
       if (magArticles && magArticles.length > 0) {
         articles = magArticles.map((a: any, i: number) => {
@@ -129,9 +129,10 @@ export default async function Home() {
   const linkPrefix = articles[0]?.source === 'magazine' ? '/magazine' : '/dispatches'
 
   const heroLead = articles[0] || null
-  const heroSecondary = articles.slice(1, 3)
-  const featuredArticles = articles.slice(3, 7)
-  const remainingArticles = articles.slice(7)
+  const heroSecondary = articles.slice(1, 5)  // 4 stories for middle column
+  const heroTertiary = articles.slice(5, 8)   // 3 stories for below Influence Letter
+  const featuredArticles = articles.slice(8, 12)
+  const remainingArticles = articles.slice(12)
 
   // Group remaining by vertical for category sections
   const byVertical: Record<string, typeof articles> = {}
@@ -205,55 +206,73 @@ export default async function Home() {
                   ))}
                 </div>
 
-                {/* Right sidebar — STICKY like Monocle Radio panel */}
-                <div className="bg-black text-white lg:sticky lg:top-[140px] lg:self-start p-8 flex flex-col">
-                  <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
-                    The Influence Letter
-                  </h3>
-                  <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-6">
-                    Daily Intelligence Brief
-                  </span>
-
-                  <p className="font-serif text-white/50 text-[13px] leading-relaxed mb-6">
-                    Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
-                  </p>
-
-                  <div className="mb-6">
-                    <input
-                      type="email"
-                      placeholder="your@email.com"
-                      className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
-                    />
-                    <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
-                      Subscribe Free
-                    </button>
-                  </div>
-
-                  <div className="border-t border-white/10 pt-6 mt-auto">
-                    <span className="font-mono text-[8px] tracking-[0.3em] uppercase text-white/25 block mb-4">
-                      Upcoming Events
+                {/* Right sidebar — Influence Letter box + stories below */}
+                <div className="flex flex-col py-8 lg:py-0">
+                  {/* Influence Letter — STICKY black box */}
+                  <div className="bg-black text-white lg:sticky lg:top-[140px] p-8 flex flex-col">
+                    <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
+                      The Influence Letter
+                    </h3>
+                    <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-6">
+                      Daily Intelligence Brief
                     </span>
-                    <div className="space-y-4">
-                      <a href="#" className="block group">
-                        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">May 26 · Ottawa</span>
-                        <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
-                      </a>
-                      <a href="#" className="block group">
-                        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19 · Vancouver</span>
-                        <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
-                      </a>
-                      <a href="#" className="block group">
-                        <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">2026 · Washington DC</span>
-                        <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Orbit — Space Economy</span>
-                      </a>
+
+                    <p className="font-serif text-white/50 text-[13px] leading-relaxed mb-6">
+                      Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
+                    </p>
+
+                    <div className="mb-6">
+                      <input
+                        type="email"
+                        placeholder="your@email.com"
+                        className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
+                      />
+                      <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
+                        Subscribe Free
+                      </button>
+                    </div>
+
+                    <div className="border-t border-white/10 pt-6 mt-auto">
+                      <span className="font-mono text-[8px] tracking-[0.3em] uppercase text-white/25 block mb-4">
+                        Upcoming Events
+                      </span>
+                      <div className="space-y-4">
+                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">May 26 · Ottawa</span>
+                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
+                        </a>
+                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19 · Vancouver</span>
+                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
+                        </a>
+                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">2026 · Washington DC</span>
+                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Orbit — Space Economy</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="border-t border-white/10 pt-4 mt-6">
-                    <span className="font-mono text-[8px] tracking-[0.15em] text-white/20 uppercase">
-                      Est. 2012 · 25,000+ Leaders
-                    </span>
-                  </div>
+                  {/* Stories below the Influence Letter — like Monocle puts stories below Radio */}
+                  {heroTertiary.length > 0 && (
+                    <div className="lg:px-8 pt-8 space-y-6">
+                      {heroTertiary.map((article, i) => (
+                        <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-6' : ''}`}>
+                          <ArticleCard
+                            id={article.id}
+                            title={article.title}
+                            vertical={article.vertical}
+                            tagline={null}
+                            excerpt={null}
+                            date={article.date}
+                            readTime={article.readTime}
+                            variant="hero-tertiary"
+                            linkPrefix={linkPrefix}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
               </div>
