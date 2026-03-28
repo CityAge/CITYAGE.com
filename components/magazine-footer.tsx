@@ -53,7 +53,7 @@ export function MagazineFooter() {
           AI-powered research. Human editorial judgement. Every story.
         </p>
         <a href="/ai-policy" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] hover:text-white transition-colors shrink-0 ml-8">
-          TheHumanTouch.AI →
+          Our AI &amp; Editorial Policy →
         </a>
       </div>
 
