@@ -72,7 +72,7 @@ export default async function DaybreakDubaiPage() {
       const unsplashQuery = encodeURIComponent(`Dubai ${keywords} architecture luxury`)
       const unsplashRes = await fetch(
         `https://api.unsplash.com/search/photos?query=${unsplashQuery}&per_page=1&orientation=landscape&content_filter=high`,
-        { headers: { 'Authorization': `Client-ID ${process.env.UNSPLASH_ACCESS_KEY || ''}` } }
+        { headers: { 'Authorization': `Client-ID AadZIJdXXBV5p9Dm989wFElgbQiZLJmTClSELMZrf18` }, next: { revalidate: 3600 } }
       )
       if (unsplashRes.ok) {
         const data = await unsplashRes.json()
