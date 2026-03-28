@@ -35,24 +35,24 @@ export default async function DaybreakDubaiPage() {
   try {
     const supabase = await createClient()
 
-    // Get today's brief (most recent published or draft)
+    // Get today's brief (most recent published)
     const { data: latest } = await supabase
       .from('briefs')
       .select('id, title, body, published_at, status')
       .eq('vertical', 'Daybreak Dubai')
-      .in('status', ['published', 'draft'])
+      .eq('status', 'published')
       .order('published_at', { ascending: false })
       .limit(1)
       .single()
 
     brief = latest
 
-    // Get archive (last 30 briefs)
+    // Get archive (last 30 published briefs)
     const { data: archiveData } = await supabase
       .from('briefs')
       .select('id, title, published_at')
       .eq('vertical', 'Daybreak Dubai')
-      .in('status', ['published', 'draft'])
+      .eq('status', 'published')
       .order('published_at', { ascending: false })
       .limit(30)
 
