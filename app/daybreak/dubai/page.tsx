@@ -9,8 +9,11 @@ export const metadata = {
 
 function renderMarkdown(md: string): string {
   return md
-    .replace(/^# (.+)$/gm, '')
-    .replace(/^\*(.+)\*$/gm, '')
+    // Strip h1 title
+    .replace(/^# .+$/gm, '')
+    // Strip italic dateline (single * wrapping whole line, not bold **)
+    .replace(/^\*(?!\*)[^\n]+(?<!\*)\*$/gm, '')
+    // Section headers
     .replace(/^## Before Sunrise$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059] mt-14 mb-5 pb-3 border-b border-black/8">Before Sunrise</h2>')
     .replace(/^## The Lead$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-5 pb-3 border-b border-black/8">The Lead</h2>')
     .replace(/^## The Market$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-5 pb-3 border-b border-black/8">The Market</h2>')
@@ -18,13 +21,19 @@ function renderMarkdown(md: string): string {
     .replace(/^## The Life$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-5 pb-3 border-b border-black/8">The Life</h2>')
     .replace(/^## The Number$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059] mt-14 mb-5 pb-3 border-b border-black/8">The Number</h2>')
     .replace(/^## (.+)$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-5 pb-3 border-b border-black/8">$1</h2>')
+    // Sub-headlines
     .replace(/^### (.+)$/gm, '<h3 class="font-serif font-black text-[24px] md:text-[30px] leading-[1.2] tracking-tight text-black mt-6 mb-5">$1</h3>')
+    // Dividers
     .replace(/^---$/gm, '<hr class="border-black/8 my-10" />')
+    // Bold standalone lines (market leads) — must come BEFORE inline bold
     .replace(/^\*\*(.+?)\*\*$/gm, '<p class="font-serif font-bold text-black text-[18px] leading-[1.6] mt-8 mb-3">$1</p>')
+    // Hyperlinks — must come BEFORE inline bold/italic
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-black underline decoration-[#C5A059] decoration-[1.5px] underline-offset-[3px] hover:decoration-black transition-colors">$1</a>')
+    // Inline formatting
     .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-black">$1</strong>')
     .replace(/\*(.+?)\*/g, '<em class="italic text-black/50">$1</em>')
-    .replace(/^(?!<[h2|h3|p|hr|a|s])(.*\S.*)$/gm, '<p class="font-serif text-black/75 text-[17px] md:text-[18px] leading-[1.9] mb-6">$1</p>')
+    // Paragraphs — wrap any remaining unwrapped lines
+    .replace(/^(?!<)(.*\S.*)$/gm, '<p class="font-serif text-black/75 text-[17px] md:text-[18px] leading-[1.9] mb-6">$1</p>')
 }
 
 export default async function DaybreakDubaiPage() {
@@ -53,6 +62,30 @@ export default async function DaybreakDubaiPage() {
     archive = archiveData || []
   } catch (e) {
     console.error('Supabase error:', e)
+  }
+
+  // Fetch Unsplash hero image for today's brief
+  let heroImage: {url: string, credit: string, creditUrl: string} | null = null
+  if (brief) {
+    try {
+      const keywords = brief.body?.match(/Dubai|Palm Jumeirah|DIFC|Marina|luxury|hotel|restaurant|real estate/i)?.[0] || 'Dubai'
+      const unsplashQuery = encodeURIComponent(`Dubai ${keywords} architecture luxury`)
+      const unsplashRes = await fetch(
+        `https://api.unsplash.com/search/photos?query=${unsplashQuery}&per_page=1&orientation=landscape&content_filter=high`,
+        { headers: { 'Authorization': `Client-ID ${process.env.UNSPLASH_ACCESS_KEY || ''}` } }
+      )
+      if (unsplashRes.ok) {
+        const data = await unsplashRes.json()
+        const photo = data.results?.[0]
+        if (photo) {
+          heroImage = {
+            url: photo.urls.regular,
+            credit: `Photo by ${photo.user.name}`,
+            creditUrl: `${photo.user.links.html}?utm_source=cityage&utm_medium=referral`
+          }
+        }
+      }
+    } catch { /* non-fatal */ }
   }
 
   const dubaiNow = new Date().toLocaleString('en-US', {
@@ -125,7 +158,18 @@ export default async function DaybreakDubaiPage() {
               </span>
             </div>
           </div>
-          <article className="max-w-[680px] mx-auto px-6 py-12 md:py-16">
+          {heroImage && (
+            <div className="relative w-full aspect-[21/9] overflow-hidden">
+              <img src={heroImage.url} alt="Daybreak Dubai" className="w-full h-full object-cover" />
+              <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-gradient-to-t from-black/60 to-transparent">
+                <a href={heroImage.creditUrl} target="_blank" rel="noopener"
+                  className="font-mono text-[8px] tracking-[0.15em] uppercase text-white/40 hover:text-white/70 transition-colors">
+                  {heroImage.credit} · Unsplash
+                </a>
+              </div>
+            </div>
+          )}
+          <article className="max-w-[680px] mx-auto px-6 py-8 md:py-10">
             <div dangerouslySetInnerHTML={{ __html: html }} />
           </article>
           <div className="border-t border-black/8 px-6 py-8 text-center">
