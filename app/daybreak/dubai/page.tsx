@@ -11,21 +11,29 @@ export const metadata = {
 
 function renderMarkdown(md: string): string {
   return md
-    .replace(/^### (.+)$/gm, '<h3 class="font-display font-bold text-xl md:text-2xl text-black mt-10 mb-4">$1</h3>')
-    .replace(/^## Before Sunrise$/gm, '<h2 class="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-[#C5A059] mt-12 mb-5">Before Sunrise</h2>')
-    .replace(/^## The Lead$/gm, '<h2 class="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-black/50 mt-12 mb-5">The Lead</h2>')
-    .replace(/^## The Market$/gm, '<h2 class="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-black/50 mt-12 mb-5">The Market</h2>')
-    .replace(/^## The Table$/gm, '<h2 class="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-black/50 mt-12 mb-5">The Table</h2>')
-    .replace(/^## The Life$/gm, '<h2 class="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-black/50 mt-12 mb-5">The Life</h2>')
-    .replace(/^## The Number$/gm, '<h2 class="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-[#C5A059] mt-12 mb-5">The Number</h2>')
-    .replace(/^## (.+)$/gm, '<h2 class="font-mono text-[11px] font-bold tracking-[0.25em] uppercase text-black/50 mt-12 mb-5">$1</h2>')
+    // Strip h1
     .replace(/^# (.+)$/gm, '')
-    .replace(/^\*\*(.+?)\*\*$/gm, '<p class="font-serif font-bold text-black text-[17px] md:text-[19px] leading-[1.8] mb-4">$1</p>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-black">$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em class="italic text-black/55">$1</em>')
+    // Section headers
+    .replace(/^## Before Sunrise$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059] mt-14 mb-6 border-b border-black/8 pb-3">Before Sunrise</h2>')
+    .replace(/^## The Lead$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-6 border-b border-black/8 pb-3">The Lead</h2>')
+    .replace(/^## The Market$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-6 border-b border-black/8 pb-3">The Market</h2>')
+    .replace(/^## The Table$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-6 border-b border-black/8 pb-3">The Table</h2>')
+    .replace(/^## The Life$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-6 border-b border-black/8 pb-3">The Life</h2>')
+    .replace(/^## The Number$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059] mt-14 mb-6 border-b border-black/8 pb-3">The Number</h2>')
+    .replace(/^## (.+)$/gm, '<h2 class="font-mono text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mt-14 mb-6 border-b border-black/8 pb-3">$1</h2>')
+    // Sub-headlines (###)
+    .replace(/^### (.+)$/gm, '<h3 class="font-serif font-black text-[22px] md:text-[26px] leading-[1.2] tracking-tight text-black mt-8 mb-5">$1</h3>')
+    // Dividers
+    .replace(/^---$/gm, '<hr class="border-black/8 my-12" />')
+    // Bold standalone lines (market item leads) — process BEFORE inline bold
+    .replace(/^\*\*(.+?)\*\*$/gm, '<p class="font-serif font-bold text-black text-[18px] leading-[1.6] mt-8 mb-3">$1</p>')
+    // Hyperlinks — process BEFORE inline bold/italic to preserve links
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-black underline decoration-[#C5A059] decoration-[1.5px] underline-offset-[3px] hover:decoration-black transition-colors">$1</a>')
-    .replace(/^---$/gm, '<hr class="border-black/8 my-10" />')
-    .replace(/^(?!<[h|p|s|e|a|u|hr])(.*\S.*)$/gm, '<p class="font-serif text-black/80 text-[17px] md:text-[19px] leading-[1.85] mb-5">$1</p>')
+    // Inline bold and italic
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-black">$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em class="italic text-black/50">$1</em>')
+    // Paragraphs — only wrap lines not already wrapped in HTML tags
+    .replace(/^(?!<[h2|h3|p|hr|a])(.*\S.*)$/gm, '<p class="font-serif text-black/75 text-[17px] md:text-[18px] leading-[1.9] mb-6">$1</p>')
 }
 
 export default async function DaybreakDubaiPage() {
