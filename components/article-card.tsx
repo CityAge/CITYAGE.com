@@ -69,7 +69,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
     return (
       <Link href={href} className="block group">
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-video mb-5">
+          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5">
             <Image
               src={image}
               alt={title}
@@ -78,21 +78,19 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             />
           </div>
         ) : (
-          <div className="w-full aspect-video mb-5 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+          <div className="w-full aspect-[4/3] mb-5 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
         <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
-        <h3 className="font-serif font-bold text-[22px] leading-snug tracking-tight mt-2 mb-3 group-hover:text-[#1A365D] transition-colors">
+        <h3 className="font-serif font-bold text-[24px] leading-snug tracking-tight mt-2 mb-3 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
-        {(excerpt || tagline) && (
-          <p className="font-serif text-black/60 text-[17px] leading-[1.7] mb-3">
-            {excerpt || tagline}
-          </p>
-        )}
+        <p className="font-serif text-black/60 text-[16px] leading-[1.65] mb-4 line-clamp-3">
+          {excerpt || tagline || ''}
+        </p>
         <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
