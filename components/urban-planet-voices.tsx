@@ -46,22 +46,22 @@ export async function UrbanPlanetVoices() {
                 href={`/voices/${voice.id}`}
                 className={`flex-shrink-0 snap-start group text-center w-[75vw] sm:w-[45vw] lg:w-[calc(25%-18px)] px-6 ${i > 0 ? 'border-l border-black/15' : ''}`}
               >
-                {/* Circle portrait — large */}
-                <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden mx-auto mb-4 border-3 border-black/10 group-hover:border-black transition-colors">
+                {/* Circle portrait — large, initials fallback */}
+                <div className="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden mx-auto mb-5 bg-black/8 group-hover:ring-2 group-hover:ring-black transition-all">
                   {voice.photo_url ? (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
                       src={voice.photo_url}
                       alt={voice.name}
                       className="w-full h-full object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden') }}
                     />
-                  ) : (
-                    <div className="w-full h-full bg-black/10 flex items-center justify-center">
-                      <svg className="w-10 h-10 text-black/20" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                      </svg>
-                    </div>
-                  )}
+                  ) : null}
+                  <div className={`w-full h-full bg-black flex items-center justify-center ${voice.photo_url ? 'hidden' : ''}`}>
+                    <span className="font-serif font-black text-2xl text-[#F2D024]">
+                      {voice.name.split(' ').map((n: string) => n[0]).join('').slice(0,2)}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Name */}
