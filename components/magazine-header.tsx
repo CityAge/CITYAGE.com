@@ -63,7 +63,7 @@ export function MagazineHeader() {
               CityAge
             </a>
             {!isCompressed && (
-              <span className="text-[11px] md:text-[13px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3 md:mt-4">
+              <span className="text-[14px] md:text-[19px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3 md:mt-4">
                 Intelligence for The Urban Planet
               </span>
             )}
