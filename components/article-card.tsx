@@ -25,7 +25,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/50">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-3xl md:text-[2.6rem] leading-[1.08] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
+        <h2 className="font-serif font-black text-[2.6rem] md:text-[3.6rem] leading-[1.04] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
           {title}
         </h2>
         {tagline && (
