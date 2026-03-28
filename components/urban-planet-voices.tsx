@@ -25,7 +25,7 @@ export async function UrbanPlanetVoices() {
   if (voices.length === 0) return null
 
   return (
-    <section className="bg-[#F2D024]">
+    <section className="bg-black">
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-10 md:py-14">
         {/* Header */}
         <div className="flex items-baseline justify-between mb-10">
@@ -44,10 +44,10 @@ export async function UrbanPlanetVoices() {
               <a
                 key={voice.id}
                 href={`/voices/${voice.id}`}
-                className={`flex-shrink-0 snap-start group text-center w-[75vw] sm:w-[45vw] lg:w-[calc(25%-18px)] px-6 ${i > 0 ? 'border-l border-black/15' : ''}`}
+                className={`flex-shrink-0 snap-start group text-center w-[75vw] sm:w-[45vw] lg:w-[calc(33.333%-18px)] px-8 ${i > 0 ? 'border-l border-white/10' : ''}`}
               >
                 {/* Circle portrait — large, initials fallback */}
-                <div className="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden mx-auto mb-5 bg-black/8 group-hover:ring-2 group-hover:ring-black transition-all">
+                <div className="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden mx-auto mb-5 ring-2 ring-white/10 group-hover:ring-[#F2D024] transition-all">
                   {voice.photo_url ? (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
@@ -65,17 +65,17 @@ export async function UrbanPlanetVoices() {
                 </div>
 
                 {/* Name */}
-                <p className="font-serif font-bold text-[17px] text-black leading-tight">
+                <p className="font-serif font-bold text-[17px] text-white leading-tight">
                   {voice.name}
                 </p>
                 {/* Title */}
-                <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-black/50 mt-1">
+                <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-[#F2D024]/70 mt-1">
                   {voice.title}
                 </p>
 
                 {/* Headline — the reason to click */}
                 {voice.headline && (
-                  <p className="font-serif text-[14px] text-black/65 leading-snug mt-4 group-hover:text-black transition-colors line-clamp-3">
+                  <p className="font-serif text-[14px] text-white/50 leading-snug mt-4 group-hover:text-white transition-colors line-clamp-3">
                     {voice.headline}
                   </p>
                 )}
