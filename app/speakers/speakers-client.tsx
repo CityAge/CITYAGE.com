@@ -332,7 +332,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
       )}
 
       {/* Hover overlay */}
-      <div className={`absolute inset-0 bg-black/80 flex flex-col justify-end p-2 transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`absolute inset-0 bg-black/85 flex flex-col justify-end p-2 transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`}>
         <div className="font-serif font-bold text-[10px] leading-tight text-white mb-0.5 line-clamp-2">
           {speaker.name}
         </div>
@@ -345,6 +345,17 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
           <div className="font-mono text-[7px] tracking-[0.08em] uppercase text-[#C5A059] leading-tight line-clamp-1">
             {speaker.organisation}
           </div>
+        )}
+        {(speaker as any).linkedin_url && (
+          <a
+            href={(speaker as any).linkedin_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            className="mt-1 font-mono text-[7px] tracking-[0.08em] uppercase text-white/30 hover:text-white transition-colors leading-tight"
+          >
+            LinkedIn →
+          </a>
         )}
       </div>
     </div>
