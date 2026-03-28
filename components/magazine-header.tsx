@@ -52,14 +52,9 @@ export function MagazineHeader() {
 
           {/* Wordmark: big or small */}
           <div className="flex flex-col items-center">
-            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[-0.02em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]'}`}>
-              CityAge
+            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]'}`}>
+              CITYAGE
             </a>
-            {!isCompressed && (
-              <span className="text-[14px] md:text-[19px] font-bold tracking-[0.3em] uppercase text-black/70 mt-3 md:mt-4">
-                Intelligence for The Urban Planet
-              </span>
-            )}
           </div>
 
           {/* Right bracket — hidden when compressed */}

@@ -84,8 +84,8 @@ export default function ReviewPage() {
       <header className="bg-black text-white px-6 md:px-12 py-5 border-b border-white/10">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/" className="font-serif font-black text-xl uppercase tracking-tight hover:text-[#C5A059] transition-colors">
-              CityAge
+            <Link href="/" className="font-serif font-black text-xl uppercase tracking-[0.06em] hover:text-[#C5A059] transition-colors">
+              CITYAGE
             </Link>
             <span className="text-white/20">|</span>
             <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#C5A059]">

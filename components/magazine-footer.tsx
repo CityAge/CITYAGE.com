@@ -5,8 +5,8 @@ export function MagazineFooter() {
 
         {/* Brand */}
         <div className="md:col-span-2 space-y-5">
-          <h2 className="font-serif text-3xl font-black uppercase tracking-tighter">
-            CityAge
+          <h2 className="font-serif text-3xl font-black uppercase tracking-[0.06em]">
+            CITYAGE
           </h2>
           <p className="text-[12px] text-white/40 leading-relaxed uppercase tracking-[0.15em]">
             Intelligence for The Urban Planet
