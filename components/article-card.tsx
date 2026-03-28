@@ -22,23 +22,18 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-lead') {
     return (
       <Link href={href} className="flex flex-col flex-1 group">
-        <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-black/70">
+        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/50">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-3xl md:text-[2.8rem] leading-[1.08] tracking-tight mt-3 mb-5 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
+        <h2 className="font-serif font-black text-3xl md:text-[2.6rem] leading-[1.08] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
           {title}
         </h2>
         {tagline && (
-          <p className="font-serif font-medium text-black/80 text-[19px] md:text-[21px] leading-[1.7] mb-3">
+          <p className="font-serif text-black/60 text-[17px] leading-[1.6] mb-4">
             {tagline}
           </p>
         )}
-        {excerpt && excerpt !== tagline && (
-          <p className="font-serif text-black/60 text-[17px] md:text-[18px] leading-[1.7] mb-5">
-            {excerpt}
-          </p>
-        )}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-4">
           <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60">{date}</span>
           {readTime && (
             <>
