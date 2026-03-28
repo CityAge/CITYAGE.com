@@ -17,8 +17,8 @@ export function MagazineHeader() {
   return (
     <header className="sticky top-0 z-[100] bg-[#F9F9F7]">
 
-      {/* ─── TOP UTILITY BAR ─── */}
-      <div className="border-b border-black/15 px-6 md:px-12 py-2">
+      {/* ─── TOP UTILITY BAR — hidden when compressed ─── */}
+      <div className={`border-b border-black/15 px-6 md:px-12 py-2 transition-all duration-200 ${isCompressed ? 'hidden' : ''}`}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-5 md:gap-7">
             <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity">
