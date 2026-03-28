@@ -48,14 +48,7 @@ export function MagazineHeader() {
       <div className={`border-b border-black px-6 md:px-12 transition-all duration-200 ${isCompressed ? 'py-2' : 'py-8 md:py-12'}`}>
         <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
 
-          {/* Left bracket — hidden when compressed */}
-          {!isCompressed && (
-            <div className="hidden xl:block absolute left-0 bottom-0">
-              <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 leading-relaxed">
-                Currently being<br />edited in Vancouver
-              </span>
-            </div>
-          )}
+
 
           {/* Wordmark: big or small */}
           <div className="flex flex-col items-center">
@@ -73,7 +66,7 @@ export function MagazineHeader() {
           {!isCompressed && (
             <div className="hidden xl:block absolute right-0 bottom-0 text-right">
               <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
-                Daily intelligence<br />from CityAge
+                Published daily<br />from Vancouver
               </a>
             </div>
           )}
