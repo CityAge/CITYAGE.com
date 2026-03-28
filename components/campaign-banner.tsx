@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 export function CampaignBanner() {
   return (
-    <div className="bg-[#F0EEE9] py-6 md:py-8">
+    <div className="bg-[#F0EEE9] py-0">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10">
-        <a href="https://cityage.com/events/canada-europe-connect/" className="block relative w-full h-[200px] md:h-[280px] overflow-hidden group">
+        <a href="https://cityage.com/events/canada-europe-connect/" className="block relative w-full h-[160px] md:h-[200px] overflow-hidden group">
           <Image
             src="/ottawa-feature.jpg"
             alt="Canada–Europe Connects — Ottawa, May 26, 2026"
