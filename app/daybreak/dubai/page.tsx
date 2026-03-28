@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { MagazineFooter } from '@/components/magazine-footer'
 
-export const revalidate = 60
+export const revalidate = 0
 
 export const metadata = {
   title: 'Daybreak Dubai — A CityAge Intelligence Letter',
