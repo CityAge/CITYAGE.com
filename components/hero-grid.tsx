@@ -8,7 +8,7 @@ export function HeroGrid({ leadColumn, middleColumn, sidebarColumn }: HeroGridPr
   return (
     <section className="border-b border-black/10 relative">
       {/* Desktop: 3-column Monocle layout — col 1 sticks, cols 2+3 scroll */}
-      <div className="hidden lg:grid lg:grid-cols-[44%_1fr_260px] lg:gap-0 lg:items-start max-w-[1400px] mx-auto">
+      <div className="hidden lg:grid lg:grid-cols-[50%_1fr_1fr] lg:gap-0 lg:items-start max-w-[1400px] mx-auto">
         
         {/* Column 1: lead feature — sticky, natural height, no forced full-screen */}
         <div className="sticky top-[100px] py-10 px-10">

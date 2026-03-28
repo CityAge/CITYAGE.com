@@ -50,9 +50,9 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             </>
           )}
         </div>
-        {/* Image fills all remaining vertical space — no white gap */}
+        {/* Image — portrait ratio like Monocle lead */}
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 flex-1 min-h-[240px]">
+          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[3/4] mt-6">
             <Image
               src={image}
               alt={title}
@@ -61,7 +61,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             />
           </div>
         ) : (
-          <div className="w-full flex-1 min-h-[240px] bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+          <div className="w-full aspect-[3/4] mt-6 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
