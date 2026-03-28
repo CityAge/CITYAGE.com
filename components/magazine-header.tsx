@@ -81,14 +81,14 @@ export function MagazineHeader() {
       </div>
 
       {/* ─── VERTICAL NAV ─── */}
-      <div className="border-b border-black/20 px-4 md:px-12">
+      <div className="border-b-2 border-black px-4 md:px-12">
         <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
           {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
             <div key={name} className="flex items-center shrink-0">
-              {i > 0 && <span className="text-black/20 mx-3 md:mx-4 hidden md:inline">|</span>}
+              {i > 0 && <span className="text-black/40 mx-4 md:mx-6 font-light text-lg">|</span>}
               <a
                 href={`#${name.toLowerCase()}`}
-                className="px-3 md:px-6 py-3 text-[13px] md:text-[14px] font-bold tracking-[0.2em] uppercase text-black hover:opacity-60 transition-opacity"
+                className="px-3 md:px-5 py-4 text-[14px] md:text-[15px] font-bold tracking-[0.18em] uppercase text-black hover:opacity-50 transition-opacity"
               >
                 {name}
               </a>
