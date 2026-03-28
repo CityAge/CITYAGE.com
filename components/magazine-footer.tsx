@@ -48,28 +48,13 @@ export function MagazineFooter() {
       </div>
 
       {/* ─── AI & EDITORIAL POLICY ─── */}
-      <div className="max-w-7xl mx-auto mt-20 pt-12 border-t border-white/10">
-        <div className="max-w-2xl">
-          <h3 className="font-serif font-black text-lg tracking-tight mb-1">
-            <a href="/ai-policy" className="hover:text-[#C5A059] transition-colors">TheHumanTouch.AI</a>
-          </h3>
-          <a href="/ai-policy" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] hover:text-white transition-colors">Read Our Full AI &amp; Editorial Policy →</a>
-          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mt-5 mb-4">
-            CityAge is built on human insight, human intuition, and the spark of human creation. We produce our own journalism and original content, building on our founder's decades of experience working at the top levels of media nationally and internationally. Everything we publish is directed, shaped, and approved by people.
-          </p>
-          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
-            We use AI tools extensively — for research, data analysis, drafting, and image generation — because we believe they are among the most powerful instruments ever created for journalism and intelligence work. But the instruments do not play themselves. We direct the AI we use.
-          </p>
-          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
-            We also credit and value the human-generated content we build upon. We do not go behind paywalls. We respect copyright. We link to original sources whenever possible, because we respect the journalists, researchers, and creators whose work informs ours. Their labour makes what we do possible, and we honour it.
-          </p>
-          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
-            We are transparent. Every piece of content has a human in the loop. When we make mistakes — and we will — we correct them as quickly as we can.
-          </p>
-          <p className="font-serif text-white/50 text-[15px] leading-[1.8] mb-4">
-            That is the essence of <a href="https://thehumantouch.ai" className="text-[#C5A059] hover:text-white transition-colors">TheHumanTouch.AI</a>.
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
+        <p className="font-serif italic text-white/40 text-[14px]">
+          AI-powered research. Human editorial judgement. Every story.
+        </p>
+        <a href="/ai-policy" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] hover:text-white transition-colors shrink-0 ml-8">
+          TheHumanTouch.AI →
+        </a>
       </div>
 
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
