@@ -29,10 +29,10 @@ export async function UrbanPlanetVoices() {
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-10 md:py-14">
         {/* Header */}
         <div className="flex items-baseline justify-between mb-10">
-          <h3 className="font-serif font-black text-2xl md:text-3xl text-black uppercase tracking-tight">
+          <h3 className="font-serif font-black text-2xl md:text-3xl text-white uppercase tracking-tight">
             Voices from The Urban Planet
           </h3>
-          <a href="/voices" className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/50 hover:text-black transition-colors hidden sm:block">
+          <a href="/voices" className="font-mono text-[10px] tracking-[0.2em] uppercase text-white/40 hover:text-[#F2D024] transition-colors hidden sm:block">
             See all →
           </a>
         </div>
