@@ -46,7 +46,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
       if (article) {
         const { data: rel } = await supabase
           .from('magazine')
-          .select('id, headline, vertical, image_url, read_time, published_at')
+          .select('id, headline, vertical, image_url, image_credit, image_credit_url, read_time, published_at')
           .eq('status', 'published')
           .eq('vertical', article.vertical)
           .neq('id', id)
@@ -148,9 +148,11 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                 className="w-full h-full object-cover"
               />
             </div>
-            {article.image_caption && (
-              <p className="font-mono text-[9px] tracking-[0.1em] text-black/50 mt-2 italic">
-                {article.image_caption}
+            {article.image_credit && (
+              <p className="font-mono text-[9px] tracking-[0.1em] text-black/40 mt-2">
+                <a href={article.image_credit_url || '#'} target="_blank" rel="noopener" className="hover:text-black transition-colors">
+                  {article.image_credit}
+                </a>
               </p>
             )}
           </div>
