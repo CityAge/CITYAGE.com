@@ -54,14 +54,14 @@ export async function UrbanPlanetVoices() {
                       src={voice.photo_url}
                       alt={voice.name}
                       className="w-full h-full object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden') }}
                     />
-                  ) : null}
-                  <div className={`w-full h-full bg-black flex items-center justify-center ${voice.photo_url ? 'hidden' : ''}`}>
-                    <span className="font-serif font-black text-2xl text-[#F2D024]">
-                      {voice.name.split(' ').map((n: string) => n[0]).join('').slice(0,2)}
-                    </span>
-                  </div>
+                  ) : (
+                    <div className="w-full h-full bg-black flex items-center justify-center">
+                      <span className="font-serif font-black text-2xl text-[#F2D024]">
+                        {voice.name.split(' ').slice(0,2).map((n) => n[0]).join('')}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Name */}
