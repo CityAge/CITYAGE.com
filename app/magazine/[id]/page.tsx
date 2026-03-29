@@ -11,15 +11,23 @@ export const revalidate = 60
 
 function renderMarkdown(md: string): string {
   return md
-    .replace(/^### (.+)$/gm, '<h3 class="font-serif font-bold text-xl md:text-2xl text-black mt-12 mb-5">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="font-serif font-bold text-2xl md:text-3xl text-black mt-16 mb-5">$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1 class="font-serif font-black text-3xl md:text-4xl text-black mt-10 mb-5">$1</h1>')
-    .replace(/^\*\*(.+?)\*\*$/gm, '<p class="font-mono font-bold text-black/70 text-sm tracking-wide mt-10 mb-3 uppercase">$1</p>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-black">$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em class="italic text-black/60">$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-[#1A365D] hover:text-[#C5A059] underline underline-offset-4 decoration-black/15 hover:decoration-[#C5A059] transition-colors">$1</a>')
+    // Headings
+    .replace(/^### (.+)$/gm, '<h3 class="font-serif font-bold text-[22px] md:text-[24px] text-black mt-12 mb-4 leading-snug">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 class="font-serif font-bold text-[26px] md:text-[30px] text-black mt-14 mb-5 leading-snug">$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1 class="font-serif font-black text-[30px] md:text-[36px] text-black mt-10 mb-5 leading-tight">$1</h1>')
+    // Horizontal rule
     .replace(/^---$/gm, '<hr class="border-black/10 my-12" />')
-    .replace(/^(?!<[h|p|s|e|a|u|hr])(.*\S.*)$/gm, '<p class="font-serif text-black/85 text-[18px] md:text-[20px] leading-[1.85] mb-6">$1</p>')
+    // Bold-only lines (subheadings)
+    .replace(/^\*\*(.+?)\*\*$/gm, '<p class="font-serif font-bold text-[18px] md:text-[20px] text-black mt-10 mb-3">$1</p>')
+    // Inline bold and italic
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-black">$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em class="italic text-black/70">$1</em>')
+    // Hyperlinks
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-[#1A365D] hover:text-[#C5A059] underline underline-offset-4 decoration-black/20 hover:decoration-[#C5A059] transition-colors font-medium">$1</a>')
+    // Body paragraphs — catch any remaining non-empty non-tag lines
+    .replace(/^(?!<[h1-6|p|hr|strong|em|a])(.+\S.*)$/gm, '<p class="font-serif text-[18px] md:text-[19px] leading-[1.82] text-black/85 mb-6">$1</p>')
+    // Clean up empty paragraphs
+    .replace(/<p[^>]*>\s*<\/p>/g, '')
 }
 
 export default async function MagazineArticlePage({ params }: { params: Promise<{ id: string }> }) {
