@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { SpeakersClient } from '@/app/speakers/speakers-client'
+import { SpeakersClient } from './network-client'
 
 export const metadata: Metadata = {
   title: 'The Network — CityAge',
-  description: 'Since 2012, CityAge has convened more than 500 leaders from across The Urban Planet — mayors, CEOs, investors, architects, scientists and policymakers from 50+ cities worldwide.',
+  description: 'Since 2012, CityAge has convened more than 500 leaders from across The Urban Planet.',
 }
 
 export const revalidate = 3600
