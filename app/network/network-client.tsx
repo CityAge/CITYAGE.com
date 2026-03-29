@@ -133,20 +133,6 @@ export function SpeakersClient({ speakers }: Props) {
 
   return (
     <>
-      <style>{`
-        @keyframes reel-left {
-          from { transform: translateX(0); }
-          to { transform: translateX(-33.333%); }
-        }
-        @keyframes reel-right {
-          from { transform: translateX(-33.333%); }
-          to { transform: translateX(0); }
-        }
-        @keyframes count-up {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
 
       {/* ── HERO: CINEMATIC REEL ── */}
       <section className="bg-black pt-0 pb-0 overflow-hidden relative">

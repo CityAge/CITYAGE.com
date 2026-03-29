@@ -104,3 +104,16 @@
 .animate-marquee:hover { animation-play-state: paused; }
 
 ::selection { background: #1A365D; color: white; }
+
+@keyframes reel-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+@keyframes reel-right {
+  from { transform: translateX(-33.333%); }
+  to { transform: translateX(0); }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
