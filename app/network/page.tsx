@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { SpeakersClient } from '../speakers/speakers-client'
+import { SpeakersClient } from '@/app/speakers/speakers-client'
 
 export const metadata: Metadata = {
   title: 'The Network — CityAge',
