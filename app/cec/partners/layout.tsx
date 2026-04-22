@@ -13,6 +13,12 @@ export default function CECPartnersLayout({
 }) {
   return (
     <div className="bg-[#080808] text-white min-h-screen">
+      <style>{`
+        @keyframes goldPulse {
+          0%, 100% { opacity: 0.7; width: 48px; }
+          50% { opacity: 1; width: 64px; }
+        }
+      `}</style>
       {children}
     </div>
   )
