@@ -149,50 +149,20 @@ function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
   )
 }
 
-/* ─── Burned-in maple leaf ─── */
-function MapleLeaf({ className = '', size = 200, opacity = 0.06 }: { className?: string; size?: number; opacity?: number }) {
-  return (
-    <svg className={`absolute pointer-events-none ${className}`} width={size} height={size} viewBox="0 0 100 120" fill="white" opacity={opacity}>
-      <path d="M50 0 L53 12 L62 10 L58 22 L68 18 L64 30 L76 28 L66 40 L72 44 L60 50 L64 62 L54 56 L50 72 L46 56 L36 62 L40 50 L28 44 L34 40 L24 28 L36 30 L32 18 L42 22 L38 10 L47 12Z" />
-      <rect x="47" y="68" width="6" height="20" rx="2" />
-    </svg>
-  )
-}
-
-/* ─── Burned-in EU stars circle ─── */
-function EUStars({ className = '', size = 180, opacity = 0.05 }: { className?: string; size?: number; opacity?: number }) {
-  const stars = Array.from({ length: 12 }, (_, i) => {
-    const angle = (i * 30 - 90) * (Math.PI / 180)
-    const cx = 50 + 36 * Math.cos(angle)
-    const cy = 50 + 36 * Math.sin(angle)
-    return { cx, cy }
-  })
-  return (
-    <svg className={`absolute pointer-events-none ${className}`} width={size} height={size} viewBox="0 0 100 100" opacity={opacity}>
-      <circle cx="50" cy="50" r="42" fill="none" stroke="white" strokeWidth="0.5" />
-      {stars.map((s, i) => (
-        <polygon key={i} points={starPoints(s.cx, s.cy, 4, 2)} fill="white" />
-      ))}
-    </svg>
-  )
-}
-
-function starPoints(cx: number, cy: number, outerR: number, innerR: number): string {
-  const pts: string[] = []
-  for (let i = 0; i < 10; i++) {
-    const r = i % 2 === 0 ? outerR : innerR
-    const angle = (i * 36 - 90) * (Math.PI / 180)
-    pts.push(`${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`)
-  }
-  return pts.join(' ')
-}
-
-/* ─── Waving flag stripes (Canadian flag structure) ─── */
-function CanadianFlagWash({ className = '' }: { className?: string }) {
+/* ─── Burned-in looping video background ─── */
+function BurnedVideo({ src, className = '', opacity = 0.1 }: { src: string; className?: string; opacity?: number }) {
   return (
     <div className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}>
-      <div className="absolute inset-y-0 left-0 w-[22%] bg-gradient-to-r from-[#8b0000]/[0.05] to-transparent" />
-      <div className="absolute inset-y-0 right-0 w-[22%] bg-gradient-to-l from-[#8b0000]/[0.05] to-transparent" />
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity, mixBlendMode: 'screen' }}
+      >
+        <source src={src} type="video/mp4" />
+      </video>
     </div>
   )
 }
@@ -209,9 +179,8 @@ export default function CECPartnersPage() {
       {/* COVER */}
       <section className="relative min-h-screen flex flex-col justify-end px-8 sm:px-16 pb-16 sm:pb-24">
         <ParallaxImage src="/ottawa-feature.jpg" />
-        {/* Burned-in flags */}
-        <MapleLeaf className="right-[10%] top-[15%] sm:right-[12%] sm:top-[12%]" size={280} opacity={0.06} />
-        <EUStars className="left-[8%] bottom-[25%] sm:left-[5%] sm:bottom-[20%]" size={200} opacity={0.04} />
+        {/* Waving Canadian flag burned in */}
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.08} />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none z-10" />
         <div className="relative z-20 max-w-3xl">
           <Reveal>
@@ -231,8 +200,7 @@ export default function CECPartnersPage() {
 
       {/* THE OPPORTUNITY */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <CanadianFlagWash />
-        <MapleLeaf className="right-[8%] top-[50%] -translate-y-1/2 hidden sm:block" size={320} opacity={0.03} />
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.05} />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
         <div className="relative max-w-2xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
@@ -261,8 +229,7 @@ export default function CECPartnersPage() {
 
       {/* THE ROOM */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <EUStars className="right-[6%] top-[10%] hidden sm:block" size={240} opacity={0.04} />
-        <EUStars className="right-[20%] bottom-[8%] hidden sm:block" size={120} opacity={0.025} />
+        <BurnedVideo src="/eu-flag.mp4" opacity={0.06} />
         <div className="max-w-3xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
             <SectionLabel>The room</SectionLabel>
@@ -315,8 +282,19 @@ export default function CECPartnersPage() {
       {/* CITYAGE CREDENTIALS */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(201,168,76,0.04)_0%,_transparent_60%)]" />
-        <MapleLeaf className="left-[5%] top-[50%] -translate-y-1/2 hidden sm:block" size={160} opacity={0.03} />
-        <EUStars className="right-[5%] top-[50%] -translate-y-1/2 hidden sm:block" size={140} opacity={0.03} />
+        {/* Both flags, split screen */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden flex">
+          <div className="w-1/2 relative">
+            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.05, mixBlendMode: 'screen' }}>
+              <source src="/canadian-flag.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div className="w-1/2 relative">
+            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.05, mixBlendMode: 'screen' }}>
+              <source src="/eu-flag.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
         <div className="relative text-center max-w-2xl mx-auto">
           <Reveal>
             <SectionLabel>CityAge</SectionLabel>
