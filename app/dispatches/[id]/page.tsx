@@ -7,6 +7,7 @@ import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
 
 export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 function renderMarkdown(md: string): string {
   return md

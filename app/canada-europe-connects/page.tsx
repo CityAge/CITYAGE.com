@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { MagazineFooter } from '@/components/magazine-footer'
 
 export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 export default async function CECPage() {
   let articles: any[] | null = null

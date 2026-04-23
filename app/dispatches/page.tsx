@@ -5,6 +5,7 @@ import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 
 export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 export default async function DispatchesPage() {
   let briefs: any[] | null = null

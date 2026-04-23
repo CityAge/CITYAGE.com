@@ -4,6 +4,7 @@ import { DubaiAskBar } from './ask-bar'
 import { DubaiArchive } from './archive'
 
 export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Daybreak Dubai — A CityAge Intelligence Letter',
