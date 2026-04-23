@@ -248,7 +248,7 @@ export default function CECPartnersPage() {
                 Confirmed speakers from Google Cloud, Invest Ottawa, Embassy of Estonia, InDro Robotics, Skeleton Technologies, City of Kitchener, and more.
               </p>
             </div>
-            <span className="inline-block mt-8 text-white/15 text-[10px] tracking-[0.2em] uppercase font-[family-name:var(--font-mono)]">May 26 &nbsp;·&nbsp; Cours Bayview &nbsp;·&nbsp; Ottawa</span>
+            <span className="inline-block mt-8 text-white/25 text-[10px] tracking-[0.2em] uppercase font-[family-name:var(--font-mono)]">Cours Bayview, Ottawa &nbsp;·&nbsp; The day before CANSEC</span>
           </Reveal>
         </div>
       </section>
@@ -313,6 +313,23 @@ export default function CECPartnersPage() {
           <Reveal delay={400}>
             <p className="text-white/35 text-xs sm:text-sm mt-12 leading-relaxed font-[family-name:var(--font-ui)]">
               Featured on 60 Minutes &nbsp;·&nbsp; Wall Street Journal &nbsp;·&nbsp; BBC &nbsp;·&nbsp; National Geographic &nbsp;·&nbsp; Globe and Mail &nbsp;·&nbsp; The Economist &nbsp;·&nbsp; New York Times
+            </p>
+          </Reveal>
+          <Reveal delay={500}>
+            <blockquote className="mt-12 pt-8 border-t border-white/[0.06]">
+              <p className="text-white/50 text-base sm:text-lg leading-relaxed font-[family-name:var(--font-serif)] italic">
+                &ldquo;CityAge brings together leaders from all sectors to connect, invest in each other and build the future. Their network is unique.&rdquo;
+              </p>
+              <cite className="block mt-4 text-[#c9a84c] text-xs tracking-wide font-[family-name:var(--font-ui)] not-italic">
+                David Castle, University of Victoria
+              </cite>
+            </blockquote>
+          </Reveal>
+          <Reveal delay={600}>
+            <p className="mt-10">
+              <a href="https://cityage.com/partners" target="_blank" rel="noopener noreferrer" className="text-white/30 text-xs tracking-wide font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-4 decoration-white/10 hover:decoration-[#c9a84c]/30">
+                100+ Knowledge Partners have supported CityAge →
+              </a>
             </p>
           </Reveal>
         </div>
