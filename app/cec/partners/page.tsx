@@ -180,7 +180,7 @@ export default function CECPartnersPage() {
       <section className="relative min-h-screen flex flex-col justify-end px-8 sm:px-16 pb-16 sm:pb-24">
         <ParallaxImage src="/ottawa-feature.jpg" />
         {/* Waving Canadian flag burned in */}
-        <BurnedVideo src="/canadian-flag.mp4" opacity={0.08} />
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.15} />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none z-10" />
         <div className="relative z-20 max-w-3xl">
           <Reveal>
@@ -200,7 +200,7 @@ export default function CECPartnersPage() {
 
       {/* THE OPPORTUNITY */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/canadian-flag.mp4" opacity={0.05} />
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.12} />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
         <div className="relative max-w-2xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
@@ -229,7 +229,7 @@ export default function CECPartnersPage() {
 
       {/* THE ROOM */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/eu-flag.mp4" opacity={0.06} />
+        <BurnedVideo src="/eu-flag.mp4" opacity={0.12} />
         <div className="max-w-3xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
             <SectionLabel>The room</SectionLabel>
@@ -285,12 +285,12 @@ export default function CECPartnersPage() {
         {/* Both flags, split screen */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden flex">
           <div className="w-1/2 relative">
-            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.05, mixBlendMode: 'screen' }}>
+            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.1, mixBlendMode: 'screen' }}>
               <source src="/canadian-flag.mp4" type="video/mp4" />
             </video>
           </div>
           <div className="w-1/2 relative">
-            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.05, mixBlendMode: 'screen' }}>
+            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.1, mixBlendMode: 'screen' }}>
               <source src="/eu-flag.mp4" type="video/mp4" />
             </video>
           </div>
