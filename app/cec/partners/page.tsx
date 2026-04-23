@@ -184,7 +184,7 @@ export default function CECPartnersPage() {
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none z-10" />
         <div className="relative z-20 max-w-3xl">
           <Reveal>
-            <p className="text-white/30 text-[10px] sm:text-[11px] tracking-[0.3em] uppercase font-[family-name:var(--font-ui)] mb-3">CityAge presents</p>
+            <p className="text-white/30 text-[10px] sm:text-[11px] tracking-[0.3em] uppercase font-[family-name:var(--font-ui)] mb-3">CityAge, in partnership with Earnscliffe, invites you to</p>
           </Reveal>
           <Reveal delay={200}>
             <h1 className="font-[family-name:var(--font-display)] text-white text-5xl sm:text-7xl lg:text-8xl leading-[0.95] mb-4">Canada Europe<br />Connects</h1>
@@ -200,7 +200,7 @@ export default function CECPartnersPage() {
 
       {/* THE OPPORTUNITY */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/canadian-flag.mp4" opacity={0.12} />
+        <BurnedVideo src="/eu-flag.mp4" opacity={0.15} />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
         <div className="relative max-w-2xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
@@ -229,7 +229,7 @@ export default function CECPartnersPage() {
 
       {/* THE ROOM */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/eu-flag.mp4" opacity={0.12} />
+        <BurnedVideo src="/eu-flag.mp4" opacity={0.18} />
         <div className="max-w-3xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
             <SectionLabel>The room</SectionLabel>
