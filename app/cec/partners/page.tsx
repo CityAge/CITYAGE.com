@@ -93,7 +93,7 @@ function Reveal({ children, delay = 0, className = '' }: { children: ReactNode; 
 }
 
 /* ─── Parallax cover image ─── */
-function ParallaxImage({ src }: { src: string }) {
+function ParallaxImage({ src, position = 'full' }: { src: string; position?: 'full' | 'top' }) {
   const [offset, setOffset] = useState(0)
 
   useEffect(() => {
@@ -104,8 +104,19 @@ function ParallaxImage({ src }: { src: string }) {
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden">
-      <Image src={src} alt="" fill className="object-cover opacity-[0.14] mix-blend-screen" style={{ transform: `translateY(${offset}px) scale(1.1)` }} priority />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/60 to-[#080808]/30" />
+      <Image
+        src={src}
+        alt=""
+        fill
+        className={`object-cover opacity-[0.18] mix-blend-screen ${position === 'top' ? 'object-top' : ''}`}
+        style={{ transform: `translateY(${offset}px) scale(1.1)` }}
+        priority
+      />
+      <div className={`absolute inset-0 ${
+        position === 'top'
+          ? 'bg-gradient-to-b from-transparent via-[#080808]/60 to-[#080808]'
+          : 'bg-gradient-to-t from-[#080808] via-[#080808]/60 to-[#080808]/30'
+      }`} />
     </div>
   )
 }
@@ -165,7 +176,7 @@ export default function CECPartnersPage() {
 
       {/* COVER — Ottawa parallax photo */}
       <section className="relative min-h-screen flex flex-col justify-end px-8 sm:px-16 pb-16 sm:pb-24">
-        <ParallaxImage src="/ottawa-feature.jpg" />
+        <ParallaxImage src="/parliament-sunset.jpg" position="top" />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none z-10" />
         <div className="relative z-20 max-w-3xl">
           <Reveal>
