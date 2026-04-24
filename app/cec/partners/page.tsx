@@ -366,8 +366,13 @@ export default function CECPartnersPage() {
 
       <Spacer />
 
-      {/* CONTACT */}
-      <section className="px-8 sm:px-16 py-24 sm:py-32 text-center">
+      {/* CONTACT — Parliament sunset repeated */}
+      <section className="relative px-8 sm:px-16 py-24 sm:py-32 text-center">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <Image src="/parliament-sunset.jpg" alt="" fill className="object-cover object-top" style={{ opacity: 0.3 }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#080808] via-[#080808]/50 to-[#080808]/70" />
+        </div>
+        <div className="relative z-10">
         <Reveal>
           <h2 className="font-[family-name:var(--font-display)] text-white text-4xl sm:text-5xl mb-4">Let&apos;s talk.</h2>
           <GoldLine className="mx-auto mb-8" />
@@ -381,9 +386,8 @@ export default function CECPartnersPage() {
             <a href="/cec-knowledge-partner.pdf" download className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">Download PDF</a>
           </div>
         </Reveal>
+        </div>
       </section>
-
-      {/* FOOTER */}
       <footer className="px-8 sm:px-16 py-8 flex justify-between items-center border-t border-white/[0.04]">
         <span className="text-white/10 text-[10px] tracking-[0.25em] uppercase font-[family-name:var(--font-ui)]">CityAge Media Inc.</span>
         <span className="text-white/10 text-[10px] tracking-[0.25em] uppercase font-[family-name:var(--font-ui)]">Vancouver &nbsp;·&nbsp; Washington DC</span>
