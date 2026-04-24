@@ -169,7 +169,7 @@ export default function CECPartnersPage() {
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none z-10" />
         <div className="relative z-20 max-w-3xl">
           <Reveal>
-            <p className="text-white/35 text-xs sm:text-sm tracking-[0.25em] uppercase font-[family-name:var(--font-ui)] mb-3">CityAge, in partnership with Earnscliffe, invites you to</p>
+            <p className="text-white/45 text-sm sm:text-base tracking-[0.2em] uppercase font-[family-name:var(--font-ui)] mb-4">CityAge, in partnership with Earnscliffe, invites you to</p>
           </Reveal>
           <Reveal delay={200}>
             <h1 className="font-[family-name:var(--font-display)] text-white text-5xl sm:text-7xl lg:text-8xl leading-[0.95] mb-4">Canada Europe<br />Connects</h1>
