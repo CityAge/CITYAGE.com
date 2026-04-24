@@ -290,7 +290,7 @@ export default function CECPartnersPage() {
             <p className="mt-12 pt-6 border-t border-white/[0.06] text-white/35 text-sm font-[family-name:var(--font-ui)]">
               Sessions are structured as moderated roundtables under Chatham House Rules — candid, off-the-record, designed for decisions.
             </p>
-            <a href="https://cityage.com/events/canada-europe-connect/" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-white/30 text-sm font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-4 decoration-white/10 hover:decoration-[#c9a84c]/30">
+            <a href="https://cityage.com/events/canada-europe-connect/" target="_blank" rel="noopener noreferrer" className="inline-block mt-6 text-white/40 text-xl sm:text-2xl font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-8 decoration-white/15 hover:decoration-[#c9a84c]/30">
               See the full programme →
             </a>
           </Reveal>
