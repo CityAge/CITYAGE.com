@@ -90,7 +90,7 @@ function ArcticGlobe() {
   const [rot, setRot] = useState(0)
   useEffect(() => {
     let raf: number
-    const tick = () => { setRot(r => (r + 0.06) % 360); raf = requestAnimationFrame(tick) }
+    const tick = () => { setRot(r => (r + 0.12) % 360); raf = requestAnimationFrame(tick) }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
   }, [])
@@ -212,7 +212,7 @@ function ArcticGlobe() {
   ]
 
   return (
-    <svg viewBox="0 0 400 400" style={{ width: '100%', maxWidth: 440, margin: '0 auto', display: 'block' }}>
+    <svg viewBox="0 0 400 400" style={{ width: '100%', maxWidth: 580, margin: '0 auto', display: 'block' }}>
       <defs>
         <radialGradient id="ocean" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#0d2238" />
@@ -321,9 +321,9 @@ export default function SpaceToIcePartners() {
         <div
           className="absolute rounded-full pointer-events-none"
           style={{
-            top: '8%', left: '50%', transform: 'translateX(-50%)',
-            width: 500, height: 500,
-            background: 'radial-gradient(circle, rgba(45,122,171,0.06) 0%, transparent 70%)',
+            top: '5%', left: '50%', transform: 'translateX(-50%)',
+            width: 700, height: 700,
+            background: 'radial-gradient(circle, rgba(45,122,171,0.15) 0%, rgba(90,160,196,0.06) 40%, transparent 70%)',
           }}
         />
         <Reveal>
