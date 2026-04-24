@@ -109,7 +109,7 @@ function ParallaxImage({ src, position = 'full' }: { src: string; position?: 'fu
         alt=""
         fill
         className={`object-cover ${position === 'top' ? 'object-top' : ''}`}
-        style={{ opacity: 0.6, transform: `translateY(${offset}px) scale(1.1)` }}
+        style={{ opacity: 0.75, transform: `translateY(${offset}px) scale(1.1)` }}
         priority
       />
       <div className={`absolute inset-0 ${
@@ -375,7 +375,7 @@ export default function CECPartnersPage() {
       {/* CONTACT — Parliament sunset repeated */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32 text-center">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <Image src="/parliament-sunset.jpg" alt="" fill className="object-cover object-top" style={{ opacity: 0.3 }} />
+          <Image src="/parliament-sunset.jpg" alt="" fill className="object-cover object-top" style={{ opacity: 0.75 }} />
           <div className="absolute inset-0 bg-gradient-to-b from-[#080808] via-[#080808]/50 to-[#080808]/70" />
         </div>
         <div className="relative z-10">
