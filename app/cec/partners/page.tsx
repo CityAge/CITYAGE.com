@@ -131,6 +131,17 @@ function SectionLabel({ children }: { children: ReactNode }) {
   return <p className="text-[#c9a84c] text-xs sm:text-sm font-medium tracking-[0.3em] uppercase font-[family-name:var(--font-ui)]">{children}</p>
 }
 
+/* ─── Burned-in looping video background ─── */
+function BurnedVideo({ src, opacity = 0.1 }: { src: string; opacity?: number }) {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" style={{ opacity, mixBlendMode: 'luminosity' }}>
+        <source src={src} type="video/mp4" />
+      </video>
+    </div>
+  )
+}
+
 /* ─── Black spacer ─── */
 function Spacer() {
   return <div className="h-16 sm:h-24 bg-[#080808]" />
@@ -196,8 +207,9 @@ export default function CECPartnersPage() {
 
       <Spacer />
 
-      {/* THE OPPORTUNITY — subtle Canadian red wash */}
+      {/* THE OPPORTUNITY — Canadian flag waving */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.15} />
         <div className="absolute inset-y-0 left-0 w-[20%] bg-gradient-to-r from-[#8b0000]/[0.04] to-transparent" />
         <div className="absolute inset-y-0 right-0 w-[20%] bg-gradient-to-l from-[#8b0000]/[0.04] to-transparent" />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
