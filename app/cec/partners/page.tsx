@@ -150,7 +150,8 @@ function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
 }
 
 /* ─── Burned-in looping video background ─── */
-function BurnedVideo({ src, className = '', opacity = 0.1 }: { src: string; className?: string; opacity?: number }) {
+function BurnedVideo({ src, className = '', opacity = 0.1, position = 'full' }: { src: string; className?: string; opacity?: number; position?: 'full' | 'left' | 'right' }) {
+  const posClass = position === 'left' ? 'w-[60%] left-0' : position === 'right' ? 'w-[60%] right-0' : 'w-full'
   return (
     <div className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}>
       <video
@@ -158,13 +159,18 @@ function BurnedVideo({ src, className = '', opacity = 0.1 }: { src: string; clas
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        className={`absolute top-0 h-full object-cover ${posClass}`}
         style={{ opacity, mixBlendMode: 'screen' }}
       >
         <source src={src} type="video/mp4" />
       </video>
     </div>
   )
+}
+
+/* ─── Black spacer between sections ─── */
+function Spacer() {
+  return <div className="h-16 sm:h-24 bg-[#080808]" />
 }
 
 /* ═══ MAIN PAGE ═══ */
@@ -180,7 +186,7 @@ export default function CECPartnersPage() {
       <section className="relative min-h-screen flex flex-col justify-end px-8 sm:px-16 pb-16 sm:pb-24">
         <ParallaxImage src="/ottawa-feature.jpg" />
         {/* Waving Canadian flag burned in */}
-        <BurnedVideo src="/canadian-flag.mp4" opacity={0.15} />
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.15} position="right" />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none z-10" />
         <div className="relative z-20 max-w-3xl">
           <Reveal>
@@ -197,10 +203,11 @@ export default function CECPartnersPage() {
         </div>
         <span className="absolute bottom-4 right-6 sm:bottom-6 sm:right-10 text-white/10 text-[9px] tracking-[0.3em] uppercase font-[family-name:var(--font-ui)] z-20">CityAge</span>
       </section>
+      <Spacer />
 
       {/* THE OPPORTUNITY */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/eu-flag.mp4" opacity={0.15} />
+        <BurnedVideo src="/eu-flag.mp4" opacity={0.15} position="left" />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
         <div className="relative max-w-2xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
@@ -227,9 +234,14 @@ export default function CECPartnersPage() {
         </div>
       </section>
 
+      <Spacer />
       {/* THE ROOM */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/eu-flag.mp4" opacity={0.18} />
+        {/* Parliament Hill burned in */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <Image src="/ottawa-feature.jpg" alt="" fill className="object-cover opacity-[0.12] mix-blend-screen" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/50 to-[#080808]/70" />
+        </div>
         <div className="max-w-3xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
             <SectionLabel>The room</SectionLabel>
@@ -253,6 +265,7 @@ export default function CECPartnersPage() {
         </div>
       </section>
 
+      <Spacer />
       {/* PARTNERSHIP TIERS */}
       <section className="px-8 sm:px-16 py-24 sm:py-32">
         <div className="max-w-4xl mx-auto">
@@ -279,6 +292,7 @@ export default function CECPartnersPage() {
         </div>
       </section>
 
+      <Spacer />
       {/* CITYAGE CREDENTIALS */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(201,168,76,0.04)_0%,_transparent_60%)]" />
@@ -335,6 +349,7 @@ export default function CECPartnersPage() {
         </div>
       </section>
 
+      <Spacer />
       {/* CONTACT */}
       <section className="px-8 sm:px-16 py-24 sm:py-32 text-center">
         <Reveal>
