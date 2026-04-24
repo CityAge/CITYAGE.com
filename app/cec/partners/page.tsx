@@ -248,6 +248,40 @@ export default function CECPartnersPage() {
 
       <Spacer />
 
+      {/* THE CONVERSATION */}
+      <section className="relative px-8 sm:px-16 py-24 sm:py-32">
+        <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
+        <div className="relative max-w-2xl mx-auto sm:mx-0 sm:ml-[10%]">
+          <Reveal>
+            <SectionLabel>The conversation</SectionLabel>
+            <GoldLine className="mt-3 mb-10" />
+          </Reveal>
+          <Reveal delay={200}>
+            <ul className="space-y-8">
+              {[
+                'Can Canada become Europe\'s preferred defence technology partner?',
+                'What does CETA 2.0 look like in a fractured trade environment?',
+                'Procurement strategies and partnerships: how do we close the gap between policy and contracts?',
+                'How the Ottawa Region is becoming Canada\'s hub for innovation in defence and dual-use technologies',
+                'Arctic sovereignty: who builds the infrastructure, and who pays?',
+              ].map((q, i) => (
+                <li key={i} className="flex gap-4 items-start">
+                  <span className="text-[#c9a84c]/40 text-lg font-[family-name:var(--font-display)] leading-none mt-1">{String(i + 1).padStart(2, '0')}</span>
+                  <p className="text-white/55 text-lg sm:text-xl leading-relaxed font-[family-name:var(--font-serif)] italic">{q}</p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal delay={400}>
+            <p className="mt-12 pt-6 border-t border-white/[0.06] text-white/35 text-sm font-[family-name:var(--font-ui)]">
+              Sessions are structured as moderated roundtables under Chatham House Rules — candid, off-the-record, designed for decisions.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <Spacer />
+
       {/* PARTNERSHIP TIERS */}
       <section className="px-8 sm:px-16 py-24 sm:py-32">
         <div className="max-w-4xl mx-auto">
