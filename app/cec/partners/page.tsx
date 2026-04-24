@@ -109,7 +109,7 @@ function ParallaxImage({ src, position = 'full' }: { src: string; position?: 'fu
         alt=""
         fill
         className={`object-cover ${position === 'top' ? 'object-top' : ''}`}
-        style={{ opacity: 0.4, transform: `translateY(${offset}px) scale(1.1)` }}
+        style={{ opacity: 0.6, transform: `translateY(${offset}px) scale(1.1)` }}
         priority
       />
       <div className={`absolute inset-0 ${
