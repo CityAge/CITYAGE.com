@@ -390,6 +390,7 @@ export default function CECPartnersPage() {
         </Reveal>
         <Reveal delay={300}>
           <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener noreferrer" className="inline-block border border-[#c9a84c]/30 text-[#c9a84c] text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:bg-[#c9a84c]/10 transition-colors font-[family-name:var(--font-ui)]">Secure Your Ticket Here</a>
             <a href="https://cityage.com/events/canada-europe-connect/" target="_blank" rel="noopener noreferrer" className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">View Full Programme</a>
             <a href="/cec-knowledge-partner.pdf" download className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">Download PDF</a>
           </div>
