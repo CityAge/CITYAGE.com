@@ -209,9 +209,10 @@ export default function CECPartnersPage() {
 
       {/* THE OPPORTUNITY — Canadian flag waving */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/canadian-flag.mp4" opacity={0.15} />
-        <div className="absolute inset-y-0 left-0 w-[20%] bg-gradient-to-r from-[#8b0000]/[0.04] to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-[20%] bg-gradient-to-l from-[#8b0000]/[0.04] to-transparent" />
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.25} />
+        <div className="absolute inset-0 bg-[#8b0000]/[0.12] pointer-events-none mix-blend-multiply" />
+        <div className="absolute inset-y-0 left-0 w-[20%] bg-gradient-to-r from-[#8b0000]/[0.08] to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-[20%] bg-gradient-to-l from-[#8b0000]/[0.08] to-transparent" />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
         <div className="relative max-w-2xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
