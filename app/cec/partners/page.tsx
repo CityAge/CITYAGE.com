@@ -150,7 +150,7 @@ function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
 }
 
 /* ─── Burned-in looping video background ─── */
-function BurnedVideo({ src, className = '', opacity = 0.1, position = 'full' }: { src: string; className?: string; opacity?: number; position?: 'full' | 'left' | 'right' }) {
+function BurnedVideo({ src, className = '', opacity = 0.1, position = 'full', scale = 1 }: { src: string; className?: string; opacity?: number; position?: 'full' | 'left' | 'right'; scale?: number }) {
   const posClass = position === 'left' ? 'w-[60%] left-0' : position === 'right' ? 'w-[60%] right-0' : 'w-full'
   return (
     <div className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}>
@@ -160,7 +160,7 @@ function BurnedVideo({ src, className = '', opacity = 0.1, position = 'full' }: 
         muted
         playsInline
         className={`absolute top-0 h-full object-cover ${posClass}`}
-        style={{ opacity, mixBlendMode: 'screen' }}
+        style={{ opacity, mixBlendMode: 'screen', transform: `scale(${scale})` }}
       >
         <source src={src} type="video/mp4" />
       </video>
@@ -186,7 +186,7 @@ export default function CECPartnersPage() {
       <section className="relative min-h-screen flex flex-col justify-end px-8 sm:px-16 pb-16 sm:pb-24">
         <ParallaxImage src="/ottawa-feature.jpg" />
         {/* Waving Canadian flag burned in */}
-        <BurnedVideo src="/canadian-flag.mp4" opacity={0.15} position="right" />
+        <BurnedVideo src="/canadian-flag.mp4" opacity={0.15} scale={0.75} />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none z-10" />
         <div className="relative z-20 max-w-3xl">
           <Reveal>
@@ -207,7 +207,7 @@ export default function CECPartnersPage() {
 
       {/* THE OPPORTUNITY */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
-        <BurnedVideo src="/eu-flag.mp4" opacity={0.15} position="left" />
+        <BurnedVideo src="/eu-flag.mp4" opacity={0.15} position="full" />
         <div className="absolute inset-5 sm:inset-8 border border-white/[0.06] pointer-events-none" />
         <div className="relative max-w-2xl mx-auto sm:mx-0 sm:ml-[10%]">
           <Reveal>
