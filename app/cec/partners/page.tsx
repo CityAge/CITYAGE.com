@@ -383,6 +383,7 @@ export default function CECPartnersPage() {
           <h2 className="font-[family-name:var(--font-display)] text-white text-4xl sm:text-5xl mb-4">Let&apos;s talk.</h2>
           <GoldLine className="mx-auto mb-8" />
           <p className="text-white/60 text-base tracking-wide font-[family-name:var(--font-ui)]">Miro Cernetig</p>
+          <p className="text-white/45 text-sm tracking-wide font-[family-name:var(--font-ui)] mt-1">CityAge</p>
           <p className="text-white/30 text-xs tracking-[0.25em] uppercase font-[family-name:var(--font-ui)] mt-1">CEO & Publisher</p>
           <a href="mailto:miro@cityage.com" className="inline-block text-white/40 text-base font-[family-name:var(--font-mono)] mt-6 hover:text-[#c9a84c] transition-colors">miro@cityage.com</a>
           <p className="text-white/25 text-base font-[family-name:var(--font-mono)] mt-1">cityage.com</p>
