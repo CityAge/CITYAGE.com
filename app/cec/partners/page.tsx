@@ -108,8 +108,8 @@ function ParallaxImage({ src, position = 'full' }: { src: string; position?: 'fu
         src={src}
         alt=""
         fill
-        className={`object-cover opacity-[0.18] mix-blend-screen ${position === 'top' ? 'object-top' : ''}`}
-        style={{ transform: `translateY(${offset}px) scale(1.1)` }}
+        className={`object-cover ${position === 'top' ? 'object-top' : ''}`}
+        style={{ opacity: 0.25, transform: `translateY(${offset}px) scale(1.1)` }}
         priority
       />
       <div className={`absolute inset-0 ${
@@ -231,7 +231,7 @@ export default function CECPartnersPage() {
       {/* THE ROOM — Parliament Hill burned in */}
       <section className="relative px-8 sm:px-16 py-24 sm:py-32">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <Image src="/ottawa-feature.jpg" alt="" fill className="object-cover opacity-[0.10] mix-blend-screen" />
+          <Image src="/ottawa-feature.jpg" alt="" fill className="object-cover" style={{ opacity: 0.2 }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/50 to-[#080808]/70" />
         </div>
         <div className="relative max-w-3xl mx-auto sm:mx-0 sm:ml-[10%]">
