@@ -389,7 +389,8 @@ export default function CECPartnersPage() {
           <p className="text-white/25 text-base font-[family-name:var(--font-mono)] mt-1">cityage.com</p>
         </Reveal>
         <Reveal delay={300}>
-          <div className="mt-16">
+          <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://cityage.com/events/canada-europe-connect/" target="_blank" rel="noopener noreferrer" className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">View Full Programme</a>
             <a href="/cec-knowledge-partner.pdf" download className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">Download PDF</a>
           </div>
         </Reveal>
