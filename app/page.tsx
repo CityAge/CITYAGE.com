@@ -1,356 +1,344 @@
-import { createClient } from '@/lib/supabase/server'
-import { CampaignBanner } from '@/components/campaign-banner'
-import { MagazineHeader } from '@/components/magazine-header'
-import { ArticleCard } from '@/components/article-card'
-import { MagazineFooter } from '@/components/magazine-footer'
-import { UrbanPlanetVoices } from '@/components/urban-planet-voices'
-import { HeroGrid } from '@/components/hero-grid'
+'use client'
 
-export const revalidate = 60
-export const dynamic = 'force-dynamic'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect } from 'react'
+import './homepage-redesign.css'
 
-export default async function Home() {
-  let articles: {
-    id: string; title: string; vertical: string;
-    tagline: string | null; excerpt: string | null;
-    date: string; index: number; image: string | null;
-    readTime: string; source: 'magazine' | 'briefs'
-  }[] = []
-
-  try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (url && key) {
-      const supabase = await createClient()
-
-      // ── Try magazine table first ──
-      const { data: magArticles } = await supabase
-        .from('magazine')
-        .select('id, headline, deck, body, vertical, sub_vertical, image_url, read_time, published_at, featured')
-        .eq('status', 'published')
-        .order('featured', { ascending: false })
-        .order('published_at', { ascending: false })
-        .limit(24)
-
-      if (magArticles && magArticles.length > 0) {
-        articles = magArticles.map((a: any, i: number) => {
-          // Extract a clean body excerpt (first real paragraph)
-          const lines = (a.body || '').split('\n')
-          let bodyExcerpt = ''
-          for (const line of lines) {
-            const t = line.trim()
-            if (t.length > 40
-              && !t.startsWith('#')
-              && !t.startsWith('*')
-              && !t.startsWith('**')
-              && !t.startsWith('---')
-              && !t.startsWith('|')
-              && !t.startsWith('>')
-            ) {
-              bodyExcerpt = t
-                .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-                .replace(/https?:\/\/\S+/g, '')
-                .replace(/\*\*/g, '').replace(/\*/g, '')
-                .replace(/\s{2,}/g, ' ').trim()
-              break
-            }
-          }
-          if (bodyExcerpt.length > 240) {
-            bodyExcerpt = bodyExcerpt.slice(0, 240) + '…'
-          }
-
-          return {
-            id: a.id,
-            title: a.headline,
-            vertical: a.vertical,
-            tagline: a.deck || null,
-            excerpt: a.deck || bodyExcerpt || null,
-            date: new Date(a.published_at).toLocaleDateString('en-CA', {
-              weekday: 'short', month: 'short', day: 'numeric',
-              timeZone: 'America/Toronto',
-            }),
-            index: i,
-            image: a.image_url || null,
-            readTime: `${a.read_time || 5} min read`,
-            source: 'magazine' as const,
+export default function HomePage() {
+  // Fade-in-on-scroll for elements with data-reveal
+  useEffect(() => {
+    const items = document.querySelectorAll('[data-reveal]')
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
           }
         })
-      } else {
-        // ── Fallback to briefs table ──
-        const { data: briefs } = await supabase
-          .from('briefs')
-          .select('id, title, vertical, published_at, body')
-          .eq('status', 'published')
-          .order('published_at', { ascending: false })
-          .limit(18)
-
-        articles = (briefs ?? []).map((b: any, i: number) => {
-          const tagline = b.body
-            ?.split('\n')
-            .find((l: string) => l.startsWith('*') && l.endsWith('*') && !l.includes('Defence.'))
-            ?.replace(/\*/g, '')
-            ?.trim() || null
-
-          const lines = b.body?.split('\n') || []
-          const excerptLine = lines.find((l: string) => {
-            const trimmed = l.trim()
-            return trimmed.length > 60
-              && !trimmed.startsWith('#')
-              && !trimmed.startsWith('*')
-              && !trimmed.startsWith('**')
-              && !trimmed.startsWith('---')
-          })
-          let rawExcerpt = excerptLine?.trim() || ''
-          rawExcerpt = rawExcerpt.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-          rawExcerpt = rawExcerpt.replace(/https?:\/\/\S+/g, '')
-          rawExcerpt = rawExcerpt.replace(/\s{2,}/g, ' ').trim()
-          const excerpt = rawExcerpt.length > 0
-            ? rawExcerpt.slice(0, 160) + (rawExcerpt.length > 160 ? '…' : '')
-            : null
-
-          const date = new Date(b.published_at).toLocaleDateString('en-CA', {
-            weekday: 'short', month: 'short', day: 'numeric',
-            timeZone: 'America/Toronto',
-          })
-
-          return { id: b.id, title: b.title, vertical: b.vertical, tagline, excerpt, date, index: i, image: null, readTime: '5 min read', source: 'briefs' as const }
-        })
-      }
-    }
-  } catch (e) {
-    console.error('Supabase error:', e)
-    articles = []
-  }
-
-  // ── Distribute articles into editorial bands ──
-  // Band 1: Hero — lead (1) + secondary (2) + Influence Letter sidebar
-  // Band 2: Featured row — next 4 articles, equal weight
-  // Band 3: By Vertical — remaining articles grouped by vertical
-  const hasArticles = articles.length > 0
-  const linkPrefix = articles[0]?.source === 'magazine' ? '/magazine' : '/dispatches'
-
-  const heroLead = articles[0] || null
-  const heroSecondary = articles.slice(1, 5)  // 4 stories for middle column
-  const heroTertiary = articles.slice(5, 11)  // 6 stories for below Influence Letter in sidebar
-  const featuredArticles = articles.slice(11, 15)
-  const remainingArticles = articles.slice(15)
-
-  // Group remaining by vertical for category sections
-  const byVertical: Record<string, typeof articles> = {}
-  remainingArticles.forEach((a) => {
-    if (!byVertical[a.vertical]) byVertical[a.vertical] = []
-    byVertical[a.vertical].push(a)
-  })
-  const verticalKeys = Object.keys(byVertical).slice(0, 3)
+      },
+      { threshold: 0.12 }
+    )
+    items.forEach((item) => observer.observe(item))
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
-      {/* Campaign banner — full width event promotion */}
-      <CampaignBanner />
+    <div className="homepage-redesign">
+      <header className="site-header" data-reveal>
+        <Link className="brand" href="/" aria-label="CITYAGE home">
+          CITYAGE
+        </Link>
+        <nav className="nav" aria-label="Primary navigation">
+          <a href="#signals">Signals</a>
+          <a href="#verticals">Verticals</a>
+          <a href="#pro">Pro</a>
+          <a href="#events">Events</a>
+          <a href="#partner">Partner</a>
+        </nav>
+        <a className="header-cta" href="#signals">
+          Get Daily Signals
+        </a>
+      </header>
 
-      {/* Masthead (includes vertical nav) */}
-      <MagazineHeader />
+      <main>
+        <section className="hero">
+          <div className="hero-media" aria-hidden="true">
+            <Image
+              src="/cityage-hero.png"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+            />
+          </div>
+          <div className="hero-grid">
+            <div className="hero-copy" data-reveal>
+              <p className="eyebrow">Cities. Capital. Power.</p>
+              <h1>The 3% of Earth that runs the world.</h1>
+              <p className="hero-subhead">
+                Daily intelligence on cities, capital, infrastructure, energy,
+                geopolitics and technology.
+              </p>
+              <div className="hero-actions" aria-label="Primary actions">
+                <a className="button primary" href="#signals">
+                  Get Daily Signals
+                </a>
+                <a className="button secondary" href="#pro">
+                  Join Pro
+                </a>
+              </div>
+            </div>
 
-      {/* ═══ MAIN CONTENT ═══ */}
-      <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
-        {!hasArticles ? (
-          <div className="py-24 px-8 text-center">
-            <p className="font-serif italic text-2xl text-black/20 mb-3">
-              CITYAGE
+            <aside className="moves-panel" aria-labelledby="today-moves" data-reveal>
+              <div className="panel-kicker">Today</div>
+              <h2 id="today-moves">5 Moves</h2>
+              <ol className="moves-list">
+                <li>
+                  <span>01</span>
+                  <p>Port capital shifts toward Arctic-linked logistics.</p>
+                </li>
+                <li>
+                  <span>02</span>
+                  <p>Grid demand becomes the next AI infrastructure bottleneck.</p>
+                </li>
+                <li>
+                  <span>03</span>
+                  <p>Defence procurement moves closer to city-scale resilience.</p>
+                </li>
+                <li>
+                  <span>04</span>
+                  <p>Canada-Europe corridor gains industrial policy urgency.</p>
+                </li>
+                <li>
+                  <span>05</span>
+                  <p>Urban capital hunts for predictable infrastructure yield.</p>
+                </li>
+              </ol>
+            </aside>
+          </div>
+        </section>
+
+        <section className="trust-bar" aria-label="CITYAGE proof points" data-reveal>
+          <div>
+            <strong>Since 2012</strong>
+            <span>Intelligence and convening</span>
+          </div>
+          <div>
+            <strong>100+ convenings</strong>
+            <span>Leaders in the room</span>
+          </div>
+          <div>
+            <strong>50+ cities</strong>
+            <span>Global urban markets</span>
+          </div>
+          <div>
+            <strong>Vancouver / Ottawa / London / Dubai / Washington</strong>
+            <span>Trusted across power centers</span>
+          </div>
+        </section>
+
+        <section className="section signals" id="signals">
+          <div className="section-head" data-reveal>
+            <p className="eyebrow">Today&rsquo;s Signals</p>
+            <h2>What leaders need to know before the day moves.</h2>
+            <a href="#pro">See the full briefing</a>
+          </div>
+          <div className="signal-grid">
+            <article className="signal-card lead" data-reveal>
+              <span className="tag">AI Infrastructure</span>
+              <h3>Power availability is becoming the real AI site selector.</h3>
+              <dl>
+                <div>
+                  <dt>What happened</dt>
+                  <dd>New data center commitments are chasing grid-ready regions.</dd>
+                </div>
+                <div>
+                  <dt>Why it matters</dt>
+                  <dd>Compute strategy is now energy strategy.</dd>
+                </div>
+                <div>
+                  <dt>Who benefits</dt>
+                  <dd>Utilities, landholders, provinces and fast-permitting cities.</dd>
+                </div>
+                <div>
+                  <dt>Next</dt>
+                  <dd>Watch transmission queues and sovereign compute incentives.</dd>
+                </div>
+              </dl>
+            </article>
+            <article className="signal-card" data-reveal>
+              <span className="tag">Urban Capital</span>
+              <h3>Pension funds move closer to climate-resilient city assets.</h3>
+              <p>
+                Long-duration capital wants infrastructure with public demand,
+                policy cover and measurable resilience upside.
+              </p>
+            </article>
+            <article className="signal-card" data-reveal>
+              <span className="tag">Defence Cities</span>
+              <h3>National security strategy is entering municipal procurement.</h3>
+              <p>
+                Ports, airports, water, power and cyber systems are becoming the
+                shared operating layer for resilience.
+              </p>
+            </article>
+            <article className="signal-card" data-reveal>
+              <span className="tag">Canada-Europe</span>
+              <h3>Industrial alliances are being written through city corridors.</h3>
+              <p>
+                Trade, talent and clean energy ties are turning metros into
+                diplomatic infrastructure.
+              </p>
+            </article>
+            <article className="signal-card" data-reveal>
+              <span className="tag">Ice to Space</span>
+              <h3>The Arctic is no longer remote from orbital economics.</h3>
+              <p>
+                Ground stations, defence, shipping and resource monitoring are
+                converging in northern urban hubs.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section className="section verticals" id="verticals">
+          <div className="section-head" data-reveal>
+            <p className="eyebrow">Premium Verticals</p>
+            <h2>Own the intersections where power is moving.</h2>
+          </div>
+          <div className="vertical-grid">
+            <article data-reveal>
+              <span>01</span>
+              <h3>Ice to Space</h3>
+              <p>
+                Arctic cities, orbital systems, defence logistics and northern
+                capital.
+              </p>
+            </article>
+            <article data-reveal>
+              <span>02</span>
+              <h3>Canada-Europe</h3>
+              <p>
+                Trade corridors, strategic minerals, talent, energy and
+                diplomatic networks.
+              </p>
+            </article>
+            <article data-reveal>
+              <span>03</span>
+              <h3>AI Infrastructure</h3>
+              <p>Compute, power, land, permitting, cooling, fiber and sovereign strategy.</p>
+            </article>
+            <article data-reveal>
+              <span>04</span>
+              <h3>Energy Transition</h3>
+              <p>
+                Grid modernization, clean industry, city demand and investable
+                projects.
+              </p>
+            </article>
+            <article data-reveal>
+              <span>05</span>
+              <h3>Defence Cities</h3>
+              <p>
+                Urban resilience, dual-use procurement and security-critical
+                infrastructure.
+              </p>
+            </article>
+            <article data-reveal>
+              <span>06</span>
+              <h3>Urban Capital</h3>
+              <p>Where institutional money meets housing, mobility, ports and power.</p>
+            </article>
+          </div>
+        </section>
+
+        <section className="section pro" id="pro">
+          <div className="pro-copy" data-reveal>
+            <p className="eyebrow">CITYAGE Pro</p>
+            <h2>
+              For executives, investors, policymakers and builders who cannot
+              wait for consensus.
+            </h2>
+            <p>
+              Weekly deep briefings, private calls, searchable archives, member
+              network access and priority invitations to CITYAGE convenings.
             </p>
-            <p className="font-mono text-[10px] text-black/30 tracking-widest uppercase">
-              Magazine content will appear here once the editorial pipeline is active
+            <a
+              className="button primary"
+              href="mailto:membership@cityage.com?subject=CITYAGE%20Pro%20Access"
+            >
+              Apply for Access
+            </a>
+          </div>
+          <div className="pro-list" data-reveal>
+            <div>
+              <strong>Weekly briefings</strong>
+              <span>Signal, consequence, next move.</span>
+            </div>
+            <div>
+              <strong>Private calls</strong>
+              <span>Member-only conversations with operators and policy leaders.</span>
+            </div>
+            <div>
+              <strong>Archives</strong>
+              <span>Find the pattern before it becomes consensus.</span>
+            </div>
+            <div>
+              <strong>Priority events</strong>
+              <span>Rooms built around decisions, not panels.</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="section events" id="events">
+          <div className="section-head" data-reveal>
+            <p className="eyebrow">Events Engine</p>
+            <h2>Rooms where capital, policy and infrastructure meet.</h2>
+          </div>
+          <div className="event-list">
+            <article data-reveal>
+              <time dateTime="2026-05">May 2026</time>
+              <h3>Canada Europe Connects</h3>
+              <p>
+                Invite-only summit on Canada-Europe trade, defence and dual-use
+                technology.
+              </p>
+              <span>Ottawa</span>
+            </article>
+            <article data-reveal>
+              <time dateTime="2026-09">September 2026</time>
+              <h3>Canada-Europe Urban Corridor</h3>
+              <p>
+                Strategic industries, capital formation, ports, energy and city
+                diplomacy.
+              </p>
+              <span>London</span>
+            </article>
+            <article data-reveal>
+              <time dateTime="2026-11">November 2026</time>
+              <h3>Ice to Space Forum</h3>
+              <p>
+                Northern cities, orbital infrastructure, defence logistics and
+                resource intelligence.
+              </p>
+              <span>Ottawa</span>
+            </article>
+          </div>
+        </section>
+
+        <section className="partner" id="partner" data-reveal>
+          <div>
+            <p className="eyebrow">Institutional Partnership</p>
+            <h2>Need a room full of decision-makers?</h2>
+            <p>
+              Partner with CITYAGE to convene the people shaping cities, capital,
+              infrastructure and power.
             </p>
           </div>
-        ) : (
-          <>
-            {/* ─── BAND 1: HERO EDITORIAL — Monocle layout ─── */}
-            <HeroGrid
-              leadColumn={
-                heroLead ? (
-                  <ArticleCard
-                    id={heroLead.id}
-                    title={heroLead.title}
-                    vertical={heroLead.vertical}
-                    tagline={heroLead.tagline}
-                    excerpt={heroLead.excerpt}
-                    date={heroLead.date}
-                    isLead={true}
-                    image={heroLead.image || undefined}
-                    readTime={heroLead.readTime}
-                    variant="hero-lead"
-                    linkPrefix={linkPrefix}
-                  />
-                ) : null
-              }
-              middleColumn={
-                <div className="flex flex-col">
-                  {heroSecondary.map((article, i) => (
-                    <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}`}>
-                      <ArticleCard
-                        id={article.id}
-                        title={article.title}
-                        vertical={article.vertical}
-                        tagline={article.tagline}
-                        excerpt={article.excerpt}
-                        date={article.date}
-                        image={article.image || undefined}
-                        readTime={article.readTime}
-                        variant="hero-secondary"
-                        linkPrefix={linkPrefix}
-                      />
-                    </div>
-                  ))}
-                </div>
-              }
-              sidebarColumn={
-                <>
-                  {/* Influence Letter — black box */}
-                  <div className="bg-black text-white p-8 flex flex-col">
-                    <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
-                      The Influence Letter
-                    </h3>
-                    <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-6">
-                      Daily Intelligence Brief
-                    </span>
-
-                    <p className="font-serif text-white/50 text-[13px] leading-relaxed mb-6">
-                      Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
-                    </p>
-
-                    <div className="mb-6">
-                      <input
-                        type="email"
-                        placeholder="your@email.com"
-                        className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
-                      />
-                      <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
-                        Subscribe Free
-                      </button>
-                    </div>
-
-                    <div className="border-t border-white/10 pt-6 mt-auto">
-                      <span className="font-mono text-[8px] tracking-[0.3em] uppercase text-white/25 block mb-4">
-                        Upcoming Events
-                      </span>
-                      <div className="space-y-4">
-                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">May 26 · Ottawa</span>
-                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
-                        </a>
-                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19 · Vancouver</span>
-                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
-                        </a>
-                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">2026 · Washington DC</span>
-                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Orbit — Space Economy</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Stories below the Influence Letter */}
-                  {heroTertiary.length > 0 && (
-                    <div className="pt-8 space-y-6">
-                      {heroTertiary.map((article, i) => (
-                        <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-6' : ''}`}>
-                          <ArticleCard
-                            id={article.id}
-                            title={article.title}
-                            vertical={article.vertical}
-                            tagline={null}
-                            excerpt={null}
-                            date={article.date}
-                            readTime={article.readTime}
-                            variant="hero-tertiary"
-                            linkPrefix={linkPrefix}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              }
-            />
-
-            {/* ─── VOICES FROM THE URBAN PLANET ─── */}
-            <UrbanPlanetVoices />
-
-            {/* ─── BAND 2: FEATURED ROW ─── */}
-            {featuredArticles.length > 0 && (
-              <section className="border-b border-black/10 px-6 md:px-10">
-                <div className="flex items-baseline justify-between pt-14 pb-8">
-                  <h3 className="font-serif font-black text-2xl tracking-tight">
-                    Featured
-                  </h3>
-                  <a href="/dispatches" className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
-                    See All
-                  </a>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-14">
-                  {featuredArticles.map((article, i) => (
-                    <ArticleCard
-                      key={article.id}
-                      id={article.id}
-                      title={article.title}
-                      vertical={article.vertical}
-                      tagline={article.tagline}
-                      excerpt={article.excerpt}
-                      date={article.date}
-                      image={article.image || undefined}
-                      readTime={article.readTime}
-                      variant="featured-card"
-                      linkPrefix={linkPrefix}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* ─── BAND 3: BY VERTICAL ─── */}
-            {verticalKeys.length > 0 && (
-              <section className="px-6 md:px-10 pt-14 pb-20">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                  {verticalKeys.map((vertical, vIdx) => (
-                    <div
-                      key={vertical}
-                      className={`${vIdx === 0 ? 'md:pr-12' : vIdx === 1 ? 'md:px-12 md:border-x border-black/10' : 'md:pl-12'} ${vIdx > 0 ? 'mt-10 pt-10 border-t border-black/10 md:mt-0 md:pt-0 md:border-t-0' : ''}`}
-                    >
-                      <div className="flex items-baseline justify-between pb-5 mb-8 border-b-2 border-black">
-                        <h3 className="font-serif font-black text-xl tracking-tight uppercase">
-                          {vertical}
-                        </h3>
-                        <a href="/dispatches" className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
-                          See All
-                        </a>
-                      </div>
-                      {byVertical[vertical].map((article, aIdx) => (
-                        <div key={article.id} className={`${aIdx > 0 ? 'border-t border-black/10 pt-5 mt-5' : ''}`}>
-                          <ArticleCard
-                            id={article.id}
-                            title={article.title}
-                            vertical={article.vertical}
-                            tagline={null}
-                            excerpt={null}
-                            date={article.date}
-                            readTime={article.readTime}
-                            variant="category-list"
-                            linkPrefix={linkPrefix}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-          </>
-        )}
+          <a
+            className="button secondary dark"
+            href="mailto:partners@cityage.com?subject=Partner%20with%20CITYAGE"
+          >
+            Partner with CITYAGE
+          </a>
+        </section>
       </main>
 
-      <MagazineFooter />
+      <footer className="footer">
+        <Link className="brand" href="/">
+          CITYAGE
+        </Link>
+        <p>Intelligence for the urban century.</p>
+        <nav aria-label="Footer navigation">
+          <a href="#signals">Signals</a>
+          <a href="#pro">Pro</a>
+          <a href="#events">Events</a>
+          <a href="#partner">Partner</a>
+        </nav>
+      </footer>
     </div>
   )
 }
