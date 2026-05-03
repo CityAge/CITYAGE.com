@@ -2,10 +2,28 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect } from 'react'
-import './homepage-redesign.css'
+import { useEffect, useState } from 'react'
+import './redesign.css'
+
+const HERO_IMAGES = [
+  { src: '/cityage-hero.png', alt: 'Skyline at dawn — boardroom view of the urban planet.' },
+  { src: '/parliament-sunset.jpg', alt: 'Parliament Hill at golden hour.' },
+]
+
+const HERO_ROTATION_MS = 7000
 
 export default function HomePage() {
+  // Hero rotation
+  const [activeHero, setActiveHero] = useState(0)
+
+  useEffect(() => {
+    if (HERO_IMAGES.length <= 1) return
+    const interval = setInterval(() => {
+      setActiveHero((i) => (i + 1) % HERO_IMAGES.length)
+    }, HERO_ROTATION_MS)
+    return () => clearInterval(interval)
+  }, [])
+
   // Fade-in-on-scroll for elements with data-reveal
   useEffect(() => {
     const items = document.querySelectorAll('[data-reveal]')
@@ -25,7 +43,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="homepage-redesign">
+    <div className="cityage-redesign">
       <header className="site-header" data-reveal>
         <Link className="brand" href="/" aria-label="CITYAGE home">
           CITYAGE
@@ -45,14 +63,20 @@ export default function HomePage() {
       <main>
         <section className="hero">
           <div className="hero-media" aria-hidden="true">
-            <Image
-              src="/cityage-hero.png"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
-            />
+            {HERO_IMAGES.map((hero, i) => (
+              <div
+                key={hero.src}
+                className={`hero-slide ${i === activeHero ? 'active' : ''}`}
+              >
+                <Image
+                  src={hero.src}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                />
+              </div>
+            ))}
           </div>
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
@@ -149,6 +173,7 @@ export default function HomePage() {
                 </div>
               </dl>
             </article>
+
             <article className="signal-card" data-reveal>
               <span className="tag">Urban Capital</span>
               <h3>Pension funds move closer to climate-resilient city assets.</h3>
@@ -157,14 +182,25 @@ export default function HomePage() {
                 policy cover and measurable resilience upside.
               </p>
             </article>
-            <article className="signal-card" data-reveal>
+
+            {/* Locked Pro card — Defence Cities */}
+            <article className="signal-card locked" data-reveal>
               <span className="tag">Defence Cities</span>
               <h3>National security strategy is entering municipal procurement.</h3>
-              <p>
+              <p className="preview-fade">
                 Ports, airports, water, power and cyber systems are becoming the
-                shared operating layer for resilience.
+                shared operating layer for resilience. The procurement signal
+                points to a shift in how federal defence dollars are routed
+                through cities&mdash;
               </p>
+              <Link className="lock-cta" href="#pro" aria-label="Continue reading with CITYAGE Pro">
+                <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
+                </svg>
+                Continue with Pro
+              </Link>
             </article>
+
             <article className="signal-card" data-reveal>
               <span className="tag">Canada-Europe</span>
               <h3>Industrial alliances are being written through city corridors.</h3>
@@ -173,13 +209,22 @@ export default function HomePage() {
                 diplomatic infrastructure.
               </p>
             </article>
-            <article className="signal-card" data-reveal>
+
+            {/* Locked Pro card — Ice to Space */}
+            <article className="signal-card locked" data-reveal>
               <span className="tag">Ice to Space</span>
               <h3>The Arctic is no longer remote from orbital economics.</h3>
-              <p>
+              <p className="preview-fade">
                 Ground stations, defence, shipping and resource monitoring are
-                converging in northern urban hubs.
+                converging in northern urban hubs. Three sovereign actors are
+                quietly positioning&mdash;
               </p>
+              <Link className="lock-cta" href="#pro" aria-label="Continue reading with CITYAGE Pro">
+                <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
+                </svg>
+                Continue with Pro
+              </Link>
             </article>
           </div>
         </section>
