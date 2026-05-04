@@ -194,8 +194,8 @@ export default function HomePage() {
             <span>Global urban markets</span>
           </div>
           <div>
-            <strong>Vancouver / Ottawa / London / Dubai / Washington</strong>
-            <span>Trusted across power centers</span>
+            <strong>75% of global GDP</strong>
+            <span>Created and consumed in cities</span>
           </div>
         </section>
 
@@ -411,20 +411,40 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="partner" id="partner" data-reveal>
-          <div>
-            <p className="eyebrow">Institutional Partnership</p>
-            <h2>Need a room full of decision-makers?</h2>
+        <section className="partner kp" id="partner" data-reveal>
+          <div className="kp-intro">
+            <p className="eyebrow">Become a Knowledge Partner</p>
+            <h2>Build your franchise on the Urban Planet.</h2>
             <p>
-              Partner with CITYAGE to convene the people shaping cities, capital,
-              infrastructure and power.
+              CityAge Knowledge Partners co-build a vertical inside our platform.
+              You bring the strategic priority. We bring the intelligence
+              pipeline, the editorial voice, the convening engine and the
+              network of decision-makers we&rsquo;ve built over fifteen years.
             </p>
           </div>
+          <div className="kp-pillars">
+            <div>
+              <strong>Signal</strong>
+              <span>A branded weekly intelligence brief in your domain, in the CityAge voice.</span>
+            </div>
+            <div>
+              <strong>Campaign</strong>
+              <span>An editorial push around your strategic priority — research, reporting, briefings.</span>
+            </div>
+            <div>
+              <strong>Event</strong>
+              <span>An invite-only convening on your topic. Chatham House, fifty to one hundred leaders.</span>
+            </div>
+            <div>
+              <strong>Network</strong>
+              <span>Curated introductions inside our 25,000+ decision-maker base.</span>
+            </div>
+          </div>
           <a
-            className="button secondary dark"
-            href="mailto:partners@cityage.com?subject=Partner%20with%20CITYAGE"
+            className="button secondary dark kp-cta"
+            href="mailto:partners@cityage.com?subject=Knowledge%20Partner%20Inquiry"
           >
-            Partner with CITYAGE
+            Apply to Partner
           </a>
         </section>
       </main>
