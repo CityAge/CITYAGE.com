@@ -311,7 +311,7 @@
 /* Trust bar */
 .cityage-redesign .trust-bar {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 0.75fr 0.75fr 0.65fr 1.7fr;
   border-bottom: 1px solid var(--line);
   background: var(--white);
 }

@@ -118,8 +118,9 @@ export default function HomePage() {
               <p className="eyebrow">Sunday · May 3, 2026</p>
               <h1>The 3% of Earth that runs the world.</h1>
               <p className="hero-subhead">
-                Daily intelligence on cities, capital, infrastructure, energy,
-                geopolitics and technology.
+                The Urban Planet — where 75%+ of global GDP, population and
+                consumption is created. CityAge is the daily intelligence brief
+                for the leaders shaping it.
               </p>
               <div className="hero-actions" aria-label="Primary actions">
                 <a className="button primary" href="#signals">
@@ -196,15 +197,15 @@ export default function HomePage() {
             <span>Global urban markets</span>
           </div>
           <div>
-            <strong>75% of global GDP</strong>
-            <span>Created and consumed in cities</span>
+            <strong>Vancouver / Ottawa / London / Dubai / Washington</strong>
+            <span>Trusted across power centers</span>
           </div>
         </section>
 
         <section className="section signals" id="signals">
           <div className="section-head" data-reveal>
             <p className="eyebrow">Today&rsquo;s Signals</p>
-            <h2>What leaders need to know before the day moves.</h2>
+            <h2>Today&rsquo;s top stories across Power, Money, Cities, Frontiers and Culture.</h2>
             <a href="#pro">See the full briefing</a>
           </div>
           <div className="signal-grid">
