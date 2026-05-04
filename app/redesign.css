@@ -317,8 +317,8 @@
 }
 
 .cityage-redesign .trust-bar div {
-  min-height: 116px;
-  padding: 24px clamp(18px, 3vw, 34px);
+  min-height: 84px;
+  padding: 18px clamp(18px, 3vw, 34px);
   border-right: 1px solid var(--line);
 }
 
@@ -337,7 +337,7 @@
 
 /* Sections */
 .cityage-redesign .section {
-  padding: clamp(66px, 9vw, 126px) clamp(20px, 5vw, 72px);
+  padding: clamp(48px, 6vw, 80px) clamp(20px, 5vw, 72px);
   border-bottom: 1px solid var(--line);
 }
 
@@ -345,8 +345,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: end;
-  gap: 24px;
-  margin-bottom: 34px;
+  gap: 14px;
+  margin-bottom: 22px;
 }
 
 .cityage-redesign .section-head h2 {
