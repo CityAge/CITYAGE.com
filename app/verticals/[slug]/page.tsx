@@ -157,16 +157,18 @@ export default async function VerticalPage({
           <span className="brand-divider" aria-hidden="true">|</span>
           <span className="brand-tagline">Intelligence for the Urban Planet</span>
         </Link>
-        <nav className="nav" aria-label="Primary navigation">
-          <a href="/#signals">Signals</a>
-          <a href="/#verticals">Verticals</a>
-          <a href="/#pro">Pro</a>
-          <a href="/#events">Events</a>
-          <a href="/#partner">Partner</a>
-        </nav>
-        <a className="header-cta" href="/#pro">
-          Join Pro
-        </a>
+        <div className="site-header-right">
+          <nav className="nav" aria-label="Primary navigation">
+            <a href="/#signals">Signals</a>
+            <a href="/#verticals">Verticals</a>
+            <a href="/#pro">Pro</a>
+            <a href="/#events">Events</a>
+            <a href="/#partner">Partner</a>
+          </nav>
+          <a className="header-cta" href="/#pro">
+            Join Pro
+          </a>
+        </div>
       </header>
 
       <main className="vertical-page">

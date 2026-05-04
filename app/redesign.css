@@ -77,8 +77,8 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 28px;
   padding: 18px clamp(20px, 4vw, 56px);
@@ -87,10 +87,16 @@
   backdrop-filter: blur(18px);
 }
 
+.cityage-redesign .site-header-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
 .cityage-redesign .brand {
   display: inline-flex;
   align-items: baseline;
-  gap: 14px;
+  gap: 10px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.4rem;
   font-weight: 700;
@@ -105,18 +111,16 @@
 .cityage-redesign .brand-divider {
   color: var(--line);
   font-weight: 300;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   letter-spacing: 0;
   line-height: 1;
-  position: relative;
-  top: 0.05em;
 }
 
 .cityage-redesign .brand-tagline {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   font-weight: 400;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   letter-spacing: 0;
   color: var(--muted);
 }
@@ -559,10 +563,6 @@
 
 /* Responsive */
 @media (max-width: 980px) {
-  .cityage-redesign .site-header {
-    grid-template-columns: auto auto;
-  }
-
   .cityage-redesign .nav {
     display: none;
   }
