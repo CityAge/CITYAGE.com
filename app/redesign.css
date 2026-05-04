@@ -1758,3 +1758,88 @@
 .cityage-redesign .signal-card .bucket-row .bucket {
   margin-bottom: 0;
 }
+
+/* =====================================================
+ * Editor's Note card — special signal type
+ * Slate background, named voice, italic body
+ * Lives in the Signal grid as one card slot
+ * ===================================================== */
+.cityage-redesign .signal-card.editor {
+  background: var(--slate);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+}
+
+.cityage-redesign .signal-card.editor .bucket-row .bucket {
+  border-color: #d7a05a;
+  color: #d7a05a;
+}
+
+.cityage-redesign .signal-card.editor .timestamp {
+  color: rgba(255, 250, 241, 0.6);
+}
+
+.cityage-redesign .signal-card.editor h3 {
+  color: var(--white);
+  font-style: italic;
+  font-size: 1.18rem;
+  line-height: 1.32;
+  margin-bottom: 18px;
+}
+
+.cityage-redesign .signal-card.editor .editor-body {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(255, 250, 241, 0.86);
+  margin: 0 0 20px;
+}
+
+.cityage-redesign .signal-card.editor .editor-body em {
+  color: #d7a05a;
+  font-style: italic;
+}
+
+.cityage-redesign .signal-card.editor .byline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 250, 241, 0.18);
+}
+
+.cityage-redesign .signal-card.editor .byline-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--white);
+}
+
+.cityage-redesign .signal-card.editor .byline-title {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 250, 241, 0.6);
+  margin-top: 2px;
+}
+
+.cityage-redesign .signal-card.editor .portrait {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--paper-deep);
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.cityage-redesign .signal-card.editor .portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

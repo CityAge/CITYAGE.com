@@ -255,6 +255,36 @@ export default function HomePage() {
               <span className="vertical-chip">AI Infrastructure</span>
             </Link>
 
+            {/* Editor's Note — named editorial voice, slate background */}
+            <article className="signal-card editor" data-reveal>
+              <div className="bucket-row">
+                <span className="bucket">From the Editor</span>
+                <span className="timestamp">Sunday</span>
+              </div>
+              <h3>The week&rsquo;s biggest signal isn&rsquo;t on this page.</h3>
+              <p className="editor-body">
+                It&rsquo;s in what <em>didn&rsquo;t</em> happen at the G7. Three
+                governments quietly walked back industrial commitments they made
+                in March. The corridor between Ottawa, Berlin and Helsinki is
+                where the policy is moving now &mdash; the public communiqués
+                are already a step behind.
+              </p>
+              <div className="byline">
+                <div className="portrait">
+                  <Image
+                    src="/miro-cernetig.png"
+                    alt="Miro Cernetig"
+                    fill
+                    sizes="44px"
+                  />
+                </div>
+                <div>
+                  <span className="byline-name">Miro Cernetig</span>
+                  <span className="byline-title">Editor &amp; Publisher</span>
+                </div>
+              </div>
+            </article>
+
             {/* Tier 2 — standard signal, links to article */}
             <Link
               href={`/article-preview/${FEATURED_SIGNAL.id}`}
