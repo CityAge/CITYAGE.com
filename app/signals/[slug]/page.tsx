@@ -26,7 +26,7 @@ type SignalRow = {
 
 type SignalConfig = {
   slug: string
-  bucket: 'Power' | 'Money' | 'Cities' | 'Frontiers' | 'Culture'
+  bucket: 'Energy' | 'Money' | 'Cities' | 'Frontiers' | 'Culture' | 'AI'
   vertical?: string
   headline: string
   dek?: string
@@ -38,7 +38,7 @@ type SignalConfig = {
 const SIGNALS: Record<string, SignalConfig> = {
   'ai-power-site-selector': {
     slug: 'ai-power-site-selector',
-    bucket: 'Frontiers',
+    bucket: 'AI',
     vertical: 'AI Infrastructure',
     headline: 'Power availability is becoming the real AI site selector.',
     dek: 'Compute strategy is now energy strategy. The next trillion dollars of AI infrastructure will follow grid permits, not tax breaks.',
@@ -65,7 +65,7 @@ const SIGNALS: Record<string, SignalConfig> = {
   },
   'canada-europe-industrial-corridors': {
     slug: 'canada-europe-industrial-corridors',
-    bucket: 'Power',
+    bucket: 'Money',
     vertical: 'Canada-Europe',
     headline: 'Industrial alliances are being written through city corridors.',
     dek: 'Trade is becoming industrial policy. Metros are emerging as the operational unit of trans-Atlantic alliance.',

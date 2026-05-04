@@ -212,7 +212,7 @@ export default function HomePage() {
               data-reveal
             >
               <div className="bucket-row">
-                <span className="bucket">Frontiers</span>
+                <span className="bucket">AI</span>
                 <span className="timestamp">2h ago</span>
               </div>
               <h3>Power availability is becoming the real AI site selector.</h3>
@@ -329,7 +329,7 @@ export default function HomePage() {
             {/* Tier 3 — Pro locked, third row gated */}
             <article className="signal-card locked" data-reveal>
               <div className="bucket-row">
-                <span className="bucket">Power</span>
+                <span className="bucket">Cities</span>
                 <span className="timestamp">Yesterday</span>
               </div>
               <h3>National security strategy is entering municipal procurement.</h3>
@@ -377,7 +377,7 @@ export default function HomePage() {
               data-reveal
             >
               <div className="bucket-row">
-                <span className="bucket">Power</span>
+                <span className="bucket">Money</span>
                 <span className="timestamp">5h ago</span>
               </div>
               <h3>Industrial alliances are being written through city corridors.</h3>
