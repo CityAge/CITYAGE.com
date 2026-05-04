@@ -118,9 +118,8 @@ export default function HomePage() {
               <p className="eyebrow">Sunday · May 3, 2026</p>
               <h1>The 3% of Earth that runs the world.</h1>
               <p className="hero-subhead">
-                The Urban Planet — where 75%+ of global GDP, population and
-                consumption is created. CityAge is the daily intelligence brief
-                for the leaders shaping it.
+                The daily intelligence brief on the Urban Planet — where 75%+
+                of global GDP, population and consumption is concentrated.
               </p>
               <div className="hero-actions" aria-label="Primary actions">
                 <a className="button primary" href="#signals">
