@@ -1652,3 +1652,109 @@
   margin-top: 14px;
   display: inline-flex;
 }
+
+/* =====================================================
+ * Events strip — tight schedule replaces full Events section
+ * ===================================================== */
+.cityage-redesign .events-strip {
+  padding: clamp(36px, 5vw, 56px) clamp(20px, 5vw, 72px);
+  border-bottom: 1px solid var(--line);
+}
+
+.cityage-redesign .events-strip-head {
+  margin-bottom: 18px;
+}
+
+.cityage-redesign .events-strip-list {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.cityage-redesign .events-strip-list a {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 140px 100px;
+  gap: 24px;
+  align-items: center;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.cityage-redesign .events-strip-list a:hover {
+  background: var(--white);
+}
+
+.cityage-redesign .events-strip-list a:hover strong {
+  color: var(--claret);
+}
+
+.cityage-redesign .events-strip-list time {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cityage-redesign .events-strip-list strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: 1.18rem;
+  color: var(--ink);
+  transition: color 160ms ease;
+}
+
+.cityage-redesign .events-strip-list span {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.cityage-redesign .events-strip-list em {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--claret);
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .cityage-redesign .events-strip-list a {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 16px 0;
+  }
+
+  .cityage-redesign .events-strip-list em {
+    text-align: left;
+  }
+}
+
+/* =====================================================
+ * Signal card timestamp — adds aliveness signal per card
+ * ===================================================== */
+.cityage-redesign .signal-card .timestamp {
+  display: inline-block;
+  margin-left: 10px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  vertical-align: middle;
+}
+
+.cityage-redesign .signal-card .bucket-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.cityage-redesign .signal-card .bucket-row .bucket {
+  margin-bottom: 0;
+}

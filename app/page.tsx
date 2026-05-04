@@ -84,13 +84,12 @@ export default function HomePage() {
         <div className="site-header-right">
           <nav className="nav" aria-label="Primary navigation">
             <a href="#signals">Signals</a>
-            <a href="#verticals">Verticals</a>
-            <a href="#pro">Pro</a>
+            <a href="/verticals/ice-to-space">Verticals</a>
             <a href="#events">Events</a>
             <a href="#partner">Partner</a>
           </nav>
           <a className="header-cta" href="#signals">
-            Get Daily Signals
+            Subscribe
           </a>
         </div>
       </header>
@@ -123,10 +122,7 @@ export default function HomePage() {
               </p>
               <div className="hero-actions" aria-label="Primary actions">
                 <a className="button primary" href="#signals">
-                  Get Daily Signals
-                </a>
-                <a className="button secondary" href="#pro">
-                  Join Pro
+                  Subscribe
                 </a>
               </div>
               <p className="hero-readers">
@@ -215,7 +211,10 @@ export default function HomePage() {
               className="signal-card lead"
               data-reveal
             >
-              <span className="bucket">Frontiers</span>
+              <div className="bucket-row">
+                <span className="bucket">Frontiers</span>
+                <span className="timestamp">2h ago</span>
+              </div>
               <h3>Power availability is becoming the real AI site selector.</h3>
               <div className="rows">
                 <div>
@@ -262,7 +261,10 @@ export default function HomePage() {
               className="signal-card"
               data-reveal
             >
-              <span className="bucket">Money</span>
+              <div className="bucket-row">
+                <span className="bucket">Money</span>
+                <span className="timestamp">This morning</span>
+              </div>
               <h3>Iran War sends borrowing costs surging, squeezing city budgets.</h3>
               <div className="rows">
                 <div>
@@ -296,7 +298,10 @@ export default function HomePage() {
 
             {/* Tier 3 — Pro locked, third row gated */}
             <article className="signal-card locked" data-reveal>
-              <span className="bucket">Power</span>
+              <div className="bucket-row">
+                <span className="bucket">Power</span>
+                <span className="timestamp">Yesterday</span>
+              </div>
               <h3>National security strategy is entering municipal procurement.</h3>
               <div className="rows">
                 <div>
@@ -326,7 +331,7 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
-              <Link className="lock-cta" href="#pro" aria-label="Continue reading with CITYAGE Pro">
+              <Link className="lock-cta" href="mailto:membership@cityage.com?subject=CITYAGE%20Subscribe" aria-label="Subscribe to CITYAGE for full access">
                 <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
                 </svg>
@@ -341,7 +346,10 @@ export default function HomePage() {
               className="signal-card"
               data-reveal
             >
-              <span className="bucket">Power</span>
+              <div className="bucket-row">
+                <span className="bucket">Power</span>
+                <span className="timestamp">5h ago</span>
+              </div>
               <h3>Industrial alliances are being written through city corridors.</h3>
               <div className="rows">
                 <div>
@@ -376,7 +384,10 @@ export default function HomePage() {
 
             {/* Tier 3 — Pro locked */}
             <article className="signal-card locked" data-reveal>
-              <span className="bucket">Frontiers</span>
+              <div className="bucket-row">
+                <span className="bucket">Frontiers</span>
+                <span className="timestamp">Yesterday</span>
+              </div>
               <h3>The Arctic is no longer remote from orbital economics.</h3>
               <div className="rows">
                 <div>
@@ -405,7 +416,7 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
-              <Link className="lock-cta" href="#pro" aria-label="Continue reading with CITYAGE Pro">
+              <Link className="lock-cta" href="mailto:membership@cityage.com?subject=CITYAGE%20Subscribe" aria-label="Subscribe to CITYAGE for full access">
                 <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
                 </svg>
@@ -416,128 +427,29 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section verticals" id="verticals">
-          <div className="section-head" data-reveal>
-            <p className="eyebrow">Premium Verticals</p>
-            <h2>Own the intersections where power is moving.</h2>
+        <section className="events-strip" id="events" data-reveal>
+          <div className="events-strip-head">
+            <p className="eyebrow">Upcoming convenings</p>
           </div>
-          <div className="vertical-grid">
-            <Link href="/verticals/ice-to-space" data-reveal>
-              <span>01</span>
-              <h3>Ice to Space</h3>
-              <p>
-                Arctic cities, orbital systems, defence logistics and northern
-                capital.
-              </p>
-            </Link>
-            <Link href="/verticals/canada-europe" data-reveal>
-              <span>02</span>
-              <h3>Canada-Europe</h3>
-              <p>
-                Trade corridors, strategic minerals, talent, energy and
-                diplomatic networks.
-              </p>
-            </Link>
-            <Link href="/verticals/ai-infrastructure" data-reveal>
-              <span>03</span>
-              <h3>AI Infrastructure</h3>
-              <p>Compute, power, land, permitting, cooling, fiber and sovereign strategy.</p>
-            </Link>
-            <Link href="/verticals/energy-transition" data-reveal>
-              <span>04</span>
-              <h3>Energy Transition</h3>
-              <p>
-                Grid modernization, clean industry, city demand and investable
-                projects.
-              </p>
-            </Link>
-            <Link href="/verticals/defence-cities" data-reveal>
-              <span>05</span>
-              <h3>Defence Cities</h3>
-              <p>
-                Urban resilience, dual-use procurement and security-critical
-                infrastructure.
-              </p>
-            </Link>
-            <Link href="/verticals/urban-capital" data-reveal>
-              <span>06</span>
-              <h3>Urban Capital</h3>
-              <p>Where institutional money meets housing, mobility, ports and power.</p>
-            </Link>
-          </div>
-        </section>
-
-        <section className="section pro" id="pro">
-          <div className="pro-copy" data-reveal>
-            <p className="eyebrow">CITYAGE Pro</p>
-            <h2>
-              For executives, investors, policymakers and builders who cannot
-              wait for consensus.
-            </h2>
-            <p>
-              Weekly deep briefings, private calls, searchable archives, member
-              network access and priority invitations to CITYAGE convenings.
-            </p>
-            <a
-              className="button primary"
-              href="mailto:membership@cityage.com?subject=CITYAGE%20Pro%20Access"
-            >
-              Apply for Access
+          <div className="events-strip-list">
+            <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener">
+              <time dateTime="2026-05-26">May 26, 2026</time>
+              <strong>Canada Europe Connects</strong>
+              <span>Ottawa</span>
+              <em>Invite only</em>
             </a>
-          </div>
-          <div className="pro-list" data-reveal>
-            <div>
-              <strong>Weekly briefings</strong>
-              <span>Signal, consequence, next move.</span>
-            </div>
-            <div>
-              <strong>Private calls</strong>
-              <span>Member-only conversations with operators and policy leaders.</span>
-            </div>
-            <div>
-              <strong>Archives</strong>
-              <span>Find the pattern before it becomes consensus.</span>
-            </div>
-            <div>
-              <strong>Priority events</strong>
-              <span>Rooms built around decisions, not panels.</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="section events" id="events">
-          <div className="section-head" data-reveal>
-            <p className="eyebrow">Events Engine</p>
-            <h2>Rooms where capital, policy and infrastructure meet.</h2>
-          </div>
-          <div className="event-list">
-            <article data-reveal>
-              <time dateTime="2026-05">May 2026</time>
-              <h3>Canada Europe Connects</h3>
-              <p>
-                Invite-only summit on Canada-Europe trade, defence and dual-use
-                technology.
-              </p>
-              <span>Ottawa</span>
-            </article>
-            <article data-reveal>
+            <a href="#partner">
               <time dateTime="2026-09">September 2026</time>
-              <h3>Canada-Europe Urban Corridor</h3>
-              <p>
-                Strategic industries, capital formation, ports, energy and city
-                diplomacy.
-              </p>
+              <strong>Canada-Europe Urban Corridor</strong>
               <span>London</span>
-            </article>
-            <article data-reveal>
+              <em>Coming</em>
+            </a>
+            <a href="#partner">
               <time dateTime="2026-11">November 2026</time>
-              <h3>Ice to Space Forum</h3>
-              <p>
-                Northern cities, orbital infrastructure, defence logistics and
-                resource intelligence.
-              </p>
+              <strong>Ice to Space Forum</strong>
               <span>Ottawa</span>
-            </article>
+              <em>Coming</em>
+            </a>
           </div>
         </section>
 
@@ -587,7 +499,6 @@ export default function HomePage() {
         </Link>
         <nav aria-label="Footer navigation">
           <a href="#signals">Signals</a>
-          <a href="#pro">Pro</a>
           <a href="#events">Events</a>
           <a href="#partner">Partner</a>
         </nav>
