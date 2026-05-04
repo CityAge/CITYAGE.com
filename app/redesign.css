@@ -1458,3 +1458,197 @@
     border-bottom: 0;
   }
 }
+
+/* =====================================================
+ * Unified Signal Card — Axios-style structured brief
+ * Every card: editorial bucket tag, headline, structured rows,
+ * optional secondary vertical tag. Differentiated by tier:
+ *   - .signal-card.lead    → 4 rows, headline-link
+ *   - .signal-card         → 3 rows, "Why it matters" link
+ *   - .signal-card.locked  → 3 rows, third row faded + Pro lock
+ * ===================================================== */
+
+/* The bucket tag is the top-level taxonomy: Power / Money /
+ * Cities / Frontiers / Culture. Replaces the prior premium
+ * vertical tag at the top of the card. */
+.cityage-redesign .signal-card .bucket {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 4px 10px;
+  border: 1px solid var(--claret);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--claret);
+}
+
+/* Structured rows — same shape as the existing lead card dl,
+ * scaled down for standard cards. */
+.cityage-redesign .signal-card .rows {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0 0;
+}
+
+.cityage-redesign .signal-card .rows > div {
+  display: grid;
+  gap: 4px;
+}
+
+.cityage-redesign .signal-card .rows .row-label {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--claret);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cityage-redesign .signal-card .rows .row-body {
+  font-size: 0.94rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Premium row treatment — used on the "What's Next" forecast row.
+ * Currently signals "this is premium content, free preview" but
+ * the same treatment gracefully accepts a fade/lock when we
+ * convert it to gated Pro content later. */
+.cityage-redesign .signal-card .rows .row-premium {
+  position: relative;
+  padding-left: 14px;
+  border-left: 2px solid var(--claret);
+}
+
+.cityage-redesign .signal-card .rows .row-premium .row-label {
+  color: var(--claret);
+}
+
+.cityage-redesign .signal-card .pro-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 8px;
+  padding: 2px 7px;
+  background: var(--claret);
+  color: var(--white);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 1px;
+}
+
+/* Whole-card link state for standard tier-2 cards.
+ * The card is a Link; hover lightens it, headline shifts claret. */
+.cityage-redesign a.signal-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: background 160ms ease;
+}
+
+.cityage-redesign a.signal-card:hover {
+  background: var(--white);
+}
+
+.cityage-redesign a.signal-card h3 {
+  transition: color 160ms ease;
+}
+
+.cityage-redesign a.signal-card:hover h3 {
+  color: var(--claret);
+}
+
+/* "Why it matters" → arrow appears on hover for clickable cards */
+.cityage-redesign a.signal-card .rows .row-body::after {
+  content: "";
+  transition: content 160ms ease;
+}
+
+.cityage-redesign .signal-card .read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 16px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--claret);
+}
+
+.cityage-redesign .signal-card .read-more::after {
+  content: "→";
+  font-size: 1rem;
+  line-height: 0;
+}
+
+/* Optional secondary tag for Premium Vertical (small footer chip).
+ * Most cards won't use this; only those tied to a franchise. */
+.cityage-redesign .signal-card .vertical-chip {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 3px 8px;
+  background: var(--paper-deep);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Lead card — bigger headline, four rows, all elements visible */
+.cityage-redesign .signal-card.lead .bucket {
+  font-size: 0.74rem;
+  padding: 6px 12px;
+}
+
+.cityage-redesign .signal-card.lead h3 {
+  font-size: 1.85rem;
+  line-height: 1.08;
+  margin-bottom: 6px;
+}
+
+.cityage-redesign .signal-card.lead .rows {
+  margin-top: 26px;
+  gap: 18px;
+}
+
+.cityage-redesign .signal-card.lead .rows .row-body {
+  font-size: 1rem;
+}
+
+/* Locked card override for the new structured format —
+ * fade just the third row (premium forecast) instead of fading
+ * the whole card body. The first two rows stay readable. */
+.cityage-redesign .signal-card.locked::after {
+  display: none; /* remove old whole-card fade gradient */
+}
+
+.cityage-redesign .signal-card.locked .row-premium {
+  position: relative;
+  overflow: hidden;
+}
+
+.cityage-redesign .signal-card.locked .row-premium .row-body {
+  color: var(--muted);
+  -webkit-mask-image: linear-gradient(180deg, var(--ink) 0%, var(--ink) 30%, transparent 95%);
+  mask-image: linear-gradient(180deg, var(--ink) 0%, var(--ink) 30%, transparent 95%);
+}
+
+.cityage-redesign .signal-card.locked .lock-cta {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  margin-top: 14px;
+  display: inline-flex;
+}

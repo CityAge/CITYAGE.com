@@ -209,82 +209,209 @@ export default function HomePage() {
             <h2>Signals from the Urban Planet.</h2>
           </div>
           <div className="signal-grid">
-            <article className="signal-card lead" data-reveal>
-              <span className="tag">AI Infrastructure</span>
-              <h3>Power availability is becoming the real AI site selector.</h3>
-              <dl>
-                <div>
-                  <dt>What happened</dt>
-                  <dd>New data center commitments are chasing grid-ready regions.</dd>
-                </div>
-                <div>
-                  <dt>Why it matters</dt>
-                  <dd>Compute strategy is now energy strategy.</dd>
-                </div>
-                <div>
-                  <dt>Who benefits</dt>
-                  <dd>Utilities, landholders, provinces and fast-permitting cities.</dd>
-                </div>
-                <div>
-                  <dt>Next</dt>
-                  <dd>Watch transmission queues and sovereign compute incentives.</dd>
-                </div>
-              </dl>
-            </article>
-
+            {/* Lead signal — full structured brief, headline links to detail page */}
             <Link
-              href={`/article-preview/${FEATURED_SIGNAL.id}`}
-              className="signal-card linked"
+              href="/signals/ai-power-site-selector"
+              className="signal-card lead"
               data-reveal
             >
-              <span className="tag">{FEATURED_SIGNAL.tag}</span>
-              <h3>{FEATURED_SIGNAL.headline}</h3>
-              <p>{FEATURED_SIGNAL.teaser}</p>
-              <span className="read-link">Read in full</span>
+              <span className="bucket">Frontiers</span>
+              <h3>Power availability is becoming the real AI site selector.</h3>
+              <div className="rows">
+                <div>
+                  <span className="row-label">What happened</span>
+                  <p className="row-body">
+                    New data center commitments are chasing grid-ready regions.
+                    Hyperscalers and sovereign compute funds are bypassing
+                    traditional tech hubs for places with surplus baseload.
+                  </p>
+                </div>
+                <div>
+                  <span className="row-label">Why it matters</span>
+                  <p className="row-body">
+                    Compute strategy is now energy strategy. Cities with grid
+                    capacity will capture the next wave of trillion-dollar
+                    industrial infrastructure.
+                  </p>
+                </div>
+                <div>
+                  <span className="row-label">Who benefits</span>
+                  <p className="row-body">
+                    Utilities, provincial regulators, fast-permitting cities,
+                    and landholders adjacent to high-capacity transmission.
+                  </p>
+                </div>
+                <div className="row-premium">
+                  <span className="row-label">
+                    What&rsquo;s next
+                    <span className="pro-stamp">Pro &middot; Free preview</span>
+                  </span>
+                  <p className="row-body">
+                    Watch transmission queues, sovereign compute incentives,
+                    and the first wave of provincial industrial strategies
+                    explicitly tying AI investment to grid permits.
+                  </p>
+                </div>
+              </div>
+              <span className="vertical-chip">AI Infrastructure</span>
             </Link>
 
-            {/* Locked Pro card — Defence Cities */}
+            {/* Tier 2 — standard signal, links to article */}
+            <Link
+              href={`/article-preview/${FEATURED_SIGNAL.id}`}
+              className="signal-card"
+              data-reveal
+            >
+              <span className="bucket">Money</span>
+              <h3>Iran War sends borrowing costs surging, squeezing city budgets.</h3>
+              <div className="rows">
+                <div>
+                  <span className="row-label">What happened</span>
+                  <p className="row-body">
+                    Treasury yields jumped on Middle East risk. Municipal
+                    bond spreads widened across North America and Europe.
+                  </p>
+                </div>
+                <div>
+                  <span className="row-label">Why it matters</span>
+                  <p className="row-body">
+                    Cities funding housing and infrastructure on long-dated
+                    debt now face higher interest costs at the worst time.
+                  </p>
+                </div>
+                <div className="row-premium">
+                  <span className="row-label">
+                    What&rsquo;s next
+                    <span className="pro-stamp">Pro &middot; Free preview</span>
+                  </span>
+                  <p className="row-body">
+                    Expect a wave of paused capital projects and renewed
+                    pressure on federal infrastructure backstops in Q3.
+                  </p>
+                </div>
+              </div>
+              <span className="vertical-chip">Urban Capital</span>
+              <span className="read-more">Read in full</span>
+            </Link>
+
+            {/* Tier 3 — Pro locked, third row gated */}
             <article className="signal-card locked" data-reveal>
-              <span className="tag">Defence Cities</span>
+              <span className="bucket">Power</span>
               <h3>National security strategy is entering municipal procurement.</h3>
-              <p className="preview-fade">
-                Ports, airports, water, power and cyber systems are becoming the
-                shared operating layer for resilience. The procurement signal
-                points to a shift in how federal defence dollars are routed
-                through cities&mdash;
-              </p>
+              <div className="rows">
+                <div>
+                  <span className="row-label">What happened</span>
+                  <p className="row-body">
+                    Ports, airports, water, power and cyber are being
+                    rewritten as shared resilience infrastructure across
+                    Canada and NATO.
+                  </p>
+                </div>
+                <div>
+                  <span className="row-label">Why it matters</span>
+                  <p className="row-body">
+                    Federal defence dollars are rerouting through cities
+                    able to host dual-use procurement at scale.
+                  </p>
+                </div>
+                <div className="row-premium">
+                  <span className="row-label">
+                    What&rsquo;s next
+                  </span>
+                  <p className="row-body">
+                    Three procurement signals point to where the next
+                    $40 billion of defence-resilience capital will land
+                    over the next eighteen months. The shortlist already
+                    includes&mdash;
+                  </p>
+                </div>
+              </div>
               <Link className="lock-cta" href="#pro" aria-label="Continue reading with CITYAGE Pro">
                 <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
                 </svg>
                 Continue with Pro
               </Link>
+              <span className="vertical-chip">Defence Cities</span>
             </article>
 
-            <article className="signal-card" data-reveal>
-              <span className="tag">Canada-Europe</span>
+            {/* Tier 2 — standard signal */}
+            <Link
+              href="/signals/canada-europe-industrial-corridors"
+              className="signal-card"
+              data-reveal
+            >
+              <span className="bucket">Power</span>
               <h3>Industrial alliances are being written through city corridors.</h3>
-              <p>
-                Trade, talent and clean energy ties are turning metros into
-                diplomatic infrastructure.
-              </p>
-            </article>
+              <div className="rows">
+                <div>
+                  <span className="row-label">What happened</span>
+                  <p className="row-body">
+                    Canada and three EU member states quietly aligned
+                    procurement timelines on critical minerals and
+                    dual-use technology.
+                  </p>
+                </div>
+                <div>
+                  <span className="row-label">Why it matters</span>
+                  <p className="row-body">
+                    Trade is now industrial policy. Metros become the
+                    operational unit of trans-Atlantic alliance.
+                  </p>
+                </div>
+                <div className="row-premium">
+                  <span className="row-label">
+                    What&rsquo;s next
+                    <span className="pro-stamp">Pro &middot; Free preview</span>
+                  </span>
+                  <p className="row-body">
+                    Watch the Ottawa-Berlin-Helsinki track and the
+                    minerals MOU expected before fall.
+                  </p>
+                </div>
+              </div>
+              <span className="vertical-chip">Canada-Europe</span>
+              <span className="read-more">Read in full</span>
+            </Link>
 
-            {/* Locked Pro card — Ice to Space */}
+            {/* Tier 3 — Pro locked */}
             <article className="signal-card locked" data-reveal>
-              <span className="tag">Ice to Space</span>
+              <span className="bucket">Frontiers</span>
               <h3>The Arctic is no longer remote from orbital economics.</h3>
-              <p className="preview-fade">
-                Ground stations, defence, shipping and resource monitoring are
-                converging in northern urban hubs. Three sovereign actors are
-                quietly positioning&mdash;
-              </p>
+              <div className="rows">
+                <div>
+                  <span className="row-label">What happened</span>
+                  <p className="row-body">
+                    Ground stations, defence, shipping and resource
+                    monitoring are converging in northern urban hubs
+                    from Inuvik to Tromsø.
+                  </p>
+                </div>
+                <div>
+                  <span className="row-label">Why it matters</span>
+                  <p className="row-body">
+                    Arctic sovereignty is becoming an orbital infrastructure
+                    play. Capital is following.
+                  </p>
+                </div>
+                <div className="row-premium">
+                  <span className="row-label">
+                    What&rsquo;s next
+                  </span>
+                  <p className="row-body">
+                    Three sovereign actors are positioning ahead of the
+                    NATO Arctic council meetings. The deal flow we are
+                    tracking suggests a window opens in&mdash;
+                  </p>
+                </div>
+              </div>
               <Link className="lock-cta" href="#pro" aria-label="Continue reading with CITYAGE Pro">
                 <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                   <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
                 </svg>
                 Continue with Pro
               </Link>
+              <span className="vertical-chip">Ice to Space</span>
             </article>
           </div>
         </section>
