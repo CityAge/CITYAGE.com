@@ -76,8 +76,10 @@ export default function HomePage() {
   return (
     <div className="cityage-redesign">
       <header className="site-header" data-reveal>
-        <Link className="brand" href="/" aria-label="CITYAGE home">
-          CITYAGE
+        <Link className="brand" href="/" aria-label="CITYAGE — Intelligence for the Urban Planet">
+          <span className="brand-name">CITYAGE</span>
+          <span className="brand-divider" aria-hidden="true">·</span>
+          <span className="brand-tagline">Intelligence for the Urban Planet</span>
         </Link>
         <nav className="nav" aria-label="Primary navigation">
           <a href="#signals">Signals</a>
@@ -111,7 +113,7 @@ export default function HomePage() {
           </div>
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
-              <p className="eyebrow">Intelligence for the Urban Planet</p>
+              <p className="eyebrow">Sunday · May 3, 2026</p>
               <h1>The 3% of Earth that runs the world.</h1>
               <p className="hero-subhead">
                 Daily intelligence on cities, capital, infrastructure, energy,
@@ -429,9 +431,10 @@ export default function HomePage() {
 
       <footer className="footer">
         <Link className="brand" href="/">
-          CITYAGE
+          <span className="brand-name">CITYAGE</span>
+          <span className="brand-divider" aria-hidden="true">·</span>
+          <span className="brand-tagline">Intelligence for the Urban Planet</span>
         </Link>
-        <p>Intelligence for the urban century.</p>
         <nav aria-label="Footer navigation">
           <a href="#signals">Signals</a>
           <a href="#pro">Pro</a>

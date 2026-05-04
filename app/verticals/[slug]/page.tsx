@@ -152,8 +152,10 @@ export default async function VerticalPage({
   return (
     <div className="cityage-redesign">
       <header className="site-header">
-        <Link className="brand" href="/" aria-label="CITYAGE home">
-          CITYAGE
+        <Link className="brand" href="/" aria-label="CITYAGE — Intelligence for the Urban Planet">
+          <span className="brand-name">CITYAGE</span>
+          <span className="brand-divider" aria-hidden="true">·</span>
+          <span className="brand-tagline">Intelligence for the Urban Planet</span>
         </Link>
         <nav className="nav" aria-label="Primary navigation">
           <a href="/#signals">Signals</a>
@@ -257,9 +259,10 @@ export default async function VerticalPage({
 
       <footer className="footer">
         <Link className="brand" href="/">
-          CITYAGE
+          <span className="brand-name">CITYAGE</span>
+          <span className="brand-divider" aria-hidden="true">·</span>
+          <span className="brand-tagline">Intelligence for the Urban Planet</span>
         </Link>
-        <p>Intelligence for the Urban Planet.</p>
         <nav aria-label="Footer navigation">
           <a href="/#signals">Signals</a>
           <a href="/#pro">Pro</a>

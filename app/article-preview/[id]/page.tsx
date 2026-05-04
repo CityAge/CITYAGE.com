@@ -150,8 +150,10 @@ export default async function ArticlePreviewPage({
     <div className="cityage-redesign">
       {/* Minimal site header so the article doesn't float in space */}
       <header className="site-header">
-        <Link className="brand" href="/" aria-label="CITYAGE home">
-          CITYAGE
+        <Link className="brand" href="/" aria-label="CITYAGE — Intelligence for the Urban Planet">
+          <span className="brand-name">CITYAGE</span>
+          <span className="brand-divider" aria-hidden="true">·</span>
+          <span className="brand-tagline">Intelligence for the Urban Planet</span>
         </Link>
         <nav className="nav" aria-label="Primary navigation">
           <a href="/#signals">Signals</a>
@@ -226,9 +228,10 @@ export default async function ArticlePreviewPage({
 
       <footer className="footer">
         <Link className="brand" href="/">
-          CITYAGE
+          <span className="brand-name">CITYAGE</span>
+          <span className="brand-divider" aria-hidden="true">·</span>
+          <span className="brand-tagline">Intelligence for the Urban Planet</span>
         </Link>
-        <p>Intelligence for the urban century.</p>
         <nav aria-label="Footer navigation">
           <a href="/#signals">Signals</a>
           <a href="/#pro">Pro</a>
