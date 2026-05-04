@@ -204,7 +204,7 @@ export default function HomePage() {
         <section className="section signals" id="signals">
           <div className="section-head" data-reveal>
             <p className="eyebrow">
-              Updated 6:00 AM Vancouver · 3:00 PM Brussels · 9:00 PM Singapore
+              Updated 6:00 AM Vancouver · 9:00 AM Washington · 3:00 PM Brussels · 9:00 PM Singapore
             </p>
             <h2>Signals from the Urban Planet.</h2>
           </div>
