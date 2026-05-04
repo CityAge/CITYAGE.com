@@ -197,8 +197,8 @@ export default function HomePage() {
             <span>Global urban markets</span>
           </div>
           <div>
-            <strong>Vancouver / Ottawa / London / Dubai / Washington</strong>
-            <span>Trusted across power centers</span>
+            <strong>25K+ subscribers</strong>
+            <span>Decision-makers reading daily</span>
           </div>
         </section>
 
