@@ -125,6 +125,10 @@ export default function HomePage() {
                   Join Pro
                 </a>
               </div>
+              <p className="hero-readers">
+                Read by executives, investors, policymakers and the people
+                building the urban century.
+              </p>
             </div>
 
             {PANEL_MODE === 'moves' ? (
@@ -286,48 +290,48 @@ export default function HomePage() {
             <h2>Own the intersections where power is moving.</h2>
           </div>
           <div className="vertical-grid">
-            <article data-reveal>
+            <Link href="/verticals/ice-to-space" data-reveal>
               <span>01</span>
               <h3>Ice to Space</h3>
               <p>
                 Arctic cities, orbital systems, defence logistics and northern
                 capital.
               </p>
-            </article>
-            <article data-reveal>
+            </Link>
+            <Link href="/verticals/canada-europe" data-reveal>
               <span>02</span>
               <h3>Canada-Europe</h3>
               <p>
                 Trade corridors, strategic minerals, talent, energy and
                 diplomatic networks.
               </p>
-            </article>
-            <article data-reveal>
+            </Link>
+            <Link href="/verticals/ai-infrastructure" data-reveal>
               <span>03</span>
               <h3>AI Infrastructure</h3>
               <p>Compute, power, land, permitting, cooling, fiber and sovereign strategy.</p>
-            </article>
-            <article data-reveal>
+            </Link>
+            <Link href="/verticals/energy-transition" data-reveal>
               <span>04</span>
               <h3>Energy Transition</h3>
               <p>
                 Grid modernization, clean industry, city demand and investable
                 projects.
               </p>
-            </article>
-            <article data-reveal>
+            </Link>
+            <Link href="/verticals/defence-cities" data-reveal>
               <span>05</span>
               <h3>Defence Cities</h3>
               <p>
                 Urban resilience, dual-use procurement and security-critical
                 infrastructure.
               </p>
-            </article>
-            <article data-reveal>
+            </Link>
+            <Link href="/verticals/urban-capital" data-reveal>
               <span>06</span>
               <h3>Urban Capital</h3>
               <p>Where institutional money meets housing, mobility, ports and power.</p>
-            </article>
+            </Link>
           </div>
         </section>
 
