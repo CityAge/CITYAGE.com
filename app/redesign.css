@@ -953,3 +953,117 @@
     padding-left: 20px;
   }
 }
+
+/* =====================================================
+ * Read of the Week — alternate mode for the panel
+ * Same external dimensions as the 5 Moves panel; different content.
+ * ===================================================== */
+.cityage-redesign .read-panel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 250, 241, 0.22);
+  background: rgba(20, 18, 15, 0.56);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+  color: var(--white);
+}
+
+.cityage-redesign .read-panel .panel-kicker {
+  padding: 24px 24px 0;
+  color: #d7a05a;
+}
+
+.cityage-redesign .read-panel .read-meta {
+  margin: 0 0 12px;
+  padding: 18px 24px 0;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 250, 241, 0.62);
+}
+
+.cityage-redesign .read-panel .read-meta strong {
+  color: #d7a05a;
+  font-weight: 800;
+}
+
+.cityage-redesign .read-panel h2 {
+  margin: 0;
+  padding: 6px 24px 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: 1.85rem;
+  line-height: 1.1;
+}
+
+.cityage-redesign .read-panel .read-deck {
+  margin: 0;
+  padding: 0 24px 26px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.42;
+  color: rgba(255, 250, 241, 0.86);
+}
+
+.cityage-redesign .read-panel .read-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 250, 241, 0.18);
+  background: rgba(111, 22, 34, 0.92); /* claret */
+  color: var(--white);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 160ms ease;
+}
+
+.cityage-redesign .read-panel .read-cta:hover {
+  background: var(--claret-deep);
+}
+
+.cityage-redesign .read-panel .read-cta::after {
+  content: "→";
+  font-size: 1.1rem;
+}
+
+/* =====================================================
+ * Linked Signal cards — Tier 2 (free, links to article)
+ * ===================================================== */
+.cityage-redesign .signal-card.linked {
+  display: flex;
+  flex-direction: column;
+  transition: background 160ms ease;
+}
+
+.cityage-redesign .signal-card.linked:hover {
+  background: var(--white);
+}
+
+.cityage-redesign .signal-card.linked h3 {
+  margin-bottom: 14px;
+}
+
+.cityage-redesign .signal-card.linked .read-link {
+  margin-top: auto;
+  padding-top: 18px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--claret);
+}
+
+.cityage-redesign .signal-card.linked .read-link::after {
+  content: " →";
+}
+
+.cityage-redesign .signal-card.linked:hover .read-link {
+  color: var(--claret-deep);
+}

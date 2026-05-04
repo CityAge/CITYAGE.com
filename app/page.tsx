@@ -12,6 +12,37 @@ const HERO_IMAGES = [
 
 const HERO_ROTATION_MS = 7000
 
+// =====================================================
+// Hero-side panel mode: 'moves' or 'read'
+// Flip this single line to swap which card appears in the
+// top-right slot next to the hero image.
+//
+// 'moves' = Today's 5 Moves (daily intelligence pulse)
+// 'read'  = This Week's Read (single feature callout)
+//
+// Future modes can be added: 'event-countdown', 'editor-note', 'pro-brief'
+// =====================================================
+const PANEL_MODE: 'moves' | 'read' = 'read'
+
+// Configuration for the 'read' mode — points at a real magazine article.
+// Keep this in sync with what's published in the Supabase magazine table.
+const READ_OF_THE_WEEK = {
+  id: '2ad28ce6-2f2c-44be-98b5-db85dafbed25',
+  vertical: 'Money',
+  readTime: 8,
+  headline: "Mark Carney's Infrastructure Bet Could Reshape Canadian Cities",
+  deck: "The Prime Minister's $50 billion infrastructure plan puts urban investment at the centre of economic policy.",
+}
+
+// Tier-2 Signal that links to a real article (free deep dive).
+const FEATURED_SIGNAL = {
+  id: '41365717-a9f4-4d51-b3ff-6b7ed72b938d',
+  tag: 'Urban Capital',
+  headline: 'Iran War sends borrowing costs surging, squeezing city budgets.',
+  teaser:
+    'Rising Treasury yields hit housing, infrastructure bonds and municipal finance worldwide.',
+}
+
 export default function HomePage() {
   // Hero rotation
   const [activeHero, setActiveHero] = useState(0)
@@ -96,32 +127,50 @@ export default function HomePage() {
               </div>
             </div>
 
-            <aside className="moves-panel" aria-labelledby="today-moves" data-reveal>
-              <div className="panel-kicker">Today</div>
-              <h2 id="today-moves">5 Moves</h2>
-              <ol className="moves-list">
-                <li>
-                  <span>01</span>
-                  <p>Port capital shifts toward Arctic-linked logistics.</p>
-                </li>
-                <li>
-                  <span>02</span>
-                  <p>Grid demand becomes the next AI infrastructure bottleneck.</p>
-                </li>
-                <li>
-                  <span>03</span>
-                  <p>Defence procurement moves closer to city-scale resilience.</p>
-                </li>
-                <li>
-                  <span>04</span>
-                  <p>Canada-Europe corridor gains industrial policy urgency.</p>
-                </li>
-                <li>
-                  <span>05</span>
-                  <p>Urban capital hunts for predictable infrastructure yield.</p>
-                </li>
-              </ol>
-            </aside>
+            {PANEL_MODE === 'moves' ? (
+              <aside className="moves-panel" aria-labelledby="today-moves" data-reveal>
+                <div className="panel-kicker">Today</div>
+                <h2 id="today-moves">5 Moves</h2>
+                <ol className="moves-list">
+                  <li>
+                    <span>01</span>
+                    <p>Port capital shifts toward Arctic-linked logistics.</p>
+                  </li>
+                  <li>
+                    <span>02</span>
+                    <p>Grid demand becomes the next AI infrastructure bottleneck.</p>
+                  </li>
+                  <li>
+                    <span>03</span>
+                    <p>Defence procurement moves closer to city-scale resilience.</p>
+                  </li>
+                  <li>
+                    <span>04</span>
+                    <p>Canada-Europe corridor gains industrial policy urgency.</p>
+                  </li>
+                  <li>
+                    <span>05</span>
+                    <p>Urban capital hunts for predictable infrastructure yield.</p>
+                  </li>
+                </ol>
+              </aside>
+            ) : (
+              <aside className="read-panel" aria-labelledby="read-week" data-reveal>
+                <div className="panel-kicker">The Read</div>
+                <p className="read-meta">
+                  <strong>{READ_OF_THE_WEEK.vertical}</strong> · {READ_OF_THE_WEEK.readTime} min
+                </p>
+                <h2 id="read-week">{READ_OF_THE_WEEK.headline}</h2>
+                <p className="read-deck">{READ_OF_THE_WEEK.deck}</p>
+                <Link
+                  className="read-cta"
+                  href={`/article-preview/${READ_OF_THE_WEEK.id}`}
+                  aria-label={`Read full article: ${READ_OF_THE_WEEK.headline}`}
+                >
+                  Read in full
+                </Link>
+              </aside>
+            )}
           </div>
         </section>
 
@@ -174,14 +223,16 @@ export default function HomePage() {
               </dl>
             </article>
 
-            <article className="signal-card" data-reveal>
-              <span className="tag">Urban Capital</span>
-              <h3>Pension funds move closer to climate-resilient city assets.</h3>
-              <p>
-                Long-duration capital wants infrastructure with public demand,
-                policy cover and measurable resilience upside.
-              </p>
-            </article>
+            <Link
+              href={`/article-preview/${FEATURED_SIGNAL.id}`}
+              className="signal-card linked"
+              data-reveal
+            >
+              <span className="tag">{FEATURED_SIGNAL.tag}</span>
+              <h3>{FEATURED_SIGNAL.headline}</h3>
+              <p>{FEATURED_SIGNAL.teaser}</p>
+              <span className="read-link">Read in full</span>
+            </Link>
 
             {/* Locked Pro card — Defence Cities */}
             <article className="signal-card locked" data-reveal>
