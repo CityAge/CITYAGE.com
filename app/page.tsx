@@ -486,30 +486,39 @@ export default function HomePage() {
         <section className="partner kp" id="partner" data-reveal>
           <div className="kp-intro">
             <p className="eyebrow">Become a Knowledge Partner</p>
-            <h2>Build your franchise on the Urban Planet.</h2>
+            <h2>Bespoke intelligence, built for your priorities.</h2>
             <p>
-              CityAge Knowledge Partners co-build a vertical inside our platform.
-              You bring the strategic priority. We bring the intelligence
-              pipeline, the editorial voice, the convening engine and the
-              network of decision-makers we&rsquo;ve built over fifteen years.
+              CityAge Knowledge Partners get a custom intelligence operation
+              pointed at the strategic questions that move their business.
+              Branded or white-labelled. Continuously updated. Built on the
+              CityAge engine, the editorial voice, and the network of
+              decision-makers we&rsquo;ve built over fifteen years.
+            </p>
+            <p className="kp-precedent">
+              The model: Bloomberg Terminal customizations. Eurasia Group
+              client briefings. Stratfor enterprise dashboards. For the
+              urban century.
             </p>
           </div>
-          <div className="kp-pillars">
-            <div>
-              <strong>Signal</strong>
-              <span>A branded weekly intelligence brief in your domain, in the CityAge voice.</span>
-            </div>
-            <div>
-              <strong>Campaign</strong>
-              <span>An editorial push around your strategic priority — research, reporting, briefings.</span>
-            </div>
-            <div>
-              <strong>Event</strong>
-              <span>An invite-only convening on your topic. Chatham House, fifty to one hundred leaders.</span>
-            </div>
-            <div>
-              <strong>Network</strong>
-              <span>Curated introductions inside our 25,000+ decision-maker base.</span>
+          <div className="kp-components">
+            <p className="kp-components-label">What&rsquo;s inside the operation</p>
+            <div className="kp-pillars">
+              <div>
+                <strong>Signal</strong>
+                <span>A branded weekly intelligence brief in your domain, in the CityAge voice.</span>
+              </div>
+              <div>
+                <strong>Campaign</strong>
+                <span>An editorial push around your strategic priority &mdash; research, reporting, briefings.</span>
+              </div>
+              <div>
+                <strong>Event</strong>
+                <span>An invite-only convening on your topic. Chatham House, fifty to one hundred leaders.</span>
+              </div>
+              <div>
+                <strong>Network</strong>
+                <span>Curated introductions inside our 25,000+ decision-maker base.</span>
+              </div>
             </div>
           </div>
           <a

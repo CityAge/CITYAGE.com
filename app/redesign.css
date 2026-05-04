@@ -1843,3 +1843,29 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* Knowledge Partner — precedent line and components label */
+.cityage-redesign .partner.kp .kp-precedent {
+  margin: 14px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.96rem;
+  line-height: 1.45;
+  color: rgba(255, 250, 241, 0.6);
+  max-width: 760px;
+}
+
+.cityage-redesign .partner.kp .kp-components {
+  display: grid;
+  gap: 14px;
+}
+
+.cityage-redesign .partner.kp .kp-components-label {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 250, 241, 0.5);
+}
