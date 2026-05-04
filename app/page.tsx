@@ -203,9 +203,8 @@ export default function HomePage() {
 
         <section className="section signals" id="signals">
           <div className="section-head" data-reveal>
-            <p className="eyebrow">Today&rsquo;s Signals</p>
+            <p className="eyebrow">Updated this morning · 6 AM PT</p>
             <h2>Signals from the Urban Planet.</h2>
-            <a href="#pro">See the full briefing</a>
           </div>
           <div className="signal-grid">
             <article className="signal-card lead" data-reveal>
