@@ -111,7 +111,7 @@ export default function HomePage() {
           </div>
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
-              <p className="eyebrow">Cities. Capital. Power.</p>
+              <p className="eyebrow">Intelligence for the Urban Planet</p>
               <h1>The 3% of Earth that runs the world.</h1>
               <p className="hero-subhead">
                 Daily intelligence on cities, capital, infrastructure, energy,
