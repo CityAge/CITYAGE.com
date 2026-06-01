@@ -1161,8 +1161,119 @@ html, body { margin:0; padding:0; background:#050403; }
   }
 
 
-  /* ─── EVENT PROMO STRIP ────────────────── */
-  .event-promo {
+  /* ─── VANCOUVER EVENT BANNER ───────────── */
+  .event-promo { display: none; } /* retired — CEC is past */
+
+  .van-banner {
+    position: relative;
+    width: 100%;
+    height: 52vh; min-height: 340px; max-height: 520px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .van-banner-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+    filter: brightness(0.82);
+    transition: transform 8s ease, filter 0.4s ease;
+  }
+  .van-banner:hover .van-banner-img {
+    transform: scale(1.02);
+    filter: brightness(0.72);
+  }
+  .van-banner-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(5,4,3,0.72) 0%,
+      rgba(5,4,3,0.45) 40%,
+      rgba(5,4,3,0.05) 70%,
+      transparent 100%
+    );
+  }
+  .van-banner-content {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 0 72px;
+    max-width: 620px;
+  }
+  .van-banner-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--brass); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .van-banner-eyebrow::before {
+    content: ''; display: block;
+    width: 28px; height: 1px; background: var(--brass);
+  }
+  .van-banner-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300; line-height: 1.05;
+    color: var(--cream); letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .van-banner-title em {
+    color: var(--brass); font-style: italic;
+  }
+  .van-banner-edition {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(250,246,238,0.45);
+    margin-bottom: 24px;
+  }
+  .van-banner-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(250,246,238,0.5);
+    margin-bottom: 32px;
+  }
+  .van-banner-cta {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: var(--brass); color: var(--ink);
+    padding: 13px 28px; text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    align-self: flex-start;
+  }
+  .van-banner-cta:hover {
+    background: #caa77c; transform: translateY(-1px);
+  }
+  .van-banner-dismiss {
+    position: absolute; top: 18px; right: 20px;
+    background: none; border: none; cursor: pointer;
+    font-size: 11px; color: rgba(250,246,238,0.25);
+    font-family: 'DM Mono', monospace; padding: 4px 8px;
+    transition: color 0.2s;
+  }
+  .van-banner-dismiss:hover { color: rgba(250,246,238,0.6); }
+
+  @media (max-width: 768px) {
+    .van-banner { height: 60vw; min-height: 260px; }
+    .van-banner-content { padding: 0 28px; }
+    .van-banner-title { font-size: clamp(28px, 8vw, 44px); }
+  }
+
+  .event-promo-inner,
+  .event-promo-left,
+  .event-promo-right,
+  .event-promo-meta,
+  .event-promo-eyebrow,
+  .event-promo-name,
+  .event-promo-detail,
+  .event-promo-sep,
+  .event-promo-cta,
+  .event-promo-close,
+  .event-promo-dot {
     background: linear-gradient(
       to right,
       #0f0b07 0%,
@@ -2744,26 +2855,20 @@ html, body {
   <a href="#contact" class="btn-outline">Talk to Us</a>
 </header>
 
-<!-- EVENT PROMO STRIP -->
-<div class="event-promo" id="event-promo">
-  <div class="event-promo-inner">
-    <div class="event-promo-left">
-      <span class="event-promo-eyebrow">
-        <span class="event-promo-dot"></span>
-        Next Forum
-      </span>
-      <span class="event-promo-name">Canada–Europe Connects</span>
-    </div>
-    <div class="event-promo-meta">
-      <span class="event-promo-detail">Bayview Yards · Ottawa</span>
-      <span class="event-promo-sep">·</span>
-      <span class="event-promo-detail">Invite-Only · 100 Leaders</span>
-    </div>
-    <div class="event-promo-right">
-      <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" class="event-promo-cta">Register Now →</a>
-      <button class="event-promo-close" onclick="document.getElementById('event-promo').style.display='none'">✕</button>
-    </div>
+<!-- VANCOUVER EVENT BANNER -->
+<div class="van-banner" id="van-banner">
+  <img class="van-banner-img" src="/vancouver-banner.jpg" alt="Vancouver" />
+  <div class="van-banner-overlay"></div>
+  <div class="van-banner-content">
+    <span class="van-banner-eyebrow">Next Forum</span>
+    <h2 class="van-banner-title">The Next<br/><em>Vancouver.</em></h2>
+    <div class="van-banner-edition">#2 — Returning October 2026</div>
+    <div class="van-banner-meta">Vancouver, British Columbia &nbsp;·&nbsp; Invite-Only &nbsp;·&nbsp; 100 Leaders</div>
+    <a href="mailto:miro@cityage.com?subject=The Next Vancouver — Register Interest"
+       class="van-banner-cta">Register Interest →</a>
   </div>
+  <button class="van-banner-dismiss"
+          onclick="document.getElementById('van-banner').style.display='none'">✕</button>
 </div>
 
 
