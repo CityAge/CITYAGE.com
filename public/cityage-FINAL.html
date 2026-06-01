@@ -1790,13 +1790,13 @@ html, body {
 }
 #page-studio .sv-wordmark {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 22px; font-weight: 300;
+  font-size: 32px; font-weight: 300;
   color: #FAF6EE; text-decoration: none;
   letter-spacing: -0.01em; line-height: 1;
 }
 #page-studio .sv-wordmark em { font-style: italic; color: #B8956A; }
 #page-studio .sv-wordmark-sub {
-  font-size: 7.5px; letter-spacing: 0.3em;
+  font-size: 10px; letter-spacing: 0.3em;
   text-transform: uppercase; color: #B8956A;
   display: block; margin-top: 3px;
 }
@@ -2506,13 +2506,13 @@ html, body {
 }
 #page-studio .sv-wordmark {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 22px; font-weight: 300;
+  font-size: 32px; font-weight: 300;
   color: #FAF6EE; text-decoration: none;
   letter-spacing: -0.01em; line-height: 1;
 }
 #page-studio .sv-wordmark em { font-style: italic; color: #B8956A; }
 #page-studio .sv-wordmark-sub {
-  font-size: 7.5px; letter-spacing: 0.3em;
+  font-size: 10px; letter-spacing: 0.3em;
   text-transform: uppercase; color: #B8956A;
   display: block; margin-top: 3px;
 }
@@ -3682,6 +3682,21 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
     <iframe class="sv-iframe" id="sv-iframe" src=""
       allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 
+    <!-- Poster thumbnail — shown before/while video loads -->
+    <div class="sv-poster" id="sv-poster"></div>
+
+    <!-- Custom mute/unmute button -->
+    <button class="sv-mute-btn" id="sv-mute-btn" onclick="svToggleMute()" title="Toggle mute">
+      <svg id="sv-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+      </svg>
+      <svg id="sv-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+    </button>
+
     <!-- Bottom gradient -->
     <div class="sv-fade"></div>
 
@@ -3833,7 +3848,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 </div>
 <script>
 var PAGES=['home','nc','studio','van'];
-function showPage(id){PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
+function showPage(id){PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
 function switchTab(id,btn){}
@@ -3849,6 +3864,30 @@ var SV_FILMS=[
 ];
 var svShelfBuilt=false;
 function svBuildShelf(){if(svShelfBuilt)return;svShelfBuilt=true;var row=document.getElementById('sv-row');if(!row)return;SV_FILMS.forEach(function(film){var c=document.createElement('div');c.className='sv-card';c.id='sv-c-'+film.id;c.onclick=function(){svPlay(film.id);};c.innerHTML='<div class="sv-thumb" style="background:'+film.bg+'"><span class="sv-thumb-title">'+film.title+'</span><div class="sv-thumb-play"><div class="sv-play-btn"><div class="sv-tri"></div></div></div></div><div class="sv-card-foot"><div class="sv-card-name">'+film.title+'</div><div class="sv-card-type">'+film.type+'</div></div>';row.appendChild(c);});}
+var SV_MUTED = true;
+function svToggleMute(){
+  var iframe=document.getElementById('sv-iframe');
+  if(!iframe||!iframe.src)return;
+  SV_MUTED=!SV_MUTED;
+  iframe.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:SV_MUTED?0:1}),'*');
+  document.getElementById('sv-icon-muted').style.display=SV_MUTED?'':'none';
+  document.getElementById('sv-icon-unmuted').style.display=SV_MUTED?'none':'';
+}
+function svLoadPoster(){
+  fetch('https://vimeo.com/api/oembed.json?url=https://vimeo.com/1197477652&width=1280')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var p=document.getElementById('sv-poster');
+      if(p&&d.thumbnail_url){
+        p.style.backgroundImage='url('+d.thumbnail_url.replace(/_\d+x\d+/,'_1280x720')+')';
+      }
+    }).catch(function(){});
+  // Fade poster once iframe is loaded
+  setTimeout(function(){
+    var p=document.getElementById('sv-poster');
+    if(p)p.classList.add('loaded');
+  },2200);
+}
 function svPlay(id){var film=null;SV_FILMS.forEach(function(f){if(f.id===id)film=f;});if(!film)return;document.querySelectorAll('#page-studio .sv-card').forEach(function(c){c.classList.remove('sv-active');});var card=document.getElementById('sv-c-'+id);if(card)card.classList.add('sv-active');document.getElementById('sv-info-type').textContent=film.type;document.getElementById('sv-info-title').innerHTML=film.title;document.getElementById('sv-info-desc').textContent=film.desc;document.getElementById('sv-info-awards').innerHTML=film.awards.map(function(a){return'<span class="sv-award">'+a+'</span>';}).join('');var plato=document.getElementById('sv-plato'),iframe=document.getElementById('sv-iframe'),info=document.getElementById('sv-info');var stillEl=document.getElementById('sv-still');if(film.stillImage){plato.classList.add('hidden');iframe.classList.remove('sv-visible');iframe.src='';if(stillEl){stillEl.src=film.stillImage;stillEl.style.display='block';}info.classList.add('sv-visible');return;}if(stillEl)stillEl.style.display='none';if(!film.vimeoId||film.vimeoId==='PASTE_VIMEO_ID'){plato.classList.remove('hidden');iframe.classList.remove('sv-visible');iframe.src='';if(stillEl)stillEl.style.display='none';var attr=document.getElementById('sv-p-attr');if(attr)attr.textContent=film.title+' — add Vimeo ID to unlock';info.classList.remove('sv-visible');return;}plato.classList.add('hidden');iframe.src='https://player.vimeo.com/video/'+film.vimeoId+'?autoplay=1&color=B8956A&title=0&byline=0&portrait=0';iframe.classList.add('sv-visible');info.classList.add('sv-visible');}
 </script>
 </body>
