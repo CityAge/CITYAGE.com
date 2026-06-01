@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The Network — CityAge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #0A0908;
+  --ink2: #0f0e0d;
+  --brass: #B8956A;
+  --brass-dim: rgba(184,149,106,0.15);
+  --cream: #FAF6EE;
+  --cream-dim: rgba(250,246,238,0.7);
+  --grey: #7A7060;
+  --film: #120f0b;
+  --film-border: #2a2218;
+  --w8: rgba(255,255,255,0.08);
+  --w15: rgba(255,255,255,0.15);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Lora', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── NAV ─────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px;
+  background: linear-gradient(to bottom, rgba(10,9,8,0.95) 0%, transparent 100%);
+  backdrop-filter: blur(8px);
+}
+.wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 300;
+  color: var(--cream); text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.wordmark em { font-style: italic; color: var(--brass); }
+.nav-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(250,246,238,0.55);
+  text-decoration: none;
+  border: 1px solid rgba(184,149,106,0.25);
+  padding: 9px 20px;
+  transition: all 0.2s;
+}
+.nav-back:hover { color: var(--cream); border-color: var(--brass); }
+
+/* ── HEADER ──────────────────────────────── */
+.header {
+  padding: 140px 48px 64px;
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0 80px; align-items: end;
+}
+.header-left {}
+.header-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--brass);
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+}
+.eyebrow-line { width: 36px; height: 1px; background: var(--brass); }
+.header-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 300; line-height: 0.95;
+  letter-spacing: -0.02em; color: var(--cream);
+  margin-bottom: 0;
+}
+.header-h1 em { font-style: italic; color: var(--brass); }
+
+.header-right {
+  padding-bottom: 6px;
+}
+.stat-row {
+  display: flex; gap: 0;
+  border-top: 1px solid var(--w8);
+  border-bottom: 1px solid var(--w8);
+  margin-bottom: 24px;
+}
+.stat {
+  flex: 1; padding: 18px 0;
+  border-right: 1px solid var(--w8);
+}
+.stat:last-child { border-right: none; padding-left: 24px; }
+.stat:first-child { padding-right: 24px; }
+.stat-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px; font-weight: 300; color: var(--brass);
+  display: block; line-height: 1; margin-bottom: 6px;
+}
+.stat-l {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--grey);
+}
+.header-desc {
+  font-family: 'Lora', serif;
+  font-size: 15px; line-height: 1.8;
+  color: var(--cream-dim);
+}
+
+/* ── FILM REELS ──────────────────────────── */
+.reel-section {
+  margin: 12px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.reel-outer {
+  background: var(--film);
+  border-top: 1px solid var(--film-border);
+  border-bottom: 1px solid var(--film-border);
+  padding: 8px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* sprocket holes */
+.reel-outer::before,
+.reel-outer::after {
+  content: '';
+  position: absolute; left: 0; right: 0;
+  height: 8px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 18px,
+    rgba(10,9,8,0.9) 18px,
+    rgba(10,9,8,0.9) 28px
+  );
+  z-index: 3; pointer-events: none;
+}
+.reel-outer::before { top: 0; }
+.reel-outer::after { bottom: 0; }
+
+/* edge fade vignette */
+.reel-fade-left,
+.reel-fade-right {
+  position: absolute; top: 0; bottom: 0; width: 120px; z-index: 4; pointer-events: none;
+}
+.reel-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--ink) 0%, transparent 100%);
+}
+.reel-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--ink) 0%, transparent 100%);
+}
+
+.reel-track {
+  display: flex; gap: 6px;
+  padding: 10px 0;
+  width: max-content;
+  cursor: pointer;
+}
+
+.reel-track:hover { animation-play-state: paused !important; }
+
+/* Row 1: right to left */
+.reel-1 .reel-track { animation: scrollLeft var(--dur, 90s) linear infinite; }
+/* Row 2: left to right */
+.reel-2 .reel-track { animation: scrollRight var(--dur, 110s) linear infinite; }
+
+@keyframes scrollLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scrollRight {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* ── FACE CARDS ──────────────────────────── */
+.face {
+  flex-shrink: 0;
+  width: 110px; height: 132px;
+  position: relative;
+  background: #1c1610;
+  border: 1px solid #2e2418;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.face:hover { transform: scale(1.05); z-index: 10; }
+
+.face img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
+  filter: grayscale(30%) brightness(0.88) contrast(1.05);
+  transition: filter 0.3s;
+}
+.face:hover img { filter: grayscale(0%) brightness(1) contrast(1.05); }
+
+.face-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(10,9,8,0.95) 0%,
+    rgba(10,9,8,0.4) 45%,
+    transparent 100%
+  );
+  opacity: 0; transition: opacity 0.25s;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 8px;
+}
+.face:hover .face-overlay { opacity: 1; }
+
+.face-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; font-weight: 400;
+  color: var(--cream); line-height: 1.2;
+  margin-bottom: 2px;
+}
+.face-org {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.1em;
+  color: var(--brass); line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* No-headshot placeholder */
+.face-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(145deg, #1a1510 0%, #0f0c09 100%);
+}
+.face-initials {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 300;
+  color: rgba(184,149,106,0.4);
+  letter-spacing: -0.02em;
+}
+
+/* ── SEARCH ──────────────────────────────── */
+.search-section {
+  padding: 56px 48px 32px;
+  max-width: 900px; margin: 0 auto;
+}
+.search-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--grey);
+  display: block; margin-bottom: 16px;
+}
+.search-wrap {
+  position: relative;
+}
+.search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(184,149,106,0.35);
+  padding: 14px 44px 14px 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 300;
+  color: var(--cream);
+  outline: none;
+  caret-color: var(--brass);
+  transition: border-color 0.2s;
+}
+.search-input::placeholder {
+  color: rgba(250,246,238,0.2);
+  font-style: italic;
+}
+.search-input:focus { border-bottom-color: var(--brass); }
+.search-clear {
+  position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  color: var(--grey); cursor: pointer;
+  background: none; border: none;
+  display: none; transition: color 0.2s;
+}
+.search-clear:hover { color: var(--cream); }
+.search-clear.visible { display: block; }
+
+/* Search results */
+.results-section {
+  padding: 0 48px 80px;
+  max-width: 1400px; margin: 0 auto;
+  display: none;
+}
+.results-section.visible { display: block; }
+.results-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--grey);
+  margin-bottom: 28px; margin-top: 32px;
+}
+.results-count span { color: var(--brass); }
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2px;
+}
+.result-card {
+  background: #0d0c0b;
+  border: 1px solid var(--w8);
+  display: flex; gap: 12px; align-items: center;
+  padding: 12px;
+  transition: border-color 0.2s; cursor: pointer;
+  text-decoration: none;
+}
+.result-card:hover { border-color: var(--brass-dim); }
+.result-thumb {
+  width: 44px; height: 52px; flex-shrink: 0;
+  overflow: hidden;
+  background: #1c1610;
+}
+.result-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+}
+.result-info { min-width: 0; }
+.result-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px; color: var(--cream);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+.result-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.1em;
+  color: var(--brass);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  line-height: 1.4;
+}
+.result-org {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.08em;
+  color: var(--grey);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.no-results {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-style: italic;
+  color: rgba(250,246,238,0.25);
+  padding: 40px 0;
+  text-align: center; display: none;
+}
+.no-results.visible { display: block; }
+
+/* ── FOOTER ──────────────────────────────── */
+footer {
+  border-top: 1px solid var(--w8);
+  padding: 28px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(122,112,96,0.45);
+}
+
+/* ── LOADING ─────────────────────────────── */
+.loading {
+  text-align: center; padding: 80px 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(184,149,106,0.5);
+}
+.loading-dot {
+  display: inline-block;
+  animation: blink 1.2s ease-in-out infinite;
+}
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+  0%,100%{ opacity: 0.2; } 50%{ opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .header { grid-template-columns: 1fr; gap: 36px; padding: 110px 24px 48px; }
+  .search-section { padding: 40px 24px 24px; }
+  .results-section { padding: 0 24px 60px; }
+  footer { flex-direction: column; gap: 12px; padding: 24px; }
+  nav { padding: 16px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="wordmark" href="/cityage-FINAL.html">City<em>Age</em></a>
+  <a class="nav-back" href="/cityage-FINAL.html">← The Urban Planet</a>
+</nav>
+
+<section class="header">
+  <div class="header-left">
+    <div class="header-eyebrow">
+      <span class="eyebrow-line"></span>
+      The CityAge Network
+    </div>
+    <h1 class="header-h1">The people<br/>building the<br/><em>Urban Planet.</em></h1>
+  </div>
+  <div class="header-right">
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-n" id="stat-speakers">—</span>
+        <span class="stat-l">Speakers</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n" id="stat-events">25</span>
+        <span class="stat-l">Forums</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n" id="stat-cities">43</span>
+        <span class="stat-l">Cities</span>
+      </div>
+    </div>
+    <p class="header-desc">Mayors, ministers, ambassadors, engineers, investors, and innovators — the leaders who have spoken at CityAge forums across North America and Europe.</p>
+  </div>
+</section>
+
+<!-- Reel 1: right to left -->
+<div class="reel-section reel-1">
+  <div class="reel-outer">
+    <div class="reel-fade-left"></div>
+    <div class="reel-fade-right"></div>
+    <div class="reel-track" id="reel-a">
+      <div class="loading"><span class="loading-dot">·</span><span class="loading-dot">·</span><span class="loading-dot">·</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Reel 2: left to right -->
+<div class="reel-section reel-2">
+  <div class="reel-outer">
+    <div class="reel-fade-left"></div>
+    <div class="reel-fade-right"></div>
+    <div class="reel-track" id="reel-b"></div>
+  </div>
+</div>
+
+<!-- Search -->
+<section class="search-section">
+  <span class="search-label">Search the network</span>
+  <div class="search-wrap">
+    <input class="search-input" id="search" type="text"
+           placeholder="Name, title, or organisation…" autocomplete="off"/>
+    <button class="search-clear" id="search-clear">Clear ×</button>
+  </div>
+</section>
+
+<section class="results-section" id="results-section">
+  <div class="results-count" id="results-count"></div>
+  <div class="results-grid" id="results-grid"></div>
+  <div class="no-results" id="no-results">No matches found.</div>
+</section>
+
+<footer>
+  <span>CityAge · The Urban Planet Network</span>
+  <span id="footer-count">Loading…</span>
+  <span>© 2026 CityAge</span>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://rniqmxpmtqmnwqtawlnz.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ';
+
+let ALL_SPEAKERS = [];
+
+// Fisher-Yates shuffle
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initials(name) {
+  return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
+function faceCard(s, size = 110) {
+  const d = document.createElement('div');
+  d.className = 'face';
+  d.style.width = size + 'px';
+  d.style.height = Math.round(size * 1.2) + 'px';
+  if (s.headshot_url) {
+    d.innerHTML = `
+      <img src="${s.headshot_url}" alt="${s.name}" loading="lazy"
+           onerror="this.parentElement.innerHTML='<div class=face-placeholder><span class=face-initials>${initials(s.name)}</span></div>'"/>
+      <div class="face-overlay">
+        <div class="face-name">${s.name}</div>
+        <div class="face-org">${s.organisation||''}</div>
+      </div>`;
+  } else {
+    d.innerHTML = `
+      <div class="face-placeholder"><span class="face-initials">${initials(s.name)}</span></div>
+      <div class="face-overlay">
+        <div class="face-name">${s.name}</div>
+        <div class="face-org">${s.organisation||''}</div>
+      </div>`;
+  }
+  if (s.linkedin_url) {
+    d.style.cursor = 'pointer';
+    d.addEventListener('click', () => window.open(s.linkedin_url, '_blank'));
+  }
+  return d;
+}
+
+function buildReel(trackEl, speakers) {
+  trackEl.innerHTML = '';
+  // Double the array for seamless loop
+  const doubled = [...speakers, ...speakers];
+  doubled.forEach(s => trackEl.appendChild(faceCard(s)));
+}
+
+async function loadSpeakers() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/speakers?select=name,title,organisation,headshot_url,linkedin_url&order=id`,
+      { headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` } }
+    );
+    const data = await res.json();
+
+    // Deduplicate by name
+    const seen = new Set();
+    ALL_SPEAKERS = data.filter(s => {
+      if (seen.has(s.name)) return false;
+      seen.add(s.name);
+      return true;
+    });
+
+    document.getElementById('stat-speakers').textContent = ALL_SPEAKERS.length;
+    document.getElementById('footer-count').textContent =
+      ALL_SPEAKERS.length + ' speakers · ' + new Date().getFullYear();
+
+    const shuffled = shuffle(ALL_SPEAKERS);
+    const half = Math.ceil(shuffled.length / 2);
+
+    buildReel(document.getElementById('reel-a'), shuffled.slice(0, half));
+    buildReel(document.getElementById('reel-b'), shuffled.slice(half));
+
+  } catch (e) {
+    console.error(e);
+    document.getElementById('reel-a').innerHTML =
+      '<div style="padding:40px;color:rgba(250,246,238,0.3);font-family:\'DM Mono\',monospace;font-size:10px;">Unable to load speakers</div>';
+  }
+}
+
+// ── SEARCH ───────────────────────────────────
+const searchEl = document.getElementById('search');
+const clearBtn = document.getElementById('search-clear');
+const resultsSection = document.getElementById('results-section');
+const resultsGrid = document.getElementById('results-grid');
+const resultsCount = document.getElementById('results-count');
+const noResults = document.getElementById('no-results');
+const reelA = document.getElementById('reel-a');
+const reelB = document.getElementById('reel-b');
+
+function pauseReels(pause) {
+  const state = pause ? 'paused' : 'running';
+  reelA.style.animationPlayState = state;
+  reelB.style.animationPlayState = state;
+}
+
+searchEl.addEventListener('input', () => {
+  const q = searchEl.value.trim().toLowerCase();
+  clearBtn.classList.toggle('visible', q.length > 0);
+
+  if (!q) {
+    resultsSection.classList.remove('visible');
+    pauseReels(false);
+    return;
+  }
+
+  pauseReels(true);
+  resultsSection.classList.add('visible');
+
+  const matches = ALL_SPEAKERS.filter(s =>
+    s.name.toLowerCase().includes(q) ||
+    (s.title||'').toLowerCase().includes(q) ||
+    (s.organisation||'').toLowerCase().includes(q)
+  );
+
+  resultsCount.innerHTML = `<span>${matches.length}</span> result${matches.length !== 1 ? 's' : ''} for "${searchEl.value.trim()}"`;
+  noResults.classList.toggle('visible', matches.length === 0);
+  resultsGrid.innerHTML = '';
+
+  matches.forEach(s => {
+    const a = document.createElement('a');
+    a.className = 'result-card';
+    a.href = s.linkedin_url || '#';
+    if (s.linkedin_url) a.target = '_blank';
+    a.innerHTML = `
+      <div class="result-thumb">
+        ${s.headshot_url
+          ? `<img src="${s.headshot_url}" alt="${s.name}" loading="lazy"/>`
+          : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1c1610;"><span style="font-family:'Cormorant Garamond',serif;font-size:18px;color:rgba(184,149,106,0.4);">${initials(s.name)}</span></div>`
+        }
+      </div>
+      <div class="result-info">
+        <div class="result-name">${s.name}</div>
+        <div class="result-title">${s.title||''}</div>
+        <div class="result-org">${s.organisation||''}</div>
+      </div>`;
+    resultsGrid.appendChild(a);
+  });
+});
+
+clearBtn.addEventListener('click', () => {
+  searchEl.value = '';
+  clearBtn.classList.remove('visible');
+  resultsSection.classList.remove('visible');
+  pauseReels(false);
+  searchEl.focus();
+});
+
+loadSpeakers();
+</script>
+</body>
+</html>
