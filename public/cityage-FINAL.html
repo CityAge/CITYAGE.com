@@ -2637,6 +2637,27 @@ html, body {
   text-transform: uppercase; color: rgba(80,70,60,0.5);
   flex-shrink: 0; white-space: nowrap;
 }
+#page-studio .sv-logo-img {
+  height: 32px; max-width: 100px;
+  object-fit: contain; object-position: center;
+  filter: grayscale(100%);
+  opacity: 0.65;
+  transition: opacity 0.2s, filter 0.2s;
+  flex-shrink: 0;
+}
+#page-studio .sv-logo-img:hover {
+  opacity: 1; filter: grayscale(0%);
+}
+#page-studio .sv-logos-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: rgba(80,70,60,0.4);
+  flex-shrink: 0; white-space: nowrap;
+  margin-right: 8px;
+}
+.sv-logos {
+  flex-wrap: wrap; justify-content: center; gap: 28px;
+}
 #page-studio .sv-logo {
   font-size: 10px; letter-spacing: 0.14em;
   text-transform: uppercase; color: rgba(30,25,20,0.55); font-weight: 500;
@@ -3079,7 +3100,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 </header>
 
 <!-- VANCOUVER EVENT BANNER -->
-<div class="van-banner" id="van-banner" onclick="if(event.target.className!='van-banner-dismiss')showPage('van')">
+<div class="van-banner" id="van-banner" onclick="if(event.target.className!='van-banner-dismiss'&&event.target.tagName!='A')showPage('van')">
   <img class="van-banner-img" src="/vancouver-banner.jpg" alt="Vancouver" />
   <div class="van-banner-overlay"></div>
   <div class="van-banner-content">
@@ -3676,22 +3697,21 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 
   <!-- LOGO BAR -->
   <div class="sv-logos">
-    <span class="sv-logos-label">As seen in</span>
-    <span class="sv-logo sv-logo-hi">National Geographic</span>
-    <span class="sv-logo-sep"></span>
-    <span class="sv-logo">The Economist</span>
-    <span class="sv-logo-sep"></span>
-    <span class="sv-logo">60 Minutes</span>
-    <span class="sv-logo-sep"></span>
-    <span class="sv-logo">LEO Awards</span>
-    <span class="sv-logo-sep"></span>
-    <span class="sv-logo">Long Beach IFF</span>
-    <span class="sv-logo-sep"></span>
-    <span class="sv-logo">Sonoma IFF</span>
-    <span class="sv-logo-sep"></span>
-    <span class="sv-logo">Globe &amp; Mail</span>
-    <span class="sv-logo-sep"></span>
-    <span class="sv-logo">BBC · CBC · NYT · WSJ</span>
+    <span class="sv-logos-label">Where Our Work Appears</span>
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/natgeo.jpg"    alt="National Geographic" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/economi.jpg"   alt="The Economist" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/60.jpg"        alt="60 Minutes" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/cbc.jpg"       alt="CBC" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/nyt.jpg"       alt="New York Times" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/pbs.jpg"       alt="PBS" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/tiff.jpg"      alt="TIFF" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/leo.jpg"       alt="LEO Awards" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/long.jpg"      alt="Long Beach IFF" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/sonoma.jpg"    alt="Sonoma IFF" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/cannes.jpg"    alt="Cannes" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/feratum.jpg"   alt="Feratum" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/canal.jpg"     alt="Canal" />
+    <img class="sv-logo-img" src="https://cityage.com/wp-content/uploads/cordillera.jpg" alt="Cordillera" />
   </div>
 
   <!-- FILM SHELF -->
@@ -3787,7 +3807,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         <p>The inaugural Next Vancouver brought together 100 leaders for a day of conversations about the city's future — its economy, its housing crisis, its role in the Pacific, and the decisions that would define the next decade.</p>
         <p>The conversations that happened in that room are still happening. That is what CityAge does.</p>
       </div>
-      <a href="PAST_EVENT_URL" class="van-link">View the 2025 event and participants →</a>
+      <a href="https://cityage.com/events/the-next-vancouver/" target="_blank" class="van-link">View The Next Vancouver #1 — Speakers and Program →</a>
     </div>
     <div style="position:relative;">
       <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(80px,12vw,140px);font-weight:300;color:rgba(250,246,238,0.04);line-height:1;text-align:right;">#1</div>
