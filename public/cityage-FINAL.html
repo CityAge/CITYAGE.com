@@ -2513,22 +2513,25 @@ html, body {
    LOGO BAR — directly below player
 ══════════════════════════════════════════ */
 #page-studio .sv-logos {
-  background: #080706;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  padding: 16px 48px;
-  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  background: #F5F2EC;
+  border-top: none;
+  border-bottom: none;
+  padding: 28px 48px;
+  display: flex; align-items: center;
+  justify-content: center;
+  gap: 40px; flex-wrap: wrap;
 }
 #page-studio .sv-logos-label {
   font-size: 7.5px; letter-spacing: 0.26em;
-  text-transform: uppercase; color: rgba(122,112,96,0.4);
+  text-transform: uppercase; color: rgba(80,70,60,0.5);
   flex-shrink: 0; white-space: nowrap;
 }
 #page-studio .sv-logo {
-  font-size: 9px; letter-spacing: 0.16em;
-  text-transform: uppercase; color: rgba(250,246,238,0.3);
+  font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(30,25,20,0.55); font-weight: 500;
   white-space: nowrap; transition: color 0.2s; cursor: default;
 }
-#page-studio .sv-logo:hover { color: rgba(250,246,238,0.6); }
+#page-studio .sv-logo:hover { color: rgba(30,25,20,0.9); }
 #page-studio .sv-logo-hi { color: rgba(184,149,106,0.55); }
 #page-studio .sv-logo-hi:hover { color: rgba(184,149,106,0.85); }
 #page-studio .sv-logo-sep {
@@ -2669,6 +2672,42 @@ html, body {
   #page-studio .sv-info { padding: 0 20px 18px; }
   #page-studio .sv-cta { flex-direction: column; gap: 16px; padding: 24px 20px; }
 }
+
+/* ── STUDIO ABOUT ─── */
+.sv-about {
+  background: #080706;
+  padding: 80px 48px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.sv-about-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 2fr; gap: 80px;
+  align-items: start;
+}
+.sv-about-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--brass);
+  display: block; margin-bottom: 16px;
+}
+.sv-about-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 300; line-height: 1.1;
+  color: var(--cream);
+}
+.sv-about-title em { color: var(--brass); font-style: italic; }
+.sv-about-p {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 16px; line-height: 1.8;
+  color: rgba(250,246,238,0.65);
+  margin-bottom: 20px; max-width: 620px;
+}
+@media (max-width: 768px) {
+  .sv-about-inner { grid-template-columns: 1fr; gap: 32px; }
+  .sv-about { padding: 48px 24px; }
+}
+
 
 </style>
 </head>
@@ -3364,10 +3403,7 @@ var SV_FILMS=[
 ];
 var svShelfBuilt=false;
 function svBuildShelf(){if(svShelfBuilt)return;svShelfBuilt=true;var row=document.getElementById('sv-row');if(!row)return;SV_FILMS.forEach(function(film){var c=document.createElement('div');c.className='sv-card';c.id='sv-c-'+film.id;c.onclick=function(){svPlay(film.id);};c.innerHTML='<div class="sv-thumb" style="background:'+film.bg+'"><span class="sv-thumb-title">'+film.title+'</span><div class="sv-thumb-play"><div class="sv-play-btn"><div class="sv-tri"></div></div></div></div><div class="sv-card-foot"><div class="sv-card-name">'+film.title+'</div><div class="sv-card-type">'+film.type+'</div></div>';row.appendChild(c);});}
-function svPlay(id){var film=null;SV_FILMS.forEach(function(f){if(f.id===id)film=f;});if(!film)return;document.querySelectorAll('#page-studio .sv-card').forEach(function(c){c.classList.remove('sv-active');});var card=document.getElementById('sv-c-'+id);if(card)card.classList.add('sv-active');document.getElementById('sv-info-type').textContent=film.type;document.getElementById('sv-info-title').innerHTML=film.title;document.getElementById('sv-info-desc').textContent=film.desc;document.getElementById('sv-info-awards').innerHTML=film.awards.map(function(a){return'<span class="sv-award">'+a+'</span>';}).join('');var plato=document.getElementById('sv-plato'),iframe=document.getElementById('sv-iframe'),info=document.getElementById('sv-info');if(!film.vimeoId||film.vimeoId==='PASTE_VIMEO_ID'){plato.classList.remove('hidden');iframe.classList.remove('sv-visible');iframe.src='';var sEl=document.getElementById('sv-still');if(sEl)sEl.style.display='none';var attr=document.getElementById('sv-p-attr');if(attr)attr.textContent=film.title+' — add Vimeo ID to unlock';info.classList.remove('sv-visible');return;}var stillEl=document.getElementById('sv-still');
-  if(film.stillImage){plato.classList.add('hidden');iframe.classList.remove('sv-visible');iframe.src='';if(stillEl){stillEl.src=film.stillImage;stillEl.style.display='block';}info.classList.add('sv-visible');return;}
-  if(stillEl)stillEl.style.display='none';
-  plato.classList.add('hidden');iframe.src='https://player.vimeo.com/video/'+film.vimeoId+'?autoplay=1&color=B8956A&title=0&byline=0&portrait=0';iframe.classList.add('sv-visible');info.classList.add('sv-visible');}
+function svPlay(id){var film=null;SV_FILMS.forEach(function(f){if(f.id===id)film=f;});if(!film)return;document.querySelectorAll('#page-studio .sv-card').forEach(function(c){c.classList.remove('sv-active');});var card=document.getElementById('sv-c-'+id);if(card)card.classList.add('sv-active');document.getElementById('sv-info-type').textContent=film.type;document.getElementById('sv-info-title').innerHTML=film.title;document.getElementById('sv-info-desc').textContent=film.desc;document.getElementById('sv-info-awards').innerHTML=film.awards.map(function(a){return'<span class="sv-award">'+a+'</span>';}).join('');var plato=document.getElementById('sv-plato'),iframe=document.getElementById('sv-iframe'),info=document.getElementById('sv-info');var stillEl=document.getElementById('sv-still');if(film.stillImage){plato.classList.add('hidden');iframe.classList.remove('sv-visible');iframe.src='';if(stillEl){stillEl.src=film.stillImage;stillEl.style.display='block';}info.classList.add('sv-visible');return;}if(stillEl)stillEl.style.display='none';if(!film.vimeoId||film.vimeoId==='PASTE_VIMEO_ID'){plato.classList.remove('hidden');iframe.classList.remove('sv-visible');iframe.src='';if(stillEl)stillEl.style.display='none';var attr=document.getElementById('sv-p-attr');if(attr)attr.textContent=film.title+' — add Vimeo ID to unlock';info.classList.remove('sv-visible');return;}plato.classList.add('hidden');iframe.src='https://player.vimeo.com/video/'+film.vimeoId+'?autoplay=1&color=B8956A&title=0&byline=0&portrait=0';iframe.classList.add('sv-visible');info.classList.add('sv-visible');}
 </script>
 </body>
 </html>
