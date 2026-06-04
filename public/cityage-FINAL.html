@@ -3091,21 +3091,9 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
   <a href="#contact" class="btn-outline">Talk to Us</a>
 </header>
 
-<!-- VANCOUVER EVENT BANNER -->
-<div class="van-banner" id="van-banner" onclick="if(event.target.className!='van-banner-dismiss'&&event.target.tagName!='A')showPage('van')">
-  <img class="van-banner-img" src="/vancouver-banner.jpg" alt="Vancouver" />
-  <div class="van-banner-overlay"></div>
-  <div class="van-banner-content">
-    <span class="van-banner-eyebrow">Next Forum</span>
-    <h2 class="van-banner-title">The Next<br/><em>Vancouver.</em></h2>
-    <div class="van-banner-edition">#2 — Returning October 2026</div>
-    <div class="van-banner-meta">Vancouver, British Columbia &nbsp;·&nbsp; Invite-Only &nbsp;·&nbsp; 100 Leaders</div>
-    <a href="mailto:miro@cityage.com?subject=The Next Vancouver — Register Interest"
-       class="van-banner-cta">Register Interest →</a>
-  </div>
-  <button class="van-banner-dismiss"
-          onclick="document.getElementById('van-banner').style.display='none'">✕</button>
-</div>
+
+
+
 
 
 
@@ -3135,7 +3123,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         <em>The Urban Planet.</em>
       </h1>
       <p class="hero-p">
-        Most of us live on 3% of the planet. What we decide there shapes the future of everything. CityAge connects the ideas, leaders, and investment building our future.
+        Most of us live on 3% of the planet. What we decide there shapes the future of everything.
       </p>
       <!-- TICKER injected below stats bar — removed from here -->
       <div class="hero-ctas">
@@ -3211,13 +3199,28 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
   </div>
 </div>
 
+<!-- NEXT FORUM BANNER -->
+<div class="van-banner" id="van-banner" onclick="if(event.target.className!='van-banner-dismiss'&&event.target.tagName!='A')showPage('van')">
+  <img class="van-banner-img" src="/vancouver-banner.jpg" alt="Vancouver" />
+  <div class="van-banner-overlay"></div>
+  <div class="van-banner-content">
+    <span class="van-banner-eyebrow">Next Forum</span>
+    <h2 class="van-banner-title">The Next<br/><em>Vancouver.</em></h2>
+    <div class="van-banner-edition">#2 — Returning October 2026</div>
+    <div class="van-banner-meta">Vancouver, British Columbia &nbsp;·&nbsp; Invite-Only &nbsp;·&nbsp; 100 Leaders</div>
+    <a href="mailto:miro@cityage.com?subject=The Next Vancouver — Register Interest"
+       class="van-banner-cta">Register Interest →</a>
+  </div>
+  <button class="van-banner-dismiss"
+          onclick="document.getElementById('van-banner').style.display='none'">✕</button>
+</div>
+
 <!-- TABS: WHAT WE DO -->
 <section class="verticals-section" id="what-we-do">
   <div class="verticals-inner">
 
     <div class="verticals-header reveal">
       <span class="verticals-eyebrow">What We Do</span>
-      <h2 class="verticals-title">Five ways CityAge<br/><em>puts you in the room.</em></h2>
     </div>
 
     <div class="ve-list">
