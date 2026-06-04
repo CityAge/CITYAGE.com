@@ -3548,7 +3548,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
   </div>
   <div class="footer-bottom">
     <span>© 2026 CityAge · Vancouver · Ottawa · Washington DC · Reykjavík</span>
-    <span>Michener Award · Est. 2012</span>
+    <span><a href="#" onclick="showPage('privacy');return false;" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(184,149,106,0.3);">Privacy Policy</a> &nbsp;·&nbsp; Michener Award · Est. 2012</span>
   </div>
 </footer>
 
@@ -4272,8 +4272,120 @@ document.getElementById('contact-form').addEventListener('submit', async functio
 </footer>
 
 </div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: PRIVACY POLICY
+     ═══════════════════════════════════════════ -->
+<div id="page-privacy" style="display:none" class="page-privacy">
+
+<style>
+.page-privacy { background: var(--ink); color: var(--cream); min-height: 100vh; font-family: 'Lora', Georgia, serif; }
+.pp-nav { display: flex; align-items: center; justify-content: space-between; padding: 28px 60px; border-bottom: 1px solid var(--white10); }
+.pp-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--cream); text-decoration: none; }
+.pp-wordmark em { font-style: italic; color: var(--brass); }
+.pp-back { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(250,246,238,0.5); text-decoration: none; border: 1px solid rgba(184,149,106,0.25); padding: 10px 22px; transition: all 0.2s; }
+.pp-back:hover { color: var(--cream); border-color: var(--brass); }
+.pp-wrap { max-width: 760px; margin: 0 auto; padding: 80px 40px 100px; }
+.pp-eyebrow { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--brass); display: block; margin-bottom: 20px; }
+.pp-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 6vw, 64px); font-weight: 300; color: var(--cream); line-height: 1; margin-bottom: 24px; }
+.pp-intro { font-family: 'Lora', serif; font-size: 16px; line-height: 1.8; color: rgba(250,246,238,0.6); margin-bottom: 16px; }
+.pp-rule { height: 1px; background: var(--white10); margin: 48px 0; border: none; }
+.pp-h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--cream); margin: 44px 0 18px; line-height: 1.1; }
+.pp-body { font-family: 'Lora', serif; font-size: 15px; line-height: 1.85; color: rgba(250,246,238,0.62); margin-bottom: 16px; }
+.pp-list { list-style: none; padding: 0; margin: 0 0 16px; }
+.pp-list li { font-family: 'Lora', serif; font-size: 15px; line-height: 1.7; color: rgba(250,246,238,0.62); padding-left: 22px; position: relative; margin-bottom: 10px; }
+.pp-list li::before { content: '·'; color: var(--brass); position: absolute; left: 6px; font-weight: 700; }
+.pp-body a, .pp-list a { color: var(--brass); text-decoration: none; border-bottom: 1px solid rgba(184,149,106,0.3); }
+.pp-contact { font-family: 'Lora', serif; font-size: 15px; line-height: 1.8; color: rgba(250,246,238,0.62); }
+.pp-updated { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: var(--grey); margin-top: 40px; font-style: normal; }
+.pp-footer { padding: 28px 60px; border-top: 1px solid var(--white10); display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(122,112,96,0.4); }
+@media (max-width: 768px) { .pp-nav { padding: 20px 24px; } .pp-wrap { padding: 56px 24px 64px; } .pp-footer { padding: 24px; flex-direction: column; gap: 12px; } }
+</style>
+
+<nav class="pp-nav">
+  <a class="pp-wordmark" href="#" onclick="showPage('home');return false;">City<em>Age</em></a>
+  <a class="pp-back" href="#" onclick="showPage('home');return false;">← Back to CityAge</a>
+</nav>
+
+<div class="pp-wrap">
+  <span class="pp-eyebrow">Legal</span>
+  <h1 class="pp-title">Privacy Policy</h1>
+  <p class="pp-intro">Your privacy is important to us. This policy explains how CityAge collects, uses, and protects your information, in compliance with the EU General Data Protection Regulation (GDPR) and applicable Canadian and United States privacy law.</p>
+  <p class="pp-intro">This website is owned and operated by CityAge Media Inc. ("CityAge," "we," "us"). For the purposes of this policy, "the Website" refers to all websites owned by CityAge, together with our related services and products.</p>
+  <p class="pp-intro">By using this Website, you acknowledge and accept the terms of this Privacy Policy. We may update it from time to time at our discretion; your continued use of the Website after any change constitutes acceptance of that change. We encourage you to review this page periodically.</p>
+
+  <hr class="pp-rule"/>
+
+  <h2 class="pp-h2">Our Principles</h2>
+  <ul class="pp-list">
+    <li>We do not actively collect sensitive information about you, including information about your health, racial or ethnic origin, political opinions, religious beliefs, sexual orientation, or criminal history.</li>
+    <li>We take reasonable steps to protect any sensitive information we do receive.</li>
+    <li>We do not share your personal information with anyone except to comply with the law, deliver our services, or protect our rights.</li>
+    <li>We store personal information only for as long as we have a reason to keep it.</li>
+    <li>In our email communications, we always give you a clear way to unsubscribe.</li>
+  </ul>
+
+  <h2 class="pp-h2">Information We Collect</h2>
+  <p class="pp-body">Like most website operators, we collect non-personally-identifying information that browsers and servers typically make available — such as browser type, language preference, referring site, and the date and time of each request. We use this to understand how visitors use the Website.</p>
+  <p class="pp-body">We may also collect potentially personally-identifying information, such as IP addresses. We do not use this to identify visitors.</p>
+  <p class="pp-body">When you choose to interact with us — for example, by completing a contact form — we collect personally-identifying information such as your name, email address, organisation, and message. We collect only what is necessary to respond to your request.</p>
+  <p class="pp-body">We do not collect or store payment or financial information. All payments — for event registration, sponsorship, or any paid product — are processed by trusted third-party platforms (such as Stripe and Ticket Tailor), each governed by its own privacy and security policies. Your card and financial details are handled entirely by those providers and never pass through or rest on CityAge's servers.</p>
+  <p class="pp-body">You can always decline to provide personal information, though this may prevent you from using certain features of the Website.</p>
+
+  <h2 class="pp-h2">How We Use Your Information</h2>
+  <p class="pp-body">We use the information you provide to respond to your enquiries, deliver and improve our services, and keep you informed about CityAge forums, intelligence, and related work — but only where you have asked to hear from us. You can opt out of these communications at any time.</p>
+
+  <h2 class="pp-h2">Events, Photography &amp; Chatham House Rule</h2>
+  <p class="pp-body">When you attend a CityAge event, you may be photographed, filmed, recorded, or quoted, and that material may be used in CityAge's publications, marketing, and related communications. By attending, you consent to this use. If you wish to opt out, please let our team know in advance or on site.</p>
+  <p class="pp-body">Many CityAge forums operate under the Chatham House Rule, meaning information shared may be used but the identity and affiliation of speakers and participants are not to be revealed. While we ask all guests to honour this principle, CityAge cannot guarantee that every attendee will comply, and we are not responsible for disclosures made by others.</p>
+
+  <h2 class="pp-h2">Sharing of Information</h2>
+  <p class="pp-body">CityAge will not sell, rent, or trade your personally identifiable information to third parties.</p>
+  <p class="pp-body">We may share information with employees, contractors, and affiliated organisations who need it to operate the Website or deliver our services, and who have agreed to keep it confidential. Some of these parties may be located outside your home country; by using the Website, you consent to such transfers.</p>
+  <p class="pp-body">We disclose personal information only when required by law, or when we believe in good faith that disclosure is reasonably necessary to protect the rights, property, or safety of CityAge, third parties, or the public.</p>
+  <p class="pp-body">We use the following third-party service providers, each governed by its own privacy policy:</p>
+  <ul class="pp-list">
+    <li>Vercel (hosting and privacy-friendly, cookieless analytics)</li>
+    <li>Supabase (data storage)</li>
+    <li>Stripe (payment processing)</li>
+    <li>Ticket Tailor (event registration and payment)</li>
+  </ul>
+
+  <h2 class="pp-h2">Cookies</h2>
+  <p class="pp-body">We keep cookies to a minimum. Our analytics are privacy-friendly and cookieless, meaning we can understand general site usage without tracking you across the web or storing identifying cookies on your device. Any cookies we do use are limited to essential site function. You may set your browser to refuse or remove cookies, though some features of the Website may not function properly as a result.</p>
+
+  <h2 class="pp-h2">Data Security</h2>
+  <p class="pp-body">We take reasonable technical and organisational measures to protect your personal information against unauthorised access, alteration, disclosure, or destruction. However, no method of transmission over the internet or electronic storage is completely secure, and we cannot guarantee absolute security.</p>
+
+  <h2 class="pp-h2">Children's Privacy</h2>
+  <p class="pp-body">This Website is not directed at children, and we do not knowingly collect personal information from anyone under the age of 16. If you believe a child has provided us with personal information, please contact us and we will take steps to delete it.</p>
+
+  <h2 class="pp-h2">Your Rights</h2>
+  <p class="pp-body">You may opt out of future communications, update your information, or request removal at any time by emailing <a href="mailto:info@cityage.com">info@cityage.com</a>, or by using the unsubscribe link in our emails. Please note we may retain certain information where required for record-keeping or by law.</p>
+
+  <h2 class="pp-h2">United States &amp; California Residents</h2>
+  <p class="pp-body">If you are a resident of the United States, you may have rights under state privacy laws, including the California Consumer Privacy Act (CCPA) as amended by the California Privacy Rights Act (CPRA). These may include the right to know what personal information we hold about you, the right to request its deletion, and the right to opt out of the sale or sharing of personal information.</p>
+  <p class="pp-body">CityAge does not sell your personal information. To exercise any of these rights, contact us at <a href="mailto:info@cityage.com">info@cityage.com</a> and we will respond as required by applicable law.</p>
+
+  <h2 class="pp-h2">Your Consent</h2>
+  <p class="pp-body">By using this Website, you consent to our collection and use of your personal information as described in this Privacy Policy.</p>
+
+  <hr class="pp-rule"/>
+
+  <h2 class="pp-h2">Contact</h2>
+  <p class="pp-contact">CityAge Media Inc.<br/>Vancouver, British Columbia, Canada<br/><a href="mailto:info@cityage.com">info@cityage.com</a></p>
+
+  <p class="pp-updated">Last updated: June 2026</p>
+</div>
+
+<footer class="pp-footer">
+  <span>© 2026 CityAge · Intelligence for the Urban Planet</span>
+  <a href="#" onclick="showPage('home');return false;" style="color:rgba(122,112,96,0.4);text-decoration:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;">← Back to CityAge</a>
+</footer>
+
+</div>
 <script>
-function showPage(id){var PAGES=['home','nc','studio','van','pnw'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
+function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
 function switchTab(id,btn){}
