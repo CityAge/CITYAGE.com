@@ -4262,6 +4262,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
 </footer>
 
 </div>
+<script>
 function showPage(id){var PAGES=['home','nc','studio','van','pnw'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
