@@ -896,9 +896,11 @@ html, body { margin:0; padding:0; background:#050403; }
   }
   .ve-nav-item.active .ve-nav-title,
   .ve-nav-item:hover .ve-nav-title { color: var(--cream); }
+  .ve-panels { position: relative; overflow: hidden; }
   .ve-panel {
-    padding: 52px 56px; display: none;
-    flex-direction: column; min-height: 360px;
+    padding: 52px 56px;
+    flex-direction: column; min-height: 380px;
+    display: none;
   }
   .ve-panel.active { display: flex; }
   .ve-panel-num {
@@ -3288,7 +3290,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
     </div>
 
     <!-- Desktop: two-column editorial -->
-    <div class="verticals-editorial reveal">
+    <div class="verticals-editorial">
 
       <nav class="ve-nav">
         <div class="ve-nav-item active" data-panel="v1">
