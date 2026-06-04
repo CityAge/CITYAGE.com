@@ -859,113 +859,79 @@ html, body { margin:0; padding:0; background:#050403; }
     line-height: 1.1;
   }
   .verticals-title em { font-style: italic; color: var(--brass); }
-  /* Two-column editorial layout */
-  .verticals-editorial {
-    display: grid;
-    grid-template-columns: 280px 1fr;
+  /* ─── WHAT WE DO — TABS ─────────────────── */
+  .ve-tabs {
     border: 1px solid var(--white10);
-    align-items: start;
   }
-  .ve-nav { border-right: 1px solid var(--white10); }
-  .ve-panels { position: relative; min-height: 380px; }
-  .ve-nav-item {
-    display: flex; align-items: center; gap: 16px;
-    padding: 26px 28px; cursor: pointer;
+  .ve-tab-nav {
+    display: flex;
     border-bottom: 1px solid var(--white10);
-    transition: background 0.2s; position: relative;
-    overflow: hidden;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
-  .ve-nav-item:last-child { border-bottom: none; }
-  .ve-nav-item:hover { background: rgba(255,255,255,0.03); }
-  .ve-nav-item.active { background: rgba(184,149,106,0.07); }
-  .ve-nav-item.active::before {
-    content: ''; position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 2px; background: var(--brass);
+  .ve-tab-nav::-webkit-scrollbar { display: none; }
+  .ve-tab-btn {
+    flex: 1; min-width: 0;
+    padding: 20px 16px;
+    background: none; border: none;
+    border-right: 1px solid var(--white10);
+    cursor: pointer; text-align: center;
+    transition: background 0.2s;
+    position: relative;
   }
-  .ve-num {
+  .ve-tab-btn:last-child { border-right: none; }
+  .ve-tab-btn:hover { background: rgba(255,255,255,0.03); }
+  .ve-tab-btn.active { background: rgba(184,149,106,0.07); }
+  .ve-tab-btn.active::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--brass);
+  }
+  .ve-tab-num {
     font-family: 'DM Mono', monospace;
-    font-size: 9px; letter-spacing: 0.22em;
-    color: var(--brass); flex-shrink: 0;
+    font-size: 8px; letter-spacing: 0.22em;
+    color: var(--brass); display: block;
+    margin-bottom: 6px;
   }
-  .ve-nav-title {
+  .ve-tab-label {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 17px; font-weight: 400;
-    color: var(--cream-dim); transition: color 0.2s; line-height: 1.2;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-size: 15px; font-weight: 400;
+    color: var(--cream-dim); line-height: 1.1;
+    transition: color 0.2s;
+    white-space: nowrap;
   }
-  .ve-nav-item.active .ve-nav-title,
-  .ve-nav-item:hover .ve-nav-title { color: var(--cream); }
-  .ve-panels { position: relative; overflow: hidden; }
-  .ve-panel {
-    padding: 52px 56px;
-    flex-direction: column; min-height: 380px;
+  .ve-tab-btn.active .ve-tab-label,
+  .ve-tab-btn:hover .ve-tab-label { color: var(--cream); }
+  .ve-tab-panel {
     display: none;
+    padding: 52px 60px;
   }
-  .ve-panel.active { display: flex; }
-  .ve-panel-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px; letter-spacing: 0.22em;
-    color: var(--brass); margin-bottom: 18px; display: block;
-  }
-  .ve-panel-title {
+  .ve-tab-panel.active { display: block; }
+  .ve-tab-panel-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(26px, 2.5vw, 36px);
+    font-size: clamp(32px, 3vw, 48px);
     font-weight: 300; color: var(--cream);
-    line-height: 1.1; margin-bottom: 22px;
+    line-height: 1.1; margin-bottom: 20px;
   }
-  .ve-panel-body {
+  .ve-tab-panel-body {
     font-family: 'Lora', Georgia, serif;
-    font-size: 15px; line-height: 1.82;
-    color: var(--grey); max-width: 560px;
-    margin-bottom: 32px; flex: 1;
+    font-size: 16px; line-height: 1.8;
+    color: var(--grey); max-width: 600px;
+    margin-bottom: 32px;
   }
-  .ve-panel-link {
+  .ve-tab-panel-link {
     font-family: 'DM Mono', monospace;
-    font-size: 8.5px; letter-spacing: 0.16em;
+    font-size: 8.5px; letter-spacing: 0.18em;
     text-transform: uppercase; color: var(--brass);
     text-decoration: none; transition: opacity 0.2s;
-    align-self: flex-start;
   }
-  .ve-panel-link:hover { opacity: 0.7; }
-  /* Mobile accordion */
-  .ve-accordion { display: none; }
-  .ve-accordion-item { border-bottom: 1px solid var(--white10); }
-  .ve-accordion-trigger {
-    display: flex; align-items: center; gap: 16px;
-    width: 100%; padding: 22px 0;
-    background: none; border: none; cursor: pointer; text-align: left;
-  }
-  .ve-accordion-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 20px; font-weight: 400; color: var(--cream); line-height: 1.1;
-  }
-  .ve-accordion-arrow {
-    margin-left: auto; color: var(--brass); font-size: 16px;
-    transition: transform 0.25s; flex-shrink: 0;
-  }
-  .ve-accordion-trigger.open .ve-accordion-arrow { transform: rotate(180deg); }
-  .ve-accordion-body { display: none; padding-bottom: 28px; }
-  .ve-accordion-body.open { display: block; }
-  .ve-accordion-body p {
-    font-family: 'Lora', Georgia, serif;
-    font-size: 15px; line-height: 1.82; color: var(--grey); margin-bottom: 18px;
-  }
-  .ve-accordion-body a {
-    font-family: 'DM Mono', monospace;
-    font-size: 8.5px; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--brass); text-decoration: none;
-  }
+  .ve-tab-panel-link:hover { opacity: 0.7; }
   @media (max-width: 768px) {
-    .verticals-editorial { display: none; }
-    .ve-accordion { display: block; }
     .verticals-section { padding: 64px 24px; }
     .verticals-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-  }
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .verticals-editorial { grid-template-columns: 240px 1fr; }
-    .ve-panel { padding: 40px 40px; }
-    .ve-nav-item { padding: 22px 24px; }
+    .ve-tab-btn { padding: 16px 12px; flex: 0 0 auto; }
+    .ve-tab-label { font-size: 13px; }
+    .ve-tab-panel { padding: 36px 24px; }
   }
 
   /* ─── NETWORK JOIN ──────────────────────── */
@@ -3289,138 +3255,56 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
       <h2 class="verticals-title">Five ways CityAge<br/><em>puts you in the room.</em></h2>
     </div>
 
-    <!-- Desktop: two-column editorial -->
-    <div class="verticals-editorial">
+    <!-- Tabs -->
+    <div class="ve-tabs">
 
-      <nav class="ve-nav">
-        <div class="ve-nav-item active" data-panel="v1">
-          <span class="ve-num">01</span>
-          <span class="ve-nav-title">Forums</span>
-        </div>
-        <div class="ve-nav-item" data-panel="v2">
-          <span class="ve-num">02</span>
-          <span class="ve-nav-title">Network</span>
-        </div>
-        <div class="ve-nav-item" data-panel="v3">
-          <span class="ve-num">03</span>
-          <span class="ve-nav-title">Intelligence</span>
-        </div>
-        <div class="ve-nav-item" data-panel="v4">
-          <span class="ve-num">04</span>
-          <span class="ve-nav-title">CityAge Studio</span>
-        </div>
-        <div class="ve-nav-item" data-panel="v5">
-          <span class="ve-num">05</span>
-          <span class="ve-nav-title">Urban Planet Institute</span>
-        </div>
-      </nav>
-
-      <div class="ve-panels">
-        <div class="ve-panel active" id="v1">
-          <div>
-            <span class="ve-panel-num">01</span>
-            <h3 class="ve-panel-title">Forums</h3>
-            <p class="ve-panel-body">Invite-only. Chatham House rules. 100+ events across 50+ cities. The forums where ministers, CEOs, and investors have the conversations that don't happen in public — and where deals get done.</p>
-          </div>
-          <a href="#contact" class="ve-panel-link">See Active Forums →</a>
-        </div>
-        <div class="ve-panel" id="v2">
-          <div>
-            <span class="ve-panel-num">02</span>
-            <h3 class="ve-panel-title">Network</h3>
-            <p class="ve-panel-body">25,000 verified leaders across government, capital, and industry. Not a mailing list — a curated network of people who build things. Access is earned, not purchased.</p>
-          </div>
-          <a href="#network" class="ve-panel-link">Join the Network →</a>
-        </div>
-        <div class="ve-panel" id="v3">
-          <div>
-            <span class="ve-panel-num">03</span>
-            <h3 class="ve-panel-title">Intelligence</h3>
-            <p class="ve-panel-body">Briefings, analysis, and advisory for the decision-makers who need to know what's happening before it's news. CityAge Intelligence draws on 14 years of access and a verified network that few institutions match.</p>
-          </div>
-          <a href="#contact" class="ve-panel-link">Commission Intelligence →</a>
-        </div>
-        <div class="ve-panel" id="v4">
-          <div>
-            <span class="ve-panel-num">04</span>
-            <h3 class="ve-panel-title">CityAge Studio</h3>
-            <p class="ve-panel-body">Documentary and long-form production for the Urban Planet. NatGeo. The Economist. LEO Awards. We don't make promotional videos. We make films — and we tell the stories that shape how the world understands what's being built.</p>
-          </div>
-          <a href="#" onclick="showPage('studio');return false;" class="ve-panel-link">Enter the Screening Room →</a>
-        </div>
-        <div class="ve-panel" id="v5">
-          <div>
-            <span class="ve-panel-num">05</span>
-            <h3 class="ve-panel-title">Urban Planet Institute</h3>
-            <p class="ve-panel-body">Masterclasses and courses built around CityAge's network and editorial access. Not generic training — targeted knowledge sessions with the practitioners, policymakers, and investors who are shaping the next century of infrastructure.</p>
-          </div>
-          <a href="#contact" class="ve-panel-link">Learn More →</a>
-        </div>
+      <div class="ve-tab-nav">
+        <button class="ve-tab-btn active" data-tab="t1">
+          <span class="ve-tab-num">01</span>
+          <span class="ve-tab-label">Forums</span>
+        </button>
+        <button class="ve-tab-btn" data-tab="t2">
+          <span class="ve-tab-num">02</span>
+          <span class="ve-tab-label">Network</span>
+        </button>
+        <button class="ve-tab-btn" data-tab="t3">
+          <span class="ve-tab-num">03</span>
+          <span class="ve-tab-label">Intelligence</span>
+        </button>
+        <button class="ve-tab-btn" data-tab="t4">
+          <span class="ve-tab-num">04</span>
+          <span class="ve-tab-label">Studio</span>
+        </button>
+        <button class="ve-tab-btn" data-tab="t5">
+          <span class="ve-tab-num">05</span>
+          <span class="ve-tab-label">Institute</span>
+        </button>
       </div>
 
-    </div>
-
-    <!-- Mobile: accordion -->
-    <div class="ve-accordion">
-
-      <div class="ve-accordion-item">
-        <button class="ve-accordion-trigger" data-acc="a1">
-          <span class="ve-num">01</span>
-          <span class="ve-accordion-title">Forums</span>
-          <span class="ve-accordion-arrow">▾</span>
-        </button>
-        <div class="ve-accordion-body" id="a1">
-          <p>Invite-only. Chatham House rules. 100+ events across 50+ cities. The forums where ministers, CEOs, and investors have the conversations that don't happen in public — and where deals get done.</p>
-          <a href="#contact" class="ve-panel-link">See Active Forums →</a>
-        </div>
+      <div class="ve-tab-panel active" id="t1">
+        <h3 class="ve-tab-panel-title">Forums</h3>
+        <p class="ve-tab-panel-body">Invite-only. Chatham House rules. The rooms where ministers, CEOs, and investors have conversations that don't happen in public.</p>
+        <a href="#contact" class="ve-tab-panel-link">See Active Forums →</a>
       </div>
-
-      <div class="ve-accordion-item">
-        <button class="ve-accordion-trigger" data-acc="a2">
-          <span class="ve-num">02</span>
-          <span class="ve-accordion-title">Network</span>
-          <span class="ve-accordion-arrow">▾</span>
-        </button>
-        <div class="ve-accordion-body" id="a2">
-          <p>25,000 verified leaders across government, capital, and industry. Not a mailing list — a curated network of people who build things. Access is earned, not purchased.</p>
-          <a href="#network" class="ve-panel-link">Join the Network →</a>
-        </div>
+      <div class="ve-tab-panel" id="t2">
+        <h3 class="ve-tab-panel-title">Network</h3>
+        <p class="ve-tab-panel-body">25,000 verified decision-makers across government, capital, and industry. Not a mailing list — a curated network. Access is earned.</p>
+        <a href="/people.html" class="ve-tab-panel-link">Meet the Network →</a>
       </div>
-
-      <div class="ve-accordion-item">
-        <button class="ve-accordion-trigger" data-acc="a3">
-          <span class="ve-num">03</span>
-          <span class="ve-accordion-title">Intelligence</span>
-          <span class="ve-accordion-arrow">▾</span>
-        </button>
-        <div class="ve-accordion-body" id="a3">
-          <p>Briefings, analysis, and advisory for the decision-makers who need to know what's happening before it's news. CityAge Intelligence draws on 14 years of access and a verified network that few institutions match.</p>
-          <a href="#contact" class="ve-panel-link">Commission Intelligence →</a>
-        </div>
+      <div class="ve-tab-panel" id="t3">
+        <h3 class="ve-tab-panel-title">Intelligence</h3>
+        <p class="ve-tab-panel-body">Briefings and advisory for leaders who need to know what's happening before it's news. Built on 14 years of access.</p>
+        <a href="#contact" class="ve-tab-panel-link">Commission Intelligence →</a>
       </div>
-
-      <div class="ve-accordion-item">
-        <button class="ve-accordion-trigger" data-acc="a4">
-          <span class="ve-num">04</span>
-          <span class="ve-accordion-title">CityAge Studio</span>
-          <span class="ve-accordion-arrow">▾</span>
-        </button>
-        <div class="ve-accordion-body" id="a4">
-          <p>Documentary and long-form production for the Urban Planet. NatGeo. The Economist. LEO Awards. We don't make promotional videos. We make films — and we tell the stories that shape how the world understands what's being built.</p>
-          <a href="#" onclick="showPage('studio');return false;" class="ve-panel-link">Enter the Screening Room →</a>
-        </div>
+      <div class="ve-tab-panel" id="t4">
+        <h3 class="ve-tab-panel-title">CityAge Studio</h3>
+        <p class="ve-tab-panel-body">Documentary and long-form production for the Urban Planet. NatGeo. The Economist. LEO Awards. We make films, not videos.</p>
+        <a href="#" onclick="showPage('studio');return false;" class="ve-tab-panel-link">Enter the Screening Room →</a>
       </div>
-
-      <div class="ve-accordion-item">
-        <button class="ve-accordion-trigger" data-acc="a5">
-          <span class="ve-num">05</span>
-          <span class="ve-accordion-title">Urban Planet Institute</span>
-          <span class="ve-accordion-arrow">▾</span>
-        </button>
-        <div class="ve-accordion-body" id="a5">
-          <p>Masterclasses and courses built around CityAge's network and editorial access. Not generic training — targeted knowledge sessions with the practitioners, policymakers, and investors who are shaping the next century of infrastructure.</p>
-          <a href="#contact" class="ve-panel-link">Learn More →</a>
-        </div>
+      <div class="ve-tab-panel" id="t5">
+        <h3 class="ve-tab-panel-title">Urban Planet Institute</h3>
+        <p class="ve-tab-panel-body">Masterclasses built around CityAge's network and editorial access. Knowledge sessions with the people shaping the next century.</p>
+        <a href="#contact" class="ve-tab-panel-link">Learn More →</a>
       </div>
 
     </div>
@@ -3429,28 +3313,13 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 </section>
 
 <script>
-// What We Do — desktop nav
-document.querySelectorAll('.ve-nav-item').forEach(function(item) {
-  item.addEventListener('click', function() {
-    var panelId = this.getAttribute('data-panel');
-    document.querySelectorAll('.ve-nav-item').forEach(function(n) { n.classList.remove('active'); });
-    document.querySelectorAll('.ve-panel').forEach(function(p) { p.classList.remove('active'); });
-    this.classList.add('active');
-    document.getElementById(panelId).classList.add('active');
-  });
-});
-// What We Do — mobile accordion
-document.querySelectorAll('.ve-accordion-trigger').forEach(function(btn) {
+document.querySelectorAll('.ve-tab-btn').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    var accId = this.getAttribute('data-acc');
-    var body = document.getElementById(accId);
-    var isOpen = body.classList.contains('open');
-    document.querySelectorAll('.ve-accordion-body').forEach(function(b) { b.classList.remove('open'); });
-    document.querySelectorAll('.ve-accordion-trigger').forEach(function(b) { b.classList.remove('open'); });
-    if (!isOpen) {
-      body.classList.add('open');
-      btn.classList.add('open');
-    }
+    var tab = this.getAttribute('data-tab');
+    document.querySelectorAll('.ve-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.ve-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    this.classList.add('active');
+    document.getElementById(tab).classList.add('active');
   });
 });
 </script>
