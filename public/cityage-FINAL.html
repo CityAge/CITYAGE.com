@@ -859,79 +859,44 @@ html, body { margin:0; padding:0; background:#050403; }
     line-height: 1.1;
   }
   .verticals-title em { font-style: italic; color: var(--brass); }
-  /* ─── WHAT WE DO — TABS ─────────────────── */
-  .ve-tabs {
-    border: 1px solid var(--white10);
+  /* ─── WHAT WE DO — CLEAN LIST ───────────── */
+  .ve-list {
+    border-top: 1px solid var(--white10);
   }
-  .ve-tab-nav {
-    display: flex;
+  .ve-list-item {
+    display: flex; align-items: center;
+    padding: 28px 0;
     border-bottom: 1px solid var(--white10);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .ve-tab-nav::-webkit-scrollbar { display: none; }
-  .ve-tab-btn {
-    flex: 1; min-width: 0;
-    padding: 20px 16px;
-    background: none; border: none;
-    border-right: 1px solid var(--white10);
-    cursor: pointer; text-align: center;
-    transition: background 0.2s;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
     position: relative;
   }
-  .ve-tab-btn:last-child { border-right: none; }
-  .ve-tab-btn:hover { background: rgba(255,255,255,0.03); }
-  .ve-tab-btn.active { background: rgba(184,149,106,0.07); }
-  .ve-tab-btn.active::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 2px; background: var(--brass);
-  }
-  .ve-tab-num {
+  .ve-list-item:hover { opacity: 1; }
+  .ve-list-item:hover .ve-list-title { color: var(--brass); }
+  .ve-list-num {
     font-family: 'DM Mono', monospace;
-    font-size: 8px; letter-spacing: 0.22em;
-    color: var(--brass); display: block;
-    margin-bottom: 6px;
+    font-size: 10px; letter-spacing: 0.22em;
+    color: var(--brass); width: 56px; flex-shrink: 0;
   }
-  .ve-tab-label {
+  .ve-list-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 15px; font-weight: 400;
-    color: var(--cream-dim); line-height: 1.1;
-    transition: color 0.2s;
-    white-space: nowrap;
-  }
-  .ve-tab-btn.active .ve-tab-label,
-  .ve-tab-btn:hover .ve-tab-label { color: var(--cream); }
-  .ve-tab-panel {
-    display: none;
-    padding: 52px 60px;
-  }
-  .ve-tab-panel.active { display: block; }
-  .ve-tab-panel-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(32px, 3vw, 48px);
+    font-size: clamp(28px, 3.5vw, 52px);
     font-weight: 300; color: var(--cream);
-    line-height: 1.1; margin-bottom: 20px;
+    line-height: 1; transition: color 0.3s;
+    flex: 1;
   }
-  .ve-tab-panel-body {
-    font-family: 'Lora', Georgia, serif;
-    font-size: 16px; line-height: 1.8;
-    color: var(--grey); max-width: 600px;
-    margin-bottom: 32px;
+  .ve-list-arrow {
+    font-size: 20px; color: var(--brass);
+    opacity: 0; transition: opacity 0.2s;
+    flex-shrink: 0;
   }
-  .ve-tab-panel-link {
-    font-family: 'DM Mono', monospace;
-    font-size: 8.5px; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--brass);
-    text-decoration: none; transition: opacity 0.2s;
-  }
-  .ve-tab-panel-link:hover { opacity: 0.7; }
+  .ve-list-item:hover .ve-list-arrow { opacity: 1; }
   @media (max-width: 768px) {
     .verticals-section { padding: 64px 24px; }
     .verticals-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .ve-tab-btn { padding: 16px 12px; flex: 0 0 auto; }
-    .ve-tab-label { font-size: 13px; }
-    .ve-tab-panel { padding: 36px 24px; }
+    .ve-list-title { font-size: clamp(24px, 6vw, 36px); }
+    .ve-list-item { padding: 22px 0; }
   }
 
   /* ─── NETWORK JOIN ──────────────────────── */
@@ -3255,74 +3220,42 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
       <h2 class="verticals-title">Five ways CityAge<br/><em>puts you in the room.</em></h2>
     </div>
 
-    <!-- Tabs -->
-    <div class="ve-tabs">
+    <div class="ve-list">
 
-      <div class="ve-tab-nav">
-        <button class="ve-tab-btn active" data-tab="t1">
-          <span class="ve-tab-num">01</span>
-          <span class="ve-tab-label">Forums</span>
-        </button>
-        <button class="ve-tab-btn" data-tab="t2">
-          <span class="ve-tab-num">02</span>
-          <span class="ve-tab-label">Network</span>
-        </button>
-        <button class="ve-tab-btn" data-tab="t3">
-          <span class="ve-tab-num">03</span>
-          <span class="ve-tab-label">Intelligence</span>
-        </button>
-        <button class="ve-tab-btn" data-tab="t4">
-          <span class="ve-tab-num">04</span>
-          <span class="ve-tab-label">Studio</span>
-        </button>
-        <button class="ve-tab-btn" data-tab="t5">
-          <span class="ve-tab-num">05</span>
-          <span class="ve-tab-label">Institute</span>
-        </button>
-      </div>
+      <a href="#contact" class="ve-list-item">
+        <span class="ve-list-num">01</span>
+        <span class="ve-list-title">Forums</span>
+        <span class="ve-list-arrow">→</span>
+      </a>
 
-      <div class="ve-tab-panel active" id="t1">
-        <h3 class="ve-tab-panel-title">Forums</h3>
-        <p class="ve-tab-panel-body">Invite-only. Chatham House rules. The rooms where ministers, CEOs, and investors have conversations that don't happen in public.</p>
-        <a href="#contact" class="ve-tab-panel-link">See Active Forums →</a>
-      </div>
-      <div class="ve-tab-panel" id="t2">
-        <h3 class="ve-tab-panel-title">Network</h3>
-        <p class="ve-tab-panel-body">25,000 verified decision-makers across government, capital, and industry. Not a mailing list — a curated network. Access is earned.</p>
-        <a href="/people.html" class="ve-tab-panel-link">Meet the Network →</a>
-      </div>
-      <div class="ve-tab-panel" id="t3">
-        <h3 class="ve-tab-panel-title">Intelligence</h3>
-        <p class="ve-tab-panel-body">Briefings and advisory for leaders who need to know what's happening before it's news. Built on 14 years of access.</p>
-        <a href="#contact" class="ve-tab-panel-link">Commission Intelligence →</a>
-      </div>
-      <div class="ve-tab-panel" id="t4">
-        <h3 class="ve-tab-panel-title">CityAge Studio</h3>
-        <p class="ve-tab-panel-body">Documentary and long-form production for the Urban Planet. NatGeo. The Economist. LEO Awards. We make films, not videos.</p>
-        <a href="#" onclick="showPage('studio');return false;" class="ve-tab-panel-link">Enter the Screening Room →</a>
-      </div>
-      <div class="ve-tab-panel" id="t5">
-        <h3 class="ve-tab-panel-title">Urban Planet Institute</h3>
-        <p class="ve-tab-panel-body">Masterclasses built around CityAge's network and editorial access. Knowledge sessions with the people shaping the next century.</p>
-        <a href="#contact" class="ve-tab-panel-link">Learn More →</a>
-      </div>
+      <a href="/people.html" class="ve-list-item">
+        <span class="ve-list-num">02</span>
+        <span class="ve-list-title">Network</span>
+        <span class="ve-list-arrow">→</span>
+      </a>
+
+      <a href="#contact" class="ve-list-item">
+        <span class="ve-list-num">03</span>
+        <span class="ve-list-title">Intelligence</span>
+        <span class="ve-list-arrow">→</span>
+      </a>
+
+      <a href="#" onclick="showPage('studio');return false;" class="ve-list-item">
+        <span class="ve-list-num">04</span>
+        <span class="ve-list-title">CityAge Studio</span>
+        <span class="ve-list-arrow">→</span>
+      </a>
+
+      <a href="#contact" class="ve-list-item">
+        <span class="ve-list-num">05</span>
+        <span class="ve-list-title">Urban Planet Institute</span>
+        <span class="ve-list-arrow">→</span>
+      </a>
 
     </div>
 
   </div>
 </section>
-
-<script>
-document.querySelectorAll('.ve-tab-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var tab = this.getAttribute('data-tab');
-    document.querySelectorAll('.ve-tab-btn').forEach(function(b) { b.classList.remove('active'); });
-    document.querySelectorAll('.ve-tab-panel').forEach(function(p) { p.classList.remove('active'); });
-    this.classList.add('active');
-    document.getElementById(tab).classList.add('active');
-  });
-});
-</script>
 
 
 
