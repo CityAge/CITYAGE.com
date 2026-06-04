@@ -260,8 +260,12 @@ html, body { margin:0; padding:0; background:#050403; }
     grid-column: 1 / 2 !important;
     grid-row: 2 !important;
   }
-  .photo-mosaic .tile-arctic {
-    grid-column: 2 / 3 !important;
+  .photo-mosaic .tile-pnw {
+    grid-column: 1; grid-row: 2;
+  }
+  .tile-pnw .photo-tile-bg {
+    background: linear-gradient(145deg, #0a1520 0%, #0d1f2e 40%, #091218 70%, #050c0f 100%);
+  }    grid-column: 2 / 3 !important;
     grid-row: 2 !important;
   }
 
@@ -3169,6 +3173,19 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         </div>
       </a>
 
+      <!-- Tile 4: Pacific Northwest — New -->
+      <a href="#" onclick="showPage('pnw');return false;" class="photo-tile tile-pnw">
+        <div class="photo-tile-bg"></div>
+        <div class="photo-tile-overlay"></div>
+        <span class="photo-tile-badge" style="background:#7ab8c8;color:#080c10;">New · November 2026</span>
+        <div class="photo-tile-arrow">↗</div>
+        <div class="photo-tile-content">
+          <span class="photo-tile-kicker">The Next Pacific Northwest</span>
+          <div class="photo-tile-title">The most AI-ready geography on the continent</div>
+          <div class="photo-tile-sub">Vancouver · Energy · Minerals · Talent · Indigenous Intelligence</div>
+        </div>
+      </a>
+
     </div>
   </div>
 </section>
@@ -3915,10 +3932,337 @@ document.getElementById('contact-form').addEventListener('submit', async functio
 </footer>
 
 
+<!-- ═══════════════════════════════════════════
+     PAGE: THE NEXT PACIFIC NORTHWEST
+     ═══════════════════════════════════════════ -->
+<div id="page-pnw" style="display:none" class="page-pnw">
+
+<style>
+/* ─── PACIFIC NORTHWEST PAGE ─────────────────── */
+.page-pnw {
+  background: #080c10;
+  color: var(--cream);
+  min-height: 100vh;
+  font-family: 'Lora', Georgia, serif;
+}
+
+/* Hero */
+.pnw-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.pnw-hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    160deg,
+    #0a1520 0%,
+    #0d1f2e 30%,
+    #091218 60%,
+    #050c0f 100%
+  );
+}
+/* Pacific light — cool aurora suggestion */
+.pnw-hero-aurora {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 70% 30%, rgba(40,90,80,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 60%, rgba(30,60,100,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 50% 10%, rgba(184,149,106,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.pnw-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, #080c10 0%, rgba(8,12,16,0.3) 50%, transparent 100%);
+}
+.pnw-hero-nav {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 32px 60px;
+  z-index: 10;
+}
+.pnw-wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 300;
+  color: var(--cream); text-decoration: none;
+}
+.pnw-wordmark em { font-style: italic; color: var(--brass); }
+.pnw-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(250,246,238,0.5);
+  text-decoration: none;
+  border: 1px solid rgba(184,149,106,0.25);
+  padding: 10px 22px;
+  transition: all 0.2s;
+}
+.pnw-back:hover { color: var(--cream); border-color: var(--brass); }
+.pnw-hero-content {
+  position: relative; z-index: 5;
+  padding: 0 60px 80px;
+  max-width: 900px;
+}
+.pnw-series {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brass);
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 28px;
+}
+.pnw-series-line { width: 40px; height: 1px; background: var(--brass); }
+.pnw-hero-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 8vw, 110px);
+  font-weight: 300; line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: 32px;
+}
+.pnw-hero-h1 em { font-style: italic; color: #7ab8c8; }
+.pnw-hero-sub {
+  font-family: 'Lora', serif;
+  font-size: 18px; line-height: 1.7;
+  color: rgba(250,246,238,0.65);
+  max-width: 580px;
+  margin-bottom: 40px;
+}
+.pnw-hero-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(250,246,238,0.35);
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+.pnw-hero-meta span { color: var(--brass); }
+
+/* Invitation section */
+.pnw-invitation {
+  padding: 100px 60px;
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start;
+}
+.pnw-inv-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--brass);
+  margin-bottom: 24px; display: block;
+}
+.pnw-inv-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 300; line-height: 1.05;
+  color: var(--cream); margin-bottom: 28px;
+}
+.pnw-inv-h2 em { font-style: italic; color: #7ab8c8; }
+.pnw-inv-body {
+  font-family: 'Lora', serif;
+  font-size: 16px; line-height: 1.85;
+  color: rgba(250,246,238,0.6);
+  margin-bottom: 20px;
+}
+
+/* Themes grid */
+.pnw-themes {
+  padding: 0 60px 100px;
+  max-width: 1200px; margin: 0 auto;
+}
+.pnw-themes-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--brass);
+  margin-bottom: 40px; display: block;
+  padding-top: 60px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.pnw-themes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+}
+.pnw-theme {
+  background: #080c10;
+  padding: 36px 32px;
+  transition: background 0.2s;
+}
+.pnw-theme:hover { background: #0d141a; }
+.pnw-theme-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  color: #7ab8c8; display: block;
+  margin-bottom: 14px;
+}
+.pnw-theme-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 300;
+  color: var(--cream); line-height: 1.1;
+}
+
+/* CTA */
+.pnw-cta {
+  padding: 100px 60px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.pnw-cta-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 300; line-height: 1.05;
+  color: var(--cream); margin-bottom: 16px;
+}
+.pnw-cta-h2 em { font-style: italic; color: #7ab8c8; }
+.pnw-cta-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(250,246,238,0.35);
+  margin-bottom: 40px;
+}
+.pnw-cta-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #080c10;
+  background: #7ab8c8;
+  border: 1px solid #7ab8c8;
+  padding: 16px 40px;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.pnw-cta-btn:hover {
+  background: transparent;
+  color: #7ab8c8;
+}
+
+/* Footer */
+.pnw-footer {
+  padding: 28px 60px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(122,112,96,0.4);
+}
+
+@media (max-width: 768px) {
+  .pnw-hero-nav { padding: 20px 24px; }
+  .pnw-hero-content { padding: 0 24px 60px; }
+  .pnw-invitation { grid-template-columns: 1fr; gap: 40px; padding: 64px 24px; }
+  .pnw-themes { padding: 0 24px 64px; }
+  .pnw-themes-grid { grid-template-columns: 1fr; }
+  .pnw-cta { padding: 64px 24px; }
+  .pnw-footer { padding: 24px; flex-direction: column; gap: 12px; }
+}
+</style>
+
+<!-- NAV -->
+<nav class="pnw-hero-nav">
+  <a class="pnw-wordmark" href="#" onclick="showPage('home');return false;">City<em>Age</em></a>
+  <a class="pnw-back" href="#" onclick="showPage('home');return false;">← Back to CityAge</a>
+</nav>
+
+<!-- HERO -->
+<section class="pnw-hero">
+  <div class="pnw-hero-bg"></div>
+  <div class="pnw-hero-aurora"></div>
+  <div class="pnw-hero-overlay"></div>
+  <div class="pnw-hero-content reveal">
+    <div class="pnw-series">
+      <span class="pnw-series-line"></span>
+      The Next Series · CityAge
+    </div>
+    <h1 class="pnw-hero-h1">The Next<br/><em>Pacific</em><br/>Northwest.</h1>
+    <p class="pnw-hero-sub">An invitation to the leaders, builders, and thinkers shaping the most AI-ready geography on the continent.</p>
+    <div class="pnw-hero-meta">
+      <div><span>Where</span> &nbsp;Vancouver, British Columbia</div>
+      <div><span>When</span> &nbsp;November 2026</div>
+      <div><span>Format</span> &nbsp;Invite-Only · Chatham House Rules</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVITATION -->
+<section style="background:#080c10; border-bottom: 1px solid rgba(255,255,255,0.06);">
+  <div class="pnw-invitation">
+    <div class="reveal">
+      <span class="pnw-inv-label">The Invitation</span>
+      <h2 class="pnw-inv-h2">The most AI-ready geography on the continent<br/><em>hasn't introduced itself yet.</em></h2>
+    </div>
+    <div class="reveal">
+      <p class="pnw-inv-body">From Seattle to Vancouver, the Pacific Northwest holds a remarkable convergence — abundant clean energy, critical minerals, world-class universities, sovereign supercomputing, and ecological intelligence systems refined over millennia.</p>
+      <p class="pnw-inv-body">The Next Pacific Northwest brings together the people building this future for one day of conversation that doesn't happen in public.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THEMES -->
+<section style="background:#080c10;">
+  <div class="pnw-themes">
+    <span class="pnw-themes-label reveal">Themes Under Discussion</span>
+    <div class="pnw-themes-grid reveal">
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">01</span>
+        <div class="pnw-theme-title">Energy & Data Infrastructure</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">02</span>
+        <div class="pnw-theme-title">Critical Minerals & Supply Chains</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">03</span>
+        <div class="pnw-theme-title">AI Talent & the New Economy</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">04</span>
+        <div class="pnw-theme-title">Indigenous Knowledge & Innovation</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">05</span>
+        <div class="pnw-theme-title">Ecological Intelligence</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">06</span>
+        <div class="pnw-theme-title">Genomics & Life Sciences</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">07</span>
+        <div class="pnw-theme-title">Intelligent Cities & Transport</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">08</span>
+        <div class="pnw-theme-title">Pacific Gateway & Trade</div>
+      </div>
+      <div class="pnw-theme">
+        <span class="pnw-theme-num">09</span>
+        <div class="pnw-theme-title">Capital & Investment</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="pnw-cta reveal">
+  <h2 class="pnw-cta-h2">November 2026.<br/><em>Vancouver.</em></h2>
+  <p class="pnw-cta-sub">100 leaders · Invite-only · Chatham House Rules</p>
+  <a href="mailto:miro@cityage.com?subject=The Next Pacific Northwest — Register Interest"
+     class="pnw-cta-btn">Register Interest →</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="pnw-footer">
+  <span>© 2026 CityAge · Intelligence for the Urban Planet</span>
+  <a href="#" onclick="showPage('home');return false;" style="color:rgba(122,112,96,0.4);text-decoration:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;">← Back to CityAge</a>
+</footer>
+
 </div>
-<script>
-var PAGES=['home','nc','studio','van'];
-function showPage(id){PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
+function showPage(id){var PAGES=['home','nc','studio','van','pnw'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
 function switchTab(id,btn){}
