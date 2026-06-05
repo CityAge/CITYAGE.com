@@ -9,7 +9,15 @@ export default async function handler(req) {
   }
 
   try {
-    const { name, organisation, email, enquiry, message } = await req.json();
+    const { name, organisation, email, enquiry, message, website } = await req.json();
+
+    // Honeypot: real users never fill the hidden "website" field. Bots do.
+    // Silently accept (return success so the bot moves on) but save nothing.
+    if (website) {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200, headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
     if (!name || !email || !message) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
