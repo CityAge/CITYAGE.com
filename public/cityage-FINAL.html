@@ -3497,7 +3497,23 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="cta-bg-glow"></div>
   <div class="cta-inner">
     <span class="cta-kicker">Get in Touch</span>
-    <h2 class="cta-h2">Ready to be<br/><em>in the room?</em></h2>
+    <h2 class="cta-h2">Ready to be in the<br/><em id="cta-rotate">rooms that matter.</em></h2>
+    <script>
+      (function(){
+        var words = ['rooms that matter.', 'conversations that count.', 'networks that move things.', 'campaigns that land.'];
+        var el = document.getElementById('cta-rotate');
+        var i = 0;
+        setInterval(function(){
+          el.style.opacity = '0';
+          el.style.transition = 'opacity 0.4s';
+          setTimeout(function(){
+            i = (i + 1) % words.length;
+            el.textContent = words[i];
+            el.style.opacity = '1';
+          }, 400);
+        }, 2800);
+      })();
+    </script>
     <div class="cta-divider"></div>
     <p style="font-family:'Lora',Georgia,serif;font-size:16px;line-height:1.7;color:var(--cream-dim);max-width:480px;margin:0 auto 40px;">The forums, network, and intelligence shaping the Urban Planet. Invite-only. Decision-makers only. Tell us who you are.</p>
     <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
