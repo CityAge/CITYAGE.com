@@ -878,7 +878,7 @@ html, body { margin:0; padding:0; background:#050403; }
     border-top: 1px solid var(--white10);
   }
   .ve-list-item {
-    display: flex; align-items: center;
+    display: flex; align-items: flex-start;
     padding: 28px 0;
     border-bottom: 1px solid var(--white10);
     text-decoration: none;
@@ -892,18 +892,27 @@ html, body { margin:0; padding:0; background:#050403; }
     font-family: 'DM Mono', monospace;
     font-size: 10px; letter-spacing: 0.22em;
     color: var(--brass); width: 56px; flex-shrink: 0;
+    padding-top: 0.7em;
   }
+  .ve-list-body { flex: 1; display: flex; flex-direction: column; gap: 14px; }
   .ve-list-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(28px, 3.5vw, 52px);
+    font-size: clamp(26px, 3vw, 40px);
     font-weight: 300; color: var(--cream);
-    line-height: 1; transition: color 0.3s;
-    flex: 1;
+    line-height: 1.05; transition: color 0.3s;
+    display: block;
   }
+  .ve-list-desc {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 15px; line-height: 1.55;
+    font-weight: 300; color: var(--grey);
+    max-width: 60ch;
+  }
+  .verticals-title .vt-accent { color: var(--brass); }
   .ve-list-arrow {
     font-size: 20px; color: var(--brass);
     opacity: 0; transition: opacity 0.2s;
-    flex-shrink: 0;
+    flex-shrink: 0; padding-top: 0.5em;
   }
   .ve-list-item:hover .ve-list-arrow { opacity: 1; }
   @media (max-width: 768px) {
@@ -3248,37 +3257,44 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 
     <div class="verticals-header reveal">
       <span class="verticals-eyebrow">What We Do</span>
+      <h2 class="verticals-title">How CityAge <span class="vt-accent">Moves Decisions</span></h2>
     </div>
 
     <div class="ve-list">
 
       <a href="#contact" class="ve-list-item">
         <span class="ve-list-num">01</span>
-        <span class="ve-list-title">Forums</span>
-        <span class="ve-list-arrow">→</span>
-      </a>
-
-      <a href="/people.html" class="ve-list-item">
-        <span class="ve-list-num">02</span>
-        <span class="ve-list-title">Network</span>
+        <div class="ve-list-body">
+          <span class="ve-list-title">Knowledge Partnerships</span>
+          <span class="ve-list-desc">Commission a campaign around the issue you need to move. Content, forums, and network, mobilized to one objective.</span>
+        </div>
         <span class="ve-list-arrow">→</span>
       </a>
 
       <a href="#contact" class="ve-list-item">
-        <span class="ve-list-num">03</span>
-        <span class="ve-list-title">Intelligence</span>
+        <span class="ve-list-num">02</span>
+        <div class="ve-list-body">
+          <span class="ve-list-title">Forums</span>
+          <span class="ve-list-desc">Invite-only convenings where the decision-makers are in one room and the deals get made.</span>
+        </div>
         <span class="ve-list-arrow">→</span>
       </a>
 
       <a href="#" onclick="showPage('studio');return false;" class="ve-list-item">
-        <span class="ve-list-num">04</span>
-        <span class="ve-list-title">CityAge Studio</span>
+        <span class="ve-list-num">03</span>
+        <div class="ve-list-body">
+          <span class="ve-list-title">CityAge Studio</span>
+          <span class="ve-list-desc">The production house. Award-winning films, documentaries, and reports, built to institutional standard.</span>
+        </div>
         <span class="ve-list-arrow">→</span>
       </a>
 
       <a href="#contact" class="ve-list-item">
-        <span class="ve-list-num">05</span>
-        <span class="ve-list-title">Urban Planet Institute</span>
+        <span class="ve-list-num">04</span>
+        <div class="ve-list-body">
+          <span class="ve-list-title">Urban Planet Institute</span>
+          <span class="ve-list-desc">Original research, accredited professional courses, and bespoke expert groups, convened from the CityAge network of 25,000.</span>
+        </div>
         <span class="ve-list-arrow">→</span>
       </a>
 
