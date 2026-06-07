@@ -919,19 +919,19 @@ html, body { margin:0; padding:0; background:#050403; }
     color: var(--brass); width: 56px; flex-shrink: 0;
     padding-top: 0.7em;
   }
-  .ve-list-body { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+  .ve-list-body { flex: 1; display: flex; flex-direction: row; align-items: baseline; gap: 40px; }
   .ve-list-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(26px, 3vw, 40px);
     font-weight: 300; color: var(--cream);
     line-height: 1.05; transition: color 0.3s;
-    display: block;
+    display: block; flex: 0 0 auto; min-width: 280px;
   }
   .ve-list-desc {
     font-family: 'Lora', Georgia, serif;
     font-size: 15px; line-height: 1.55;
     font-weight: 300; color: var(--grey);
-    max-width: 60ch;
+    max-width: 60ch; flex: 1;
   }
   .verticals-title .vt-accent { color: var(--brass); }
   .ve-list-arrow {
@@ -943,7 +943,8 @@ html, body { margin:0; padding:0; background:#050403; }
   @media (max-width: 768px) {
     .verticals-section { padding: 64px 24px; }
     .verticals-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .ve-list-title { font-size: clamp(24px, 6vw, 36px); }
+    .ve-list-body { flex-direction: column; gap: 10px; }
+    .ve-list-title { font-size: clamp(24px, 6vw, 36px); min-width: unset; }
     .ve-list-item { padding: 22px 0; }
   }
 
