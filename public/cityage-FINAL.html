@@ -768,44 +768,69 @@ html, body { margin:0; padding:0; background:#050403; }
   footer {
     background: #070706;
     border-top: 1px solid var(--white10);
-    padding: 64px 48px;
+    padding: 48px 60px 36px;
   }
   .footer-inner {
     max-width: 1280px; margin: 0 auto;
-    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
-    gap: 48px; margin-bottom: 56px;
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+    gap: 48px; margin-bottom: 36px; align-items: start;
   }
   .footer-brand { }
   .footer-wordmark {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 28px; font-weight: 300;
-    color: var(--cream); margin-bottom: 16px;
+    font-size: 26px; font-weight: 300;
+    color: var(--cream); margin-bottom: 10px;
   }
   .footer-wordmark em { font-style: italic; color: var(--brass); }
   .footer-tag {
     font-family: 'Lora', Georgia, serif;
-    font-style: italic; font-size: 14px;
-    color: var(--grey); line-height: 1.7;
-    max-width: 260px; margin-bottom: 20px;
+    font-style: italic; font-size: 13px;
+    color: var(--grey); line-height: 1.6;
+    margin: 0 0 6px;
+  }
+  .footer-location {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(122,112,96,0.45);
+    margin: 0;
   }
   .footer-col-title {
     font-family: 'DM Mono', monospace;
     font-size: 9px; letter-spacing: 0.22em;
     text-transform: uppercase; color: var(--grey);
-    margin-bottom: 20px; display: block;
+    margin-bottom: 18px; display: block;
   }
-  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
   .footer-links a {
     font-family: 'Lora', Georgia, serif;
-    font-size: 14px; color: rgba(250,246,238,0.6);
+    font-size: 13px; color: rgba(250,246,238,0.6);
     text-decoration: none;
     transition: color 0.2s;
   }
   .footer-links a:hover { color: var(--brass); }
+  .footer-subscribe-form {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .footer-email-input {
+    background: transparent;
+    border: 1px solid var(--brass-line);
+    padding: 10px 14px;
+    color: var(--cream);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 13px; outline: none; width: 100%; box-sizing: border-box;
+  }
+  .footer-subscribe-btn {
+    background: var(--brass); color: var(--ink);
+    border: none; padding: 10px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; cursor: pointer;
+    align-self: flex-start;
+  }
   .footer-bottom {
     max-width: 1280px; margin: 0 auto;
     display: flex; justify-content: space-between; align-items: center;
-    padding-top: 32px; border-top: 1px solid var(--white10);
+    padding-top: 24px; border-top: 1px solid var(--white10);
     font-family: 'DM Mono', monospace;
     font-size: 8.5px; letter-spacing: 0.18em;
     text-transform: uppercase; color: rgba(122,112,96,0.5);
@@ -3102,7 +3127,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 <header>
   <a href="#" class="wordmark">City<em>Age</em></a>
   <nav>
-    <a href="#purpose">Purpose</a>
+    <a href="#purpose" onclick="showPage('purpose');return false;">Purpose</a>
     <a href="#what-we-do">What We Do</a>
     <a href="#" onclick="showPage('studio');return false;">CityAge Studio</a>
     <a href="#network">Network</a>
@@ -3570,32 +3595,18 @@ document.getElementById('contact-form').addEventListener('submit', async functio
 
 <!-- FOOTER -->
 <footer>
-  <!-- quiet capture line: inherits the .ca-weekly-form handler -->
-  <div style="max-width:640px;margin:0 auto 14px;text-align:center;padding-bottom:32px;border-bottom:1px solid var(--brass-line);">
-    <span class="verticals-eyebrow" style="color:var(--brass);">The CityAge Weekly</span>
-    <form class="ca-weekly-form" style="display:flex;gap:10px;max-width:460px;margin:14px auto 0;flex-wrap:wrap;justify-content:center;">
-      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;">
-      <input type="email" name="email" required placeholder="Your email" style="flex:1;min-width:220px;background:transparent;border:1px solid var(--brass-line);padding:13px 16px;color:var(--cream);font-family:'Lora',Georgia,serif;font-size:15px;outline:none;">
-      <button type="submit" style="background:var(--brass);color:var(--ink);border:none;padding:13px 24px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;white-space:nowrap;">Subscribe &rarr;</button>
-    </form>
-    <p class="ca-weekly-status" style="display:none;font-family:'Lora',Georgia,serif;font-size:14px;margin:14px 0 0;"></p>
-  </div>
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="footer-wordmark">City<em>Age</em><span style="color:var(--brass)">.</span></div>
-      <p class="footer-tag">
-        Intelligence for The Urban Planet.<br/>
-        Convening the leaders who build what comes next.
-      </p>
+      <p class="footer-tag">Intelligence for The Urban Planet.</p>
+      <p class="footer-location">Vancouver, BC</p>
     </div>
     <div>
-      <span class="footer-col-title">What We Do</span>
+      <span class="footer-col-title">Purpose</span>
       <ul class="footer-links">
-        <li><a href="#what-we-do" onclick="switchTab('events', document.querySelector('.tab-btn'))">Forums</a></li>
-        <li><a href="#what-we-do" onclick="switchTab('network', document.querySelectorAll('.tab-btn')[1])">Network</a></li>
-        <li><a href="#what-we-do" onclick="switchTab('advisory', document.querySelectorAll('.tab-btn')[2])">Intelligence</a></li>
-        <li><a href="#what-we-do" onclick="showPage('studio');return false;">Studio</a></li>
-        <li><a href="#what-we-do" onclick="switchTab('courses', document.querySelectorAll('.tab-btn')[4])">Urban Planet Institute</a></li>
+        <li><a href="#" onclick="showPage('purpose');return false;">Our Thesis</a></li>
+        <li><a href="#what-we-do">What We Do</a></li>
+        <li><a href="/people.html">Contributors</a></li>
       </ul>
     </div>
     <div>
@@ -3603,7 +3614,17 @@ document.getElementById('contact-form').addEventListener('submit', async functio
       <ul class="footer-links">
         <li><a href="#contact">Contact</a></li>
         <li><a href="mailto:info@cityage.com">info@cityage.com</a></li>
+        <li><a href="https://www.linkedin.com/in/mirocernetig/" target="_blank" rel="noopener">LinkedIn</a></li>
       </ul>
+    </div>
+    <div>
+      <span class="footer-col-title">The CityAge Weekly</span>
+      <form class="ca-weekly-form footer-subscribe-form">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;">
+        <input type="email" name="email" required placeholder="Your email" class="footer-email-input">
+        <button type="submit" class="footer-subscribe-btn">Subscribe &rarr;</button>
+      </form>
+      <p class="ca-weekly-status" style="display:none;font-family:'Lora',Georgia,serif;font-size:13px;margin:10px 0 0;"></p>
     </div>
   </div>
   <div class="footer-bottom">
@@ -4443,9 +4464,211 @@ document.getElementById('contact-form').addEventListener('submit', async functio
   <a href="#" onclick="showPage('home');return false;" style="color:rgba(122,112,96,0.4);text-decoration:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;">← Back to CityAge</a>
 </footer>
 
+
+<div id="page-purpose" style="display:none">
+
+<style>
+/* ── PURPOSE PAGE ─────────────────────────────── */
+.purpose-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 28px 60px;
+  background: linear-gradient(to bottom, rgba(10,9,8,0.95) 0%, transparent 100%);
+}
+.purpose-wordmark {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px; font-weight: 300; color: var(--cream);
+  text-decoration: none;
+}
+.purpose-wordmark em { font-style: italic; color: var(--brass); }
+.purpose-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(250,246,238,0.5); text-decoration: none;
+  transition: color 0.2s;
+}
+.purpose-back:hover { color: var(--brass); }
+
+.purpose-hero {
+  min-height: 52vh;
+  background: var(--ink);
+  display: flex; align-items: flex-end;
+  padding: 0 60px 64px;
+  border-bottom: 1px solid var(--white10);
+}
+.purpose-hero-inner { max-width: 860px; }
+.purpose-kicker {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--brass); display: block; margin-bottom: 24px;
+}
+.purpose-h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 300; line-height: 1.0;
+  color: var(--cream); margin: 0 0 32px;
+}
+.purpose-h1 em { font-style: italic; color: var(--brass); }
+
+.purpose-body {
+  max-width: 1100px; margin: 0 auto;
+  padding: 80px 60px 100px;
+}
+.purpose-quote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 300; font-style: italic;
+  line-height: 1.4; color: var(--cream);
+  border-left: 2px solid var(--brass);
+  padding-left: 40px; margin: 0 0 64px;
+}
+.purpose-author {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 64px; padding-bottom: 64px;
+  border-bottom: 1px solid var(--white10);
+}
+.purpose-author-initial {
+  width: 44px; height: 44px;
+  background: var(--brass); color: var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px; font-weight: 400;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.purpose-author-name {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px; color: var(--cream);
+  display: block; margin-bottom: 3px;
+}
+.purpose-author-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(122,112,96,0.6); display: block;
+}
+.purpose-prose {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px; line-height: 1.85;
+  color: rgba(250,246,238,0.8);
+  max-width: 720px;
+}
+.purpose-prose p { margin: 0 0 32px; }
+.purpose-prose p:last-child { margin-bottom: 0; }
+
+.purpose-stats {
+  background: rgba(184,149,106,0.06);
+  border-top: 1px solid var(--white10);
+  border-bottom: 1px solid var(--white10);
+  padding: 60px;
+}
+.purpose-stats-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+.purpose-stat-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 56px; font-weight: 300;
+  color: var(--brass); line-height: 1;
+  display: block; margin-bottom: 8px;
+}
+.purpose-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(250,246,238,0.45);
+}
+
+.purpose-footer {
+  padding: 40px 60px;
+  border-top: 1px solid var(--white10);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(122,112,96,0.4);
+}
+@media (max-width: 900px) {
+  .purpose-nav { padding: 20px 24px; }
+  .purpose-hero { padding: 0 24px 48px; min-height: 40vh; }
+  .purpose-body { padding: 56px 24px 72px; }
+  .purpose-quote { font-size: 22px; padding-left: 24px; }
+  .purpose-stats { padding: 48px 24px; }
+  .purpose-stats-inner { grid-template-columns: 1fr; gap: 32px; }
+  .purpose-footer { padding: 32px 24px; flex-direction: column; gap: 12px; }
+}
+</style>
+
+<!-- NAV -->
+<nav class="purpose-nav">
+  <a class="purpose-wordmark" href="#" onclick="showPage('home');return false;">City<em>Age</em></a>
+  <a class="purpose-back" href="#" onclick="showPage('home');return false;">← Back to CityAge</a>
+</nav>
+
+<!-- HERO -->
+<div class="purpose-hero">
+  <div class="purpose-hero-inner">
+    <span class="purpose-kicker">Our Founding Thesis</span>
+    <h1 class="purpose-h1">The Urban<br/><em>Planet.</em></h1>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="purpose-body">
+  <blockquote class="purpose-quote">
+    "Cities are 3% of the Earth's surface and more than 80% of its GDP.
+    Every structural challenge of our era — climate, capital, sovereignty —
+    gets solved or doesn't get solved in cities."
+  </blockquote>
+
+  <div class="purpose-author">
+    <div class="purpose-author-initial">M</div>
+    <div>
+      <span class="purpose-author-name">Miro Cernetig</span>
+      <span class="purpose-author-title">CEO &amp; Publisher — CityAge</span>
+    </div>
+  </div>
+
+  <div class="purpose-prose">
+    <p>CityAge was founded on a single observation: the decision-makers
+    responsible for building the next century of urban infrastructure
+    rarely get to talk to each other. Not the right ones. Not under
+    conditions where trust gets built and deals get done.</p>
+    <p>The world's consequential decisions concentrate on roughly 3% of
+    its surface. That's the Urban Planet — the cities, corridors, and
+    capitals where capital flows, policy is made, and infrastructure
+    is built or neglected. That's where CityAge operates.</p>
+    <p>Fourteen years and 100+ forums later, we've built the network
+    that changes that — 25,000 verified leaders across government,
+    capital, and industry, convened around the problems worth solving.</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="purpose-stats">
+  <div class="purpose-stats-inner">
+    <div>
+      <span class="purpose-stat-num">14</span>
+      <span class="purpose-stat-label">Years convening leaders</span>
+    </div>
+    <div>
+      <span class="purpose-stat-num">100+</span>
+      <span class="purpose-stat-label">Forums across 50+ cities</span>
+    </div>
+    <div>
+      <span class="purpose-stat-num">25K</span>
+      <span class="purpose-stat-label">Verified decision-makers</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="purpose-footer">
+  <span>© 2026 CityAge · Intelligence for The Urban Planet</span>
+  <a href="#" onclick="showPage('home');return false;" style="color:rgba(122,112,96,0.4);text-decoration:none;">← Back to CityAge</a>
+</footer>
+
+</div>
 </div>
 <script>
-function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
+function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy','purpose'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
 function switchTab(id,btn){}
