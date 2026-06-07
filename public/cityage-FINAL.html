@@ -723,7 +723,79 @@ html, body { margin:0; padding:0; background:#050403; }
     margin-bottom: 28px;
   }
 
-  /* ─── CTA SECTION ───────────────────── */
+  
+  /* ─── THESIS FULL-BLEED ─────────────── */
+  .thesis-bleed {
+    position: relative;
+    width: 100%;
+    height: 75vh; min-height: 520px; max-height: 820px;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .thesis-bleed-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    filter: brightness(0.55);
+    transition: transform 12s ease;
+  }
+  .thesis-bleed:hover .thesis-bleed-img {
+    transform: scale(1.03);
+  }
+  .thesis-bleed-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(10,9,8,0.15) 0%,
+      rgba(10,9,8,0.45) 60%,
+      rgba(10,9,8,0.75) 100%
+    );
+  }
+  .thesis-bleed-inner {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 820px;
+    padding: 0 48px;
+  }
+  .thesis-bleed-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--brass);
+    display: block; margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .thesis-bleed-kicker::before,
+  .thesis-bleed-kicker::after {
+    content: ''; display: block;
+    width: 32px; height: 1px; background: var(--brass);
+  }
+  .thesis-bleed-quote {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.4; color: var(--cream);
+    letter-spacing: -0.01em;
+    margin-bottom: 48px;
+    border: none; padding: 0;
+  }
+  .thesis-bleed-cta {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    border-bottom: 1px solid var(--brass);
+    padding-bottom: 4px;
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .thesis-bleed-cta:hover {
+    color: var(--brass);
+  }
+
+/* ─── CTA SECTION ───────────────────── */
   .cta-section {
     background: var(--ink);
     padding: 120px 48px;
@@ -3388,39 +3460,18 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 </section>
 
 <!-- MANIFESTO / ABOUT -->
-<section class="manifesto" id="purpose">
-  <div class="manifesto-inner">
-    <div class="reveal">
-      <span class="manifesto-kicker">Our Founding Thesis</span>
-      <h2 class="manifesto-h2">The Urban Planet<br/>thesis.</h2>
-      <div class="manifesto-author">
-        <div class="author-initial">M</div>
-        <div>
-          <span class="author-name">Miro Cernetig</span>
-          <span class="author-title">CEO &amp; Publisher — CityAge</span>
-        </div>
-      </div>
-    </div>
-    <div class="reveal" style="transition-delay:0.15s">
-      <div class="manifesto-accent-line"></div>
-      <blockquote class="manifesto-blockquote">
-        "Cities are 3% of the Earth's surface and more than 
-        80% of its GDP. Every structural challenge of our era — 
-        climate, capital, sovereignty — gets solved or 
-        doesn't get solved in cities."
-      </blockquote>
-      <p class="manifesto-body">
-        CityAge was founded on a single observation: the decision-makers 
-        responsible for building the next century of urban infrastructure 
-        rarely get to talk to each other. Not the right ones. Not under 
-        conditions where trust gets built and deals get done.
-      </p>
-      <p class="manifesto-body">
-        Fourteen years and 100+ forums later, we've built the network 
-        that changes that — 25,000 verified leaders across government, 
-        capital, and industry, convened around the problems worth solving.
-      </p>
-    </div>
+<section class="thesis-bleed" id="purpose">
+  <img src="/parliament-sunset.jpg" alt="Parliament Hill at sunset" class="thesis-bleed-img" />
+  <div class="thesis-bleed-overlay"></div>
+  <div class="thesis-bleed-inner reveal">
+    <span class="thesis-bleed-kicker">The Urban Planet Thesis</span>
+    <blockquote class="thesis-bleed-quote">
+      &#8220;Cities are 3% of the Earth&#8217;s surface.<br/>
+      More than 80% of its GDP.<br/>
+      Every challenge of our era gets solved &#8212;<br/>
+      or doesn&#8217;t &#8212; in cities.&#8221;
+    </blockquote>
+    <a href="/thesis.html" class="thesis-bleed-cta">Read the Thesis &#8594;</a>
   </div>
 </section>
 
