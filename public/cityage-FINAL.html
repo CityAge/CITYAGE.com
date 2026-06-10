@@ -4497,11 +4497,33 @@ document.addEventListener('DOMContentLoaded',function(){
 .purpose-back:hover { color: var(--brass); }
 
 .purpose-hero {
-  min-height: 52vh;
+  position: relative;
+  min-height: 88vh;
   background: var(--ink);
   display: flex; align-items: flex-end;
-  padding: 0 60px 64px;
+  padding: 0 60px 72px;
   border-bottom: 1px solid var(--white10);
+  overflow: hidden;
+}
+.purpose-hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 30%;
+  opacity: 0.85;
+}
+.purpose-hero-veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(10,9,8,0.25) 0%,
+    rgba(10,9,8,0.45) 55%,
+    rgba(10,9,8,0.96) 100%);
+}
+.purpose-hero-inner { position: relative; z-index: 2; }
+.purpose-hero-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: rgba(250,246,238,0.55);
+  margin-top: 24px; display: block;
 }
 .purpose-hero-inner { max-width: 860px; }
 .purpose-kicker {
@@ -4560,6 +4582,20 @@ document.addEventListener('DOMContentLoaded',function(){
 }
 .purpose-prose p { margin: 0 0 32px; }
 .purpose-prose p:last-child { margin-bottom: 0; }
+.purpose-prose .purpose-iqaluit {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 300; font-style: italic;
+  line-height: 1.4; color: var(--brass);
+  padding: 12px 0;
+}
+.purpose-prose .purpose-close {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 300; color: var(--cream);
+  border-top: 1px solid var(--white10);
+  padding-top: 40px; margin-top: 48px;
+}
 
 .purpose-stats {
   background: rgba(184,149,106,0.06);
@@ -4611,18 +4647,22 @@ document.addEventListener('DOMContentLoaded',function(){
 
 <!-- HERO -->
 <div class="purpose-hero">
+  <img class="purpose-hero-img" src="https://eoimages.gsfc.nasa.gov/images/imagerecords/55000/55167/earth_lights_lrg.jpg" alt="The Earth at night — the Urban Planet" />
+  <div class="purpose-hero-veil"></div>
   <div class="purpose-hero-inner">
     <span class="purpose-kicker">Our Founding Thesis</span>
     <h1 class="purpose-h1">The Urban<br/><em>Planet.</em></h1>
+    <span class="purpose-hero-tag">The Earth at night. Three per cent of the surface. A single web of light.</span>
   </div>
 </div>
 
 <!-- BODY -->
 <div class="purpose-body">
   <blockquote class="purpose-quote">
-    "Cities are 3% of the Earth's surface and more than 80% of its GDP.
-    Every structural challenge of our era — climate, capital, sovereignty —
-    gets solved or doesn't get solved in cities."
+    "Cities, regions, even small hamlets in the Arctic — built on 3 per cent
+    of the planet, producing more than 80% of its GDP. Every structural
+    challenge of our era — climate, capital, sovereignty — gets solved
+    or doesn't get solved there."
   </blockquote>
 
   <div class="purpose-author">
@@ -4634,17 +4674,22 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 
   <div class="purpose-prose">
+    <p>The Urban Planet is the three per cent of the Earth where people
+    mostly are — and where innovation and investment happens. Sometimes
+    it's a vast urban region. Sometimes it's a small and distant place.
+    All of it is connected — through modern technology and human
+    endeavour — into a single web of decisions.</p>
+    <p class="purpose-iqaluit">Iqaluit is as connected to the Urban Planet
+    as New York, Beijing or Brussels.</p>
     <p>CityAge was founded on a single observation: the decision-makers
-    responsible for building the next century of urban infrastructure
-    rarely get to talk to each other. Not the right ones. Not under
-    conditions where trust gets built and deals get done.</p>
-    <p>The world's consequential decisions concentrate on roughly 3% of
-    its surface. That's the Urban Planet — the cities, corridors, and
-    capitals where capital flows, policy is made, and infrastructure
-    is built or neglected. That's where CityAge operates.</p>
-    <p>Fourteen years and 100+ forums later, we've built the network
+    responsible for building the next century rarely get to talk to each
+    other. Not the right ones. Not under conditions where trust gets
+    built and decisions get made.</p>
+    <p>Fifteen years and 100+ forums later, we've built the network
     that changes that — 25,000 verified leaders across government,
     capital, and industry, convened around the problems worth solving.</p>
+    <p class="purpose-close">Three per cent of the Earth. Most of what
+    matters. We work there.</p>
   </div>
 </div>
 
@@ -4652,7 +4697,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <div class="purpose-stats">
   <div class="purpose-stats-inner">
     <div>
-      <span class="purpose-stat-num">14</span>
+      <span class="purpose-stat-num">15</span>
       <span class="purpose-stat-label">Years convening leaders</span>
     </div>
     <div>
