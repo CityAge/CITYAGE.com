@@ -118,18 +118,27 @@ nav {
   color: var(--cream-dim);
 }
 
-/* ── FILM REELS ──────────────────────────── */
+/* ── FILM REELS — full-viewport wall ─────── */
+.reel-stack {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .reel-section {
-  margin: 12px 0;
+  flex: 1;
+  min-height: 0;
   position: relative;
   overflow: hidden;
+  display: flex;
 }
 
 .reel-outer {
+  flex: 1;
   background: var(--film);
   border-top: 2px solid #3a2e1e;
   border-bottom: 2px solid #3a2e1e;
-  padding: 14px 0;
+  display: flex;
+  align-items: center;
   position: relative;
   overflow: hidden;
 }
@@ -176,17 +185,18 @@ nav {
 
 .reel-track {
   display: flex; gap: 6px;
-  padding: 10px 0;
+  padding: 20px 0;
   width: max-content;
   cursor: pointer;
 }
 
 .reel-track:hover { animation-play-state: paused !important; }
 
-/* Row 1: right to left */
-.reel-1 .reel-track { animation: scrollLeft var(--dur, 90s) linear infinite; }
-/* Row 2: left to right */
-.reel-2 .reel-track { animation: scrollRight var(--dur, 110s) linear infinite; }
+/* Alternating directions, varied speeds for depth */
+.reel-1 .reel-track { animation: scrollLeft var(--dur, 95s) linear infinite; }
+.reel-2 .reel-track { animation: scrollRight var(--dur, 115s) linear infinite; }
+.reel-3 .reel-track { animation: scrollLeft var(--dur, 105s) linear infinite; }
+.reel-4 .reel-track { animation: scrollRight var(--dur, 125s) linear infinite; }
 
 @keyframes scrollLeft {
   0%   { transform: translateX(0); }
@@ -439,23 +449,37 @@ footer {
   </div>
 </section>
 
-<!-- Reel 1: right to left -->
-<div class="reel-section reel-1">
-  <div class="reel-outer">
-    <div class="reel-fade-left"></div>
-    <div class="reel-fade-right"></div>
-    <div class="reel-track" id="reel-a">
-      <div class="loading"><span class="loading-dot">·</span><span class="loading-dot">·</span><span class="loading-dot">·</span></div>
+<!-- Full-viewport reel wall: four strips, alternating directions, continuous loop -->
+<div class="reel-stack">
+  <div class="reel-section reel-1">
+    <div class="reel-outer">
+      <div class="reel-fade-left"></div>
+      <div class="reel-fade-right"></div>
+      <div class="reel-track" id="reel-a">
+        <div class="loading"><span class="loading-dot">·</span><span class="loading-dot">·</span><span class="loading-dot">·</span></div>
+      </div>
     </div>
   </div>
-</div>
-
-<!-- Reel 2: left to right -->
-<div class="reel-section reel-2">
-  <div class="reel-outer">
-    <div class="reel-fade-left"></div>
-    <div class="reel-fade-right"></div>
-    <div class="reel-track" id="reel-b"></div>
+  <div class="reel-section reel-2">
+    <div class="reel-outer">
+      <div class="reel-fade-left"></div>
+      <div class="reel-fade-right"></div>
+      <div class="reel-track" id="reel-b"></div>
+    </div>
+  </div>
+  <div class="reel-section reel-3">
+    <div class="reel-outer">
+      <div class="reel-fade-left"></div>
+      <div class="reel-fade-right"></div>
+      <div class="reel-track" id="reel-c"></div>
+    </div>
+  </div>
+  <div class="reel-section reel-4">
+    <div class="reel-outer">
+      <div class="reel-fade-left"></div>
+      <div class="reel-fade-right"></div>
+      <div class="reel-track" id="reel-d"></div>
+    </div>
   </div>
 </div>
 
@@ -529,11 +553,11 @@ function faceCard(s, size = 110) {
   return d;
 }
 
-function buildReel(trackEl, speakers) {
+function buildReel(trackEl, speakers, size = 110) {
   trackEl.innerHTML = '';
   // Double the array for seamless loop
   const doubled = [...speakers, ...speakers];
-  doubled.forEach(s => trackEl.appendChild(faceCard(s)));
+  doubled.forEach(s => trackEl.appendChild(faceCard(s, size)));
 }
 
 async function loadSpeakers() {
@@ -556,17 +580,37 @@ async function loadSpeakers() {
     document.getElementById('footer-count').textContent =
       ALL_SPEAKERS.length + ' speakers · ' + new Date().getFullYear();
 
-    const shuffled = shuffle(ALL_SPEAKERS);
-    const half = Math.ceil(shuffled.length / 2);
-
-    buildReel(document.getElementById('reel-a'), shuffled.slice(0, half));
-    buildReel(document.getElementById('reel-b'), shuffled.slice(half));
+    buildAllReels();
+    window.addEventListener('resize', debounce(buildAllReels, 300));
 
   } catch (e) {
     console.error(e);
     document.getElementById('reel-a').innerHTML =
       '<div style="padding:40px;color:rgba(250,246,238,0.3);font-family:\'DM Mono\',monospace;font-size:10px;">Unable to load speakers</div>';
   }
+}
+
+const REEL_IDS = ['reel-a', 'reel-b', 'reel-c', 'reel-d'];
+
+function buildAllReels() {
+  if (!ALL_SPEAKERS.length) return;
+  const stack = document.querySelector('.reel-stack');
+  const rowH = stack.clientHeight / REEL_IDS.length;
+  // sprocket holes (14px x2) + track padding (20px x2) + borders
+  const faceH = Math.max(90, Math.round(rowH - 72));
+  const faceW = Math.round(faceH / 1.2);
+
+  const shuffled = shuffle(ALL_SPEAKERS);
+  const chunk = Math.ceil(shuffled.length / REEL_IDS.length);
+
+  REEL_IDS.forEach((id, i) => {
+    buildReel(document.getElementById(id), shuffled.slice(i * chunk, (i + 1) * chunk), faceW);
+  });
+}
+
+function debounce(fn, ms) {
+  let t;
+  return () => { clearTimeout(t); t = setTimeout(fn, ms); };
 }
 
 // ── SEARCH ───────────────────────────────────
@@ -576,13 +620,13 @@ const resultsSection = document.getElementById('results-section');
 const resultsGrid = document.getElementById('results-grid');
 const resultsCount = document.getElementById('results-count');
 const noResults = document.getElementById('no-results');
-const reelA = document.getElementById('reel-a');
-const reelB = document.getElementById('reel-b');
 
 function pauseReels(pause) {
   const state = pause ? 'paused' : 'running';
-  reelA.style.animationPlayState = state;
-  reelB.style.animationPlayState = state;
+  REEL_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.animationPlayState = state;
+  });
 }
 
 searchEl.addEventListener('input', () => {
