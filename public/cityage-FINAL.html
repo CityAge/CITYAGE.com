@@ -1971,6 +1971,23 @@ html, body {
   opacity: 0; transition: opacity 0.5s;
 }
 #page-studio .sv-iframe.sv-visible { opacity: 1; }
+#page-studio .sv-mute-btn {
+  position: absolute;
+  bottom: 28px; right: 28px;
+  z-index: 30;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(10,9,8,0.55);
+  border: 1px solid rgba(250,246,238,0.35);
+  color: #FAF6EE;
+  padding: 10px 18px;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s, color 0.2s;
+}
+#page-studio .sv-mute-btn:hover { border-color: #B8956A; color: #B8956A; }
+#page-studio .sv-mute-btn svg { width: 16px; height: 16px; }
 
 /* Gradient fade bottom of hero */
 #page-studio .sv-fade {
@@ -3847,7 +3864,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div class="sv-poster" id="sv-poster"></div>
 
     <!-- Custom mute/unmute button -->
-    <button class="sv-mute-btn" id="sv-mute-btn" onclick="svToggleMute()" title="Toggle mute">
+    <button class="sv-mute-btn" id="sv-mute-btn" onclick="svToggleMute()" title="Toggle sound">
       <svg id="sv-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
         <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
@@ -3856,6 +3873,7 @@ document.addEventListener('DOMContentLoaded',function(){
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
         <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
       </svg>
+      <span id="sv-mute-label">Sound On</span>
     </button>
 
     <!-- Bottom gradient -->
@@ -4650,7 +4668,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 </div>
 <script>
-function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy','purpose'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=true;document.getElementById('sv-icon-muted').style.display='';document.getElementById('sv-icon-unmuted').style.display='none';var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=1&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
+function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy','purpose'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=false;svSyncMuteUI();var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');_i.onload=function(){if(!SV_MUTED){_i.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:1}),'*');}};}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
 function switchTab(id,btn){}
@@ -4666,14 +4684,20 @@ var SV_FILMS=[
 ];
 var svShelfBuilt=false;
 function svBuildShelf(){if(svShelfBuilt)return;svShelfBuilt=true;var row=document.getElementById('sv-row');if(!row)return;SV_FILMS.forEach(function(film){var c=document.createElement('div');c.className='sv-card';c.id='sv-c-'+film.id;c.onclick=function(){svPlay(film.id);};c.innerHTML='<div class="sv-thumb" style="background:'+film.bg+'"><span class="sv-thumb-title">'+film.title+'</span><div class="sv-thumb-play"><div class="sv-play-btn"><div class="sv-tri"></div></div></div></div><div class="sv-card-foot"><div class="sv-card-name">'+film.title+'</div><div class="sv-card-type">'+film.type+'</div></div>';row.appendChild(c);});}
-var SV_MUTED = true;
+var SV_MUTED = false;
+function svSyncMuteUI(){
+  document.getElementById('sv-icon-muted').style.display=SV_MUTED?'':'none';
+  document.getElementById('sv-icon-unmuted').style.display=SV_MUTED?'none':'';
+  var l=document.getElementById('sv-mute-label');
+  if(l)l.textContent=SV_MUTED?'Sound Off':'Sound On';
+}
 function svToggleMute(){
   var iframe=document.getElementById('sv-iframe');
   if(!iframe||!iframe.src)return;
   SV_MUTED=!SV_MUTED;
   iframe.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:SV_MUTED?0:1}),'*');
-  document.getElementById('sv-icon-muted').style.display=SV_MUTED?'':'none';
-  document.getElementById('sv-icon-unmuted').style.display=SV_MUTED?'none':'';
+  iframe.contentWindow.postMessage(JSON.stringify({method:'setMuted',value:SV_MUTED}),'*');
+  svSyncMuteUI();
 }
 function svLoadPoster(){
   fetch('https://vimeo.com/api/oembed.json?url=https://vimeo.com/1197477652&width=1280')
