@@ -1359,6 +1359,17 @@ html, body { margin:0; padding:0; background:#050403; }
   .van-banner-cta:hover {
     background: #caa77c; transform: translateY(-1px);
   }
+  .van-banner-cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .van-banner-cta.secondary {
+    background: transparent; color: var(--cream);
+    border: 1px solid var(--brass);
+  }
+  .van-banner-cta.secondary:hover { background: rgba(184,149,106,0.18); }
+  .van-banner-rate {
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(250,246,238,0.55); margin-top: 10px;
+  }
   .van-banner-dismiss {
     position: absolute; top: 18px; right: 20px;
     background: none; border: none; cursor: pointer;
@@ -3352,14 +3363,19 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 
 <!-- NEXT FORUM BANNER -->
 <div class="van-banner" id="van-banner" onclick="if(event.target.className!='van-banner-dismiss'&&event.target.tagName!='A')window.location.href='/next-vancouver.html'">
-  <img class="van-banner-img" src="/vancouver-banner.jpg" alt="Vancouver" />
+  <img class="van-banner-img" src="/vancouver-bluesky.jpg" alt="Vancouver" />
   <div class="van-banner-overlay"></div>
   <div class="van-banner-content">
     <span class="van-banner-eyebrow">Next Forum</span>
     <h2 class="van-banner-title">The Next<br/><em>Vancouver.</em></h2>
     <div class="van-banner-edition">The A.I. Edition — Coming This Fall</div>
     <div class="van-banner-meta">Vancouver, British Columbia &nbsp;·&nbsp; In Partnership with The Vancouver Sun</div>
-    <a href="/next-vancouver.html" class="van-banner-cta">Explore the A.I. Edition →</a>
+    <div class="van-banner-cta-row">
+      <!-- TICKETTAILOR_URL: replace href when the event is live -->
+      <a href="/contact.html" class="van-banner-cta">Secure Your Seat</a>
+      <a href="/next-vancouver.html" class="van-banner-cta secondary">Explore the A.I. Edition →</a>
+    </div>
+    <div class="van-banner-rate">At the founding rate — until the program is announced</div>
   </div>
   <button class="van-banner-dismiss"
           onclick="document.getElementById('van-banner').style.display='none'">✕</button>
