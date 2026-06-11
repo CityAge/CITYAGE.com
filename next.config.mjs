@@ -26,6 +26,11 @@ const nextConfig = {
           source: '/',
           destination: '/cityage-FINAL.html',
         },
+        // Purpose: locked-design page (overrides the magazine app route)
+        {
+          source: '/purpose',
+          destination: '/purpose.html',
+        },
       ],
     }
   },
