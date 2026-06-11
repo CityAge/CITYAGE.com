@@ -442,6 +442,50 @@ footer {
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .reveal.visible, .reveal.in { opacity: 1; transform: translateY(0); }
 
+
+/* ── SIGNALS TICKER ── */
+.ticker-wrap {
+  background: #080706;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 19px 0;
+  overflow: hidden;
+  position: relative;
+}
+.ticker-wrap::before, .ticker-wrap::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 80px;
+  z-index: 2; pointer-events: none;
+}
+.ticker-wrap::before { left: 0; background: linear-gradient(to right, #080706, transparent); }
+.ticker-wrap::after { right: 0; background: linear-gradient(to left, #080706, transparent); }
+.ticker-label {
+  position: absolute; left: 20px; top: 50%;
+  transform: translateY(-50%); z-index: 3;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: #B8956A;
+  background: #080706; padding-right: 12px;
+}
+.ticker-track {
+  display: flex; gap: 0;
+  animation: ticker-scroll 110s linear infinite;
+  width: max-content;
+  padding-left: 140px;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-item { display: flex; align-items: center; gap: 0; white-space: nowrap; }
+.ticker-headline {
+  font-family: 'DM Mono', monospace;
+  font-size: 15px; letter-spacing: 0.08em;
+  color: rgba(250,246,238,0.88);
+  text-decoration: none; padding: 0 18px;
+  transition: color 0.2s;
+}
+.ticker-headline:hover { color: #B8956A; }
+.ticker-sep { color: rgba(184,149,106,0.35); font-size: 10px; padding: 0 4px; }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+
 </style>
 </head>
 <body>
@@ -464,6 +508,14 @@ footer {
     <span class="scroll-label">Scroll</span>
   </div>
 </section>
+<!-- NORTHERN CENTURY SIGNALS TICKER -->
+<div class="ticker-wrap">
+  <span class="ticker-label">Signals</span>
+  <div class="ticker-track">
+    <span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Arctic & North</span>Canada Commits $70B to Arctic Sovereignty Infrastructure</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Defence</span>NATO's Northern Flank: Why Sweden and Finland Changed Everything</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Capital</span>Sovereign Wealth Moves North: Infrastructure Investment Above the Arctic Circle</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Technology</span>Earth Observation from Orbit: How Space Intelligence Shapes Arctic Policy</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Canada-Europe</span>CEC Ottawa: Building the Bilateral Bridge at Bayview Yards</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Geography of Power</span>The Northern Century: Ideas and Investments in the New North</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Arctic & North</span>Canada Commits $70B to Arctic Sovereignty Infrastructure</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Defence</span>NATO's Northern Flank: Why Sweden and Finland Changed Everything</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Capital</span>Sovereign Wealth Moves North: Infrastructure Investment Above the Arctic Circle</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Technology</span>Earth Observation from Orbit: How Space Intelligence Shapes Arctic Policy</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Canada-Europe</span>CEC Ottawa: Building the Bilateral Bridge at Bayview Yards</a><span class="ticker-sep">◆</span></span><span class="ticker-item"><a href="#" class="ticker-headline"><span style="color:var(--brass);margin-right:8px;">Geography of Power</span>The Northern Century: Ideas and Investments in the New North</a><span class="ticker-sep">◆</span></span>
+  </div>
+</div>
+
 
 
 <!-- ════════════════════════════════════════
