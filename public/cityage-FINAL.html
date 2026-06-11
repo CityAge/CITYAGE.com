@@ -1359,17 +1359,6 @@ html, body { margin:0; padding:0; background:#050403; }
   .van-banner-cta:hover {
     background: #caa77c; transform: translateY(-1px);
   }
-  .van-banner-cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-  .van-banner-cta.secondary {
-    background: transparent; color: var(--cream);
-    border: 1px solid var(--brass);
-  }
-  .van-banner-cta.secondary:hover { background: rgba(184,149,106,0.18); }
-  .van-banner-rate {
-    font-family: 'DM Mono', monospace;
-    font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: rgba(250,246,238,0.55); margin-top: 10px;
-  }
   .van-banner-dismiss {
     position: absolute; top: 18px; right: 20px;
     background: none; border: none; cursor: pointer;
@@ -3227,7 +3216,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 <header>
   <a href="#" class="wordmark">City<em>Age</em></a>
   <nav>
-    <a href="#purpose" onclick="showPage('purpose');return false;">Purpose</a>
+    <a href="/purpose">Purpose</a>
     <a href="#what-we-do">What We Do</a>
     <a href="#" onclick="showPage('studio');return false;">CityAge Studio</a>
     <a href="/advisory.html">Private Advisory</a>
@@ -3363,19 +3352,14 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 
 <!-- NEXT FORUM BANNER -->
 <div class="van-banner" id="van-banner" onclick="if(event.target.className!='van-banner-dismiss'&&event.target.tagName!='A')window.location.href='/next-vancouver.html'">
-  <img class="van-banner-img" src="/vancouver-bluesky.jpg" alt="Vancouver" />
+  <img class="van-banner-img" src="/vancouver-banner.jpg" alt="Vancouver" />
   <div class="van-banner-overlay"></div>
   <div class="van-banner-content">
     <span class="van-banner-eyebrow">Next Forum</span>
     <h2 class="van-banner-title">The Next<br/><em>Vancouver.</em></h2>
     <div class="van-banner-edition">The A.I. Edition — Coming This Fall</div>
     <div class="van-banner-meta">Vancouver, British Columbia &nbsp;·&nbsp; In Partnership with The Vancouver Sun</div>
-    <div class="van-banner-cta-row">
-      <!-- TICKETTAILOR_URL: replace href when the event is live -->
-      <a href="/contact.html" class="van-banner-cta">Secure Your Seat</a>
-      <a href="/next-vancouver.html" class="van-banner-cta secondary">Explore the A.I. Edition →</a>
-    </div>
-    <div class="van-banner-rate">At the founding rate — until the program is announced</div>
+    <a href="/next-vancouver.html" class="van-banner-cta">Explore the A.I. Edition →</a>
   </div>
   <button class="van-banner-dismiss"
           onclick="document.getElementById('van-banner').style.display='none'">✕</button>
@@ -3504,7 +3488,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
       Every challenge of our era gets solved &#8212;<br/>
       or doesn&#8217;t &#8212; in cities.&#8221;
     </blockquote>
-    <a href="#" onclick="showPage('purpose');return false;" class="thesis-bleed-cta">Read the Thesis &#8594;</a>
+    <a href="/purpose" class="thesis-bleed-cta">Read the Thesis &#8594;</a>
   </div>
 </section>
 
@@ -3618,7 +3602,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <div>
       <span class="footer-col-title">Purpose</span>
       <ul class="footer-links">
-        <li><a href="#" onclick="showPage('purpose');return false;">Our Thesis</a></li>
+        <li><a href="/purpose">Our Thesis</a></li>
         <li><a href="#what-we-do">What We Do</a></li>
         <li><a href="/people.html">Contributors</a></li>
         <li><a href="/advisory.html">Private Advisory</a></li>
@@ -4524,15 +4508,15 @@ document.addEventListener('DOMContentLoaded',function(){
 .purpose-hero-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center 40%;
-  opacity: 1;
+  object-fit: cover; object-position: center 30%;
+  opacity: 0.85;
 }
 .purpose-hero-veil {
   position: absolute; inset: 0;
   background: linear-gradient(to bottom,
-    rgba(10,9,8,0.05) 0%,
-    rgba(10,9,8,0.12) 55%,
-    rgba(10,9,8,0.78) 100%);
+    rgba(10,9,8,0.25) 0%,
+    rgba(10,9,8,0.45) 55%,
+    rgba(10,9,8,0.96) 100%);
 }
 .purpose-hero-inner { position: relative; z-index: 2; }
 .purpose-hero-tag {
@@ -4736,9 +4720,6 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 <script>
 function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy','purpose'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=false;svSyncMuteUI();var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');_i.onload=function(){if(!SV_MUTED){_i.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:1}),'*');}};}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
-(function(){var h=location.hash.replace('#','');if(['nc','studio','van','pnw','privacy','purpose'].indexOf(h)>-1){showPage(h);}})();
-document.addEventListener('DOMContentLoaded',function(){var h=location.hash.replace('#','');if(['nc','studio','van','pnw','privacy','purpose'].indexOf(h)>-1){showPage(h);}});
-window.addEventListener('hashchange',function(){var h=location.hash.replace('#','');if(['nc','studio','van','pnw','privacy','purpose','home'].indexOf(h)>-1){showPage(h||'home');}});
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
 function switchTab(id,btn){}
