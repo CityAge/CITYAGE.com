@@ -1513,9 +1513,10 @@ body {
   background:linear-gradient(
     to bottom,
     rgba(10,9,8,0.22) 0%,
-    rgba(10,9,8,0.08) 28%,
-    rgba(10,9,8,0.55) 68%,
-    rgba(10,9,8,0.97) 100%
+    rgba(10,9,8,0.05) 30%,
+    rgba(10,9,8,0.10) 72%,
+    rgba(10,9,8,0.38) 90%,
+    rgba(10,9,8,0.92) 100%
   );
 }
 .page-nc .hero-nav {
@@ -2246,9 +2247,10 @@ body {
   background:linear-gradient(
     to bottom,
     rgba(10,9,8,0.22) 0%,
-    rgba(10,9,8,0.08) 28%,
-    rgba(10,9,8,0.55) 68%,
-    rgba(10,9,8,0.97) 100%
+    rgba(10,9,8,0.05) 30%,
+    rgba(10,9,8,0.10) 72%,
+    rgba(10,9,8,0.38) 90%,
+    rgba(10,9,8,0.92) 100%
   );
 }
 .page-nc .hero-nav {
@@ -4786,5 +4788,22 @@ function svLoadPoster(){
 }
 function svPlay(id){var film=null;SV_FILMS.forEach(function(f){if(f.id===id)film=f;});if(!film)return;document.querySelectorAll('#page-studio .sv-card').forEach(function(c){c.classList.remove('sv-active');});var card=document.getElementById('sv-c-'+id);if(card)card.classList.add('sv-active');document.getElementById('sv-info-type').textContent=film.type;document.getElementById('sv-info-title').innerHTML=film.title;document.getElementById('sv-info-desc').textContent=film.desc;document.getElementById('sv-info-awards').innerHTML=film.awards.map(function(a){return'<span class="sv-award">'+a+'</span>';}).join('');var plato=document.getElementById('sv-plato'),iframe=document.getElementById('sv-iframe'),info=document.getElementById('sv-info');var stillEl=document.getElementById('sv-still');if(film.stillImage){plato.classList.add('hidden');iframe.classList.remove('sv-visible');iframe.src='';if(stillEl){stillEl.src=film.stillImage;stillEl.style.display='block';}info.classList.add('sv-visible');return;}if(stillEl)stillEl.style.display='none';if(!film.vimeoId||film.vimeoId==='PASTE_VIMEO_ID'){plato.classList.remove('hidden');iframe.classList.remove('sv-visible');iframe.src='';if(stillEl)stillEl.style.display='none';var attr=document.getElementById('sv-p-attr');if(attr)attr.textContent=film.title+' — add Vimeo ID to unlock';info.classList.remove('sv-visible');return;}plato.classList.add('hidden');iframe.src='https://player.vimeo.com/video/'+film.vimeoId+'?autoplay=1&color=B8956A&title=0&byline=0&portrait=0';iframe.classList.add('sv-visible');info.classList.add('sv-visible');}
 </script>
+
+<style>
+/* ── Kinetic motion: slow Ken Burns drift on marquee images ── */
+@keyframes ca-kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+.page-nc .hero-img,
+.van-banner-img {
+  animation: ca-kenburns 36s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-nc .hero-img,
+  .van-banner-img { animation: none; }
+}
+</style>
 </body>
 </html>
