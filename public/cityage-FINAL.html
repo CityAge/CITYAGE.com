@@ -2566,7 +2566,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
       </a>
 
       <!-- Tile 3: ORBIT DC — Coming Soon -->
-      <a href="/orbit.html" class="photo-tile tile-arctic">
+      <a href="#" class="photo-tile tile-arctic">
         <div class="photo-tile-bg"></div>
         <div class="photo-tile-overlay"></div>
         <span class="photo-tile-badge">Coming · Washington DC 2027</span>
@@ -2579,7 +2579,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
       </a>
 
       <!-- Tile 4: Pacific Northwest — New -->
-      <a href="/pacific-northwest.html" class="photo-tile tile-pnw">
+      <a href="#" class="photo-tile tile-pnw">
         <div class="photo-tile-bg"></div>
         <div class="photo-tile-overlay"></div>
         <span class="photo-tile-badge" style="background:#7ab8c8;color:#080c10;">New · November 2026</span>
@@ -3464,7 +3464,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <script>
 (function(){var h=location.hash.replace('#','');
 if(h==='nc'){location.replace('/northern-century.html');}
-if(h==='pnw'){location.replace('/pacific-northwest.html');}})();
+})();
 </script>
 <script>
 function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy','purpose'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=false;svSyncMuteUI();var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');_i.onload=function(){if(!SV_MUTED){_i.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:1}),'*');}};}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
