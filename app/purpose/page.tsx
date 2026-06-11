@@ -16,15 +16,9 @@ export default function PurposePage() {
 
       <main className="flex-grow">
 
-        {/* ── HERO: THE EARTH AT NIGHT ── */}
-        <section className="relative border-b border-black bg-black text-white overflow-hidden">
-          <img
-            src="/earth-lights.jpg"
-            alt="The Earth at night — the Urban Planet"
-            className="absolute inset-0 w-full h-full object-cover opacity-90"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/95" />
-          <div className="relative max-w-[900px] mx-auto px-6 md:px-12 pt-24 md:pt-40 pb-16 md:pb-24">
+        {/* ── HERO: THE EARTH AT NIGHT — unmasked ── */}
+        <section className="border-b border-black bg-black text-white">
+          <div className="max-w-[900px] mx-auto px-6 md:px-12 pt-20 md:pt-28 pb-12 md:pb-16">
             <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#C5A059] block mb-10">
               Our Founding Thesis
             </span>
@@ -36,6 +30,11 @@ export default function PurposePage() {
               Three per cent of the surface. A single web of light.
             </p>
           </div>
+          <img
+            src="/earth-lights.jpg"
+            alt="The Earth at night — the Urban Planet"
+            className="w-full h-auto block"
+          />
         </section>
 
         {/* ── THE QUOTE ── */}
