@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Northern Century — CityAge Intelligence</title>
+<meta name="description" content="The Northern Century: ideas and investments in the new geography of power. A CityAge intelligence and forum franchise spanning the Arctic and northern hemisphere."/>
+<meta property="og:title" content="The Northern Century — CityAge"/>
+<meta property="og:description" content="Ideas and investments in the new geography of power."/>
+<meta property="og:image" content="https://www.cityage.com/northern-century-hero.jpg"/>
+<meta property="og:type" content="website"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+
+html, body { margin:0; padding:0; background:#050403; }
+
+
+html, body { margin:0; padding:0; background:#050403; }
+
+  :root {
+    --ink: #0A0908;
+    --ink-2: #111010;
+    --ink-3: #181614;
+    --brass: #B8956A;
+    --brass-dim: rgba(184,149,106,0.15);
+    --brass-line: rgba(184,149,106,0.3);
+    --cream: #FAF6EE;
+    --cream-dim: rgba(250,246,238,0.75);
+    --grey: #7A7060;
+    --grey-dim: rgba(122,112,96,0.5);
+    --white5: rgba(255,255,255,0.05);
+    --white10: rgba(255,255,255,0.1);
+    --white20: rgba(255,255,255,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Lora', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── TYPOGRAPHY ────────────────────── */
+  .mono {
+    font-family: 'DM Mono', 'Courier New', monospace;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+  .label { color: var(--grey); }
+  .brass { color: var(--brass); }
+
+  
+/* ── HERO ─────────────────────────────────────────── */
+.page-nc .hero {
+  position:relative;
+  width:100%; height:100vh; min-height:620px;
+  overflow:hidden;
+}
+.page-nc .hero-img {
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center 30%;
+}
+.page-nc .hero-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(10,9,8,0.22) 0%,
+    rgba(10,9,8,0.05) 30%,
+    rgba(10,9,8,0.10) 72%,
+    rgba(10,9,8,0.38) 90%,
+    rgba(10,9,8,0.92) 100%
+  );
+}
+.page-nc .hero-nav {
+  position:absolute; top:0; left:0; right:0; z-index:10;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:28px 60px;
+}
+.page-nc .hero-wordmark {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:26px; font-weight:300;
+  color:var(--cream); text-decoration:none;
+  letter-spacing:-0.01em;
+}
+.page-nc .hero-wordmark em { font-style:italic; color:var(--brass); }
+.page-nc .hero-back {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.2em;
+  text-transform:uppercase; color:rgba(250,246,238,0.7);
+  text-decoration:none;
+  border:1px solid rgba(184,149,106,0.35);
+  padding:10px 22px; transition:all 0.2s;
+}
+.page-nc .hero-back:hover { background:var(--brass); color:var(--ink); border-color:var(--brass); }
+
+.page-nc .hero-content {
+  position:absolute; bottom:0; left:0; z-index:10;
+  padding:0 60px 72px;
+  max-width:860px;
+}
+.page-nc .hero-kicker {
+  font-family:'DM Mono',monospace;
+  font-size:9.5px; letter-spacing:0.26em;
+  text-transform:uppercase; color:var(--brass);
+  display:flex; align-items:center; gap:14px;
+  margin-bottom:22px;
+}
+.page-nc .kicker-line { width:40px; height:1px; background:var(--brass); }
+.page-nc .hero-h1 {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(60px,9vw,116px);
+  font-weight:300; line-height:0.93;
+  letter-spacing:-0.025em; color:var(--cream);
+  margin-bottom:16px;
+}
+.page-nc .hero-h1 em { font-style:italic; color:var(--brass); font-weight:300; }
+.page-nc .hero-tagline {
+  font-family:'Lora',Georgia,serif;
+  font-style:italic;
+  font-size:clamp(16px,2vw,21px);
+  color:rgba(250,246,238,0.75);
+  margin-bottom:32px;
+}
+.page-nc .hero-themes {
+  display:flex; align-items:center; gap:20px;
+  font-family:'DM Mono',monospace;
+  font-size:8.5px; letter-spacing:0.2em;
+  text-transform:uppercase; color:rgba(250,246,238,0.45);
+}
+.page-nc .theme-dot { width:3px; height:3px; background:var(--brass); border-radius:50%; }
+
+.page-nc .scroll-cue {
+  position:absolute; bottom:30px; right:56px; z-index:10;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.page-nc .scroll-line {
+  width:1px; height:52px;
+  background:linear-gradient(to bottom,var(--brass),transparent);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+.page-nc .scroll-label {
+  font-family:'DM Mono',monospace;
+  font-size:7.5px; letter-spacing:0.24em;
+  text-transform:uppercase; color:rgba(250,246,238,0.35);
+}
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scaleY(1)}
+  50%{opacity:0.35;transform:scaleY(0.55)}
+}
+
+/* ── INTRO ────────────────────────────────────────── */
+.page-nc .intro {
+  background:var(--ink);
+  padding:100px 60px;
+  border-bottom:1px solid var(--w10);
+}
+.page-nc .intro-grid {
+  max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1.45fr;
+  gap:80px; align-items:start;
+}
+.page-nc .section-label {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.24em;
+  text-transform:uppercase; color:var(--grey);
+  display:block; margin-bottom:18px;
+}
+.page-nc .intro-h2 {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(30px,3.2vw,44px);
+  font-weight:300; line-height:1.12;
+  color:var(--cream); margin-bottom:32px;
+}
+.page-nc .intro-h2 em { font-style:italic; color:var(--brass); }
+.page-nc .stat-row {
+  display:flex; gap:0;
+  border-top:1px solid var(--w10);
+  border-bottom:1px solid var(--w10);
+}
+.page-nc .stat {
+  flex:1; padding:22px 0;
+}
+.page-nc .stat + .stat {
+  border-left:1px solid var(--w10);
+  padding-left:28px;
+}
+.page-nc .stat:first-child { padding-right:28px; }
+.page-nc .stat-num {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:42px; font-weight:300; color:var(--brass);
+  display:block; line-height:1; margin-bottom:8px;
+}
+.page-nc .stat-label {
+  font-family:'DM Mono',monospace;
+  font-size:8.5px; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--grey);
+}
+.page-nc .body-copy {
+  font-family:'Lora',Georgia,serif;
+  font-size:17px; line-height:1.87;
+  color:var(--cream-dim); margin-bottom:20px;
+}
+.page-nc .body-copy:last-child { margin-bottom:0; }
+
+/* ── PILLARS ─────────────────────────────────────── */
+.page-nc .pillars {
+  background:#070706;
+  padding:100px 60px;
+  border-bottom:1px solid var(--w10);
+}
+.page-nc .pillars-inner { max-width:1200px; margin:0 auto; }
+.page-nc .pillars-hd {
+  margin-bottom:60px;
+  border-bottom:1px solid var(--w10);
+  padding-bottom:28px;
+}
+.page-nc .pillars-h2 {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:38px; font-weight:300; color:var(--cream);
+}
+.page-nc .pillars-h2 em { font-style:italic; color:var(--brass); }
+.page-nc .pillars-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--w10);
+}
+.page-nc .pillar {
+  background:var(--ink);
+  padding:40px 36px;
+  position:relative; overflow:hidden;
+  transition:background 0.3s;
+}
+.page-nc .pillar:hover { background:var(--ink2); }
+.page-nc .pillar-bar {
+  position:absolute; top:0; left:0; right:0;
+  height:2px; background:var(--brass);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.4s ease;
+}
+.page-nc .pillar:hover .pillar-bar { transform:scaleX(1); }
+.page-nc .pillar-num {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.2em;
+  color:var(--brass); display:block; margin-bottom:18px;
+}
+.page-nc .pillar-title {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:24px; font-weight:400; color:var(--cream);
+  margin-bottom:14px; line-height:1.2;
+}
+.page-nc .pillar-body {
+  font-family:'Lora',Georgia,serif;
+  font-size:14px; line-height:1.78; color:var(--grey);
+}
+
+/* ── FULL-WIDTH IMAGE BREAK ──────────────────────── */
+.page-nc .img-break {
+  position:relative;
+  height:65vh; min-height:420px;
+  overflow:hidden;
+}
+.page-nc .img-break img {
+  width:100%; height:100%;
+  object-fit:cover; object-position:center 22%;
+}
+.page-nc .img-break-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(
+    to right,
+    rgba(10,9,8,0.65) 0%,
+    rgba(10,9,8,0.15) 55%,
+    rgba(10,9,8,0.05) 100%
+  );
+}
+.page-nc .img-break-text {
+  position:absolute; bottom:48px; left:60px;
+  z-index:2;
+}
+.page-nc .img-break-headline {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(28px,3.5vw,48px);
+  font-weight:300; color:var(--cream);
+  line-height:1.15; margin-bottom:10px;
+}
+.page-nc .img-break-headline em { font-style:italic; color:var(--brass); }
+.page-nc .img-break-sub {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.22em;
+  text-transform:uppercase; color:rgba(250,246,238,0.45);
+}
+
+/* ── WHY NOW ─────────────────────────────────────── */
+.page-nc .why {
+  background:var(--ink);
+  padding:100px 60px;
+  border-bottom:1px solid var(--w10);
+}
+.page-nc .why-grid {
+  max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:1.2fr 1fr;
+  gap:80px; align-items:center;
+}
+.page-nc .why-quote {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(22px,2.8vw,36px);
+  font-weight:300; font-style:italic;
+  line-height:1.4; color:var(--cream);
+  border-left:2px solid var(--brass);
+  padding-left:32px;
+  margin-bottom:28px;
+}
+.page-nc .why-attr {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--grey);
+  padding-left:32px;
+}
+.page-nc .why-attr strong { color:var(--brass); }
+.page-nc .why-facts { display:flex; flex-direction:column; gap:1px; }
+.page-nc .fact {
+  background:#0d0c0b;
+  border:1px solid var(--w10);
+  padding:22px 24px;
+  display:flex; gap:14px; align-items:flex-start;
+  transition:border-color 0.25s;
+}
+.page-nc .fact:hover { border-color:var(--brass-line); }
+.page-nc .fact-dot {
+  width:6px; height:6px; background:var(--brass);
+  border-radius:50%; margin-top:7px; flex-shrink:0;
+}
+.page-nc .fact-text {
+  font-family:'Lora',Georgia,serif;
+  font-size:14.5px; line-height:1.68;
+  color:var(--cream-dim);
+}
+.page-nc .fact-text strong { color:var(--cream); font-weight:500; }
+
+/* ── CTA ─────────────────────────────────────────── */
+.page-nc .cta {
+  background:var(--ink);
+  padding:120px 60px;
+  text-align:center;
+  position:relative; overflow:hidden;
+}
+.page-nc .cta-glow {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:700px; height:500px;
+  background:radial-gradient(ellipse,rgba(184,149,106,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.page-nc .cta-inner { position:relative; z-index:1; max-width:620px; margin:0 auto; }
+.page-nc .cta-h2 {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(42px,5.5vw,68px);
+  font-weight:300; color:var(--cream);
+  line-height:1.08; margin-bottom:18px;
+}
+.page-nc .cta-h2 em { font-style:italic; color:var(--brass); }
+.page-nc .cta-rule { width:60px; height:1px; background:var(--brass-line); margin:0 auto 28px; }
+.page-nc .cta-sub {
+  font-family:'Lora',Georgia,serif;
+  font-size:16px; color:var(--cream-dim);
+  line-height:1.75; margin-bottom:44px;
+}
+.page-nc .cta-btns { display:flex; gap:14px; justify-content:center; }
+.page-nc .btn-brass {
+  background:var(--brass); color:var(--ink);
+  padding:16px 36px;
+  font-family:'DM Mono',monospace;
+  font-size:10px; letter-spacing:0.2em;
+  text-transform:uppercase; text-decoration:none;
+  font-weight:500; transition:background 0.2s;
+}
+.page-nc .btn-brass:hover { background:#c9a87c; }
+.page-nc .btn-ghost {
+  border:1px solid var(--w20); color:var(--cream);
+  padding:16px 36px;
+  font-family:'DM Mono',monospace;
+  font-size:10px; letter-spacing:0.2em;
+  text-transform:uppercase; text-decoration:none;
+  transition:border-color 0.2s; background:transparent;
+}
+.page-nc .btn-ghost:hover { border-color:rgba(255,255,255,0.55); }
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer {
+  background:#070706;
+  border-top:1px solid var(--w10);
+  padding:38px 60px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.18em;
+  text-transform:uppercase; color:rgba(122,112,96,0.5);
+}
+.page-nc .footer-wordmark {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:22px; font-weight:300;
+  color:var(--cream); text-decoration:none;
+}
+.page-nc .footer-wordmark em { font-style:italic; color:var(--brass); }
+
+/* ── REVEAL ANIMATION ────────────────────────────── */
+.page-nc .reveal {
+  opacity:0; transform:translateY(20px);
+  transition:opacity 0.75s ease, transform 0.75s ease;
+}
+.page-nc .reveal.in { opacity:1; transform:translateY(0); }
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media(max-width:900px){
+  .hero-nav { padding:20px 24px; }
+  .hero-content { padding:0 24px 56px; }
+  .intro,.pillars,.why,.cta { padding:64px 24px; }
+  .intro-grid,.why-grid { grid-template-columns:1fr; gap:44px; }
+  .pillars-grid { grid-template-columns:1fr; }
+  .img-break-text { left:24px; bottom:32px; }
+  .cta-btns { flex-direction:column; align-items:center; }
+  footer { flex-direction:column; gap:16px; padding:32px 24px; text-align:center; }
+}
+
+
+
+
+/* ── Kinetic motion: slow Ken Burns drift ── */
+@keyframes ca-kenburns { from { transform: scale(1); } to { transform: scale(1.08); } }
+.page-nc .hero-img { animation: ca-kenburns 36s ease-in-out infinite alternate; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .page-nc .hero-img { animation: none; } }
+/* reveal base */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible, .reveal.in { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+<div class="page-nc">
+
+<!-- ════════════════════════════════════════
+     HERO — full-viewport, image edge to edge
+     ════════════════════════════════════════ -->
+<section class="hero">
+  <img class="hero-img" src="/northern-century-hero.jpg" alt="The Northern Century — CityAge Intelligence" />
+  <div class="hero-overlay"></div>
+
+  <nav class="hero-nav">
+    <a class="hero-wordmark" href="/">City<em>Age</em></a>
+    <a class="hero-back" href="/">← Back to CityAge</a>
+  </nav>
+
+  <div class="scroll-cue">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     INTRO — thesis + stats
+     ════════════════════════════════════════ -->
+<section class="intro">
+  <div class="intro-grid">
+
+    <div class="reveal">
+      <span class="section-label">The Manifesto</span>
+      <h2 class="intro-h2">The future of the North unites <em>the democratic nations of the northern hemisphere.</em></h2>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-num">243,042 km</span>
+          <span class="stat-label">Longest Coastline on Earth</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">66°N</span>
+          <span class="stat-label">Arctic Circle</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:0.15s">
+      <p class="body-copy">
+        Canada. The United States. The Nordics. The Baltics. Northern Europe. One geography, one moment, one cause.
+      </p>
+      <p class="body-copy">
+        This is where the next century gets decided — telecommunications and data, AI, defense, climate, supply chains, and the critical minerals and metals the whole transition runs on. It all converges on the top of the world.
+      </p>
+      <p class="body-copy">
+        Canada is pivotal. The longest coastline on earth. A commanding position from the North Pole down to the rest of the world. For too long that was treated as a burden. It is the most consequential strategic asset in the hemisphere — and what Canada does with it sets the terms for everyone.
+      </p>
+      <p class="body-copy">
+        The window is open now. The sea lanes, the satellites, the defense spending, the race for minerals — all moving at once. The nations of the North decide how this is governed, or it gets decided for them.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     PILLARS — six forces
+     ════════════════════════════════════════ -->
+<section class="pillars">
+  <div class="pillars-inner">
+
+    <div class="pillars-hd reveal">
+      <span class="section-label">What Gets Decided</span>
+      <h2 class="pillars-h2">Six forces <em>shaping the North.</em></h2>
+    </div>
+
+    <div class="pillars-grid">
+
+      <div class="pillar reveal">
+        <div class="pillar-bar"></div>
+        <span class="pillar-num">01 · Sovereignty</span>
+        <h3 class="pillar-title">Arctic Claims &amp; Strategic Control</h3>
+        <p class="pillar-body">Who controls the Northwest Passage, the Northern Sea Route, and the resources beneath them. The intersection of international law, military posture, and Indigenous rights in the world's last great territorial contest.</p>
+      </div>
+
+      <div class="pillar reveal" style="transition-delay:0.08s">
+        <div class="pillar-bar"></div>
+        <span class="pillar-num">02 · Infrastructure</span>
+        <h3 class="pillar-title">Ports, Corridors &amp; Defence Build</h3>
+        <p class="pillar-body">Canada's $70B+ Arctic investment. New deep-water ports. Roads and rail into the High Arctic. The infrastructure programs that will define northern sovereignty for a century — and the capital structures that make them viable.</p>
+      </div>
+
+      <div class="pillar reveal" style="transition-delay:0.16s">
+        <div class="pillar-bar"></div>
+        <span class="pillar-num">03 · Energy</span>
+        <h3 class="pillar-title">Geothermal, Wind &amp; Grid Independence</h3>
+        <p class="pillar-body">Iceland's volcanic grid. Scandinavian offshore wind. The energy systems that allow remote Arctic settlements and military installations to operate independently of southern supply chains — and the investment thesis behind them.</p>
+      </div>
+
+      <div class="pillar reveal">
+        <div class="pillar-bar"></div>
+        <span class="pillar-num">04 · Trade</span>
+        <h3 class="pillar-title">Nordic-Atlantic Bilateral Networks</h3>
+        <p class="pillar-body">The Canada-Europe trade corridor. Nordic-North American industrial partnerships. How changing ice conditions are redrawing the economics of global shipping — and which ports, corridors, and nations stand to benefit most.</p>
+      </div>
+
+      <div class="pillar reveal" style="transition-delay:0.08s">
+        <div class="pillar-bar"></div>
+        <span class="pillar-num">05 · Space</span>
+        <h3 class="pillar-title">Earth Observation &amp; the Space Economy</h3>
+        <p class="pillar-body">Arctic monitoring from orbit. The role of Earth observation in sovereignty claims, climate tracking, and resource mapping. How the space economy — satellites, launch, data — is inseparable from the future of northern infrastructure.</p>
+      </div>
+
+      <div class="pillar reveal" style="transition-delay:0.16s">
+        <div class="pillar-bar"></div>
+        <span class="pillar-num">06 · Capital</span>
+        <h3 class="pillar-title">Sovereign Wealth &amp; Institutional Investment</h3>
+        <p class="pillar-body">The pension funds and sovereign wealth vehicles moving capital into Arctic infrastructure. How institutional investors are pricing sovereignty risk. The financial architecture funding the Northern Century — and who is positioned now.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FULL-WIDTH IMAGE BREAK — second hit
+     ════════════════════════════════════════ -->
+<div class="img-break">
+  <img src="/northern-century-hero.jpg" alt="Arctic Circle — the new geography of power" />
+  <div class="img-break-overlay"></div>
+  <div class="img-break-text">
+    <h3 class="img-break-headline">The Arctic is not the<br/>edge of the map.<br/><em>It is the next frontier.</em></h3>
+    <div class="img-break-sub">Arctic Circle · 66.0° N · The New Geography of Power</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     WHY NOW
+     ════════════════════════════════════════ -->
+<section class="why">
+  <div class="why-grid">
+
+    <div class="reveal">
+      <span class="section-label">Why Now</span>
+      <blockquote class="why-quote">
+        "The Arctic is not the edge of the map. It is the next centre of gravity for capital, sovereignty, and the infrastructure that determines how nations project power."
+      </blockquote>
+      <div class="why-attr">— Miro Cernetig, <strong>CEO &amp; Publisher, CityAge</strong></div>
+    </div>
+
+    <div class="why-facts reveal" style="transition-delay:0.15s">
+      <div class="fact">
+        <div class="fact-dot"></div>
+        <div class="fact-text"><strong>Climate is opening new corridors.</strong> The Northwest Passage is navigable for longer each year. New shipping routes are being assessed — and new military infrastructure built to control them.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-dot"></div>
+        <div class="fact-text"><strong>Canada has committed $70B+ to Arctic sovereignty.</strong> That capital is looking for industrial partners, advisors, and intelligence on where the opportunity is real.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-dot"></div>
+        <div class="fact-text"><strong>NATO's northern flank is the new strategic frontier.</strong> Sweden and Finland's accession has changed the alliance's geography. Defence infrastructure is being built at pace.</div>
+      </div>
+      <div class="fact">
+        <div class="fact-dot"></div>
+        <div class="fact-text"><strong>Critical minerals are the new oil.</strong> The Arctic holds significant reserves of rare earths, lithium, and nickel powering the energy transition — and competition for them is intensifying.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CTA
+     ════════════════════════════════════════ -->
+<section class="cta">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <span class="section-label">The Network</span>
+    <h2 class="cta-h2">The century<br/><em>turns north.</em></h2>
+    <div class="cta-rule"></div>
+    <p class="cta-sub">
+      The Northern Century is not a conference. It is a non-partisan network of the leaders, investors, and innovators building the future — in the place where so much of it will be decided.
+    </p>
+    <p class="cta-sub">
+      It begins in Ottawa. It moves to Washington and Europe.
+    </p>
+    <div class="cta-btns">
+      <a href="mailto:miro@cityage.com" class="btn-brass">Talk to Miro Directly</a>
+      <a href="/" class="btn-ghost">Return to CityAge</a>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <a class="footer-wordmark" href="/">City<em>Age</em></a>
+  <span>© 2026 CityAge · Intelligence for The Urban Planet</span>
+  <span>The Northern Century · Arctic &amp; Northern Hemisphere</span>
+</footer>
+
+
+</div>
+
+<script>
+(function(){
+  var o = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible','in'); o.unobserve(e.target); }
+    });
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){ o.observe(el); });
+})();
+</script>
+</body>
+</html>
