@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 export function CampaignBanner() {
   return (
-    <div className="bg-[#F9F9F7] py-6">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10">
-        <a href="/canada-europe-connects" className="block relative w-full h-[200px] md:h-[300px] overflow-hidden group">
+    <div className="bg-[#F9F9F7] pt-5 pb-0">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <a href="/canada-europe-connects" className="block relative w-full h-[220px] md:h-[340px] overflow-hidden group">
           <Image
             src="/ottawa-feature.jpg"
             alt="Canada–Europe Connects — Ottawa, May 26, 2026"

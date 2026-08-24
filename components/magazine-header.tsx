@@ -78,7 +78,7 @@ export function MagazineHeader() {
         <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
           {[
             { name: 'Power', href: '/influence/canada-europe-connects' },
-            { name: 'Money', href: '/partners' },
+            { name: 'Money', href: '/influence/canada-europe-connects' },
             { name: 'Cities', href: '/next-vancouver' },
             { name: 'Frontiers', href: '/northern-century' },
             { name: 'Culture', href: '/purpose' },
