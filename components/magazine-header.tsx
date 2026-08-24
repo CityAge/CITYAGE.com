@@ -37,7 +37,7 @@ export function MagazineHeader() {
               </svg>
             </button>
             <a href="#" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden sm:block">Log in</a>
-            <a href="#" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
+            <a href="#subscribe" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
               Subscribe
             </a>
           </div>
@@ -55,14 +55,19 @@ export function MagazineHeader() {
             <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]'}`}>
               CITYAGE
             </a>
+            {!isCompressed && (
+              <p className="mt-4 md:mt-5 font-mono text-[10px] md:text-[11px] tracking-[0.22em] uppercase text-black/45">
+                everything happens on earth&rsquo;s 2%.
+              </p>
+            )}
           </div>
 
           {/* Right bracket — hidden when compressed */}
           {!isCompressed && (
             <div className="hidden xl:block absolute right-0 bottom-0 text-right">
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
-                Published daily<br />from Vancouver
-              </a>
+              <p className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 leading-relaxed">
+                Publisher<br />Miro Cernetig
+              </p>
             </div>
           )}
         </div>
@@ -71,14 +76,20 @@ export function MagazineHeader() {
       {/* ─── VERTICAL NAV ─── */}
       <div className="border-b-2 border-black px-4 md:px-12">
         <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
-          {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
-            <div key={name} className="flex items-center shrink-0">
+          {[
+            { name: 'Power', href: '/influence/canada-europe-connects' },
+            { name: 'Money', href: '/partners' },
+            { name: 'Cities', href: '/next-vancouver' },
+            { name: 'Frontiers', href: '/northern-century' },
+            { name: 'Culture', href: '/purpose' },
+          ].map((item, i) => (
+            <div key={item.name} className="flex items-center shrink-0">
               {i > 0 && <span className="text-black/60 mx-4 md:mx-6 text-base font-normal">|</span>}
               <a
-                href={`#${name.toLowerCase()}`}
+                href={item.href}
                 className="px-3 md:px-5 py-4 text-[14px] md:text-[16px] font-black tracking-[0.15em] uppercase text-black hover:opacity-50 transition-opacity"
               >
-                {name}
+                {item.name}
               </a>
             </div>
           ))}

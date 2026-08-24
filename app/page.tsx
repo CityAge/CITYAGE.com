@@ -1,547 +1,234 @@
-'use client'
+import { CampaignBanner } from '@/components/campaign-banner'
+import { MagazineHeader } from '@/components/magazine-header'
+import { ArticleCard } from '@/components/article-card'
+import { MagazineFooter } from '@/components/magazine-footer'
+import { UrbanPlanetVoices } from '@/components/urban-planet-voices'
+import { HeroGrid } from '@/components/hero-grid'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import './redesign.css'
+export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
-const HERO_IMAGES = [
-  { src: '/cityage-hero.png', alt: 'Skyline at dawn — boardroom view of the urban planet.' },
-  { src: '/parliament-sunset.jpg', alt: 'Parliament Hill at golden hour.' },
+// Door stories are real rooms already in the repo — not invented breaking news.
+const DOOR_LEAD = {
+  id: 'northern-century',
+  href: '/northern-century',
+  title: 'The Northern Century',
+  vertical: 'Frontiers',
+  tagline: 'Ideas and investments in the new geography of power.',
+  excerpt: 'The Arctic is not the edge of the map. It is the next frontier — where capital, sovereignty, and infrastructure converge.',
+  date: 'The Room',
+  image: '/northern-century-tile.jpg',
+  readTime: 'Read the manifesto',
+}
+
+const DOOR_SECONDARY = [
+  {
+    id: 'next-vancouver',
+    href: '/next-vancouver',
+    title: 'The Next Metro Vancouver: The A.I. Edition',
+    vertical: 'Cities',
+    tagline: 'Where can this region actually win?',
+    excerpt: 'Metro Vancouver has an AI advantage — but only in the sectors where this region already leads the world.',
+    date: 'Coming this fall',
+    image: '/vancouver-banner.jpg',
+    readTime: 'The A.I. Edition',
+  },
+  {
+    id: 'influence-letter',
+    href: '/influence/canada-europe-connects',
+    title: 'The Influence Letter — Canada–Europe Connects',
+    vertical: 'Power',
+    tagline: 'Defence procurement, dual-use technology, and trans-Atlantic trade corridors.',
+    excerpt: 'Ottawa is the room where three converging forces are being decided by the people who will actually sign the papers.',
+    date: 'May 26, 2026',
+    image: '/parliament-sunset.jpg',
+    readTime: 'The Letter',
+  },
+  {
+    id: 'purpose',
+    href: '/purpose',
+    title: 'We live on the urban planet.',
+    vertical: 'Cities',
+    tagline: 'Two percent of Earth. Everything happens here.',
+    excerpt: 'CityAge is the small rooms, drawn from 20,000 leaders. Come do the work.',
+    date: 'The Thesis',
+    image: '/earth-lights.jpg',
+    readTime: 'Purpose',
+  },
+  {
+    id: 'partners',
+    href: '/partners',
+    title: 'Knowledge Partners',
+    vertical: 'Money',
+    tagline: 'The organisations that have built the rooms with CityAge.',
+    excerpt: 'Technology, finance, infrastructure, government, and design — in the room, not in the audience.',
+    date: 'The Network',
+    image: '/cityage-hero.png',
+    readTime: 'Partners',
+  },
 ]
 
-const HERO_ROTATION_MS = 7000
+const DOOR_TERTIARY = [
+  {
+    id: 'cec',
+    href: '/canada-europe-connects',
+    title: 'Canada–Europe Connects',
+    vertical: 'Power',
+    date: 'Ottawa',
+    readTime: 'The Room',
+  },
+  {
+    id: 'advisory',
+    href: '/advisory.html',
+    title: 'Private Advisory',
+    vertical: 'Money',
+    date: 'Vancouver',
+    readTime: 'Enquire',
+  },
+  {
+    id: 'contact',
+    href: '/contact.html',
+    title: 'Write to the room',
+    vertical: 'Cities',
+    date: 'Vancouver',
+    readTime: 'Contact',
+  },
+]
 
-// =====================================================
-// Hero-side panel mode: 'moves' or 'read'
-// Flip this single line to swap which card appears in the
-// top-right slot next to the hero image.
-//
-// 'moves' = Today's 5 Moves (daily intelligence pulse)
-// 'read'  = This Week's Read (single feature callout)
-//
-// Future modes can be added: 'event-countdown', 'editor-note', 'pro-brief'
-// =====================================================
-const PANEL_MODE: 'moves' | 'read' = 'read'
-
-// Configuration for the 'read' mode — points at a real magazine article.
-// Keep this in sync with what's published in the Supabase magazine table.
-const READ_OF_THE_WEEK = {
-  id: '2ad28ce6-2f2c-44be-98b5-db85dafbed25',
-  vertical: 'Money',
-  readTime: 8,
-  headline: "Mark Carney's Infrastructure Bet Could Reshape Canadian Cities",
-  deck: "The Prime Minister's $50 billion infrastructure plan puts urban investment at the centre of economic policy.",
-}
-
-// Tier-2 Signal that links to a real article (free deep dive).
-const FEATURED_SIGNAL = {
-  id: '41365717-a9f4-4d51-b3ff-6b7ed72b938d',
-  tag: 'Urban Capital',
-  headline: 'Iran War sends borrowing costs surging, squeezing city budgets.',
-  teaser:
-    'Rising Treasury yields hit housing, infrastructure bonds and municipal finance worldwide.',
-}
-
-export default function HomePage() {
-  // Hero rotation
-  const [activeHero, setActiveHero] = useState(0)
-
-  useEffect(() => {
-    if (HERO_IMAGES.length <= 1) return
-    const interval = setInterval(() => {
-      setActiveHero((i) => (i + 1) % HERO_IMAGES.length)
-    }, HERO_ROTATION_MS)
-    return () => clearInterval(interval)
-  }, [])
-
-  // Fade-in-on-scroll for elements with data-reveal
-  useEffect(() => {
-    const items = document.querySelectorAll('[data-reveal]')
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.12 }
-    )
-    items.forEach((item) => observer.observe(item))
-    return () => observer.disconnect()
-  }, [])
-
+export default async function Home() {
   return (
-    <div className="cityage-redesign">
-      <header className="site-header" data-reveal>
-        <Link className="brand" href="/" aria-label="CITYAGE — Intelligence for the Urban Planet">
-          <span className="brand-name">CITYAGE</span>
-          <span className="brand-divider" aria-hidden="true">|</span>
-          <span className="brand-tagline">Intelligence for the Urban Planet</span>
-        </Link>
-        <div className="site-header-right">
-          <nav className="nav" aria-label="Primary navigation">
-            <a href="#signals">Signals</a>
-            <a href="/verticals/ice-to-space">Verticals</a>
-            <a href="#events">Events</a>
-            <a href="#partner">Partner</a>
-          </nav>
-          <a className="header-cta" href="#signals">
-            Subscribe
-          </a>
+    <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
+      {/* Campaign banner — full width event promotion */}
+      <CampaignBanner />
+
+      {/* Masthead (includes vertical nav) */}
+      <MagazineHeader />
+
+      {/* Locked public line */}
+      <div className="border-b border-black/10 px-6 md:px-12 bg-[#F9F9F7]">
+        <div className="max-w-[1400px] mx-auto py-5 md:py-6 text-center">
+          <p className="font-serif text-[15px] md:text-[18px] text-black/75 leading-relaxed">
+            We live on the urban planet. Two percent of Earth. Everything happens here.
+          </p>
+          <p className="font-serif italic text-[13px] md:text-[15px] text-black/50 mt-2">
+            CityAge is the small rooms, drawn from 20,000 leaders. Come do the work.
+          </p>
         </div>
-      </header>
+      </div>
 
-      <main>
-        <section className="hero">
-          <div className="hero-media" aria-hidden="true">
-            {HERO_IMAGES.map((hero, i) => (
-              <div
-                key={hero.src}
-                className={`hero-slide ${i === activeHero ? 'active' : ''}`}
-              >
-                <Image
-                  src={hero.src}
-                  alt=""
-                  fill
-                  priority={i === 0}
-                  sizes="100vw"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="hero-grid">
-            <div className="hero-copy" data-reveal>
-              <p className="eyebrow">Sunday · May 3, 2026</p>
-              <h1>The 3% of Earth that runs the world.</h1>
-              <p className="hero-subhead">
-                The continuous intelligence brief on the Urban Planet — where
-                75%+ of global GDP, population and consumption is concentrated.
-              </p>
-              <div className="hero-actions" aria-label="Primary actions">
-                <a className="button primary" href="#signals">
-                  Subscribe
-                </a>
-              </div>
-              <p className="hero-readers">
-                Read by executives, investors, policymakers and the people
-                building the urban century.
-              </p>
-            </div>
-
-            {PANEL_MODE === 'moves' ? (
-              <aside className="moves-panel" aria-labelledby="today-moves" data-reveal>
-                <div className="panel-kicker">Today</div>
-                <h2 id="today-moves">5 Moves</h2>
-                <ol className="moves-list">
-                  <li>
-                    <span>01</span>
-                    <p>Port capital shifts toward Arctic-linked logistics.</p>
-                  </li>
-                  <li>
-                    <span>02</span>
-                    <p>Grid demand becomes the next AI infrastructure bottleneck.</p>
-                  </li>
-                  <li>
-                    <span>03</span>
-                    <p>Defence procurement moves closer to city-scale resilience.</p>
-                  </li>
-                  <li>
-                    <span>04</span>
-                    <p>Canada-Europe corridor gains industrial policy urgency.</p>
-                  </li>
-                  <li>
-                    <span>05</span>
-                    <p>Urban capital hunts for predictable infrastructure yield.</p>
-                  </li>
-                </ol>
-              </aside>
-            ) : (
-              <aside className="read-panel" aria-labelledby="read-week" data-reveal>
-                <div className="panel-kicker">The Read</div>
-                <p className="read-meta">
-                  <strong>{READ_OF_THE_WEEK.vertical}</strong> · {READ_OF_THE_WEEK.readTime} min
-                </p>
-                <h2 id="read-week">{READ_OF_THE_WEEK.headline}</h2>
-                <p className="read-deck">{READ_OF_THE_WEEK.deck}</p>
-                <Link
-                  className="read-cta"
-                  href={`/article-preview/${READ_OF_THE_WEEK.id}`}
-                  aria-label={`Read full article: ${READ_OF_THE_WEEK.headline}`}
-                >
-                  Read in full
-                </Link>
-              </aside>
-            )}
-          </div>
-        </section>
-
-        <section className="trust-bar" aria-label="CITYAGE proof points" data-reveal>
-          <div>
-            <strong>Since 2012</strong>
-            <span>Intelligence and convening</span>
-          </div>
-          <div>
-            <strong>100+ convenings</strong>
-            <span>Leaders in the room</span>
-          </div>
-          <div>
-            <strong>50+ cities</strong>
-            <span>Global urban markets</span>
-          </div>
-          <div>
-            <strong>25K+ subscribers</strong>
-            <span>Decision-makers reading daily</span>
-          </div>
-        </section>
-
-        <section className="section signals" id="signals">
-          <div className="section-head" data-reveal>
-            <p className="eyebrow">
-              Updated 6:00 AM Vancouver · 9:00 AM Washington · 3:00 PM Brussels · 9:00 PM Singapore
-            </p>
-            <h2>Signals from the Urban Planet.</h2>
-          </div>
-          <div className="signal-grid">
-            {/* Lead signal — full structured brief, headline links to detail page */}
-            <Link
-              href="/signals/ai-power-site-selector"
-              className="signal-card lead"
-              data-reveal
-            >
-              <div className="bucket-row">
-                <span className="bucket">AI</span>
-                <span className="timestamp">2h ago</span>
-              </div>
-              <h3>Power availability is becoming the real AI site selector.</h3>
-              <div className="rows">
-                <div>
-                  <span className="row-label">What happened</span>
-                  <p className="row-body">
-                    New data center commitments are chasing grid-ready regions.
-                    Hyperscalers and sovereign compute funds are bypassing
-                    traditional tech hubs for places with surplus baseload.
-                  </p>
-                </div>
-                <div>
-                  <span className="row-label">Why it matters</span>
-                  <p className="row-body">
-                    Compute strategy is now energy strategy. Cities with grid
-                    capacity will capture the next wave of trillion-dollar
-                    industrial infrastructure.
-                  </p>
-                </div>
-                <div>
-                  <span className="row-label">Who benefits</span>
-                  <p className="row-body">
-                    Utilities, provincial regulators, fast-permitting cities,
-                    and landholders adjacent to high-capacity transmission.
-                  </p>
-                </div>
-                <div className="row-premium">
-                  <span className="row-label">
-                    What&rsquo;s next
-                    <span className="pro-stamp">Pro &middot; Free preview</span>
-                  </span>
-                  <p className="row-body">
-                    Watch transmission queues, sovereign compute incentives,
-                    and the first wave of provincial industrial strategies
-                    explicitly tying AI investment to grid permits.
-                  </p>
-                </div>
-              </div>
-              <span className="vertical-chip">AI Infrastructure</span>
-            </Link>
-
-            {/* Editor's Note — named editorial voice, slate background */}
-            <article className="signal-card editor" data-reveal>
-              <div className="bucket-row">
-                <span className="bucket">From the Editor</span>
-                <span className="timestamp">Sunday</span>
-              </div>
-              <h3>The week&rsquo;s biggest signal isn&rsquo;t on this page.</h3>
-              <p className="editor-body">
-                It&rsquo;s in what <em>didn&rsquo;t</em> happen at the G7. Three
-                governments quietly walked back industrial commitments they made
-                in March. The corridor between Ottawa, Berlin and Helsinki is
-                where the policy is moving now &mdash; the public communiqués
-                are already a step behind.
-              </p>
-              <div className="byline">
-                <div className="portrait">
-                  <Image
-                    src="/miro-cernetig.png"
-                    alt="Miro Cernetig"
-                    fill
-                    sizes="44px"
+      {/* ═══ MAIN CONTENT ═══ */}
+      <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
+        <HeroGrid
+          leadColumn={
+            <ArticleCard
+              id={DOOR_LEAD.id}
+              href={DOOR_LEAD.href}
+              title={DOOR_LEAD.title}
+              vertical={DOOR_LEAD.vertical}
+              tagline={DOOR_LEAD.tagline}
+              excerpt={DOOR_LEAD.excerpt}
+              date={DOOR_LEAD.date}
+              isLead={true}
+              image={DOOR_LEAD.image}
+              readTime={DOOR_LEAD.readTime}
+              variant="hero-lead"
+            />
+          }
+          middleColumn={
+            <div className="flex flex-col">
+              {DOOR_SECONDARY.map((article, i) => (
+                <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}`}>
+                  <ArticleCard
+                    id={article.id}
+                    href={article.href}
+                    title={article.title}
+                    vertical={article.vertical}
+                    tagline={article.tagline}
+                    excerpt={article.excerpt}
+                    date={article.date}
+                    image={article.image}
+                    readTime={article.readTime}
+                    variant="hero-secondary"
                   />
                 </div>
-                <div>
-                  <span className="byline-name">Miro Cernetig</span>
-                  <span className="byline-title">Editor &amp; Publisher</span>
-                </div>
-              </div>
-            </article>
-
-            {/* Tier 2 — standard signal, links to article */}
-            <Link
-              href={`/article-preview/${FEATURED_SIGNAL.id}`}
-              className="signal-card"
-              data-reveal
-            >
-              <div className="bucket-row">
-                <span className="bucket">Money</span>
-                <span className="timestamp">This morning</span>
-              </div>
-              <h3>Iran War sends borrowing costs surging, squeezing city budgets.</h3>
-              <div className="rows">
-                <div>
-                  <span className="row-label">What happened</span>
-                  <p className="row-body">
-                    Treasury yields jumped on Middle East risk. Municipal
-                    bond spreads widened across North America and Europe.
-                  </p>
-                </div>
-                <div>
-                  <span className="row-label">Why it matters</span>
-                  <p className="row-body">
-                    Cities funding housing and infrastructure on long-dated
-                    debt now face higher interest costs at the worst time.
-                  </p>
-                </div>
-                <div className="row-premium">
-                  <span className="row-label">
-                    What&rsquo;s next
-                    <span className="pro-stamp">Pro &middot; Free preview</span>
-                  </span>
-                  <p className="row-body">
-                    Expect a wave of paused capital projects and renewed
-                    pressure on federal infrastructure backstops in Q3.
-                  </p>
-                </div>
-              </div>
-              <span className="vertical-chip">Urban Capital</span>
-              <span className="read-more">Read in full</span>
-            </Link>
-
-            {/* Tier 3 — Pro locked, third row gated */}
-            <article className="signal-card locked" data-reveal>
-              <div className="bucket-row">
-                <span className="bucket">Cities</span>
-                <span className="timestamp">Yesterday</span>
-              </div>
-              <h3>National security strategy is entering municipal procurement.</h3>
-              <div className="rows">
-                <div>
-                  <span className="row-label">What happened</span>
-                  <p className="row-body">
-                    Ports, airports, water, power and cyber are being
-                    rewritten as shared resilience infrastructure across
-                    Canada and NATO.
-                  </p>
-                </div>
-                <div>
-                  <span className="row-label">Why it matters</span>
-                  <p className="row-body">
-                    Federal defence dollars are rerouting through cities
-                    able to host dual-use procurement at scale.
-                  </p>
-                </div>
-                <div className="row-premium">
-                  <span className="row-label">
-                    What&rsquo;s next
-                  </span>
-                  <p className="row-body">
-                    Three procurement signals point to where the next
-                    $40 billion of defence-resilience capital will land
-                    over the next eighteen months. The shortlist already
-                    includes&mdash;
-                  </p>
-                </div>
-              </div>
-              <Link className="lock-cta" href="mailto:membership@cityage.com?subject=CITYAGE%20Subscribe" aria-label="Subscribe to CITYAGE for full access">
-                <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
-                </svg>
-                Continue with Pro
-              </Link>
-              <span className="vertical-chip">Defence Cities</span>
-            </article>
-
-            {/* Tier 2 — standard signal */}
-            <Link
-              href="/signals/canada-europe-industrial-corridors"
-              className="signal-card"
-              data-reveal
-            >
-              <div className="bucket-row">
-                <span className="bucket">Money</span>
-                <span className="timestamp">5h ago</span>
-              </div>
-              <h3>Industrial alliances are being written through city corridors.</h3>
-              <div className="rows">
-                <div>
-                  <span className="row-label">What happened</span>
-                  <p className="row-body">
-                    Canada and three EU member states quietly aligned
-                    procurement timelines on critical minerals and
-                    dual-use technology.
-                  </p>
-                </div>
-                <div>
-                  <span className="row-label">Why it matters</span>
-                  <p className="row-body">
-                    Trade is now industrial policy. Metros become the
-                    operational unit of trans-Atlantic alliance.
-                  </p>
-                </div>
-                <div className="row-premium">
-                  <span className="row-label">
-                    What&rsquo;s next
-                    <span className="pro-stamp">Pro &middot; Free preview</span>
-                  </span>
-                  <p className="row-body">
-                    Watch the Ottawa-Berlin-Helsinki track and the
-                    minerals MOU expected before fall.
-                  </p>
-                </div>
-              </div>
-              <span className="vertical-chip">Canada-Europe</span>
-              <span className="read-more">Read in full</span>
-            </Link>
-
-            {/* Tier 3 — Pro locked */}
-            <article className="signal-card locked" data-reveal>
-              <div className="bucket-row">
-                <span className="bucket">Frontiers</span>
-                <span className="timestamp">Yesterday</span>
-              </div>
-              <h3>The Arctic is no longer remote from orbital economics.</h3>
-              <div className="rows">
-                <div>
-                  <span className="row-label">What happened</span>
-                  <p className="row-body">
-                    Ground stations, defence, shipping and resource
-                    monitoring are converging in northern urban hubs
-                    from Inuvik to Tromsø.
-                  </p>
-                </div>
-                <div>
-                  <span className="row-label">Why it matters</span>
-                  <p className="row-body">
-                    Arctic sovereignty is becoming an orbital infrastructure
-                    play. Capital is following.
-                  </p>
-                </div>
-                <div className="row-premium">
-                  <span className="row-label">
-                    What&rsquo;s next
-                  </span>
-                  <p className="row-body">
-                    Three sovereign actors are positioning ahead of the
-                    NATO Arctic council meetings. The deal flow we are
-                    tracking suggests a window opens in&mdash;
-                  </p>
-                </div>
-              </div>
-              <Link className="lock-cta" href="mailto:membership@cityage.com?subject=CITYAGE%20Subscribe" aria-label="Subscribe to CITYAGE for full access">
-                <svg className="lock-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path d="M5 6V4.5C5 2.567 6.567 1 8.5 1S12 2.567 12 4.5V6h.5A1.5 1.5 0 0 1 14 7.5v6A1.5 1.5 0 0 1 12.5 15h-9A1.5 1.5 0 0 1 2 13.5v-6A1.5 1.5 0 0 1 3.5 6H5zm1 0h5V4.5C11 3.119 9.881 2 8.5 2S6 3.119 6 4.5V6z"/>
-                </svg>
-                Continue with Pro
-              </Link>
-              <span className="vertical-chip">Ice to Space</span>
-            </article>
-          </div>
-        </section>
-
-        <section className="events-strip" id="events" data-reveal>
-          <div className="events-strip-head">
-            <p className="eyebrow">Upcoming convenings</p>
-          </div>
-          <div className="events-strip-list">
-            <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener">
-              <time dateTime="2026-05-26">May 26, 2026</time>
-              <strong>Canada Europe Connects</strong>
-              <span>Ottawa</span>
-              <em>Invite only</em>
-            </a>
-            <a href="#partner">
-              <time dateTime="2026-09">September 2026</time>
-              <strong>Canada-Europe Urban Corridor</strong>
-              <span>London</span>
-              <em>Coming</em>
-            </a>
-            <a href="#partner">
-              <time dateTime="2026-11">November 2026</time>
-              <strong>Ice to Space Forum</strong>
-              <span>Ottawa</span>
-              <em>Coming</em>
-            </a>
-          </div>
-        </section>
-
-        <section className="partner kp" id="partner" data-reveal>
-          <div className="kp-intro">
-            <p className="eyebrow">Become a Knowledge Partner</p>
-            <h2>Bespoke intelligence, built for your priorities.</h2>
-            <p>
-              CityAge Knowledge Partners get a custom intelligence operation
-              pointed at the strategic questions that move their business.
-              Branded or white-labelled. Continuously updated. Built on the
-              CityAge engine, the editorial voice, and the network of
-              decision-makers we&rsquo;ve built over fifteen years.
-            </p>
-            <p className="kp-precedent">
-              The model: Bloomberg Terminal customizations. Eurasia Group
-              client briefings. Stratfor enterprise dashboards. For the
-              urban century.
-            </p>
-          </div>
-          <div className="kp-components">
-            <p className="kp-components-label">What&rsquo;s inside the operation</p>
-            <div className="kp-pillars">
-              <div>
-                <strong>Signal</strong>
-                <span>A branded weekly intelligence brief in your domain, in the CityAge voice.</span>
-              </div>
-              <div>
-                <strong>Campaign</strong>
-                <span>An editorial push around your strategic priority &mdash; research, reporting, briefings.</span>
-              </div>
-              <div>
-                <strong>Event</strong>
-                <span>An invite-only convening on your topic. Chatham House, fifty to one hundred leaders.</span>
-              </div>
-              <div>
-                <strong>Network</strong>
-                <span>Curated introductions inside our 25,000+ decision-maker base.</span>
-              </div>
+              ))}
             </div>
-          </div>
-          <a
-            className="button secondary dark kp-cta"
-            href="mailto:partners@cityage.com?subject=Knowledge%20Partner%20Inquiry"
-          >
-            Apply to Partner
-          </a>
-        </section>
+          }
+          sidebarColumn={
+            <>
+              {/* Influence Letter — black box */}
+              <div id="subscribe" className="bg-black text-white p-8 flex flex-col">
+                <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
+                  The Influence Letter
+                </h3>
+                <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] mb-6">
+                  Daily Intelligence Brief
+                </span>
+
+                <p className="font-serif text-white/50 text-[13px] leading-relaxed mb-6">
+                  Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
+                </p>
+
+                <div className="mb-6">
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
+                  />
+                  <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
+                    Subscribe Free
+                  </button>
+                </div>
+
+                <div className="border-t border-white/10 pt-6 mt-auto">
+                  <span className="font-mono text-[8px] tracking-[0.3em] uppercase text-white/25 block mb-4">
+                    The Rooms
+                  </span>
+                  <div className="space-y-4">
+                    <a href="/northern-century" className="block group">
+                      <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Frontiers · The North</span>
+                      <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Northern Century</span>
+                    </a>
+                    <a href="/next-vancouver" className="block group">
+                      <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Cities · Coming this fall</span>
+                      <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
+                    </a>
+                    <a href="/influence/canada-europe-connects" className="block group">
+                      <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">The Letter · Ottawa</span>
+                      <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {DOOR_TERTIARY.length > 0 && (
+                <div className="pt-8 space-y-6">
+                  {DOOR_TERTIARY.map((article, i) => (
+                    <div key={article.id} className={`${i > 0 ? 'border-t border-black/10 pt-6' : ''}`}>
+                      <ArticleCard
+                        id={article.id}
+                        href={article.href}
+                        title={article.title}
+                        vertical={article.vertical}
+                        tagline={null}
+                        excerpt={null}
+                        date={article.date}
+                        readTime={article.readTime}
+                        variant="hero-tertiary"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          }
+        />
+
+        {/* Voices strip stays in the magazine clothes; it renders nothing when empty. */}
+        <UrbanPlanetVoices />
       </main>
 
-      <footer className="footer">
-        <Link className="brand" href="/">
-          <span className="brand-name">CITYAGE</span>
-          <span className="brand-divider" aria-hidden="true">|</span>
-          <span className="brand-tagline">Intelligence for the Urban Planet</span>
-        </Link>
-        <nav aria-label="Footer navigation">
-          <a href="#signals">Signals</a>
-          <a href="#events">Events</a>
-          <a href="#partner">Partner</a>
-        </nav>
-      </footer>
+      <MagazineFooter />
     </div>
   )
 }
