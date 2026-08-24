@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
+import { SubscribeDoor } from '@/components/subscribe-door'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
@@ -13,7 +14,7 @@ export default async function Home() {
       <MagazineHeader />
 
       <div className="border-b border-black/10 px-6 md:px-12">
-        <div className="max-w-[1400px] mx-auto py-7 md:py-9 text-center">
+        <div className="max-w-[1400px] mx-auto py-8 md:py-10 text-center">
           <p className="font-serif text-[16px] md:text-[19px] text-black/70 leading-[1.55]">
             We live on the urban planet. Two percent of Earth. Everything happens here.
           </p>
@@ -24,98 +25,83 @@ export default async function Home() {
       </div>
 
       <main className="flex-grow w-full bg-[#F9F9F7]">
-        {/* One lead — photography first, then the story */}
-        <article className="max-w-[1400px] mx-auto px-6 md:px-12 pt-10 md:pt-14 pb-6">
+        {/* One lead — the photograph, then the story in type */}
+        <article className="max-w-[1400px] mx-auto px-6 md:px-12 pt-12 md:pt-16 pb-4">
           <Link href="/northern-century" className="group block">
-            <figure className="relative w-full overflow-hidden bg-black/5 aspect-[16/10] md:aspect-[2/1]">
+            <figure className="relative w-full overflow-hidden bg-black/5 aspect-[16/9] md:aspect-[2.2/1]">
               <Image
                 src="/northern-century-hero.png"
-                alt="The Northern Century — the Arctic as the next geography of power"
+                alt="The Arctic from orbit — the next geography of power"
                 fill
                 priority
-                className="object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-700"
+                className="object-cover object-[center_22%] group-hover:scale-[1.015] transition-transform duration-700"
               />
             </figure>
-            <div className="max-w-[780px] mt-10 md:mt-14">
+            <div className="max-w-[40rem] mt-12 md:mt-16">
               <p className="font-mono text-[11px] font-bold tracking-[0.22em] uppercase text-black/40">
                 Frontiers
               </p>
-              <h2 className="font-serif font-black text-[2.75rem] md:text-[4.25rem] lg:text-[5rem] leading-[0.96] tracking-tight mt-3 group-hover:text-[#1A365D] transition-colors">
+              <h2 className="font-serif font-black text-[2.6rem] md:text-[4.5rem] lg:text-[5.25rem] leading-[0.94] tracking-tight mt-3 group-hover:opacity-70 transition-opacity">
                 The Northern Century
               </h2>
-              <p className="font-serif italic text-[19px] md:text-[22px] text-black/55 leading-[1.45] mt-6">
+              <p className="font-serif italic text-[20px] md:text-[23px] text-black/55 leading-[1.4] mt-6">
                 Ideas and investments in the new geography of power.
               </p>
-              <p className="font-serif text-[17px] md:text-[18px] text-black/60 leading-[1.7] mt-5 max-w-[36em]">
+              <p className="font-serif text-[17px] md:text-[18px] text-black/60 leading-[1.7] mt-5">
                 The Arctic is not the edge of the map. It is the next frontier — where capital, sovereignty, and infrastructure converge.
               </p>
             </div>
           </Link>
         </article>
 
-        {/* Then a grid — two stories, lots of air, not equal tiles shouting */}
-        <section className="max-w-[1400px] mx-auto px-6 md:px-12 mt-16 md:mt-24 pt-16 md:pt-20 border-t border-black/15 pb-24 md:pb-32">
-          <div className="grid md:grid-cols-2 gap-x-16 lg:gap-x-24 gap-y-20">
-            <article>
+        {/* Then a grid — not twins. One city story, one letter. Air between. */}
+        <section className="max-w-[1400px] mx-auto px-6 md:px-12 mt-20 md:mt-28 pt-16 md:pt-20 border-t border-black/12 pb-24 md:pb-32">
+          <div className="grid md:grid-cols-12 gap-x-14 lg:gap-x-20 gap-y-20 items-start">
+            <article className="md:col-span-7">
               <Link href="/next-vancouver" className="group block">
-                <figure className="relative w-full overflow-hidden bg-black/5 aspect-[16/10] mb-7">
+                <figure className="relative w-full overflow-hidden bg-black/5 aspect-[16/10] mb-8">
                   <Image
                     src="/vancouver-banner.jpg"
-                    alt="The Next Metro Vancouver — The A.I. Edition"
+                    alt="Lions Gate and the harbour — The Next Metro Vancouver"
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    className="object-cover object-[center_35%] group-hover:scale-[1.015] transition-transform duration-700"
                   />
                 </figure>
                 <p className="font-mono text-[11px] font-bold tracking-[0.22em] uppercase text-black/40">
                   Cities
                 </p>
-                <h3 className="font-serif font-black text-[1.85rem] md:text-[2.15rem] leading-[1.08] tracking-tight mt-3 group-hover:text-[#1A365D] transition-colors">
+                <h3 className="font-serif font-black text-[2rem] md:text-[2.55rem] leading-[1.06] tracking-tight mt-3 group-hover:opacity-70 transition-opacity">
                   The Next Metro Vancouver
                 </h3>
-                <p className="font-serif italic text-[16px] md:text-[17px] text-black/50 leading-[1.5] mt-3">
+                <p className="font-serif italic text-[17px] md:text-[18px] text-black/50 leading-[1.5] mt-4 max-w-[28em]">
                   The A.I. Edition — where can this region actually win?
                 </p>
               </Link>
             </article>
 
-            <article id="letter">
+            <article id="letter" className="md:col-span-5">
               <Link href="/influence/canada-europe-connects" className="group block">
-                <figure className="relative w-full overflow-hidden bg-black/5 aspect-[16/10] mb-7">
+                <figure className="relative w-full overflow-hidden bg-black/5 aspect-[5/4] mb-8">
                   <Image
                     src="/parliament-sunset.jpg"
-                    alt="The Influence Letter — Canada–Europe Connects"
+                    alt="Parliament Hill at sundown — The Influence Letter"
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    className="object-cover object-[center_40%] group-hover:scale-[1.015] transition-transform duration-700"
                   />
                 </figure>
                 <p className="font-mono text-[11px] font-bold tracking-[0.22em] uppercase text-black/40">
                   Power
                 </p>
-                <h3 className="font-serif font-black text-[1.85rem] md:text-[2.15rem] leading-[1.08] tracking-tight mt-3 group-hover:text-[#1A365D] transition-colors">
+                <h3 className="font-serif font-black text-[1.65rem] md:text-[1.9rem] leading-[1.1] tracking-tight mt-3 group-hover:opacity-70 transition-opacity">
                   The Influence Letter
                 </h3>
-                <p className="font-serif italic text-[16px] md:text-[17px] text-black/50 leading-[1.5] mt-3">
+                <p className="font-serif italic text-[15px] md:text-[16px] text-black/50 leading-[1.5] mt-3">
                   Canada–Europe Connects. Defence procurement, dual-use technology, and trans-Atlantic trade corridors.
                 </p>
               </Link>
 
-              <div id="subscribe" className="mt-10 pt-8 border-t border-black/10">
-                <p className="font-serif text-[15px] text-black/55 leading-[1.65] max-w-[28em]">
-                  Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
-                </p>
-                <form className="mt-5 flex flex-col sm:flex-row gap-2 max-w-[420px]">
-                  <input
-                    type="email"
-                    placeholder="your@email.com"
-                    className="flex-1 bg-transparent border border-black/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-black placeholder-black/30 uppercase outline-none focus:border-black transition-colors"
-                  />
-                  <button
-                    type="button"
-                    className="bg-black text-[#F9F9F7] px-6 py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-[#C5A059] hover:text-black transition-colors"
-                  >
-                    Subscribe
-                  </button>
-                </form>
+              <div id="subscribe" className="mt-12 pt-8 border-t border-black/10">
+                <SubscribeDoor />
               </div>
             </article>
           </div>
