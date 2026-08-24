@@ -28,13 +28,13 @@ export default async function Home() {
         {/* One lead — the photograph, then the story in type */}
         <article className="max-w-[1400px] mx-auto px-6 md:px-12 pt-12 md:pt-16 pb-4">
           <Link href="/northern-century" className="group block">
-            <figure className="relative w-full overflow-hidden bg-black/5 aspect-[16/9] md:aspect-[2.2/1]">
+            <figure className="relative w-full overflow-hidden bg-black/5 aspect-[16/6] md:aspect-[16/5]">
               <Image
-                src="/northern-century-hero.png"
-                alt="The Arctic from orbit — the next geography of power"
+                src="/northern-century-earth.jpg"
+                alt="The Arctic from orbit — Greenland, the Circle, the next geography of power"
                 fill
                 priority
-                className="object-cover object-[center_22%] group-hover:scale-[1.015] transition-transform duration-700"
+                className="object-cover object-center group-hover:scale-[1.015] transition-transform duration-700"
               />
             </figure>
             <div className="max-w-[40rem] mt-12 md:mt-16">
