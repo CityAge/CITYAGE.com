@@ -27,8 +27,6 @@ export function MagazineHeader() {
               </svg>
             </button>
             <a href="/purpose" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block">Purpose</a>
-            <a href="/partners" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Knowledge Partners</a>
-            <a href="/network" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">The Network</a>
           </div>
           <div className="flex items-center gap-5 md:gap-7">
             <button className="hover:opacity-60 transition-opacity text-black">

@@ -75,7 +75,6 @@ export default function HomePage() {
           <nav className="nav" aria-label="Primary navigation">
             <a href="/purpose">Purpose</a>
             <a href="#rooms">The Rooms</a>
-            <a href="/partners">Knowledge Partners</a>
           </nav>
           <a className="header-cta" href="#subscribe">
             Subscribe
@@ -165,25 +164,6 @@ export default function HomePage() {
                 </Link>
               </aside>
             )}
-          </div>
-        </section>
-
-        <section className="trust-bar" aria-label="CITYAGE proof points" data-reveal>
-          <div>
-            <strong>Since 2012</strong>
-            <span>Intelligence and convening</span>
-          </div>
-          <div>
-            <strong>100+ convenings</strong>
-            <span>Leaders in the room</span>
-          </div>
-          <div>
-            <strong>50+ cities</strong>
-            <span>Global urban markets</span>
-          </div>
-          <div>
-            <strong>20,000 leaders</strong>
-            <span>The small rooms. Come do the work.</span>
           </div>
         </section>
 
@@ -328,59 +308,13 @@ export default function HomePage() {
               <span>The Next Vancouver</span>
               <em>Enter</em>
             </a>
-            <a href="#partner">
+            <a href="#subscribe">
               <time dateTime="2026">Daily</time>
               <strong>The Influence Letter</strong>
               <span>Subscribe</span>
               <em>Free</em>
             </a>
           </div>
-        </section>
-
-        <section className="partner kp" id="partner" data-reveal>
-          <div className="kp-intro">
-            <p className="eyebrow">Become a Knowledge Partner</p>
-            <h2>Bespoke intelligence, built for your priorities.</h2>
-            <p>
-              CityAge Knowledge Partners get a custom intelligence operation
-              pointed at the strategic questions that move their business.
-              Branded or white-labelled. Continuously updated. Built on the
-              CityAge engine, the editorial voice, and the network of
-              decision-makers we&rsquo;ve built over fifteen years.
-            </p>
-            <p className="kp-precedent">
-              The model: Bloomberg Terminal customizations. Eurasia Group
-              client briefings. Stratfor enterprise dashboards. For the
-              urban century.
-            </p>
-          </div>
-          <div className="kp-components">
-            <p className="kp-components-label">What&rsquo;s inside the operation</p>
-            <div className="kp-pillars">
-              <div>
-                <strong>Signal</strong>
-                <span>A branded weekly intelligence brief in your domain, in the CityAge voice.</span>
-              </div>
-              <div>
-                <strong>Campaign</strong>
-                <span>An editorial push around your strategic priority &mdash; research, reporting, briefings.</span>
-              </div>
-              <div>
-                <strong>Event</strong>
-                <span>An invite-only convening on your topic. Chatham House, fifty to one hundred leaders.</span>
-              </div>
-              <div>
-                <strong>Network</strong>
-                <span>Curated introductions inside our 25,000+ decision-maker base.</span>
-              </div>
-            </div>
-          </div>
-          <a
-            className="button secondary dark kp-cta"
-            href="mailto:partners@cityage.com?subject=Knowledge%20Partner%20Inquiry"
-          >
-            Apply to Partner
-          </a>
         </section>
       </main>
 

@@ -19,16 +19,13 @@ export function MagazineFooter() {
         {/* Network */}
         <div className="space-y-5">
           <h3 className="text-[9px] font-black tracking-[0.4em] uppercase text-white/20">
-            The Network
+            The Rooms
           </h3>
           <ul className="text-[11px] space-y-3 font-medium tracking-wider uppercase text-white/60">
             <li><a href="/purpose" className="hover:text-[#C5A059] transition-colors">Purpose</a></li>
-            <li><a href="/partners" className="hover:text-[#C5A059] transition-colors">Knowledge Partners</a></li>
-            <li><a href="/network" className="hover:text-[#C5A059] transition-colors">The Network</a></li>
-            <li><a href="/dispatches" className="hover:text-[#C5A059] transition-colors">Dispatches</a></li>
-            <li><a href="/canada-europe-connects" className="hover:text-[#C5A059] transition-colors">Canada–Europe Connects</a></li>
-            <li><a href="https://cityage.com/events" className="hover:text-[#C5A059] transition-colors">Events 2026</a></li>
-            <li><a href="https://orbit.cityage.com" className="hover:text-[#C5A059] transition-colors">Orbit — Space Economy</a></li>
+            <li><a href="/northern-century.html" className="hover:text-[#C5A059] transition-colors">Northern Century</a></li>
+            <li><a href="/next-vancouver.html" className="hover:text-[#C5A059] transition-colors">Next West</a></li>
+            <li><a href="/#weekly" className="hover:text-[#C5A059] transition-colors">The Influence Letter</a></li>
           </ul>
         </div>
 
@@ -65,7 +62,7 @@ export function MagazineFooter() {
           </a>
           <span className="text-white/10">·</span>
           <span className="font-mono text-[9px] text-white/20 tracking-wider uppercase">
-            100+ Convenings · 50+ Cities · 15 Years
+            everything happens on earth&apos;s 2%.
           </span>
         </div>
       </div>
