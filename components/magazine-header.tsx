@@ -37,7 +37,7 @@ export function MagazineHeader() {
               </svg>
             </button>
             <a href="#" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden sm:block">Log in</a>
-            <a href="#" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
+            <a href="/#weekly" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
               Subscribe
             </a>
           </div>
@@ -60,9 +60,12 @@ export function MagazineHeader() {
           {/* Right bracket — hidden when compressed */}
           {!isCompressed && (
             <div className="hidden xl:block absolute right-0 bottom-0 text-right">
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
-                Published daily<br />from Vancouver
-              </a>
+              <p className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 leading-relaxed">
+                everything happens<br />on earth&apos;s 2%.
+              </p>
+              <p className="text-[9px] font-medium tracking-[0.12em] uppercase text-black/35 mt-2">
+                Miro Cernetig, Publisher
+              </p>
             </div>
           )}
         </div>

@@ -9,10 +9,10 @@ export function MagazineFooter() {
             CITYAGE
           </h2>
           <p className="text-[12px] text-white/40 leading-relaxed uppercase tracking-[0.15em]">
-            Intelligence for The Urban Planet
+            We live on the urban planet. Two percent of Earth. Everything happens here.
           </p>
           <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059]">
-            Est. 2012 — Vancouver
+            Miro Cernetig, Publisher — Vancouver
           </span>
         </div>
 
