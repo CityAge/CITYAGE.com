@@ -20,7 +20,7 @@ const nextConfig = {
         // beverlyhills.cityage.com → /daybreak/beverlyhills
 
         // ── FRONT DOOR ──
-        // / is the magazine homepage (app/page.tsx).
+        // / is the headline front (app/page.tsx).
         // The locked Ink/Cream/Brass build remains at /cityage-FINAL.html.
         // Purpose: locked-design page (overrides the magazine app route)
         {
