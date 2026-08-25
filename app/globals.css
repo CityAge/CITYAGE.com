@@ -86,6 +86,22 @@
   white-space: nowrap;
 }
 
+.cover-paper {
+  container-type: inline-size;
+  container-name: cover-paper;
+}
+
+.cover-wordmark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 0.82;
+  white-space: nowrap;
+  overflow: visible;
+  font-size: clamp(2.7rem, 12.4cqw, 4.5rem);
+}
+
 .tagline-lock {
   color: #000000;
   text-align: center;

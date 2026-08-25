@@ -17,8 +17,8 @@ export type IssueLeaf = {
 }
 
 export const coverPlate = {
-  image: '/cover-harbour.jpg',
-  imageAlt: 'Harbour water against a wooden dock',
+  image: '/table-room.jpg',
+  imageAlt: 'Empty chairs around a wooden table',
 }
 
 export const lauraStory: IssueStory = {
@@ -45,7 +45,7 @@ export const partnerStory: IssueStory = {
   partner: true,
   body: [
     'There is a table that is not on a stage. After the larger conversation, eight people stay. They have a map and a date and a thing that must be built before the weather turns.',
-    'This is not an advertisement. It is a page about that table — the quiet work that follows a city around. Power and money become a street only if someone remains in the room.',
+    'A page about that table — the quiet work that follows a city around. Power and money become a street only if someone remains in the room.',
     'The name on the door is not the point. The room is.',
   ],
 }
