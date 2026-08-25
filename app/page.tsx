@@ -1,14 +1,9 @@
-import { CoverSpread } from '@/components/cover-spread'
-import { IssueLeaf } from '@/components/issue-leaf'
+import { FrontPage } from '@/components/front-page'
 
 export const metadata = {
   title: 'CityAge',
 }
 
 export default function Home() {
-  return (
-    <IssueLeaf href="/" cover>
-      <CoverSpread />
-    </IssueLeaf>
-  )
+  return <FrontPage />
 }

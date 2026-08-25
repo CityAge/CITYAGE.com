@@ -86,21 +86,19 @@
   white-space: nowrap;
 }
 
-.cover-wordmark {
+.cover-wordmark,
+.front-wordmark {
   font-family: var(--font-display);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  line-height: 0.82;
+  line-height: 0.9;
   white-space: nowrap;
   overflow: visible;
-  font-size: 3rem;
 }
 
-@media (min-width: 1280px) {
-  .cover-wordmark {
-    font-size: 3.85rem;
-  }
+.front-wordmark {
+  font-size: clamp(2.35rem, 9.5vw, 3.65rem);
 }
 
 .tagline-lock {
