@@ -16,11 +16,11 @@ export function MagazineHeader({ issue = false }: { issue?: boolean }) {
 
   const rail = issue
     ? [
-        { name: 'Power', href: '#letter' },
-        { name: 'Money', href: '#letter' },
-        { name: 'Cities', href: '#vancouver' },
-        { name: 'Frontiers', href: '#cover' },
-        { name: 'Culture', href: '#lockup' },
+        { name: 'Power', href: '/#letter' },
+        { name: 'Money', href: '/#well' },
+        { name: 'Cities', href: '/#well' },
+        { name: 'Frontiers', href: '/#cover' },
+        { name: 'Culture', href: '/#lockup' },
       ]
     : [
         { name: 'Power', href: '/influence/canada-europe-connects' },
@@ -91,7 +91,7 @@ export function MagazineHeader({ issue = false }: { issue?: boolean }) {
       </div>
 
       {/* ─── VERTICAL NAV ─── */}
-      <div className="border-b-2 border-black px-4 md:px-12">
+      <div className={`border-b-2 border-black px-4 md:px-12 ${issue ? 'hidden md:block' : ''}`}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
           {rail.map((item, i) => (
             <div key={item.name} className="flex items-center shrink-0">
