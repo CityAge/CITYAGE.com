@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Private Advisory — CityAge</title>
-  <meta name="description" content="Bespoke, deeply researched campaigns for leaders and organizations whose work deserves to be understood. The private advisory practice of CityAge." />
+  <title>Knowledge Partnerships — CityAge</title>
+  <meta name="description" content="Commission a CityAge campaign. Content, forums, and network, mobilized to one objective. Knowledge Partnerships for the urban planet." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --ink: #0A0908;
       --cream: #FAF6EE;
@@ -20,7 +20,6 @@
       --text: #2A2520;
       --text-dim: rgba(42,37,32,0.65);
     }
-
     html { font-size: 16px; }
     body {
       background: var(--cream);
@@ -28,8 +27,6 @@
       font-family: 'DM Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-
-    /* ── HEADER ── */
     .site-header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: var(--cream);
@@ -83,11 +80,9 @@
       .site-header.is-open .door-nav { display: flex; }
       .door-nav a { display: block; padding: 12px 24px; }
     }
-
-    /* ── HERO ── */
     .thesis-hero {
       position: relative;
-      height: 55vh; min-height: 380px; max-height: 580px;
+      height: 52vh; min-height: 360px; max-height: 560px;
       overflow: hidden;
       margin-top: 64px;
     }
@@ -95,8 +90,8 @@
       position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center 45%;
-      filter: brightness(0.55);
+      object-position: center 40%;
+      filter: brightness(0.58);
     }
     .thesis-hero-overlay {
       position: absolute; inset: 0;
@@ -108,7 +103,7 @@
       );
     }
     .thesis-hero-content {
-      position: absolute; bottom: 60px; left: 0; right: 0;
+      position: absolute; bottom: 48px; left: 0; right: 0;
       text-align: center; padding: 0 48px;
     }
     .thesis-hero-kicker {
@@ -116,7 +111,7 @@
       font-size: 9px; letter-spacing: 0.28em;
       text-transform: uppercase; color: var(--brass);
       display: flex; align-items: center; justify-content: center; gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .thesis-hero-kicker::before,
     .thesis-hero-kicker::after {
@@ -125,56 +120,80 @@
     }
     .thesis-hero-title {
       font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(30px, 4.2vw, 54px);
-      font-weight: 300; font-style: italic;
-      color: var(--cream); line-height: 1.18;
-      max-width: 880px; margin: 0 auto;
+      font-size: clamp(32px, 5vw, 58px);
+      font-weight: 300;
+      color: var(--cream); line-height: 1.12;
+      max-width: 860px; margin: 0 auto;
     }
-
-    /* ── BODY ── */
+    .thesis-hero-title em { font-style: italic; color: var(--brass); }
+    .hero-cta {
+      display: inline-block; margin-top: 26px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--cream);
+      border: 1px solid rgba(250,246,238,0.45);
+      padding: 12px 26px;
+      text-decoration: none;
+    }
+    .hero-cta:hover { border-color: var(--brass); color: var(--brass); }
     .thesis-body {
       max-width: 740px;
       margin: 0 auto;
       padding: 80px 48px 120px;
     }
-
-    .thesis-pull {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(22px, 3vw, 32px);
-      font-weight: 300; font-style: italic;
-      line-height: 1.55; color: var(--ink);
-      border-left: 3px solid var(--brass);
-      padding-left: 28px;
-      margin-bottom: 56px;
-    }
-
     .thesis-section-title {
       font-family: 'DM Mono', monospace;
       font-size: 9px; letter-spacing: 0.26em;
       text-transform: uppercase; color: var(--brass);
       display: block; margin-bottom: 20px;
     }
-
     .thesis-h2 {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(26px, 3.5vw, 38px);
       font-weight: 300; line-height: 1.2;
       color: var(--ink); margin-bottom: 28px;
     }
-
     .thesis-p {
-      font-family: 'DM Sans', sans-serif;
       font-size: 17px; line-height: 1.85;
       color: var(--text-dim);
       margin-bottom: 24px;
     }
-
     .thesis-divider {
       width: 48px; height: 2px;
       background: var(--brass);
       margin: 56px 0;
     }
-
+    .campaign-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 36px;
+    }
+    .campaign-table th,
+    .campaign-table td {
+      text-align: left;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(42,37,32,0.12);
+      vertical-align: top;
+    }
+    .campaign-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--brass);
+      font-weight: 400;
+    }
+    .campaign-table td:first-child {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 22px; font-weight: 300;
+      color: var(--ink);
+      width: 34%;
+      padding-right: 20px;
+    }
+    .campaign-table td:last-child {
+      font-size: 15px; line-height: 1.65;
+      color: var(--text-dim);
+    }
+    .campaign-table a { color: var(--brass-deep); }
     .thesis-author {
       display: flex; align-items: center; gap: 16px;
       padding-top: 56px;
@@ -188,54 +207,33 @@
       display: flex; align-items: center; justify-content: center;
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-style: italic; font-size: 18px; color: var(--ink);
-      flex-shrink: 0;
     }
-    .author-name {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px; font-weight: 500;
-      color: var(--ink); display: block; margin-bottom: 3px;
-    }
+    .author-name { font-size: 15px; font-weight: 500; color: var(--ink); display: block; margin-bottom: 3px; }
     .author-title {
       font-family: 'DM Mono', monospace;
       font-size: 9px; letter-spacing: 0.18em;
       text-transform: uppercase; color: var(--text-dim);
     }
-
     .thesis-cta {
-      display: inline-block; margin-top: 56px;
+      display: inline-block; margin-top: 40px;
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.22em;
       text-transform: uppercase;
       background: var(--ink); color: var(--cream);
       padding: 16px 32px;
       text-decoration: none;
-      transition: background 0.2s;
     }
     .thesis-cta:hover { background: var(--brass-deep); }
-
-    .hero-cta {
-      display: inline-block; margin-top: 28px;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px; letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--cream);
-      border: 1px solid rgba(250,246,238,0.45);
-      background: transparent;
-      padding: 12px 26px;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .hero-cta:hover { border-color: var(--brass); color: var(--brass); }
-
     @media (max-width: 640px) {
       .site-header { padding: 0 24px; }
       .thesis-body { padding: 56px 24px 80px; }
-      .thesis-hero-content { padding: 0 24px; bottom: 40px; }
+      .thesis-hero-content { padding: 0 24px; bottom: 36px; }
+      .campaign-table td:first-child { display: block; width: auto; padding-bottom: 4px; }
+      .campaign-table td:last-child { display: block; }
     }
   </style>
 </head>
 <body>
-
   <header class="site-header">
     <a href="/" class="header-logo">CityAge</a>
     <nav class="door-nav" id="site-nav" aria-label="Primary">
@@ -243,7 +241,7 @@
       <a href="/#forums">Forums</a>
       <a href="/partnerships.html">Partnerships</a>
       <a href="/#studio">CityAge Studio</a>
-      <a href="/advisory.html" class="active">Private Advisory</a>
+      <a href="/advisory.html">Private Advisory</a>
       <a href="/#network">Network</a>
       <a href="/people.html">Contributors</a>
       <a href="/#news">News</a>
@@ -253,90 +251,112 @@
   </header>
 
   <section class="thesis-hero">
-    <img src="/vancouver-banner.jpg" alt="City skyline at dusk" class="thesis-hero-img" />
+    <img src="/parliament-sunset.jpg" alt="Parliament Hill at sunset" class="thesis-hero-img" />
     <div class="thesis-hero-overlay"></div>
     <div class="thesis-hero-content">
-      <span class="thesis-hero-kicker">Private Advisory</span>
-      <h1 class="thesis-hero-title">Show the public benefit of a project, an idea, or a technology — and the world wants you to build it.</h1>
-      <a href="/contact.html" class="hero-cta">Enquire</a>
+      <span class="thesis-hero-kicker">Knowledge Partnerships</span>
+      <h1 class="thesis-hero-title">Commission a campaign around the issue you need to <em>move.</em></h1>
+      <a href="/contact.html" class="hero-cta">Talk to CityAge</a>
     </div>
   </section>
 
   <article class="thesis-body">
-
-    <span class="thesis-section-title">The Roots</span>
-    <h2 class="thesis-h2">A lesson learned in the field.</h2>
-
+    <span class="thesis-section-title">Knowledge Partnerships</span>
+    <h2 class="thesis-h2">Content, forums, and network — one objective.</h2>
     <p class="thesis-p">
-      Miro Cernetig spent his career as a foreign correspondent and bureau chief
-      for The Globe and Mail — in Beijing, New York, Alberta, the Arctic, and Vancouver.
-      Those postings — from China's rise to Canada's energy heartland to the High North —
-      taught a lasting lesson: narrative that serves the public interest is the most
-      powerful force in moving governments, markets, and minds.
+      CityAge Knowledge Partners get a campaign pointed at the strategic question
+      that moves their business. Branded or white-labelled. Built on the editorial
+      voice, the rooms, and the network of decision-makers we have convened for
+      fifteen years.
     </p>
-
     <p class="thesis-p">
-      That conviction, recognized with Canada's Michener Award for public-service
-      journalism, is the foundation of this practice.
+      We also build micro-networks — a curated constellation of exactly the right
+      people, convened for your purpose.
     </p>
 
     <div class="thesis-divider"></div>
 
-    <span class="thesis-section-title">The Practice</span>
-    <h2 class="thesis-h2">Not noise. Signal.</h2>
+    <span class="thesis-section-title">Inside a campaign</span>
+    <h2 class="thesis-h2">Four parts. One operation.</h2>
+    <table class="campaign-table">
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>What it does</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Signal</td>
+          <td>A branded weekly intelligence brief in your domain, in the CityAge voice.</td>
+        </tr>
+        <tr>
+          <td>Campaign</td>
+          <td>An editorial push around your priority — research, reporting, briefings.</td>
+        </tr>
+        <tr>
+          <td>Forum</td>
+          <td>An invite-only convening on your topic. Chatham House. Fifty to one hundred leaders.</td>
+        </tr>
+        <tr>
+          <td>Network</td>
+          <td>Curated introductions inside the 25,000 decision-maker base.</td>
+        </tr>
+      </tbody>
+    </table>
 
     <p class="thesis-p">
-      CityAge builds bespoke, deeply researched campaigns for leaders and organizations
-      whose work deserves to be understood. Each engagement begins with original
-      research and ends with a narrative that can stand up in a newsroom, a boardroom,
-      or a legislature.
+      The money is already on this site. Rooms, brand services, and films —
+      not a second product.
     </p>
-
-    <div class="thesis-divider"></div>
-
-    <span class="thesis-section-title">The Network</span>
-    <h2 class="thesis-h2">The best minds, at the table.</h2>
-
+    <table class="campaign-table">
+      <thead>
+        <tr>
+          <th>Door</th>
+          <th>Where it already lives</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CEC seats</td>
+          <td><a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener">Ticket Tailor 2062411</a></td>
+        </tr>
+        <tr>
+          <td>CEC partner tiers</td>
+          <td><a href="/cec/partners">Strategic · Presenting · Supporting</a></td>
+        </tr>
+        <tr>
+          <td>Northern Century</td>
+          <td><a href="/northern-century/partners">Gated partner deck</a></td>
+        </tr>
+        <tr>
+          <td>Next Vancouver</td>
+          <td><a href="/next-vancouver/partners">Gated partner deck</a></td>
+        </tr>
+        <tr>
+          <td>Private Advisory</td>
+          <td><a href="/advisory.html">Miro works directly</a></td>
+        </tr>
+        <tr>
+          <td>CityAge Studio</td>
+          <td><a href="/#studio">Commission a film</a> · <a href="mailto:miro@cityage.com">miro@cityage.com</a></td>
+        </tr>
+      </tbody>
+    </table>
     <p class="thesis-p">
-      Three decades in journalism, and fifteen years convening CityAge's network of
-      25,000 leaders across government, capital, and industry, mean one more thing:
-      for any consequential project, we know how to find the best minds and bring
-      them to the table.
-    </p>
-
-    <div class="thesis-divider"></div>
-
-    <span class="thesis-section-title">A Record of Consequence</span>
-
-    <blockquote class="thesis-pull">
-      The engagements are private. The results are public.
-    </blockquote>
-
-    <p class="thesis-p">
-      Wrote, with a team, the brand story for Foster's wine business as it became
-      Treasury Wine Estates. Served on the team advising Grosvenor Americas on major
-      real estate projects in Silicon Valley, San Francisco, and Vancouver. Helped
-      change an airline safety regulation most believed couldn't be moved. Guided
-      senior figures through crisis moments.
-    </p>
-
-    <p class="thesis-p">
-      Served as adjudicator for one of Canada's leading scholarship foundations,
-      helping award millions of dollars to top scholars. Led the campaign that made
-      Pacific salmon the official fish of British Columbia. Told clients' stories
-      through the world's leading media brands.
+      Stripe is named in the privacy policy only. The Sunday letter is Beehiiv
+      through /api/subscribe. Seats go through Ticket Tailor when a room is live.
     </p>
 
     <div class="thesis-author">
       <div class="author-initial">M</div>
       <div>
         <span class="author-name">Miro Cernetig</span>
-        <span class="author-title">Founder, CEO &amp; Publisher — CityAge</span>
+        <span class="author-title">Publisher — CityAge</span>
       </div>
     </div>
 
-    <a href="/contact.html" class="thesis-cta">Enquire →</a>
-
+    <a href="/contact.html" class="thesis-cta">Commission a campaign →</a>
   </article>
   <script>
     (function(){

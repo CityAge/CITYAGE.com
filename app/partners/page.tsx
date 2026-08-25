@@ -159,12 +159,10 @@ export default function PartnersPage() {
               And many more across North America, Europe and Asia
             </p>
             <a
-              href="https://cityage.com/knowledge-partners/"
-              target="_blank"
-              rel="noopener"
+              href="/partnerships.html"
               className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors"
             >
-              Full partner archive →
+              Commission a campaign →
             </a>
           </div>
         </section>

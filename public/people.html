@@ -44,6 +44,9 @@ nav {
   background: linear-gradient(to bottom, rgba(10,9,8,0.95) 0%, transparent 100%);
   backdrop-filter: blur(8px);
 }
+nav.is-open {
+  background: rgba(10,9,8,0.98);
+}
 .wordmark {
   font-family: 'Cormorant Garamond', serif;
   font-size: 22px; font-weight: 300;
@@ -51,16 +54,44 @@ nav {
   letter-spacing: -0.01em;
 }
 .wordmark em { font-style: italic; color: var(--brass); }
-.nav-back {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: rgba(250,246,238,0.55);
-  text-decoration: none;
-  border: 1px solid rgba(184,149,106,0.25);
-  padding: 9px 20px;
-  transition: all 0.2s;
+.door-nav {
+  display: flex; align-items: center; gap: 20px;
 }
-.nav-back:hover { color: var(--cream); border-color: var(--brass); }
+.door-nav a {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(250,246,238,0.5);
+  text-decoration: none;
+}
+.door-nav a:hover, .door-nav a.active { color: var(--cream); }
+.nav-toggle {
+  display: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid rgba(184,149,106,0.45);
+  color: var(--cream);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+@media (max-width: 960px) {
+  .nav-toggle { display: block; }
+  .door-nav {
+    display: none;
+    position: absolute;
+    top: 64px; left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: rgba(10,9,8,0.98);
+    border-bottom: 1px solid rgba(250,246,238,0.1);
+    padding: 8px 0 16px;
+  }
+  nav.is-open .door-nav { display: flex; }
+  .door-nav a { display: block; padding: 12px 24px; }
+}
 
 /* ── HEADER ──────────────────────────────── */
 .header {
@@ -417,9 +448,20 @@ footer {
 </head>
 <body>
 
-<nav>
-  <a class="wordmark" href="/cityage-FINAL.html">City<em>Age</em></a>
-  <a class="nav-back" href="/cityage-FINAL.html">← The Urban Planet</a>
+<nav aria-label="Primary">
+  <a class="wordmark" href="/">City<em>Age</em></a>
+  <div class="door-nav" id="site-nav">
+    <a href="/purpose">Purpose</a>
+    <a href="/#forums">Forums</a>
+    <a href="/partnerships.html">Partnerships</a>
+    <a href="/#studio">CityAge Studio</a>
+    <a href="/advisory.html">Private Advisory</a>
+    <a href="/#network">Network</a>
+    <a href="/people.html" class="active">Contributors</a>
+    <a href="/#news">News</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+  <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
 </nav>
 
 <section class="header">
@@ -682,6 +724,15 @@ clearBtn.addEventListener('click', () => {
 });
 
 loadSpeakers();
+(function(){
+  var header = document.querySelector('nav');
+  var btn = document.querySelector('.nav-toggle');
+  if (!header || !btn) return;
+  btn.addEventListener('click', function(){
+    var open = header.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
 </script>
 </body>
 </html>

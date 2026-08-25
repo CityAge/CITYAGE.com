@@ -41,6 +41,7 @@ const nextConfig = {
       { source: '/the-next-vancouver', destination: '/next-vancouver.html', permanent: false },
       { source: '/contributors', destination: '/people.html', permanent: false },
       { source: '/private-advisory', destination: '/advisory.html', permanent: false },
+      { source: '/partnerships', destination: '/partnerships.html', permanent: false },
     ]
   },
 }

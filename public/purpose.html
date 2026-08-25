@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Purpose — The Urban Planet — CityAge</title>
-  <meta name="description" content="The Urban Planet: cities, regions, even small hamlets in the Arctic — built on 3 per cent of the planet, producing more than 80% of its GDP. CityAge convenes the leaders deciding what gets built there." />
+  <meta name="description" content="We live on the urban planet. Two percent of Earth. Everything happens here. CityAge convenes the leaders deciding what gets built there." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet" />
@@ -21,8 +21,8 @@
 
     html { font-size: 16px; }
     body {
-      background: var(--ink);
-      color: var(--cream);
+      background: var(--cream);
+      color: var(--ink);
       font-family: 'DM Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
@@ -30,9 +30,9 @@
     /* ── HEADER ── */
     .site-header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(10,9,8,0.92);
+      background: var(--cream);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--white10);
+      border-bottom: 1px solid rgba(10,9,8,0.1);
       padding: 0 48px;
       height: 64px;
       display: flex; align-items: center; justify-content: space-between;
@@ -40,17 +40,48 @@
     .header-logo {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 18px; font-weight: 400; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--cream);
+      text-transform: uppercase; color: var(--ink);
       text-decoration: none;
     }
-    .header-back {
+    .door-nav {
+      display: flex; align-items: center; gap: 20px;
+    }
+    .door-nav a {
       font-family: 'DM Mono', monospace;
-      font-size: 9px; letter-spacing: 0.22em;
-      text-transform: uppercase; color: rgba(250,246,238,0.5);
+      font-size: 8.5px; letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(10,9,8,0.42);
       text-decoration: none;
-      transition: color 0.2s;
     }
-    .header-back:hover { color: var(--brass); }
+    .door-nav a:hover, .door-nav a.active { color: var(--ink); }
+    .nav-toggle {
+      display: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid rgba(184,149,106,0.45);
+      color: var(--ink);
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    @media (max-width: 960px) {
+      .nav-toggle { display: block; }
+      .door-nav {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: var(--cream);
+        border-bottom: 1px solid rgba(10,9,8,0.1);
+        padding: 8px 0 16px;
+        z-index: 99;
+      }
+      .site-header.is-open .door-nav { display: flex; }
+      .door-nav a { display: block; padding: 12px 24px; }
+    }
 
     /* ── OPENING ── */
     .open {
@@ -73,7 +104,7 @@
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(48px, 8vw, 96px);
       font-weight: 300; line-height: 1.02;
-      color: var(--cream);
+      color: var(--ink);
       margin-bottom: 32px;
     }
     .open h1 em { font-style: italic; color: var(--brass); }
@@ -82,7 +113,7 @@
       font-size: clamp(20px, 2.6vw, 27px);
       font-weight: 300; font-style: italic;
       line-height: 1.55;
-      color: rgba(250,246,238,0.78);
+      color: rgba(10,9,8,0.72);
       max-width: 640px;
     }
 
@@ -98,7 +129,7 @@
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(250,246,238,0.4);
+      color: rgba(10,9,8,0.4);
       text-align: center;
       padding: 18px 48px 0;
     }
@@ -115,7 +146,7 @@
       font-size: clamp(24px, 3.4vw, 34px);
       font-weight: 300; font-style: italic;
       line-height: 1.55;
-      color: var(--cream);
+      color: var(--ink);
       border-left: 3px solid var(--brass);
       padding-left: 30px;
       margin-bottom: 24px;
@@ -124,7 +155,7 @@
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(250,246,238,0.45);
+      color: rgba(10,9,8,0.45);
       padding-left: 33px;
       margin-bottom: 72px;
     }
@@ -132,7 +163,7 @@
     .thesis-p {
       font-family: 'DM Sans', sans-serif;
       font-size: 19px; line-height: 1.85;
-      color: rgba(250,246,238,0.78);
+      color: rgba(10,9,8,0.72);
       margin-bottom: 28px;
     }
 
@@ -156,24 +187,24 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0;
-      border-top: 1px solid var(--white10);
-      border-bottom: 1px solid var(--white10);
+      border-top: 1px solid rgba(10,9,8,0.1);
+      border-bottom: 1px solid rgba(10,9,8,0.1);
       padding: 40px 0;
       margin-bottom: 72px;
     }
-    .stat { padding: 0 24px; border-left: 1px solid var(--white10); }
+    .stat { padding: 0 24px; border-left: 1px solid rgba(10,9,8,0.1); }
     .stat:first-child { border-left: none; padding-left: 0; }
     .stat-num {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(30px, 3.6vw, 44px);
-      font-weight: 300; color: var(--cream);
+      font-weight: 300; color: var(--ink);
       display: block; line-height: 1; margin-bottom: 10px;
     }
     .stat-label {
       font-family: 'DM Mono', monospace;
       font-size: 9px; letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(250,246,238,0.45);
+      color: rgba(10,9,8,0.45);
       line-height: 1.6;
     }
 
@@ -186,7 +217,7 @@
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(32px, 5vw, 56px);
       font-weight: 300; line-height: 1.3;
-      color: var(--cream);
+      color: var(--ink);
       margin-bottom: 48px;
     }
     .close-line em { font-style: italic; color: var(--brass); }
@@ -195,8 +226,8 @@
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: var(--cream);
-      border: 1px solid rgba(250,246,238,0.35);
+      color: var(--ink);
+      border: 1px solid rgba(10,9,8,0.28);
       padding: 16px 36px;
       text-decoration: none;
       transition: border-color 0.2s, color 0.2s;
@@ -245,16 +276,25 @@
 
   <header class="site-header">
     <a href="/" class="header-logo">CityAge</a>
-    <a href="/" class="header-back">← Back</a>
+    <nav class="door-nav" id="site-nav" aria-label="Primary">
+      <a href="/purpose" class="active">Purpose</a>
+      <a href="/#forums">Forums</a>
+      <a href="/partnerships.html">Partnerships</a>
+      <a href="/#studio">CityAge Studio</a>
+      <a href="/advisory.html">Private Advisory</a>
+      <a href="/#network">Network</a>
+      <a href="/people.html">Contributors</a>
+      <a href="/#news">News</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
   </header>
 
   <section class="open">
     <span class="kicker">Our Founding Thesis</span>
     <h1>The Urban <em>Planet.</em></h1>
     <p class="founding-line">
-      This is the image CityAge was founded on, fifteen years ago.
-      The Earth at night. Three per cent of the surface.
-      A single web of light.
+      We live on the urban planet. Two percent of Earth. Everything happens here.
     </p>
   </section>
 
@@ -266,15 +306,13 @@
   <article class="body-wrap">
 
     <blockquote class="quote reveal">
-      &ldquo;Cities, regions, even small hamlets in the Arctic &mdash; built on
-      3&nbsp;per&nbsp;cent of the planet, producing more than 80% of its GDP.
-      Every structural challenge of our era &mdash; climate, capital,
-      sovereignty &mdash; gets solved or doesn&rsquo;t get solved there.&rdquo;
+      &ldquo;We live on the urban planet. Two percent of Earth.
+      Everything happens here.&rdquo;
     </blockquote>
-    <p class="quote-attrib reveal">Miro Cernetig — Founder, CEO &amp; Publisher</p>
+    <p class="quote-attrib reveal">Miro Cernetig — Publisher</p>
 
     <p class="thesis-p reveal">
-      The Urban Planet is the three per cent of the Earth where people mostly
+      The Urban Planet is the two per cent of the Earth where people mostly
       are &mdash; and where innovation and investment happens. Sometimes it&rsquo;s
       a vast urban region. Sometimes it&rsquo;s a small and distant place. All of
       it is connected &mdash; through modern technology and human endeavour &mdash;
@@ -298,33 +336,12 @@
       and industry, convened around the problems worth solving.
     </p>
 
-    <div class="divider"></div>
-
-    <div class="stats reveal">
-      <div class="stat">
-        <span class="stat-num">15</span>
-        <span class="stat-label">Years convening leaders</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">100+</span>
-        <span class="stat-label">Forums worldwide</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">25,000+</span>
-        <span class="stat-label">Verified decision-makers</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">3%</span>
-        <span class="stat-label">Of the Earth. Most of what matters.</span>
-      </div>
-    </div>
-
   </article>
 
   <section class="close">
     <p class="close-line reveal">
-      Three per cent of the Earth.<br/>
-      Most of what matters.<br/>
+      Two percent of Earth.<br/>
+      Everything happens here.<br/>
       <em>We work there.</em>
     </p>
     <a href="/contact.html" class="close-cta">Talk to Miro →</a>
@@ -339,6 +356,15 @@
         });
       }, { threshold: 0.15 });
       document.querySelectorAll('.reveal, .earth, .divider').forEach(function(el){ io.observe(el); });
+    })();
+    (function(){
+      var header = document.querySelector('.site-header');
+      var btn = document.querySelector('.nav-toggle');
+      if (!header || !btn) return;
+      btn.addEventListener('click', function(){
+        var open = header.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
     })();
   </script>
 </body>
