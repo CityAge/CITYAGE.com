@@ -27,8 +27,11 @@ export function MagazineHeader() {
               </svg>
             </button>
             <a href="/purpose" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block">Purpose</a>
-            <a href="/partners" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Knowledge Partners</a>
-            <a href="/network" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">The Network</a>
+            <a href="/#what-we-do" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">What We Do</a>
+            <a href="/#studio" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Studio</a>
+            <a href="/#forums" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Forums</a>
+            <a href="/partnerships.html" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden xl:block">Partnerships</a>
+            <a href="/advisory.html" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden xl:block">Advisory</a>
           </div>
           <div className="flex items-center gap-5 md:gap-7">
             <button className="hover:opacity-60 transition-opacity text-black">

@@ -268,8 +268,8 @@ export default function CECPartnersPage() {
                 <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener noreferrer" className="inline-block text-[#c9a84c] text-xl sm:text-2xl font-[family-name:var(--font-ui)] hover:text-[#c9a84c]/70 transition-colors underline underline-offset-8 decoration-[#c9a84c]/30">
                   Secure your ticket here →
                 </a>
-                <a href="https://cityage.com/events/canada-europe-connect/" target="_blank" rel="noopener noreferrer" className="inline-block text-white/40 text-xl sm:text-2xl font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-8 decoration-white/15 hover:decoration-[#c9a84c]/30">
-                  View full agenda and speakers →
+                <a href="/canada-europe-connects" className="inline-block text-white/40 text-xl sm:text-2xl font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-8 decoration-white/15 hover:decoration-[#c9a84c]/30">
+                  The room on this site →
                 </a>
               </div>
             </div>
@@ -312,8 +312,8 @@ export default function CECPartnersPage() {
               <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener noreferrer" className="inline-block text-[#c9a84c] text-xl sm:text-2xl font-[family-name:var(--font-ui)] hover:text-[#c9a84c]/70 transition-colors underline underline-offset-8 decoration-[#c9a84c]/30">
                 Secure your ticket here →
               </a>
-              <a href="https://cityage.com/events/canada-europe-connect/" target="_blank" rel="noopener noreferrer" className="inline-block text-white/40 text-xl sm:text-2xl font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-8 decoration-white/15 hover:decoration-[#c9a84c]/30">
-                See the full programme →
+              <a href="/canada-europe-connects" className="inline-block text-white/40 text-xl sm:text-2xl font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-8 decoration-white/15 hover:decoration-[#c9a84c]/30">
+                Canada–Europe Connects on this site →
               </a>
             </div>
           </Reveal>
@@ -385,7 +385,7 @@ export default function CECPartnersPage() {
           </Reveal>
           <Reveal delay={600}>
             <p className="mt-10">
-              <a href="https://cityage.com/partners" target="_blank" rel="noopener noreferrer" className="text-white/30 text-sm tracking-wide font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-4 decoration-white/10 hover:decoration-[#c9a84c]/30">
+              <a href="/partnerships.html" className="text-white/30 text-sm tracking-wide font-[family-name:var(--font-ui)] hover:text-[#c9a84c] transition-colors underline underline-offset-4 decoration-white/10 hover:decoration-[#c9a84c]/30">
                 100+ Knowledge Partners have supported CityAge →
               </a>
             </p>
@@ -414,7 +414,7 @@ export default function CECPartnersPage() {
         <Reveal delay={300}>
           <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener noreferrer" className="inline-block border border-[#c9a84c]/30 text-[#c9a84c] text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:bg-[#c9a84c]/10 transition-colors font-[family-name:var(--font-ui)]">Secure Your Ticket Here</a>
-            <a href="https://cityage.com/events/canada-europe-connect/" target="_blank" rel="noopener noreferrer" className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">View Full Programme</a>
+            <a href="/canada-europe-connects" className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">The Room</a>
             <a href="/cec-knowledge-partner.pdf" download className="inline-block border border-white/15 text-white/40 text-xs sm:text-sm tracking-[0.25em] uppercase px-8 py-3 hover:border-[#c9a84c]/30 hover:text-[#c9a84c] transition-colors font-[family-name:var(--font-ui)]">Download PDF</a>
           </div>
         </Reveal>

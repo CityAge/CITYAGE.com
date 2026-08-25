@@ -23,12 +23,13 @@ export function MagazineFooter() {
           </h3>
           <ul className="text-[11px] space-y-3 font-medium tracking-wider uppercase text-white/60">
             <li><a href="/purpose" className="hover:text-[#C5A059] transition-colors">Purpose</a></li>
-            <li><a href="/partners" className="hover:text-[#C5A059] transition-colors">Knowledge Partners</a></li>
-            <li><a href="/network" className="hover:text-[#C5A059] transition-colors">The Network</a></li>
-            <li><a href="/dispatches" className="hover:text-[#C5A059] transition-colors">Dispatches</a></li>
+            <li><a href="/#what-we-do" className="hover:text-[#C5A059] transition-colors">What We Do</a></li>
+            <li><a href="/#forums" className="hover:text-[#C5A059] transition-colors">Forums</a></li>
+            <li><a href="/#studio" className="hover:text-[#C5A059] transition-colors">CityAge Studio</a></li>
+            <li><a href="/partnerships.html" className="hover:text-[#C5A059] transition-colors">Knowledge Partnerships</a></li>
+            <li><a href="/advisory.html" className="hover:text-[#C5A059] transition-colors">Private Advisory</a></li>
+            <li><a href="/#network" className="hover:text-[#C5A059] transition-colors">The Network</a></li>
             <li><a href="/canada-europe-connects" className="hover:text-[#C5A059] transition-colors">Canada–Europe Connects</a></li>
-            <li><a href="https://cityage.com/events" className="hover:text-[#C5A059] transition-colors">Events 2026</a></li>
-            <li><a href="https://orbit.cityage.com" className="hover:text-[#C5A059] transition-colors">Orbit — Space Economy</a></li>
           </ul>
         </div>
 

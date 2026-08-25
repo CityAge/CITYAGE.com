@@ -41,13 +41,45 @@
       text-transform: uppercase; color: var(--ink);
       text-decoration: none;
     }
-    .header-back {
+    .door-nav {
+      display: flex; align-items: center; gap: 20px;
+    }
+    .door-nav a {
       font-family: 'DM Mono', monospace;
-      font-size: 9px; letter-spacing: 0.22em;
-      text-transform: uppercase; color: var(--text-dim);
+      font-size: 8.5px; letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(10,9,8,0.42);
       text-decoration: none;
     }
-    .header-back:hover { color: var(--brass); }
+    .door-nav a:hover, .door-nav a.active { color: var(--ink); }
+    .nav-toggle {
+      display: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid rgba(184,149,106,0.45);
+      color: var(--ink);
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    @media (max-width: 960px) {
+      .nav-toggle { display: block; }
+      .door-nav {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: var(--cream);
+        border-bottom: 1px solid rgba(10,9,8,0.1);
+        padding: 8px 0 16px;
+        z-index: 99;
+      }
+      .site-header.is-open .door-nav { display: flex; }
+      .door-nav a { display: block; padding: 12px 24px; }
+    }
     .thesis-hero {
       position: relative;
       height: 52vh; min-height: 360px; max-height: 560px;
@@ -204,7 +236,17 @@
 <body>
   <header class="site-header">
     <a href="/" class="header-logo">CityAge</a>
-    <a href="/" class="header-back">← Back</a>
+    <nav class="door-nav" id="site-nav" aria-label="Primary">
+      <a href="/purpose">Purpose</a>
+      <a href="/#what-we-do">What We Do</a>
+      <a href="/#studio">CityAge Studio</a>
+      <a href="/advisory.html">Private Advisory</a>
+      <a href="/#network">Network</a>
+      <a href="/people.html">Contributors</a>
+      <a href="/#news">News</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
   </header>
 
   <section class="thesis-hero">
@@ -315,5 +357,16 @@
 
     <a href="/contact.html" class="thesis-cta">Commission a campaign →</a>
   </article>
+  <script>
+    (function(){
+      var header = document.querySelector('.site-header');
+      var btn = document.querySelector('.nav-toggle');
+      if (!header || !btn) return;
+      btn.addEventListener('click', function(){
+        var open = header.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    })();
+  </script>
 </body>
 </html>

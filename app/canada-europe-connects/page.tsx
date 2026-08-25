@@ -45,15 +45,29 @@ export default async function CECPage() {
         {/* Top utility bar */}
         <div className="border-b border-white/10 px-6 md:px-12 py-2">
           <div className="max-w-[1200px] mx-auto flex items-center justify-between">
-            <Link href="/" className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30 hover:text-[#C5A059] transition-colors">
-              ← CityAge
-            </Link>
+            <div className="flex items-center gap-4 flex-wrap">
+              <Link href="/" className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30 hover:text-[#C5A059] transition-colors">
+                CityAge
+              </Link>
+              <Link href="/#forums" className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30 hover:text-[#C5A059] transition-colors hidden sm:inline">
+                Forums
+              </Link>
+              <Link href="/#studio" className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30 hover:text-[#C5A059] transition-colors hidden sm:inline">
+                Studio
+              </Link>
+              <Link href="/partnerships.html" className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30 hover:text-[#C5A059] transition-colors hidden md:inline">
+                Partnerships
+              </Link>
+              <Link href="/advisory.html" className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30 hover:text-[#C5A059] transition-colors hidden md:inline">
+                Advisory
+              </Link>
+            </div>
             <div className="flex items-center gap-4">
               <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30">
                 Invitation Only
               </span>
               <span className="text-white/10 text-[9px]">|</span>
-              <a href="https://cityage.com/events/canada-europe-connect/" className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-white transition-colors">
+              <a href="https://www.tickettailor.com/events/cityage/2062411" target="_blank" rel="noopener noreferrer" className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-white transition-colors">
                 Request Access
               </a>
             </div>
@@ -81,10 +95,12 @@ export default async function CECPage() {
             </div>
           </div>
           <a
-            href="https://cityage.com/events/canada-europe-connect/"
+            href="https://www.tickettailor.com/events/cityage/2062411"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-[#C5A059] text-black px-10 py-3 font-mono text-[10px] font-black tracking-[0.25em] uppercase hover:bg-white transition-colors"
           >
-            Request Access to the Event
+            Request Access to the Room
           </a>
         </div>
       </header>
@@ -163,7 +179,7 @@ export default async function CECPage() {
                 {/* Event card */}
                 <div className="bg-black text-white p-8 mb-8">
                   <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-[#C5A059] block mb-3">
-                    The Event
+                    The Room
                   </span>
                   <h3 className="font-serif font-black text-lg mb-3">
                     Canada–Europe Connects
@@ -174,7 +190,9 @@ export default async function CECPage() {
                     <p>Invitation Only</p>
                   </div>
                   <a
-                    href="https://cityage.com/events/canada-europe-connect/"
+                    href="https://www.tickettailor.com/events/cityage/2062411"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="block w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase text-center hover:bg-white transition-colors"
                   >
                     Request Access
@@ -236,7 +254,9 @@ export default async function CECPage() {
             Defence procurement, dual-use technology, and trans-Atlantic trade corridors. An invitation-only convening of the decision-makers shaping the corridor.
           </p>
           <a
-            href="https://cityage.com/events/canada-europe-connect/"
+            href="https://www.tickettailor.com/events/cityage/2062411"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-black text-white px-10 py-3 font-mono text-[10px] font-black tracking-[0.25em] uppercase hover:bg-[#C5A059] hover:text-black transition-colors"
           >
             Request Access
