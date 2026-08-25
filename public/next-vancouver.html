@@ -232,6 +232,42 @@
     }
     .thesis-cta:hover { background: var(--brass-deep); }
 
+    .room-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 32px;
+    }
+    .room-table th,
+    .room-table td {
+      text-align: left;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(42,37,32,0.12);
+      vertical-align: top;
+    }
+    .room-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--brass);
+      font-weight: 400;
+    }
+    .room-table td:first-child {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 20px; font-weight: 300;
+      color: var(--ink);
+      width: 36%;
+      padding-right: 16px;
+    }
+    .room-table td {
+      font-size: 15px; line-height: 1.6;
+      color: var(--text-dim);
+    }
+    .room-table-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 28px;
+    }
+
     @media (max-width: 640px) {
       .site-header { padding: 0 24px; }
       .thesis-body { padding: 56px 24px 80px; }
@@ -244,8 +280,8 @@
 <body>
 
   <header class="site-header">
-    <a href="/cityage-FINAL.html" class="header-logo">CityAge</a>
-    <a href="/cityage-FINAL.html" class="header-back">← Back</a>
+    <a href="/" class="header-logo">CityAge</a>
+    <a href="/" class="header-back">← Back</a>
   </header>
 
   <section class="thesis-hero">
@@ -343,6 +379,39 @@
       leaders from the Senate of Canada, YVR, Providence Health Care,
       Genome BC, FortisBC and dozens more.
     </p>
+
+    <table class="room-table">
+      <thead>
+        <tr>
+          <th>The table</th>
+          <th>Who sits</th>
+          <th>Door</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>The room</td>
+          <td>100 leaders · invite only · Chatham House</td>
+          <td>By referral</td>
+        </tr>
+        <tr>
+          <td>Government</td>
+          <td>Ministers, mayors, senior officials</td>
+          <td>By invitation</td>
+        </tr>
+        <tr>
+          <td>Capital</td>
+          <td>Fund managers, institutional investors</td>
+          <td>By invitation</td>
+        </tr>
+        <tr>
+          <td>Builders</td>
+          <td>Founders, scientists, operators of the seven sectors</td>
+          <td>By invitation</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="room-table-note">The seating table publishes here when the program is announced. Until then, request a seat through CityAge.</p>
 
     <div class="thesis-author">
       <div class="author-initial">M</div>

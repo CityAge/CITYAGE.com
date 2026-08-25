@@ -105,7 +105,40 @@ html, body { margin:0; padding:0; background:#050403; }
     border-bottom: 1px solid var(--white5);
     padding: 22px 48px;
     display: flex; justify-content: space-between; align-items: center;
+    gap: 20px;
   }
+  .header-actions {
+    display: flex; align-items: center; gap: 16px;
+    flex-shrink: 0;
+  }
+  .nav-toggle {
+    display: none;
+    width: 42px; height: 42px;
+    background: transparent;
+    border: 1px solid var(--brass-line);
+    color: var(--cream);
+    cursor: pointer;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-toggle span,
+  .nav-toggle span::before,
+  .nav-toggle span::after {
+    display: block; width: 16px; height: 1px;
+    background: var(--cream);
+    position: relative;
+  }
+  .nav-toggle span::before,
+  .nav-toggle span::after {
+    content: '';
+    position: absolute; left: 0;
+  }
+  .nav-toggle span::before { top: -5px; }
+  .nav-toggle span::after { top: 5px; }
+  header.is-open .nav-toggle span { background: transparent; }
+  header.is-open .nav-toggle span::before { top: 0; transform: rotate(45deg); }
+  header.is-open .nav-toggle span::after { top: 0; transform: rotate(-45deg); }
   .wordmark {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 38px; font-weight: 300;
@@ -200,8 +233,27 @@ html, body { margin:0; padding:0; background:#050403; }
     font-family: 'Lora', Georgia, serif;
     font-size: 17px; font-weight: 400;
     line-height: 1.75; color: var(--cream-dim);
-    max-width: 460px; margin-bottom: 48px;
+    max-width: 460px; margin-bottom: 16px;
   }
+  .hero-publisher {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--brass);
+    margin-bottom: 36px;
+  }
+  .hero-doors {
+    display: flex; flex-wrap: wrap; gap: 10px 22px;
+    margin-top: 22px;
+  }
+  .hero-doors a {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px solid var(--brass-line);
+    padding-bottom: 2px;
+  }
+  .hero-doors a:hover { color: var(--brass); }
   .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
   .btn-brass {
     background: var(--brass); color: var(--ink);
@@ -228,8 +280,8 @@ html, body { margin:0; padding:0; background:#050403; }
   /* ─── CAMPAIGN MOSAIC ───────────────── */
   .photo-mosaic {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 300px 190px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 240px 200px;
     gap: 6px;
     position: relative;
   }
@@ -239,18 +291,7 @@ html, body { margin:0; padding:0; background:#050403; }
     border: 1px solid var(--white10);
     cursor: pointer;
     display: block; text-decoration: none;
-  }
-  .photo-tile:first-child {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-  }
-  .photo-tile:nth-child(2) {
-    grid-column: 2 / 3;
-    grid-row: 1 / 3;
-  }
-  .photo-tile:nth-child(3) {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
+    min-height: 160px;
   }
 
   .photo-tile-bg {
@@ -261,18 +302,22 @@ html, body { margin:0; padding:0; background:#050403; }
   .photo-tile:hover .photo-tile-bg { transform: scale(1.05); }
 
   /* Real image tile */
-  /* Mosaic: NC full-width top, events row below */
+  /* Mosaic: NC full-width top, three rooms on the row below */
   .photo-mosaic .tile-northern {
-    grid-column: 1 / 3 !important;
-    grid-row: 1 !important;
+    grid-column: 1 / 4;
+    grid-row: 1;
   }
   .photo-mosaic .tile-cec {
-    grid-column: 1 / 2 !important;
-    grid-row: 2 !important;
+    grid-column: 1 / 2;
+    grid-row: 2;
+  }
+  .photo-mosaic .tile-arctic {
+    grid-column: 2 / 3;
+    grid-row: 2;
   }
   .photo-mosaic .tile-pnw {
-    grid-column: 2 / 3 !important;
-    grid-row: 2 !important;
+    grid-column: 3 / 4;
+    grid-row: 2;
   }
   .tile-pnw .photo-tile-bg {
     background: linear-gradient(145deg, #0a1520 0%, #0d1f2e 40%, #091218 70%, #050c0f 100%);
@@ -777,8 +822,14 @@ html, body { margin:0; padding:0; background:#050403; }
     font-weight: 300; font-style: italic;
     line-height: 1.4; color: var(--cream);
     letter-spacing: -0.01em;
-    margin-bottom: 48px;
+    margin-bottom: 16px;
     border: none; padding: 0;
+  }
+  .thesis-bleed-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--brass);
+    margin-bottom: 40px;
   }
   .thesis-bleed-cta {
     display: inline-block;
@@ -909,13 +960,48 @@ html, body { margin:0; padding:0; background:#050403; }
 
   /* ─── RESPONSIVE ────────────────────── */
   @media (max-width: 900px) {
-    .strip { padding: 12px 24px; }
+    .strip { padding: 12px 20px; }
     .strip-cities { display: none; }
-    header { padding: 18px 24px; }
-    nav { display: none; }
-    .hero { padding: 64px 24px 56px; }
-    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-    .stats-bar { padding: 32px 24px; }
+    .strip-right { display: none; }
+    header { padding: 14px 20px; }
+    .wordmark { font-size: 28px; }
+    .nav-toggle { display: flex; }
+    header .btn-outline { padding: 8px 14px; font-size: 8.5px; }
+    nav {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: rgba(10,9,8,0.98);
+      border-bottom: 1px solid var(--white10);
+      padding: 8px 0 16px;
+    }
+    header.is-open nav { display: flex; }
+    nav a {
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--white5);
+      font-size: 11px;
+    }
+    .hero { padding: 48px 20px 40px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero-h1 { font-size: clamp(40px, 11vw, 64px); }
+    .hero-p { font-size: 16px; margin-bottom: 28px; }
+    .photo-mosaic {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+    }
+    .photo-mosaic .tile-northern,
+    .photo-mosaic .tile-cec,
+    .photo-mosaic .tile-arctic,
+    .photo-mosaic .tile-pnw {
+      grid-column: auto;
+      grid-row: auto;
+      min-height: 180px;
+    }
+    .photo-tile-arrow { opacity: 1; }
+    .stats-bar { padding: 32px 20px; }
     .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
     .stat-item { border-right: none; border-left: none !important; border-bottom: 1px solid var(--white10); padding: 0 0 24px; }
     .tabs-section { padding: 64px 24px; }
@@ -927,9 +1013,12 @@ html, body { margin:0; padding:0; background:#050403; }
     .manifesto { padding: 64px 24px; }
     .manifesto-inner { grid-template-columns: 1fr; gap: 40px; }
     .cta-section { padding: 80px 24px; }
-    footer { padding: 48px 24px; }
-    .footer-inner { grid-template-columns: 1fr 1fr; }
+    footer { padding: 48px 20px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .ticker-label { left: 12px; font-size: 7px; }
+    .ticker-track { padding-left: 72px; }
+    .ticker-headline { font-size: 12px; padding: 0 12px; }
   }
 
   /* ─── SCROLL REVEAL ─────────────────── */
@@ -2474,18 +2563,23 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 
 <!-- HEADER -->
 <header>
-  <a href="#" class="wordmark">City<em>Age</em></a>
-  <nav>
+  <a href="#" class="wordmark" onclick="showPage('home');return false;">City<em>Age</em></a>
+  <nav id="site-nav" aria-label="Primary">
     <a href="/purpose">Purpose</a>
     <a href="#what-we-do">What We Do</a>
-    <a href="#" onclick="showPage('studio');return false;">CityAge Studio</a>
+    <a href="#studio">CityAge Studio</a>
     <a href="/advisory.html">Private Advisory</a>
     <a href="#network">Network</a>
     <a href="/people.html">Contributors</a>
     <a href="#news">News</a>
-    <a href="contact.html">Contact</a>
+    <a href="/contact.html">Contact</a>
   </nav>
-  <a href="contact.html" class="btn-outline">Talk to Us</a>
+  <div class="header-actions">
+    <a href="/contact.html" class="btn-outline">Talk to Us</a>
+    <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+    </button>
+  </div>
 </header>
 
 
@@ -2520,18 +2614,23 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         <em>The Urban Planet.</em>
       </h1>
       <p class="hero-p">
-        Most of us live on 3% of the planet. What we decide there shapes the future of everything.
+        We live on the urban planet. Two percent of Earth. Everything happens here.
       </p>
-      <!-- TICKER injected below stats bar — removed from here -->
+      <p class="hero-publisher">Miro Cernetig · Publisher</p>
       <div class="hero-ctas">
         <a href="#what-we-do" class="btn-brass">See What We Do</a>
         <a href="#weekly" class="btn-ghost">Join the Network</a>
+      </div>
+      <div class="hero-doors" aria-label="The three doors">
+        <a href="#forums">Forums</a>
+        <a href="/partnerships.html">Partnerships</a>
+        <a href="#studio">Studio</a>
       </div>
       <a href="#weekly" class="hero-weekly" style="display:inline-block;margin-top:18px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:18px;color:var(--brass);text-decoration:none;border-bottom:1px solid var(--brass-line);padding-bottom:2px;">Or read CityAge every Sunday &rarr;</a>
     </div>
 
     <!-- Right: Campaign portal mosaic -->
-    <div class="photo-mosaic reveal" style="transition-delay:0.15s">
+    <div class="photo-mosaic reveal" id="forums" style="transition-delay:0.15s">
 
       <!-- Tile 1: Northern Century — TOP FULL WIDTH — REAL IMAGE -->
       <a href="/northern-century.html" class="photo-tile tile-northern">
@@ -2636,7 +2735,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
 
     <div class="ve-list">
 
-      <a href="contact.html" class="ve-list-item">
+      <a href="/partnerships.html" class="ve-list-item">
         <span class="ve-list-num">01</span>
         <div class="ve-list-body">
           <span class="ve-list-title">Knowledge Partnerships</span>
@@ -2645,7 +2744,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         <span class="ve-list-arrow">→</span>
       </a>
 
-      <a href="contact.html" class="ve-list-item">
+      <a href="#forums" class="ve-list-item">
         <span class="ve-list-num">02</span>
         <div class="ve-list-body">
           <span class="ve-list-title">Forums</span>
@@ -2654,7 +2753,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         <span class="ve-list-arrow">→</span>
       </a>
 
-      <a href="#" onclick="showPage('studio');return false;" class="ve-list-item">
+      <a href="#studio" class="ve-list-item">
         <span class="ve-list-num">03</span>
         <div class="ve-list-body">
           <span class="ve-list-title">CityAge Studio</span>
@@ -2663,7 +2762,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         <span class="ve-list-arrow">→</span>
       </a>
 
-      <a href="contact.html" class="ve-list-item">
+      <a href="/contact.html" class="ve-list-item">
         <span class="ve-list-num">04</span>
         <div class="ve-list-body">
           <span class="ve-list-title">Urban Planet Institute</span>
@@ -2672,7 +2771,7 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
         <span class="ve-list-arrow">→</span>
       </a>
 
-      <a href="contact.html" class="ve-list-item">
+      <a href="/advisory.html" class="ve-list-item">
         <span class="ve-list-num">05</span>
         <div class="ve-list-body">
           <span class="ve-list-title">Private Advisory</span>
@@ -2743,11 +2842,11 @@ html,body{background:var(--ink);color:var(--cream);font-family:'Lora',Georgia,se
   <div class="thesis-bleed-inner reveal">
     <span class="thesis-bleed-kicker">The Urban Planet Thesis</span>
     <blockquote class="thesis-bleed-quote">
-      &#8220;Cities are 3% of the Earth&#8217;s surface.<br/>
-      More than 80% of its GDP.<br/>
-      Every challenge of our era gets solved &#8212;<br/>
-      or doesn&#8217;t &#8212; in cities.&#8221;
+      &#8220;We live on the urban planet.<br/>
+      Two percent of Earth.<br/>
+      Everything happens here.&#8221;
     </blockquote>
+    <p class="thesis-bleed-attr">Miro Cernetig · Publisher</p>
     <a href="/purpose" class="thesis-bleed-cta">Read the Thesis &#8594;</a>
   </div>
 </section>
@@ -2864,7 +2963,9 @@ document.addEventListener('DOMContentLoaded',function(){
       <ul class="footer-links">
         <li><a href="/purpose">Our Thesis</a></li>
         <li><a href="#what-we-do">What We Do</a></li>
-        <li><a href="/people.html">Contributors</a></li>
+        <li><a href="#forums">Forums</a></li>
+        <li><a href="/partnerships.html">Partnerships</a></li>
+        <li><a href="#studio">CityAge Studio</a></li>
         <li><a href="/advisory.html">Private Advisory</a></li>
       </ul>
     </div>
@@ -2905,7 +3006,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <nav class="sv-nav">
       <div>
         <a class="sv-wordmark" href="#" onclick="showPage('home');return false;">City<em>Age</em></a>
-        <span class="sv-wordmark-sub">Studio</span>
+        <span class="sv-wordmark-sub">Studio · The House</span>
       </div>
       <a class="sv-back" href="#" onclick="showPage('home');return false;">← Back to CityAge</a>
     </nav>
@@ -2923,6 +3024,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <!-- Vimeo iframe -->
     <iframe class="sv-iframe" id="sv-iframe" src=""
       allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    <img id="sv-still" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1"/>
 
     <!-- Poster thumbnail — shown before/while video loads -->
     <div class="sv-poster" id="sv-poster"></div>
@@ -2974,7 +3076,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
   <!-- FILM SHELF -->
   <div class="sv-shelf">
-    <span class="sv-shelf-label">Productions — select to watch</span>
+    <div class="sv-house-head">
+      <span class="sv-shelf-label">The House — select a film</span>
+      <p class="sv-house-line">We don&rsquo;t make promotional videos. We make films. Eight productions. National Geographic, The Economist, TIFF.</p>
+    </div>
     <div class="sv-row" id="sv-row"></div>
   </div>
 
@@ -3379,17 +3484,14 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="purpose-hero-inner">
     <span class="purpose-kicker">Our Founding Thesis</span>
     <h1 class="purpose-h1">The Urban<br/><em>Planet.</em></h1>
-    <span class="purpose-hero-tag">The image CityAge was founded on, fifteen years ago. The Earth at night. Three per cent of the surface. A single web of light.</span>
+    <span class="purpose-hero-tag">We live on the urban planet. Two percent of Earth. Everything happens here.</span>
   </div>
 </div>
 
 <!-- BODY -->
 <div class="purpose-body">
   <blockquote class="purpose-quote">
-    "Cities, regions, even small hamlets in the Arctic — built on 3 per cent
-    of the planet, producing more than 80% of its GDP. Every structural
-    challenge of our era — climate, capital, sovereignty — gets solved
-    or doesn't get solved there."
+    "We live on the urban planet. Two percent of Earth. Everything happens here."
   </blockquote>
 
   <div class="purpose-author">
@@ -3401,7 +3503,7 @@ document.addEventListener('DOMContentLoaded',function(){
   </div>
 
   <div class="purpose-prose">
-    <p>The Urban Planet is the three per cent of the Earth where people
+    <p>The Urban Planet is the two per cent of the Earth where people
     mostly are — and where innovation and investment happens. Sometimes
     it's a vast urban region. Sometimes it's a small and distant place.
     All of it is connected — through modern technology and human
@@ -3415,8 +3517,7 @@ document.addEventListener('DOMContentLoaded',function(){
     <p>Fifteen years and 100+ forums later, we've built the network
     that changes that — 25,000 verified leaders across government,
     capital, and industry, convened around the problems worth solving.</p>
-    <p class="purpose-close">Three per cent of the Earth. Most of what
-    matters. We work there.</p>
+    <p class="purpose-close">Two percent of Earth. Everything happens here. We work there.</p>
   </div>
 </div>
 
@@ -3451,10 +3552,58 @@ if(h==='nc'){location.replace('/northern-century.html');}
 })();
 </script>
 <script>
-function showPage(id){var PAGES=['home','nc','studio','van','pnw','privacy','purpose'];PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);if(id==='studio'){svBuildShelf();svLoadPoster();SV_MUTED=false;svSyncMuteUI();var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');if(_p)_p.classList.add('hidden');if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');_i.onload=function(){if(!SV_MUTED){_i.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:1}),'*');}};}}if(id!=='studio'){var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});}}
-(function(){var h=location.hash.replace('#','');if(['studio','van','privacy','purpose'].indexOf(h)>-1){showPage(h);}})();
-document.addEventListener('DOMContentLoaded',function(){var h=location.hash.replace('#','');if(['studio','van','privacy','purpose'].indexOf(h)>-1){showPage(h);}});
-window.addEventListener('hashchange',function(){var h=location.hash.replace('#','');if(['nc','studio','van','pnw','privacy','purpose','home'].indexOf(h)>-1){showPage(h||'home');}});
+function closeSiteNav(){
+  var hdr=document.querySelector('#page-home header');
+  var btn=document.querySelector('.nav-toggle');
+  if(hdr)hdr.classList.remove('is-open');
+  if(btn)btn.setAttribute('aria-expanded','false');
+}
+function showPage(id){
+  var PAGES=['home','nc','studio','van','pnw','privacy','purpose'];
+  PAGES.forEach(function(p){var el=document.getElementById('page-'+p);if(el)el.style.display=(p===id)?'block':'none';});
+  closeSiteNav();
+  setTimeout(function(){window.scrollTo(0,0);document.body.scrollTop=0;document.documentElement.scrollTop=0;},20);
+  if(id==='studio'){
+    svBuildShelf();svLoadPoster();SV_MUTED=false;svSyncMuteUI();
+    var _p=document.getElementById('sv-plato'),_i=document.getElementById('sv-iframe');
+    var phone=window.matchMedia('(max-width:900px)').matches;
+    if(phone){
+      if(_p)_p.classList.remove('hidden');
+      if(_i){_i.src='';_i.classList.remove('sv-visible');}
+    }else{
+      if(_p)_p.classList.add('hidden');
+      if(_i){_i.src='https://player.vimeo.com/video/1197477652?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&controls=0';_i.classList.add('sv-visible');_i.onload=function(){if(!SV_MUTED){_i.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:1}),'*');}};}
+    }
+  }
+  if(id!=='studio'){
+    var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');o.unobserve(e.target);}});},{threshold:0.08});
+    document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el){el.classList.remove('visible','in');o.observe(el);});
+  }
+}
+function routeHash(){
+  var h=location.hash.replace('#','');
+  if(['studio','van','privacy','purpose','nc','pnw'].indexOf(h)>-1){showPage(h);return;}
+  showPage('home');
+  if(h){
+    var el=document.getElementById(h);
+    if(el)setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'start'});},40);
+  }
+}
+document.addEventListener('DOMContentLoaded',function(){
+  routeHash();
+  var btn=document.querySelector('.nav-toggle');
+  var hdr=document.querySelector('#page-home header');
+  if(btn&&hdr){
+    btn.addEventListener('click',function(){
+      var open=hdr.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded',open?'true':'false');
+    });
+  }
+  document.querySelectorAll('#site-nav a').forEach(function(a){
+    a.addEventListener('click',function(){closeSiteNav();});
+  });
+});
+window.addEventListener('hashchange',routeHash);
 var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible','in');obs.unobserve(e.target);}});},{threshold:0.08});
 document.querySelectorAll('#page-home .reveal').forEach(function(el){obs.observe(el);});
 function switchTab(id,btn){}
@@ -3515,6 +3664,28 @@ function svPlay(id){var film=null;SV_FILMS.forEach(function(f){if(f.id===id)film
 }
 @media (prefers-reduced-motion: reduce) {
   .van-banner-img { animation: none; }
+}
+
+#page-studio .sv-house-head { margin-bottom: 18px; max-width: 720px; }
+#page-studio .sv-house-line {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px; line-height: 1.6;
+  color: rgba(250,246,238,0.55);
+  margin-top: 8px;
+}
+#page-studio .sv-row { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 900px) {
+  #page-studio .sv-hero {
+    padding-bottom: 0;
+    height: 62vh;
+    min-height: 320px;
+  }
+  #page-studio .sv-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  #page-studio .sv-logos { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  #page-studio .sv-logo-img { height: 22px; width: auto; flex-shrink: 0; }
+  #page-studio .sv-mute-btn { bottom: 16px; right: 16px; padding: 8px 12px; }
+  #page-studio .sv-p-l3 { font-size: clamp(28px, 10vw, 56px); }
+  #page-studio .sv-card:hover { transform: none; }
 }
 </style>
 </body>

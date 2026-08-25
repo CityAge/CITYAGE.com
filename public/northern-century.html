@@ -423,12 +423,54 @@ footer {
 @media(max-width:900px){
   .hero-nav { padding:20px 24px; }
   .hero-content { padding:0 24px 56px; }
-  .intro,.pillars,.why,.cta { padding:64px 24px; }
+  .intro,.pillars,.why,.cta,.room { padding:64px 24px; }
   .intro-grid,.why-grid { grid-template-columns:1fr; gap:44px; }
   .pillars-grid { grid-template-columns:1fr; }
   .img-break-text { left:24px; bottom:32px; }
   .cta-btns { flex-direction:column; align-items:center; }
   footer { flex-direction:column; gap:16px; padding:32px 24px; text-align:center; }
+}
+
+.page-nc .room {
+  padding: 96px 60px;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-top: 1px solid var(--white10);
+}
+.page-nc .room-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0 24px;
+}
+.page-nc .room-table th,
+.page-nc .room-table td {
+  text-align: left;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--white10);
+  vertical-align: top;
+}
+.page-nc .room-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--brass);
+  font-weight: 400;
+}
+.page-nc .room-table td:first-child {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px; font-weight: 300;
+  color: var(--cream);
+  width: 32%;
+  padding-right: 20px;
+}
+.page-nc .room-table td {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px; line-height: 1.65;
+  color: var(--cream-dim);
+}
+.page-nc .room-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--grey);
 }
 
 
@@ -667,6 +709,43 @@ footer {
   </div>
 </section>
 
+
+<!-- ════════════════════════════════════════
+     THE ROOM — table can take a seating chart later
+     ════════════════════════════════════════ -->
+<section class="room">
+  <div class="reveal">
+    <span class="section-label">The Room</span>
+    <h2 class="intro-h2">One table. The northern <em>hemisphere.</em></h2>
+    <table class="room-table">
+      <thead>
+        <tr>
+          <th>The table</th>
+          <th>Who sits</th>
+          <th>Door</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>The room</td>
+          <td>Commanders, ministers, capital, scientists — Chatham House</td>
+          <td>By invitation</td>
+        </tr>
+        <tr>
+          <td>Ottawa</td>
+          <td>Flagship node · Arctic file, NORAD, critical minerals</td>
+          <td>Talk to CityAge</td>
+        </tr>
+        <tr>
+          <td>Washington / Europe</td>
+          <td>The franchise travels · defence, space, capital</td>
+          <td>Coming</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="room-note">The seating table publishes here when the next convening is called. Until then, the door is Miro.</p>
+  </div>
+</section>
 
 <!-- ════════════════════════════════════════
      CTA
