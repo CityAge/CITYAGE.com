@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Advisory — CityAge</title>
+  <meta name="description" content="Bespoke, deeply researched campaigns for leaders and organizations whose work deserves to be understood. The private advisory practice of CityAge." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0A0908;
+      --cream: #FAF6EE;
+      --cream-deep: #F2EDE2;
+      --brass: #B8956A;
+      --brass-deep: #8C6B48;
+      --text: #2A2520;
+      --text-dim: rgba(42,37,32,0.65);
+    }
+
+    html { font-size: 16px; }
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid rgba(42,37,32,0.1);
+      padding: 0 48px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-logo {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px; font-weight: 400; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--ink);
+      text-decoration: none;
+    }
+    .door-nav {
+      display: flex; align-items: center; gap: 20px;
+    }
+    .door-nav a {
+      font-family: 'DM Mono', monospace;
+      font-size: 8.5px; letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(10,9,8,0.42);
+      text-decoration: none;
+    }
+    .door-nav a:hover, .door-nav a.active { color: var(--ink); }
+    .nav-toggle {
+      display: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid rgba(184,149,106,0.45);
+      color: var(--ink);
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    @media (max-width: 960px) {
+      .nav-toggle { display: block; }
+      .door-nav {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        background: var(--cream);
+        border-bottom: 1px solid rgba(10,9,8,0.1);
+        padding: 8px 0 16px;
+        z-index: 99;
+      }
+      .site-header.is-open .door-nav { display: flex; }
+      .door-nav a { display: block; padding: 12px 24px; }
+    }
+
+    /* ── HERO ── */
+    .thesis-hero {
+      position: relative;
+      height: 55vh; min-height: 380px; max-height: 580px;
+      overflow: hidden;
+      margin-top: 64px;
+    }
+    .thesis-hero-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 45%;
+      filter: brightness(0.55);
+    }
+    .thesis-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,9,8,0.1) 0%,
+        rgba(10,9,8,0.5) 70%,
+        rgba(250,246,238,0.95) 100%
+      );
+    }
+    .thesis-hero-content {
+      position: absolute; bottom: 60px; left: 0; right: 0;
+      text-align: center; padding: 0 48px;
+    }
+    .thesis-hero-kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--brass);
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .thesis-hero-kicker::before,
+    .thesis-hero-kicker::after {
+      content: ''; display: block;
+      width: 28px; height: 1px; background: var(--brass);
+    }
+    .thesis-hero-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(30px, 4.2vw, 54px);
+      font-weight: 300; font-style: italic;
+      color: var(--cream); line-height: 1.18;
+      max-width: 880px; margin: 0 auto;
+    }
+
+    /* ── BODY ── */
+    .thesis-body {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 80px 48px 120px;
+    }
+
+    .thesis-pull {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 300; font-style: italic;
+      line-height: 1.55; color: var(--ink);
+      border-left: 3px solid var(--brass);
+      padding-left: 28px;
+      margin-bottom: 56px;
+    }
+
+    .thesis-section-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.26em;
+      text-transform: uppercase; color: var(--brass);
+      display: block; margin-bottom: 20px;
+    }
+
+    .thesis-h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 300; line-height: 1.2;
+      color: var(--ink); margin-bottom: 28px;
+    }
+
+    .thesis-p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 17px; line-height: 1.85;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .thesis-divider {
+      width: 48px; height: 2px;
+      background: var(--brass);
+      margin: 56px 0;
+    }
+
+    .thesis-author {
+      display: flex; align-items: center; gap: 16px;
+      padding-top: 56px;
+      border-top: 1px solid rgba(42,37,32,0.12);
+      margin-top: 56px;
+    }
+    .author-initial {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(10,9,8,0.06);
+      border: 1px solid rgba(10,9,8,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic; font-size: 18px; color: var(--ink);
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 500;
+      color: var(--ink); display: block; margin-bottom: 3px;
+    }
+    .author-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--text-dim);
+    }
+
+    .thesis-cta {
+      display: inline-block; margin-top: 56px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      background: var(--ink); color: var(--cream);
+      padding: 16px 32px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .thesis-cta:hover { background: var(--brass-deep); }
+
+    .hero-cta {
+      display: inline-block; margin-top: 28px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--cream);
+      border: 1px solid rgba(250,246,238,0.45);
+      background: transparent;
+      padding: 12px 26px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .hero-cta:hover { border-color: var(--brass); color: var(--brass); }
+
+    @media (max-width: 640px) {
+      .site-header { padding: 0 24px; }
+      .thesis-body { padding: 56px 24px 80px; }
+      .thesis-hero-content { padding: 0 24px; bottom: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/" class="header-logo">CityAge</a>
+    <nav class="door-nav" id="site-nav" aria-label="Primary">
+      <a href="/purpose">Purpose</a>
+      <a href="/#forums">Forums</a>
+      <a href="/partnerships.html">Partnerships</a>
+      <a href="/#studio">CityAge Studio</a>
+      <a href="/advisory.html" class="active">Private Advisory</a>
+      <a href="/#network">Network</a>
+      <a href="/people.html">Contributors</a>
+      <a href="/#news">News</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  </header>
+
+  <section class="thesis-hero">
+    <img src="/vancouver-banner.jpg" alt="City skyline at dusk" class="thesis-hero-img" />
+    <div class="thesis-hero-overlay"></div>
+    <div class="thesis-hero-content">
+      <span class="thesis-hero-kicker">Private Advisory</span>
+      <h1 class="thesis-hero-title">Show the public benefit of a project, an idea, or a technology — and the world wants you to build it.</h1>
+      <a href="/contact.html" class="hero-cta">Enquire</a>
+    </div>
+  </section>
+
+  <article class="thesis-body">
+
+    <span class="thesis-section-title">The Roots</span>
+    <h2 class="thesis-h2">A lesson learned in the field.</h2>
+
+    <p class="thesis-p">
+      Miro Cernetig spent his career as a foreign correspondent and bureau chief
+      for The Globe and Mail — in Beijing, New York, Alberta, the Arctic, and Vancouver.
+      Those postings — from China's rise to Canada's energy heartland to the High North —
+      taught a lasting lesson: narrative that serves the public interest is the most
+      powerful force in moving governments, markets, and minds.
+    </p>
+
+    <p class="thesis-p">
+      That conviction, recognized with Canada's Michener Award for public-service
+      journalism, is the foundation of this practice.
+    </p>
+
+    <div class="thesis-divider"></div>
+
+    <span class="thesis-section-title">The Practice</span>
+    <h2 class="thesis-h2">Not noise. Signal.</h2>
+
+    <p class="thesis-p">
+      CityAge builds bespoke, deeply researched campaigns for leaders and organizations
+      whose work deserves to be understood. Each engagement begins with original
+      research and ends with a narrative that can stand up in a newsroom, a boardroom,
+      or a legislature.
+    </p>
+
+    <div class="thesis-divider"></div>
+
+    <span class="thesis-section-title">The Network</span>
+    <h2 class="thesis-h2">The best minds, at the table.</h2>
+
+    <p class="thesis-p">
+      Three decades in journalism, and fifteen years convening CityAge's network of
+      25,000 leaders across government, capital, and industry, mean one more thing:
+      for any consequential project, we know how to find the best minds and bring
+      them to the table.
+    </p>
+
+    <div class="thesis-divider"></div>
+
+    <span class="thesis-section-title">A Record of Consequence</span>
+
+    <blockquote class="thesis-pull">
+      The engagements are private. The results are public.
+    </blockquote>
+
+    <p class="thesis-p">
+      Wrote, with a team, the brand story for Foster's wine business as it became
+      Treasury Wine Estates. Served on the team advising Grosvenor Americas on major
+      real estate projects in Silicon Valley, San Francisco, and Vancouver. Helped
+      change an airline safety regulation most believed couldn't be moved. Guided
+      senior figures through crisis moments.
+    </p>
+
+    <p class="thesis-p">
+      Served as adjudicator for one of Canada's leading scholarship foundations,
+      helping award millions of dollars to top scholars. Led the campaign that made
+      Pacific salmon the official fish of British Columbia. Told clients' stories
+      through the world's leading media brands.
+    </p>
+
+    <div class="thesis-author">
+      <div class="author-initial">M</div>
+      <div>
+        <span class="author-name">Miro Cernetig</span>
+        <span class="author-title">Founder, CEO &amp; Publisher — CityAge</span>
+      </div>
+    </div>
+
+    <a href="/contact.html" class="thesis-cta">Enquire →</a>
+
+  </article>
+  <script>
+    (function(){
+      var header = document.querySelector('.site-header');
+      var btn = document.querySelector('.nav-toggle');
+      if (!header || !btn) return;
+      btn.addEventListener('click', function(){
+        var open = header.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    })();
+  </script>
+</body>
+</html>

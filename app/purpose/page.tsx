@@ -6,7 +6,7 @@ import { MagazineFooter } from '@/components/magazine-footer'
 
 export const metadata: Metadata = {
   title: 'Purpose — CityAge',
-  description: 'CityAge connects the leaders building The Urban Planet. A global intelligence platform for decision-makers across cities, defence, investment, technology, space and climate.',
+  description: 'CityAge. Intelligence for the urban planet. Everything happens on the earth’s 2 percent.',
 }
 
 const partners = [
@@ -77,7 +77,7 @@ export default function PurposePage() {
               We discovered something larger.
             </h1>
             <p className="font-serif text-white/60 text-[17px] md:text-[19px] leading-[1.72] max-w-[680px]">
-              The Urban Planet is three per cent of Earth's surface. It is where 75 per cent of people live, where 75 per cent of global GDP is created, and where the defining ideas of our age take form — from artificial intelligence to the space economy, from climate to defence, from the future of democracy to the future of capital.
+              CityAge. Intelligence for the urban planet. Everything happens on the earth’s 2 percent. It is where 75 per cent of people live, where 75 per cent of global GDP is created, and where the defining ideas of our age take form — from artificial intelligence to the space economy, from climate to defence, from the future of democracy to the future of capital.
             </p>
           </div>
         </section>
@@ -88,7 +88,7 @@ export default function PurposePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-black/10">
               {[
                 { num: '25,000+', label: 'Leaders in our network' },
-                { num: '100+', label: 'Events worldwide' },
+                { num: '100+', label: 'Forums worldwide' },
                 { num: '50+', label: 'Cities represented' },
                 { num: '2012', label: 'Est. Vancouver' },
               ].map((stat, i) => (
