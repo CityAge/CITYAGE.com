@@ -7,13 +7,9 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rniqmxpmtq
 const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
 const PAGE = 1000
 
-function initials(name: string) {
-  return name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()
-}
-
 function Face({ speaker }: { speaker: SpeakerFace }) {
-  const [broken, setBroken] = useState(false)
-  const showPhoto = Boolean(speaker.headshot_url) && !broken
+  const [hidden, setHidden] = useState(false)
+  if (hidden || !speaker.headshot_url) return null
 
   return (
     <a
@@ -22,19 +18,13 @@ function Face({ speaker }: { speaker: SpeakerFace }) {
       target={speaker.linkedin_url ? '_blank' : undefined}
       rel={speaker.linkedin_url ? 'noopener noreferrer' : undefined}
     >
-      {showPhoto ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={speaker.headshot_url!}
-          alt={speaker.name}
-          loading="lazy"
-          onError={() => setBroken(true)}
-        />
-      ) : (
-        <div className="speakers-reel-placeholder">
-          <span>{initials(speaker.name)}</span>
-        </div>
-      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={speaker.headshot_url}
+        alt={speaker.name}
+        loading="lazy"
+        onError={() => setHidden(true)}
+      />
       <div className="speakers-reel-overlay">
         <div className="speakers-reel-name">{speaker.name}</div>
         {speaker.organisation && (
@@ -79,7 +69,7 @@ async function fetchFaces(): Promise<SpeakerFace[]> {
   const faces: SpeakerFace[] = []
   for (let from = 0; ; from += PAGE) {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/speakers?select=id,name,title,organisation,headshot_url,linkedin_url&order=id`,
+      `${SUPABASE_URL}/rest/v1/speakers?select=id,name,title,organisation,headshot_url,linkedin_url&headshot_url=not.is.null&order=id`,
       {
         headers: {
           apikey: ANON_KEY,
@@ -97,8 +87,8 @@ async function fetchFaces(): Promise<SpeakerFace[]> {
 
   const seen = new Set<string>()
   const unique = faces.filter((s) => {
-    if (!s.name || seen.has(s.name)) return false
-    seen.add(s.name)
+    if (!s.headshot_url || seen.has(s.headshot_url)) return false
+    seen.add(s.headshot_url)
     return true
   })
 

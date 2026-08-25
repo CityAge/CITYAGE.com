@@ -4,7 +4,8 @@ import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { HeroGrid } from '@/components/hero-grid'
 import { SpeakersReel } from '@/components/speakers-reel'
-import { ROOM_PIECES, STUDIO_FILMS } from '@/lib/rooms'
+import { StudioHouse } from '@/components/studio-house'
+import { ROOM_PIECES } from '@/lib/rooms'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
@@ -266,36 +267,11 @@ export default async function Home() {
           />
         </div>
 
-        <section id="studio" className="border-b border-black/10 px-6 md:px-10">
-          <div className="flex items-baseline justify-between pt-14 pb-8">
-            <h3 className="font-serif font-black text-2xl tracking-tight">
-              Studio
-            </h3>
-            <a href="/people.html" className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
-              The Network
-            </a>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-14">
-            {STUDIO_FILMS.map((film) => (
-              <a key={film.id} href={film.href} target="_blank" rel="noopener noreferrer" className="block group">
-                <div className="w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={film.image}
-                    alt={film.title}
-                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
-                  />
-                </div>
-                <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/70">
-                  {film.type}
-                </span>
-                <h3 className="font-serif font-bold text-[17px] leading-snug tracking-tight mt-2 group-hover:text-[#1A365D] transition-colors">
-                  {film.title}
-                </h3>
-              </a>
-            ))}
-          </div>
-        </section>
+      </main>
+
+      <StudioHouse />
+
+      <main className="max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
 
         {featuredArticles.length > 0 && (
           <section className="border-b border-black/10 px-6 md:px-10">

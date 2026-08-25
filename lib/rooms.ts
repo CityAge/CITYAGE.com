@@ -46,34 +46,3 @@ export const ROOM_PIECES: PaperPiece[] = [
     readTime: 'The room',
   },
 ]
-
-export const STUDIO_FILMS = [
-  {
-    id: 'facing-saddam',
-    title: 'Facing Saddam',
-    type: 'Documentary Feature',
-    href: '/facing-saddam-still.png',
-    image: '/facing-saddam-thumb.png',
-  },
-  {
-    id: 'best-day-ever',
-    title: 'Best Day Ever',
-    type: 'Short Film · Doug Coupland',
-    href: 'https://vimeo.com/393076418',
-    image: '/best-day-ever-thumb.jpg',
-  },
-  {
-    id: 'sketch-in-the-city',
-    title: 'Sketch In The City',
-    type: 'Short Film',
-    href: 'https://vimeo.com/241956203',
-    image: '/sketch-in-the-city-thumb.jpg',
-  },
-  {
-    id: 'west-coast-modernism',
-    title: 'West Coast Modernism',
-    type: 'Documentary Short',
-    href: 'https://vimeo.com/287190902',
-    image: '/grosvenor-thumb.jpg',
-  },
-]

@@ -606,7 +606,7 @@ async function loadSpeakers() {
     let data = [];
     while (true) {
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/speakers?select=name,title,organisation,headshot_url,linkedin_url&order=id`,
+        `${SUPABASE_URL}/rest/v1/speakers?select=name,title,organisation,headshot_url,linkedin_url&headshot_url=not.is.null&order=id`,
         {
           headers: {
             apikey: ANON_KEY,
@@ -622,11 +622,10 @@ async function loadSpeakers() {
       from += pageSize;
     }
 
-    // Deduplicate by name
     const seen = new Set();
     ALL_SPEAKERS = data.filter(s => {
-      if (seen.has(s.name)) return false;
-      seen.add(s.name);
+      if (!s.headshot_url || seen.has(s.headshot_url)) return false;
+      seen.add(s.headshot_url);
       return true;
     });
 

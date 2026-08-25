@@ -296,6 +296,106 @@
 @media (prefers-reduced-motion: reduce) {
   .speakers-reel-track { animation: none !important; }
 }
+
+.studio-house {
+  background: #0A0908;
+  color: #FAF6EE;
+  width: 100%;
+}
+.studio-house-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 36px 24px 48px;
+}
+.studio-house-rule {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.studio-house-rule h3 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #FAF6EE;
+}
+.studio-house-rule span {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(250, 246, 238, 0.4);
+}
+.studio-house-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+.studio-house-stage iframe,
+.studio-house-stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+.studio-house-now {
+  margin: 14px 0 22px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 18px;
+  color: #FAF6EE;
+}
+.studio-house-now span {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #C5A059;
+  margin-bottom: 4px;
+}
+.studio-house-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.studio-house-thumbs button {
+  background: #120f0b;
+  border: 1px solid #2e2418;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: #FAF6EE;
+}
+.studio-house-thumbs button.is-active {
+  border-color: #C5A059;
+}
+.studio-house-thumbs img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) brightness(0.85);
+}
+.studio-house-thumbs button.is-active img,
+.studio-house-thumbs button:hover img {
+  filter: none;
+}
+.studio-house-thumbs span {
+  display: block;
+  padding: 8px 10px 10px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 13px;
+}
+@media (max-width: 767px) {
+  .studio-house-inner { padding: 28px 16px 36px; }
+  .studio-house-thumbs { grid-template-columns: repeat(2, 1fr); }
+}
 @keyframes count-up {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }

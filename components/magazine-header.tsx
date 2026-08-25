@@ -41,7 +41,7 @@ export function MagazineHeader() {
           <div className="flex items-center gap-4 md:gap-6">
             <button
               type="button"
-              className="flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity"
+              className="lg:hidden flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
               aria-controls="house-menu"
@@ -144,13 +144,13 @@ export function MagazineHeader() {
 
       {/* ─── VERTICAL NAV ─── */}
       <div className="border-b-2 border-black px-4 md:px-12">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
+        <div className="max-w-[1400px] mx-auto flex items-center justify-between md:justify-center overflow-x-auto md:overflow-visible">
           {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
             <div key={name} className="flex items-center shrink-0">
-              {i > 0 && <span className="text-black/60 mx-4 md:mx-6 text-base font-normal">|</span>}
+              {i > 0 && <span className="text-black/60 mx-1.5 sm:mx-3 md:mx-6 text-[11px] md:text-base font-normal">|</span>}
               <a
                 href={`#${name.toLowerCase()}`}
-                className="px-3 md:px-5 py-4 text-[14px] md:text-[16px] font-black tracking-[0.15em] uppercase text-black hover:opacity-50 transition-opacity"
+                className="px-1 sm:px-3 md:px-5 py-3 md:py-4 text-[11px] sm:text-[13px] md:text-[16px] font-black tracking-[0.08em] md:tracking-[0.15em] uppercase text-black hover:opacity-50 transition-opacity"
               >
                 {name}
               </a>
