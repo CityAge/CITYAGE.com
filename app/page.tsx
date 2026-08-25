@@ -4,7 +4,6 @@ import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { HeroGrid } from '@/components/hero-grid'
 import { SpeakersReel } from '@/components/speakers-reel'
-import { loadSpeakerFaces } from '@/lib/speakers'
 import { ROOM_PIECES, STUDIO_FILMS } from '@/lib/rooms'
 
 export const revalidate = 60
@@ -42,7 +41,6 @@ function roomStories(): PaperStory[] {
 
 export default async function Home() {
   let articles: PaperStory[] = []
-  const speakers = await loadSpeakerFaces()
 
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -170,7 +168,7 @@ export default async function Home() {
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
 
-      <SpeakersReel speakers={speakers} />
+      <SpeakersReel />
 
       <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
         <div id="forums">

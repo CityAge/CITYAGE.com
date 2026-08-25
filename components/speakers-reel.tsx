@@ -1,7 +1,11 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { SpeakerFace } from '@/lib/speakers'
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rniqmxpmtqmnwqtawlnz.supabase.co'
+const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
+const PAGE = 1000
 
 function initials(name: string) {
   return name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()
@@ -71,8 +75,50 @@ function ReelRow({
   )
 }
 
-export function SpeakersReel({ speakers }: { speakers: SpeakerFace[] }) {
-  if (speakers.length === 0) return null
+async function fetchFaces(): Promise<SpeakerFace[]> {
+  const faces: SpeakerFace[] = []
+  for (let from = 0; ; from += PAGE) {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/speakers?select=id,name,title,organisation,headshot_url,linkedin_url&order=id`,
+      {
+        headers: {
+          apikey: ANON_KEY,
+          Authorization: `Bearer ${ANON_KEY}`,
+          Range: `${from}-${from + PAGE - 1}`,
+        },
+      },
+    )
+    if (!res.ok) break
+    const chunk = (await res.json()) as SpeakerFace[]
+    if (!Array.isArray(chunk) || chunk.length === 0) break
+    faces.push(...chunk)
+    if (chunk.length < PAGE) break
+  }
+
+  const seen = new Set<string>()
+  const unique = faces.filter((s) => {
+    if (!s.name || seen.has(s.name)) return false
+    seen.add(s.name)
+    return true
+  })
+
+  for (let i = unique.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[unique[i], unique[j]] = [unique[j], unique[i]]
+  }
+  return unique
+}
+
+export function SpeakersReel() {
+  const [speakers, setSpeakers] = useState<SpeakerFace[]>([])
+
+  useEffect(() => {
+    let alive = true
+    fetchFaces().then((faces) => {
+      if (alive) setSpeakers(faces)
+    }).catch(() => {})
+    return () => { alive = false }
+  }, [])
 
   const mid = Math.ceil(speakers.length / 2)
   const rowA = speakers.slice(0, mid)
@@ -85,12 +131,22 @@ export function SpeakersReel({ speakers }: { speakers: SpeakerFace[] }) {
           The CityAge Contributors
         </a>
         <span className="speakers-reel-count">
-          {speakers.length.toLocaleString()} faces
+          {speakers.length > 0 ? `${speakers.length.toLocaleString()} faces` : 'The reel'}
         </span>
       </div>
       <div className="speakers-reel-stack">
-        <ReelRow speakers={rowA} direction="left" duration={95} />
-        <ReelRow speakers={rowB} direction="right" duration={115} />
+        {speakers.length === 0 ? (
+          <div className="speakers-reel-section speakers-reel-left">
+            <div className="speakers-reel-outer">
+              <div className="speakers-reel-track" style={{ minHeight: 86 }} />
+            </div>
+          </div>
+        ) : (
+          <>
+            <ReelRow speakers={rowA} direction="left" duration={95} />
+            <ReelRow speakers={rowB} direction="right" duration={115} />
+          </>
+        )}
       </div>
     </section>
   )
