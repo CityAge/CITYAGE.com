@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Purpose — The Urban Planet — CityAge</title>
-  <meta name="description" content="The Urban Planet: cities, regions, even small hamlets in the Arctic — built on 3 per cent of the planet, producing more than 80% of its GDP. CityAge convenes the leaders deciding what gets built there." />
+  <meta name="description" content="The Urban Planet: cities, regions, even small hamlets in the Arctic — built on 2 percent of the planet. Everything happens on the earth’s 2%." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,23 +16,23 @@
       --cream: #FAF6EE;
       --brass: #B8956A;
       --brass-deep: #8C6B48;
-      --white10: rgba(250,246,238,0.1);
+      --white10: rgba(10,9,8,0.1);
     }
 
     html { font-size: 16px; }
     body {
-      background: var(--ink);
-      color: var(--cream);
-      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Lora', Georgia, serif;
       -webkit-font-smoothing: antialiased;
     }
 
     /* ── HEADER ── */
     .site-header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(10,9,8,0.92);
+      background: rgba(250,246,238,0.94);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--white10);
+      border-bottom: 1px solid rgba(10,9,8,0.1);
       padding: 0 48px;
       height: 64px;
       display: flex; align-items: center; justify-content: space-between;
@@ -40,13 +40,13 @@
     .header-logo {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 18px; font-weight: 400; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--cream);
+      text-transform: uppercase; color: var(--ink);
       text-decoration: none;
     }
     .header-back {
       font-family: 'DM Mono', monospace;
       font-size: 9px; letter-spacing: 0.22em;
-      text-transform: uppercase; color: rgba(250,246,238,0.5);
+      text-transform: uppercase; color: rgba(10,9,8,0.45);
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -73,7 +73,7 @@
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(48px, 8vw, 96px);
       font-weight: 300; line-height: 1.02;
-      color: var(--cream);
+      color: var(--ink);
       margin-bottom: 32px;
     }
     .open h1 em { font-style: italic; color: var(--brass); }
@@ -82,7 +82,7 @@
       font-size: clamp(20px, 2.6vw, 27px);
       font-weight: 300; font-style: italic;
       line-height: 1.55;
-      color: rgba(250,246,238,0.78);
+      color: rgba(10,9,8,0.72);
       max-width: 640px;
     }
 
@@ -98,7 +98,7 @@
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(250,246,238,0.4);
+      color: rgba(10,9,8,0.4);
       text-align: center;
       padding: 18px 48px 0;
     }
@@ -115,7 +115,7 @@
       font-size: clamp(24px, 3.4vw, 34px);
       font-weight: 300; font-style: italic;
       line-height: 1.55;
-      color: var(--cream);
+      color: var(--ink);
       border-left: 3px solid var(--brass);
       padding-left: 30px;
       margin-bottom: 24px;
@@ -124,7 +124,7 @@
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(250,246,238,0.45);
+      color: rgba(10,9,8,0.45);
       padding-left: 33px;
       margin-bottom: 72px;
     }
@@ -132,7 +132,7 @@
     .thesis-p {
       font-family: 'DM Sans', sans-serif;
       font-size: 19px; line-height: 1.85;
-      color: rgba(250,246,238,0.78);
+      color: rgba(10,9,8,0.72);
       margin-bottom: 28px;
     }
 
@@ -166,14 +166,14 @@
     .stat-num {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(30px, 3.6vw, 44px);
-      font-weight: 300; color: var(--cream);
+      font-weight: 300; color: var(--ink);
       display: block; line-height: 1; margin-bottom: 10px;
     }
     .stat-label {
       font-family: 'DM Mono', monospace;
       font-size: 9px; letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(250,246,238,0.45);
+      color: rgba(10,9,8,0.45);
       line-height: 1.6;
     }
 
@@ -186,7 +186,7 @@
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: clamp(32px, 5vw, 56px);
       font-weight: 300; line-height: 1.3;
-      color: var(--cream);
+      color: var(--ink);
       margin-bottom: 48px;
     }
     .close-line em { font-style: italic; color: var(--brass); }
@@ -195,8 +195,8 @@
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: var(--cream);
-      border: 1px solid rgba(250,246,238,0.35);
+      color: var(--ink);
+      border: 1px solid rgba(10,9,8,0.28);
       padding: 16px 36px;
       text-decoration: none;
       transition: border-color 0.2s, color 0.2s;
@@ -253,7 +253,7 @@
     <h1>The Urban <em>Planet.</em></h1>
     <p class="founding-line">
       This is the image CityAge was founded on, fifteen years ago.
-      The Earth at night. Three per cent of the surface.
+      The Earth at night. Two percent of the surface.
       A single web of light.
     </p>
   </section>
@@ -267,14 +267,14 @@
 
     <blockquote class="quote reveal">
       &ldquo;Cities, regions, even small hamlets in the Arctic &mdash; built on
-      3&nbsp;per&nbsp;cent of the planet, producing more than 80% of its GDP.
+      2&nbsp;percent of the planet, producing more than 80% of its GDP.
       Every structural challenge of our era &mdash; climate, capital,
       sovereignty &mdash; gets solved or doesn&rsquo;t get solved there.&rdquo;
     </blockquote>
     <p class="quote-attrib reveal">Miro Cernetig — Founder, CEO &amp; Publisher</p>
 
     <p class="thesis-p reveal">
-      The Urban Planet is the three per cent of the Earth where people mostly
+      The Urban Planet is the two percent of Earth where people mostly
       are &mdash; and where innovation and investment happens. Sometimes it&rsquo;s
       a vast urban region. Sometimes it&rsquo;s a small and distant place. All of
       it is connected &mdash; through modern technology and human endeavour &mdash;
@@ -314,7 +314,7 @@
         <span class="stat-label">Verified decision-makers</span>
       </div>
       <div class="stat">
-        <span class="stat-num">3%</span>
+        <span class="stat-num">2%</span>
         <span class="stat-label">Of the Earth. Most of what matters.</span>
       </div>
     </div>
@@ -323,11 +323,11 @@
 
   <section class="close">
     <p class="close-line reveal">
-      Three per cent of the Earth.<br/>
+      Two percent of Earth.<br/>
       Most of what matters.<br/>
       <em>We work there.</em>
     </p>
-    <a href="/contact.html" class="close-cta">Talk to Miro →</a>
+    <a href="/contact.html" class="close-cta">Contact →</a>
   </section>
 
 
