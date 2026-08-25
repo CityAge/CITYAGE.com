@@ -86,11 +86,6 @@
   white-space: nowrap;
 }
 
-.cover-paper {
-  container-type: inline-size;
-  container-name: cover-paper;
-}
-
 .cover-wordmark {
   font-family: var(--font-display);
   font-weight: 900;
@@ -99,7 +94,13 @@
   line-height: 0.82;
   white-space: nowrap;
   overflow: visible;
-  font-size: clamp(2.7rem, 12.4cqw, 4.5rem);
+  font-size: 3rem;
+}
+
+@media (min-width: 1280px) {
+  .cover-wordmark {
+    font-size: 3.85rem;
+  }
 }
 
 .tagline-lock {
