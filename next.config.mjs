@@ -20,12 +20,8 @@ const nextConfig = {
         // beverlyhills.cityage.com → /daybreak/beverlyhills
 
         // ── FRONT DOOR ──
-        // The locked CityAge design (Ink/Cream/Brass) is the site.
-        // The magazine build remains intact at its own routes for future use.
-        {
-          source: '/',
-          destination: '/cityage-FINAL.html',
-        },
+        // / is the magazine homepage (app/page.tsx).
+        // The locked Ink/Cream/Brass build remains at /cityage-FINAL.html.
         // Purpose: locked-design page (overrides the magazine app route)
         {
           source: '/purpose',
@@ -36,9 +32,11 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Clean URLs → locked-design pages
+      // Clean URLs → existing room / locked-design pages
       { source: '/home', destination: '/', permanent: false },
       { source: '/the-next-vancouver', destination: '/next-vancouver.html', permanent: false },
+      { source: '/next-vancouver', destination: '/next-vancouver.html', permanent: false },
+      { source: '/northern-century', destination: '/northern-century.html', permanent: false },
       { source: '/contributors', destination: '/people.html', permanent: false },
       { source: '/private-advisory', destination: '/advisory.html', permanent: false },
     ]
