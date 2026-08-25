@@ -6,7 +6,7 @@ import { frontHeadlines, frontLead, railHeadlines, type FrontHeadline } from '@/
 function HeadlineLine({ item }: { item: FrontHeadline }) {
   const mark = (
     <>
-      <span className="font-serif font-black text-[1.15rem] md:text-[1.28rem] leading-[1.22] tracking-tight">
+      <span className="font-display font-black text-[1.15rem] md:text-[1.28rem] leading-[1.22] tracking-tight">
         {item.title}
       </span>
       {item.byline && (
@@ -58,7 +58,7 @@ export function FrontPage() {
 
           <article className="mt-4 md:mt-5 md:grid md:grid-cols-[minmax(0,1fr)_10.75rem] md:gap-8 md:items-start">
             <div>
-              <h1 className="font-serif font-black text-[2.05rem] sm:text-[2.45rem] md:text-[2.85rem] leading-[1.02] tracking-tight">
+              <h1 className="font-display font-black text-[2.05rem] sm:text-[2.45rem] md:text-[2.85rem] leading-[1.02] tracking-tight">
                 <Link href={frontLead.href} className="hover:underline underline-offset-4">
                   {frontLead.title}
                 </Link>
