@@ -36,10 +36,7 @@ export function SubscribeDoor() {
 
   return (
     <>
-      <p className="font-serif text-[15px] text-black/55 leading-[1.65] max-w-[28em]">
-        Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
-      </p>
-      <form onSubmit={onSubmit} className="mt-5 flex flex-col sm:flex-row gap-2 max-w-[420px]">
+      <form onSubmit={onSubmit} className="flex flex-col sm:flex-row gap-2 max-w-[420px]">
         <input
           type="text"
           name="website"

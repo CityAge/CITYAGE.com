@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 // When compressed, header height is exactly: utility(36) + masthead(48) + nav(40) = 124px
 export const HEADER_COMPRESSED_HEIGHT = 124
 
-export function MagazineHeader() {
+export function MagazineHeader({ issue = false }: { issue?: boolean }) {
   const [isCompressed, setIsCompressed] = useState(false)
 
   useEffect(() => {
@@ -14,10 +14,26 @@ export function MagazineHeader() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const rail = issue
+    ? [
+        { name: 'Power', href: '#letter' },
+        { name: 'Money', href: '#letter' },
+        { name: 'Cities', href: '#vancouver' },
+        { name: 'Frontiers', href: '#cover' },
+        { name: 'Culture', href: '#lockup' },
+      ]
+    : [
+        { name: 'Power', href: '/influence/canada-europe-connects' },
+        { name: 'Money', href: '/influence/canada-europe-connects' },
+        { name: 'Cities', href: '/next-vancouver' },
+        { name: 'Frontiers', href: '/northern-century' },
+        { name: 'Culture', href: '/purpose' },
+      ]
+
   return (
     <header className="sticky top-0 z-[100] bg-[#F9F9F7]">
 
-      {/* ─── TOP UTILITY BAR — hidden when compressed ─── */}
+      {!issue && (
       <div className={`border-b border-black/15 px-6 md:px-12 py-2 transition-all duration-200 ${isCompressed ? 'hidden' : ''}`}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-5 md:gap-7">
@@ -43,6 +59,7 @@ export function MagazineHeader() {
           </div>
         </div>
       </div>
+      )}
 
       {/* ─── MASTHEAD: two states, snaps instantly ─── */}
       <div className={`border-b border-black px-6 md:px-12 transition-all duration-200 ${isCompressed ? 'py-2' : 'py-8 md:py-12'}`}>
@@ -76,13 +93,7 @@ export function MagazineHeader() {
       {/* ─── VERTICAL NAV ─── */}
       <div className="border-b-2 border-black px-4 md:px-12">
         <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
-          {[
-            { name: 'Power', href: '/influence/canada-europe-connects' },
-            { name: 'Money', href: '/influence/canada-europe-connects' },
-            { name: 'Cities', href: '/next-vancouver' },
-            { name: 'Frontiers', href: '/northern-century' },
-            { name: 'Culture', href: '/purpose' },
-          ].map((item, i) => (
+          {rail.map((item, i) => (
             <div key={item.name} className="flex items-center shrink-0">
               {i > 0 && <span className="text-black/60 mx-4 md:mx-6 text-base font-normal">|</span>}
               <a
