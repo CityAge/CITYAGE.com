@@ -115,7 +115,7 @@ export default function HomePage() {
           <div className="hero-grid">
             <div className="hero-copy" data-reveal>
               <p className="eyebrow">Sunday · May 3, 2026</p>
-              <h1>The 3% of Earth that runs the world.</h1>
+              <h1>We live on the urban planet. Two percent of Earth. Everything happens here.</h1>
               <p className="hero-subhead">
                 The continuous intelligence brief on the Urban Planet — where
                 75%+ of global GDP, population and consumption is concentrated.
