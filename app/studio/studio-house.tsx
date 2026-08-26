@@ -27,28 +27,28 @@ const LOGOS = [
   'canal.jpg',
   'victoria.jpg',
   '60.jpg',
-].map((file) => `https://cityage.com/wp-content/uploads/${file}`)
+].map((file) => `/studio/logos/${file}`)
 
 const FILMS = [
   {
     title: 'Facing Saddam',
     deck: "A sobering depiction of the 'Butcher of Baghdad', cast in the hollows of the impressions he left on survivors of both his terror and his love.",
-    poster: 'https://cityage.com/wp-content/uploads/posters-saddam.jpg',
+    poster: '/studio/posters-saddam.jpg',
     trailer: null as null | { kind: 'hosted' | 'youtube'; src: string },
   },
   {
     title: 'Solar Earth',
     deck: 'Corporate Video for Solar Earth Canada',
-    poster: 'https://cityage.com/wp-content/uploads/posters-solarearth.jpg',
+    poster: '/studio/posters-solarearth.jpg',
     trailer: {
       kind: 'hosted' as const,
-      src: 'https://cityage.com/wp-content/uploads/Solar-Earth.mp4',
+      src: '/studio/Solar-Earth.mp4',
     },
   },
   {
     title: "Giltrude's Dwelling",
     deck: 'Orphaned at the age of 11, Giltrude, an interdimensional shut-in, has waited 15 years for her parents to come home. When a life or death dilemma comes knocking, Giltrude must look beyond her front door and face the outside universe.',
-    poster: 'https://cityage.com/wp-content/uploads/posters-giltrude.jpg',
+    poster: '/studio/posters-giltrude.jpg',
     trailer: {
       kind: 'youtube' as const,
       src: 'https://www.youtube.com/embed/WHe2jtngaSY?autoplay=1',
@@ -109,8 +109,8 @@ export function StudioHouse() {
       <section className="studio-live-hero" aria-label="CityAge Studio">
         {playingHero ? (
           <video
-            src="https://cityage.com/wp-content/uploads/CA-studio.mp4"
-            poster="https://cityage.com/wp-content/uploads/CAstudio-vid.png"
+            src="/studio/CA-studio.mp4"
+            poster="/studio/CAstudio-vid.png"
             controls
             autoPlay
             playsInline
@@ -118,7 +118,7 @@ export function StudioHouse() {
         ) : (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://cityage.com/wp-content/uploads/CAstudio-vid.png" alt="CITYAGE STUDIO" />
+            <img src="/studio/CAstudio-vid.png" alt="CITYAGE STUDIO" />
             <button type="button" className="studio-live-play" aria-label="Play Video" onClick={() => setPlayingHero(true)}>
               <svg viewBox="0 0 512 512" aria-hidden="true">
                 <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm115.7 272l-176 101c-15.8 8.8-35.7-2.5-35.7-21V152c0-18.4 19.8-29.8 35.7-21l176 107c16.4 9.2 16.4 32.9 0 42z" />
@@ -166,6 +166,8 @@ export function StudioHouse() {
               </button>
             )}
           </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="studio-live-film-still" src={film.poster} alt="" />
         </section>
       ))}
 
