@@ -144,6 +144,8 @@
 .speakers-reel {
   background: #120f0b;
   border-bottom: 1px solid #2a2218;
+  overflow-x: hidden;
+  --reel-px-per-sec: 48;
 }
 .speakers-reel-rule {
   max-width: 1400px;
@@ -174,13 +176,14 @@
   display: flex;
   flex-direction: column;
 }
-.speakers-reel-section { position: relative; overflow: hidden; }
+.speakers-reel-section { position: relative; overflow: hidden; touch-action: pan-y; }
 .speakers-reel-outer {
   background: #120f0b;
   border-top: 2px solid #3a2e1e;
   border-bottom: 2px solid #3a2e1e;
   position: relative;
   overflow: hidden;
+  touch-action: pan-y;
 }
 .speakers-reel-outer::before,
 .speakers-reel-outer::after {
@@ -230,14 +233,12 @@
   gap: 4px;
   padding: 16px 0;
   width: max-content;
+  will-change: transform;
 }
-.speakers-reel-left .speakers-reel-track {
-  animation: speakers-scroll-left 95s linear infinite;
-}
+.speakers-reel-left .speakers-reel-track,
 .speakers-reel-right .speakers-reel-track {
-  animation: speakers-scroll-right 115s linear infinite;
+  animation: none;
 }
-.speakers-reel-track:hover { animation-play-state: paused; }
 .speakers-reel-face {
   flex-shrink: 0;
   width: 72px;
@@ -308,5 +309,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .speakers-reel-track { animation: none !important; }
+  .speakers-reel { --reel-px-per-sec: 12; }
 }

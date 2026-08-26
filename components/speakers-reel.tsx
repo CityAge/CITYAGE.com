@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 type SpeakerFace = {
   id: string
@@ -56,13 +56,40 @@ function Face({ speaker }: { speaker: SpeakerFace }) {
 function ReelRow({
   speakers,
   direction,
-  duration,
 }: {
   speakers: SpeakerFace[]
   direction: 'left' | 'right'
-  duration: number
 }) {
+  const trackRef = useRef<HTMLDivElement>(null)
   const doubled = useMemo(() => [...speakers, ...speakers], [speakers])
+
+  useEffect(() => {
+    const el = trackRef.current
+    if (!el || speakers.length === 0) return
+
+    let raf = 0
+    let last = performance.now()
+    let offset = 0
+    const sign = direction === 'left' ? 1 : -1
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05)
+      last = now
+      const loop = el.scrollWidth / 2
+      const styles = getComputedStyle(el.closest('.speakers-reel') || el)
+      const speed = Number(styles.getPropertyValue('--reel-px-per-sec')) || 48
+      if (loop > 0) {
+        offset = (offset + sign * speed * dt) % loop
+        if (offset < 0) offset += loop
+        el.style.transform = `translate3d(${-offset}px,0,0)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [direction, speakers.length])
+
   if (speakers.length === 0) return null
 
   return (
@@ -70,10 +97,7 @@ function ReelRow({
       <div className="speakers-reel-outer">
         <div className="speakers-reel-fade-left" />
         <div className="speakers-reel-fade-right" />
-        <div
-          className="speakers-reel-track"
-          style={{ animationDuration: `${duration}s` }}
-        >
+        <div ref={trackRef} className="speakers-reel-track">
           {doubled.map((s, i) => (
             <Face key={`${s.id}-${i}`} speaker={s} />
           ))}
@@ -158,8 +182,8 @@ export function SpeakersReel() {
           </div>
         ) : (
           <>
-            <ReelRow speakers={rowA} direction="left" duration={95} />
-            <ReelRow speakers={rowB} direction="right" duration={115} />
+            <ReelRow speakers={rowA} direction="left" />
+            <ReelRow speakers={rowB} direction="right" />
           </>
         )}
       </div>
