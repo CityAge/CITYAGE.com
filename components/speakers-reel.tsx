@@ -1,19 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-
-type SpeakerFace = {
-  id: string
-  name: string
-  title: string | null
-  organisation: string | null
-  headshot_url: string | null
-  linkedin_url: string | null
-}
-
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rniqmxpmtqmnwqtawlnz.supabase.co'
-const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
-const PAGE = 1000
+import {
+  type SpeakerFace,
+  FIRST_WINDOW,
+  STREAM_PAGE,
+  fetchSpeakerWindow,
+  uniqueHeadshots,
+} from '@/lib/speakers'
 
 function initials(name: string) {
   return name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()
@@ -133,7 +127,7 @@ function ReelRow({
           {Array.from({ length: visibleCount }, (_, i) => {
             const speaker = speakers[(((origin + i) % n) + n) % n]
             return (
-              <div key={i} className="speakers-reel-slot" style={{ left: i * slot }}>
+              <div key={`${speaker.id}-${i}`} className="speakers-reel-slot" style={{ left: i * slot }}>
                 <Face speaker={speaker} />
               </div>
             )
@@ -144,60 +138,34 @@ function ReelRow({
   )
 }
 
-async function fetchFaces(): Promise<SpeakerFace[]> {
-  const faces: SpeakerFace[] = []
-  for (let from = 0; ; from += PAGE) {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/speakers?select=id,name,title,organisation,headshot_url,linkedin_url&order=id`,
-      {
-        headers: {
-          apikey: ANON_KEY,
-          Authorization: `Bearer ${ANON_KEY}`,
-          Range: `${from}-${from + PAGE - 1}`,
-        },
-      },
-    )
-    if (!res.ok) break
-    const chunk = (await res.json()) as SpeakerFace[]
-    if (!Array.isArray(chunk) || chunk.length === 0) break
+async function streamRemaining(seed: SpeakerFace[]): Promise<SpeakerFace[]> {
+  const faces = [...seed]
+  for (let from = FIRST_WINDOW; ; from += STREAM_PAGE) {
+    const chunk = await fetchSpeakerWindow(from, STREAM_PAGE)
+    if (chunk.length === 0) break
     faces.push(...chunk)
-    if (chunk.length < PAGE) break
+    if (chunk.length < STREAM_PAGE) break
   }
-
-  const seenUrls = new Set<string>()
-  const seenNames = new Set<string>()
-  const unique = faces.filter((s) => {
-    if (!s.name) return false
-    if (s.headshot_url) {
-      if (seenUrls.has(s.headshot_url)) return false
-      seenUrls.add(s.headshot_url)
-      return true
-    }
-    if (seenNames.has(s.name)) return false
-    seenNames.add(s.name)
-    return true
-  })
-
-  for (let i = unique.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[unique[i], unique[j]] = [unique[j], unique[i]]
-  }
-  return unique
+  return uniqueHeadshots(faces)
 }
 
-export function SpeakersReel() {
-  const [speakers, setSpeakers] = useState<SpeakerFace[]>([])
+export function SpeakersReel({ initialFaces }: { initialFaces: SpeakerFace[] }) {
+  const [speakers, setSpeakers] = useState<SpeakerFace[]>(initialFaces)
 
   useEffect(() => {
     let alive = true
-    fetchFaces().then((faces) => {
-      if (alive) setSpeakers(faces)
-    }).catch(() => {})
-    return () => { alive = false }
-  }, [])
+    streamRemaining(initialFaces)
+      .then((faces) => {
+        if (alive && faces.length > initialFaces.length) setSpeakers(faces)
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [initialFaces])
 
   const mid = Math.ceil(speakers.length / 2)
-  const rowA = speakers.slice(0, mid)
+  const rowA = speakers.slice(0, Math.max(mid, 1))
   const rowB = speakers.slice(mid)
 
   return (
@@ -207,22 +175,12 @@ export function SpeakersReel() {
           The CityAge Contributors
         </a>
         <span className="speakers-reel-count">
-          {speakers.length > 0 ? `${speakers.length.toLocaleString()} faces` : 'The reel'}
+          {speakers.length > 3 ? `${speakers.length.toLocaleString()} faces` : 'The reel'}
         </span>
       </div>
       <div className="speakers-reel-stack">
-        {speakers.length === 0 ? (
-          <div className="speakers-reel-section speakers-reel-left">
-            <div className="speakers-reel-outer">
-              <div className="speakers-reel-track" style={{ minHeight: 86 }} />
-            </div>
-          </div>
-        ) : (
-          <>
-            <ReelRow speakers={rowA} direction="left" />
-            <ReelRow speakers={rowB} direction="right" />
-          </>
-        )}
+        <ReelRow speakers={rowA} direction="left" />
+        {rowB.length > 0 && <ReelRow speakers={rowB} direction="right" />}
       </div>
     </section>
   )

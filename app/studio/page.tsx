@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Image from 'next/image'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 
@@ -7,23 +8,28 @@ export const metadata: Metadata = {
   description: 'CityAge Studio: end-to-end storytelling. Facing Saddam, Solar Earth, Giltrude’s Dwelling.',
 }
 
+export const revalidate = 86400
+
 const FILMS = [
   {
     title: 'Facing Saddam',
     deck: "A sobering depiction of the 'Butcher of Baghdad', cast in the hollows of the impressions he left on survivors of both his terror and his love.",
+    poster: '/studio/posters-saddam.jpg',
     media: null as null | { kind: 'hosted' | 'youtube'; src: string },
   },
   {
     title: 'Solar Earth',
     deck: 'Corporate Video for Solar Earth Canada',
+    poster: '/studio/posters-solarearth.jpg',
     media: {
       kind: 'hosted' as const,
-      src: 'https://cityage.com/wp-content/uploads/Solar-Earth.mp4',
+      src: '/studio/Solar-Earth.mp4',
     },
   },
   {
     title: "Giltrude's Dwelling",
     deck: 'Orphaned at the age of 11, Giltrude, an interdimensional shut-in, has waited 15 years for her parents to come home. When a life or death dilemma comes knocking, Giltrude must look beyond her front door and face the outside universe.',
+    poster: '/studio/posters-giltrude.jpg',
     media: {
       kind: 'youtube' as const,
       src: 'https://www.youtube.com/embed/WHe2jtngaSY',
@@ -65,8 +71,8 @@ export default function StudioPage() {
           <div className="mt-12 max-w-[900px] bg-black">
             <video
               className="w-full aspect-video object-cover"
-              src="https://cityage.com/wp-content/uploads/CA-studio.mp4"
-              poster="https://cityage.com/wp-content/uploads/CAstudio-vid.png"
+              src="/studio/CA-studio.mp4"
+              poster="/studio/CAstudio-vid.png"
               controls
               playsInline
               preload="metadata"
@@ -93,6 +99,7 @@ export default function StudioPage() {
                   <video
                     className="w-full aspect-video object-cover bg-black"
                     src={film.media.src}
+                    poster={film.poster}
                     controls
                     playsInline
                     preload="metadata"
@@ -108,6 +115,17 @@ export default function StudioPage() {
                       title={`${film.title} trailer`}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
+                    />
+                  </div>
+                )}
+                {!film.media && (
+                  <div className="relative w-full aspect-video bg-black">
+                    <Image
+                      src={film.poster}
+                      alt={film.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      className="object-cover"
                     />
                   </div>
                 )}

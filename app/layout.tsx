@@ -11,6 +11,7 @@ const playfair = localFont({
   ],
   variable: '--font-display',
   display: 'swap',
+  preload: true,
 })
 
 // Warm body serif — article text, taglines, excerpts (local)
@@ -22,6 +23,7 @@ const baskerville = localFont({
   ],
   variable: '--font-serif',
   display: 'swap',
+  preload: true,
 })
 
 // UI sans-serif (kept for utility text)
@@ -29,6 +31,7 @@ const inter = localFont({
   src: '../public/fonts/inter-latin-wght-normal.woff2',
   variable: '--font-ui',
   display: 'swap',
+  preload: false,
 })
 
 // Monospace for metadata, dates, verticals
@@ -36,6 +39,7 @@ const jetbrains = localFont({
   src: '../public/fonts/jetbrains-mono-latin-wght-normal.woff2',
   variable: '--font-mono',
   display: 'swap',
+  preload: false,
 })
 
 export const metadata: Metadata = {

@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 
@@ -10,24 +9,24 @@ export const metadata: Metadata = {
 }
 
 const partners = [
-  { name: 'Google', src: 'https://cityage.com/wp-content/uploads/google.jpg' },
-  { name: 'Microsoft', src: 'https://cityage.com/wp-content/uploads/microsoft.jpg' },
-  { name: 'Cisco', src: 'https://cityage.com/wp-content/uploads/cisco.jpg' },
-  { name: 'Deloitte', src: 'https://cityage.com/wp-content/uploads/deloitte.jpg' },
-  { name: 'PwC', src: 'https://cityage.com/wp-content/uploads/pwc.jpg' },
-  { name: 'KPMG', src: 'https://cityage.com/wp-content/uploads/kpgm.jpg' },
-  { name: 'EY', src: 'https://cityage.com/wp-content/uploads/ey.jpg' },
-  { name: 'Mastercard', src: 'https://cityage.com/wp-content/uploads/mastercard.jpg' },
-  { name: 'Reuters', src: 'https://cityage.com/wp-content/uploads/reuters.png' },
-  { name: 'Verizon', src: 'https://cityage.com/wp-content/uploads/verizon.jpg' },
-  { name: 'Shell', src: 'https://cityage.com/wp-content/uploads/shell.png' },
-  { name: 'SAP', src: 'https://cityage.com/wp-content/uploads/sap.jpg' },
-  { name: 'IBM Watson', src: 'https://cityage.com/wp-content/uploads/ibmmwatson.jpg' },
-  { name: 'Dell', src: 'https://cityage.com/wp-content/uploads/dell.png' },
-  { name: 'Autodesk', src: 'https://cityage.com/wp-content/uploads/autodesk.jpg' },
-  { name: 'WSP', src: 'https://cityage.com/wp-content/uploads/wsp.jpg' },
-  { name: 'AECOM', src: 'https://cityage.com/wp-content/uploads/aecom.jpg' },
-  { name: 'Jacobs', src: 'https://cityage.com/wp-content/uploads/jacobs.jpg' },
+  'Google',
+  'Microsoft',
+  'Cisco',
+  'Deloitte',
+  'PwC',
+  'KPMG',
+  'EY',
+  'Mastercard',
+  'Reuters',
+  'Verizon',
+  'Shell',
+  'SAP',
+  'IBM Watson',
+  'Dell',
+  'Autodesk',
+  'WSP',
+  'AECOM',
+  'Jacobs',
 ]
 
 const events = [
@@ -230,14 +229,12 @@ export default function PurposePage() {
             <div className="grid grid-cols-3 md:grid-cols-6 gap-px bg-black/5">
               {partners.map((partner) => (
                 <div
-                  key={partner.name}
+                  key={partner}
                   className="bg-white flex items-center justify-center p-5 aspect-[3/2]"
                 >
-                  <img
-                    src={partner.src}
-                    alt={partner.name}
-                    className="max-w-full max-h-[40px] w-auto object-contain grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
-                  />
+                  <span className="font-serif text-[13px] text-black/70 text-center">
+                    {partner}
+                  </span>
                 </div>
               ))}
             </div>
