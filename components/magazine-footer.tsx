@@ -24,7 +24,8 @@ export function MagazineFooter() {
           <ul className="text-[11px] space-y-3 font-medium tracking-wider uppercase text-white/60">
             <li><a href="/purpose" className="hover:text-[#C5A059] transition-colors">Purpose</a></li>
             <li><a href="/partners" className="hover:text-[#C5A059] transition-colors">Knowledge Partners</a></li>
-            <li><a href="/network" className="hover:text-[#C5A059] transition-colors">The Network</a></li>
+            <li><a href="/people.html" className="hover:text-[#C5A059] transition-colors">The Network</a></li>
+            <li><a href="/studio" className="hover:text-[#C5A059] transition-colors">Studio</a></li>
             <li><a href="/dispatches" className="hover:text-[#C5A059] transition-colors">Dispatches</a></li>
             <li><a href="/canada-europe-connects" className="hover:text-[#C5A059] transition-colors">Canada–Europe Connects</a></li>
             <li><a href="https://cityage.com/events" className="hover:text-[#C5A059] transition-colors">Events 2026</a></li>

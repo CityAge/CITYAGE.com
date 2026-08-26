@@ -9,6 +9,7 @@ const HOUSE = [
   { href: '/purpose', label: 'Purpose' },
   { href: '/partners', label: 'Knowledge Partners' },
   { href: '/people.html', label: 'The Network' },
+  { href: '/studio', label: 'Studio' },
 ]
 
 export function MagazineHeader() {
@@ -56,6 +57,7 @@ export function MagazineHeader() {
             <a href="/purpose" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block">Purpose</a>
             <a href="/partners" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Knowledge Partners</a>
             <a href="/people.html" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">The Network</a>
+            <a href="/studio" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Studio</a>
           </div>
           <div className="flex items-center gap-5 md:gap-7">
             <a href="/people.html" className="hover:opacity-60 transition-opacity text-black" aria-label="Search contributors">
@@ -63,8 +65,8 @@ export function MagazineHeader() {
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </a>
-            <a href="#subscribe" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden sm:block">Log in</a>
-            <a href="#subscribe" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
+            <a href="/#subscribe" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden sm:block">Log in</a>
+            <a href="/#subscribe" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
               Subscribe
             </a>
           </div>
@@ -115,7 +117,7 @@ export function MagazineHeader() {
               <p className="font-serif text-[15px] text-black/70 leading-snug">
                 Everything happens on the earth’s 2 percent.
               </p>
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 hover:text-black transition-colors leading-relaxed mt-2 inline-block">
+              <a href="/#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 hover:text-black transition-colors leading-relaxed mt-2 inline-block">
                 Published daily
               </a>
             </div>
@@ -130,7 +132,7 @@ export function MagazineHeader() {
             <div key={name} className="flex items-center shrink-0">
               {i > 0 && <span className="text-black/60 mx-1.5 sm:mx-3 md:mx-6 text-[11px] md:text-base font-normal">|</span>}
               <a
-                href={`#${name.toLowerCase()}`}
+                href={`/#${name.toLowerCase()}`}
                 className="px-1 sm:px-3 md:px-5 py-3 md:py-4 text-[11px] sm:text-[13px] md:text-[16px] font-black tracking-[0.08em] md:tracking-[0.15em] uppercase text-black hover:opacity-50 transition-opacity"
               >
                 {name}
