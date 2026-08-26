@@ -109,14 +109,6 @@ export function MagazineHeader() {
             )}
           </div>
 
-          {/* 2% is the argument nearby — not a second slogan, never Vancouver, never Published Daily */}
-          {!isCompressed && (
-            <div className="hidden xl:block absolute right-0 bottom-0 max-w-[240px] text-right">
-              <p className="font-serif text-[15px] text-black/70 leading-snug">
-                Everything happens on the earth’s 2 percent.
-              </p>
-            </div>
-          )}
         </div>
       </div>
 

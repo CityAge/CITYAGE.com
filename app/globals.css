@@ -235,6 +235,16 @@
   width: max-content;
   will-change: transform;
 }
+.speakers-reel-virtual {
+  position: relative;
+  height: 118px;
+  will-change: transform;
+}
+.speakers-reel-slot {
+  position: absolute;
+  top: 16px;
+  left: 0;
+}
 .speakers-reel-left .speakers-reel-track,
 .speakers-reel-right .speakers-reel-track {
   animation: none;
@@ -303,6 +313,8 @@
   .speakers-reel-right { display: none; }
   .speakers-reel-face { width: 56px; height: 68px; }
   .speakers-reel-track { padding: 14px 0; }
+  .speakers-reel-virtual { height: 96px; }
+  .speakers-reel-slot { top: 14px; }
   .speakers-reel-rule { padding: 10px 16px 6px; }
   .speakers-reel-fade-left,
   .speakers-reel-fade-right { width: 36px; }

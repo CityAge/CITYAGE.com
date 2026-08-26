@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type SpeakerFace = {
   id: string
@@ -23,6 +23,10 @@ function Face({ speaker }: { speaker: SpeakerFace }) {
   const [broken, setBroken] = useState(false)
   const showPhoto = Boolean(speaker.headshot_url) && !broken
 
+  useEffect(() => {
+    setBroken(false)
+  }, [speaker.id, speaker.headshot_url])
+
   return (
     <a
       className="speakers-reel-face"
@@ -35,7 +39,7 @@ function Face({ speaker }: { speaker: SpeakerFace }) {
         <img
           src={speaker.headshot_url!}
           alt={speaker.name}
-          loading="lazy"
+          decoding="async"
           onError={() => setBroken(true)}
         />
       ) : (
@@ -60,47 +64,80 @@ function ReelRow({
   speakers: SpeakerFace[]
   direction: 'left' | 'right'
 }) {
+  const outerRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
-  const doubled = useMemo(() => [...speakers, ...speakers], [speakers])
+  const originRef = useRef(0)
+  const phaseRef = useRef(0)
+  const [origin, setOrigin] = useState(0)
+  const [viewW, setViewW] = useState(0)
+  const [slot, setSlot] = useState(76)
 
   useEffect(() => {
-    const el = trackRef.current
-    if (!el || speakers.length === 0) return
+    const el = outerRef.current
+    if (!el) return
+    const measure = () => {
+      setViewW(el.clientWidth)
+      setSlot(window.matchMedia('(max-width: 767px)').matches ? 60 : 76)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track || speakers.length === 0 || viewW === 0) return
 
     let raf = 0
     let last = performance.now()
-    let offset = 0
     const sign = direction === 'left' ? 1 : -1
 
     const tick = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05)
       last = now
-      const loop = el.scrollWidth / 2
-      const styles = getComputedStyle(el.closest('.speakers-reel') || el)
+      const styles = getComputedStyle(track.closest('.speakers-reel') || track)
       const speed = Number(styles.getPropertyValue('--reel-px-per-sec')) || 48
-      if (loop > 0) {
-        offset = (offset + sign * speed * dt) % loop
-        if (offset < 0) offset += loop
-        el.style.transform = `translate3d(${-offset}px,0,0)`
+      phaseRef.current += sign * speed * dt
+      let stepped = false
+      while (phaseRef.current >= slot) {
+        phaseRef.current -= slot
+        originRef.current += 1
+        stepped = true
       }
+      while (phaseRef.current < 0) {
+        phaseRef.current += slot
+        originRef.current -= 1
+        stepped = true
+      }
+      track.style.transform = `translate3d(${-phaseRef.current}px,0,0)`
+      if (stepped) setOrigin(originRef.current)
       raf = requestAnimationFrame(tick)
     }
 
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [direction, speakers.length])
+  }, [direction, speakers.length, slot, viewW])
 
   if (speakers.length === 0) return null
 
+  const n = speakers.length
+  const visibleCount = Math.max(8, Math.ceil(viewW / slot) + 8)
+
   return (
     <div className={`speakers-reel-section speakers-reel-${direction}`}>
-      <div className="speakers-reel-outer">
+      <div ref={outerRef} className="speakers-reel-outer">
         <div className="speakers-reel-fade-left" />
         <div className="speakers-reel-fade-right" />
-        <div ref={trackRef} className="speakers-reel-track">
-          {doubled.map((s, i) => (
-            <Face key={`${s.id}-${i}`} speaker={s} />
-          ))}
+        <div ref={trackRef} className="speakers-reel-virtual">
+          {Array.from({ length: visibleCount }, (_, i) => {
+            const speaker = speakers[(((origin + i) % n) + n) % n]
+            return (
+              <div key={i} className="speakers-reel-slot" style={{ left: i * slot }}>
+                <Face speaker={speaker} />
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>
