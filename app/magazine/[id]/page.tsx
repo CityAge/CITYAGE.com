@@ -144,7 +144,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
 
             {/* Dateline */}
             <div className="font-mono text-[9px] tracking-[0.22em] uppercase text-black/40 mb-6">
-              {(article.dateline_city || 'Vancouver').toUpperCase()} · {new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {article.read_time || 5} Min Read
+              {article.dateline_city ? `${String(article.dateline_city).toUpperCase()} · ` : ''}{new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {article.read_time || 5} Min Read
             </div>
 
             {/* Share */}

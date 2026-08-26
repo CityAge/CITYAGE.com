@@ -5,6 +5,8 @@ import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { UrbanPlanetVoices } from '@/components/urban-planet-voices'
 import { HeroGrid } from '@/components/hero-grid'
+import { SpeakersReel } from '@/components/speakers-reel'
+import { InfluenceLetterForm } from '@/components/influence-letter-form'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
@@ -18,8 +20,8 @@ export default async function Home() {
   }[] = []
 
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rniqmxpmtqmnwqtawlnz.supabase.co'
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
 
     if (url && key) {
       const supabase = await createClient()
@@ -152,8 +154,15 @@ export default async function Home() {
       {/* Masthead (includes vertical nav) */}
       <MagazineHeader />
 
+      <SpeakersReel />
+
       {/* ═══ MAIN CONTENT ═══ */}
       <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
+        <span id="power" className="paper-anchor" />
+        <span id="money" className="paper-anchor" />
+        <span id="cities" className="paper-anchor" />
+        <span id="frontiers" className="paper-anchor" />
+        <span id="culture" className="paper-anchor" />
         {!hasArticles ? (
           <div className="py-24 px-8 text-center">
             <p className="font-serif italic text-2xl text-black/20 mb-3">
@@ -207,7 +216,8 @@ export default async function Home() {
               sidebarColumn={
                 <>
                   {/* Influence Letter — black box */}
-                  <div className="bg-black text-white p-8 flex flex-col">
+                  <div id="subscribe" className="bg-black text-white p-8 flex flex-col">
+                    <span id="letter" className="sr-only">The Influence Letter</span>
                     <h3 className="font-serif font-black text-lg uppercase tracking-tight mb-1">
                       The Influence Letter
                     </h3>
@@ -220,14 +230,7 @@ export default async function Home() {
                     </p>
 
                     <div className="mb-6">
-                      <input
-                        type="email"
-                        placeholder="your@email.com"
-                        className="w-full bg-white/10 border border-white/20 px-4 py-2.5 font-mono text-[11px] tracking-wider text-white placeholder-white/30 uppercase outline-none focus:border-[#C5A059] transition-colors mb-2"
-                      />
-                      <button className="w-full bg-[#C5A059] text-black py-2.5 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-white transition-colors">
-                        Subscribe Free
-                      </button>
+                      <InfluenceLetterForm />
                     </div>
 
                     <div className="border-t border-white/10 pt-6 mt-auto">
@@ -240,7 +243,7 @@ export default async function Home() {
                           <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
                         </a>
                         <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19 · Vancouver</span>
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19</span>
                           <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
                         </a>
                         <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
@@ -316,6 +319,7 @@ export default async function Home() {
                   {verticalKeys.map((vertical, vIdx) => (
                     <div
                       key={vertical}
+                      id={vertical.toLowerCase()}
                       className={`${vIdx === 0 ? 'md:pr-12' : vIdx === 1 ? 'md:px-12 md:border-x border-black/10' : 'md:pl-12'} ${vIdx > 0 ? 'mt-10 pt-10 border-t border-black/10 md:mt-0 md:pt-0 md:border-t-0' : ''}`}
                     >
                       <div className="flex items-baseline justify-between pb-5 mb-8 border-b-2 border-black">

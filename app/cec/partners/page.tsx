@@ -422,7 +422,7 @@ export default function CECPartnersPage() {
       </section>
       <footer className="px-8 sm:px-16 py-8 flex justify-between items-center border-t border-white/[0.04]">
         <span className="text-white/10 text-[10px] tracking-[0.25em] uppercase font-[family-name:var(--font-ui)]">CityAge Media Inc.</span>
-        <span className="text-white/10 text-[10px] tracking-[0.25em] uppercase font-[family-name:var(--font-ui)]">Vancouver &nbsp;·&nbsp; Washington DC</span>
+        <span className="text-white/10 text-[10px] tracking-[0.25em] uppercase font-[family-name:var(--font-ui)]">CityAge</span>
       </footer>
     </main>
   )

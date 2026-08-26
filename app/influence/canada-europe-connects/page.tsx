@@ -432,7 +432,7 @@ export default function CanadaEuropeConnectsLetter() {
             letterSpacing: '0.1em', color: 'rgba(255,255,255,0.18)', lineHeight: 1.7,
           }}>
             Published by CityAge in partnership with {letter.client}.<br />
-            © 2026 CityAge Intelligence. All rights reserved. Vancouver, BC.
+            © 2026 CityAge Intelligence. All rights reserved.
           </p>
         </div>
 

@@ -118,7 +118,7 @@ export default function PrivacyPolicy() {
 
         <div className="mt-16 pt-8 border-t border-black/10">
           <p className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30">
-            CityAge Media · Vancouver, BC · <a href="mailto:info@cityage.com" className="hover:text-[#C5A059] transition-colors">info@cityage.com</a>
+            CityAge Media · <a href="mailto:info@cityage.com" className="hover:text-[#C5A059] transition-colors">info@cityage.com</a>
           </p>
         </div>
       </main>

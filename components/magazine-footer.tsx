@@ -12,7 +12,7 @@ export function MagazineFooter() {
             Intelligence for The Urban Planet
           </p>
           <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059]">
-            Est. 2012 — Vancouver
+            Est. 2012
           </span>
         </div>
 
@@ -39,7 +39,6 @@ export function MagazineFooter() {
           </h3>
           <address className="text-[11px] not-italic text-white/50 leading-loose tracking-wider uppercase">
             CityAge Media<br />
-            Vancouver, BC<br />
             <a href="mailto:info@cityage.com" className="hover:text-[#C5A059] transition-colors">info@cityage.com</a>
           </address>
           <div className="flex gap-4">

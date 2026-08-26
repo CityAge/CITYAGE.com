@@ -21,6 +21,12 @@ const nextConfig = {
       ],
     }
   },
+  async redirects() {
+    return [
+      { source: '/people', destination: '/people.html', permanent: false },
+      { source: '/contributors', destination: '/people.html', permanent: false },
+    ]
+  },
 }
 
 export default nextConfig

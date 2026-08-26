@@ -245,7 +245,7 @@ export default function SpaceToIcePartners() {
       </section>
 
       <footer style={{ borderTop: '1px solid rgba(90,160,196,0.06)', padding: '2rem', textAlign: 'center' }}>
-        <p className="font-mono" style={{ fontSize: 10, letterSpacing: '0.15em', color: '#4a6a7f', margin: '0 0 4px' }}>CITYAGE MEDIA — VANCOUVER · OTTAWA</p>
+        <p className="font-mono" style={{ fontSize: 10, letterSpacing: '0.15em', color: '#4a6a7f', margin: '0 0 4px' }}>CITYAGE MEDIA</p>
         <p className="font-mono" style={{ fontSize: 9, letterSpacing: '0.1em', color: '#3a5a6f', margin: 0 }}>© 2026 CITYAGE MEDIA INC. · CONFIDENTIAL · DO NOT DISTRIBUTE</p>
       </footer>
     </div>

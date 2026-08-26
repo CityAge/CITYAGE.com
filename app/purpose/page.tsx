@@ -90,7 +90,7 @@ export default function PurposePage() {
                 { num: '25,000+', label: 'Leaders in our network' },
                 { num: '100+', label: 'Events worldwide' },
                 { num: '50+', label: 'Cities represented' },
-                { num: '2012', label: 'Est. Vancouver' },
+                { num: '2012', label: 'Established' },
               ].map((stat, i) => (
                 <div key={i} className="px-6 md:px-10 py-4 first:pl-0 last:pr-0">
                   <div className="font-serif font-black text-[2rem] md:text-[2.8rem] leading-none tracking-tight text-black mb-2">
