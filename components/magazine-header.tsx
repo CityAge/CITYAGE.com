@@ -7,8 +7,8 @@ export const HEADER_COMPRESSED_HEIGHT = 124
 
 const HOUSE = [
   { href: '/purpose', label: 'Purpose' },
-  { href: '/partners', label: 'Knowledge Partners' },
-  { href: '/people.html', label: 'The Network' },
+  { href: '/partners', label: 'Partners' },
+  { href: '/studio', label: 'Studio' },
 ]
 
 export function MagazineHeader() {
@@ -39,7 +39,7 @@ export function MagazineHeader() {
           <div className="flex items-center gap-5 md:gap-7">
             <button
               type="button"
-              className="lg:hidden flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity"
+              className="md:hidden flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
               aria-controls="house-menu"
@@ -54,8 +54,8 @@ export function MagazineHeader() {
               </svg>
             </button>
             <a href="/purpose" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block">Purpose</a>
-            <a href="/partners" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Knowledge Partners</a>
-            <a href="/people.html" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">The Network</a>
+            <a href="/partners" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block">Partners</a>
+            <a href="/studio" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block">Studio</a>
           </div>
           <div className="flex items-center gap-5 md:gap-7">
             <a href="/people.html" className="hover:opacity-60 transition-opacity text-black" aria-label="Search contributors">
@@ -74,7 +74,7 @@ export function MagazineHeader() {
       {menuOpen && (
         <div
           id="house-menu"
-          className="border-b border-black bg-[#F9F9F7] px-6 md:px-12 py-5 lg:hidden"
+          className="border-b border-black bg-[#F9F9F7] px-6 md:px-12 py-5 md:hidden"
         >
           <nav className="max-w-[1400px] mx-auto grid grid-cols-1 gap-y-1">
             {HOUSE.map((item) => (
@@ -103,21 +103,18 @@ export function MagazineHeader() {
               CITYAGE
             </a>
             {!isCompressed && (
-              <p className="xl:hidden mt-4 px-4 font-serif text-[14px] md:text-[16px] text-black/70 leading-snug">
-                Everything happens on the earth’s 2 percent.
+              <p className="mt-4 px-4 font-serif text-[14px] md:text-[16px] text-black/70 leading-snug">
+                Intelligence for the urban planet.
               </p>
             )}
           </div>
 
-          {/* Right bracket — 2% line, never 3%, no Vancouver */}
+          {/* 2% is the argument nearby — not a second slogan, never Vancouver, never Published Daily */}
           {!isCompressed && (
             <div className="hidden xl:block absolute right-0 bottom-0 max-w-[240px] text-right">
               <p className="font-serif text-[15px] text-black/70 leading-snug">
                 Everything happens on the earth’s 2 percent.
               </p>
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 hover:text-black transition-colors leading-relaxed mt-2 inline-block">
-                Published daily
-              </a>
             </div>
           )}
         </div>

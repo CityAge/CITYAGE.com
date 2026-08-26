@@ -25,6 +25,8 @@ const nextConfig = {
     return [
       { source: '/people', destination: '/people.html', permanent: false },
       { source: '/contributors', destination: '/people.html', permanent: false },
+      { source: '/cityage-studio', destination: '/studio', permanent: false },
+      { source: '/cityage-studio/', destination: '/studio', permanent: false },
     ]
   },
 }
