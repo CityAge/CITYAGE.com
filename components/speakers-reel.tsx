@@ -103,10 +103,17 @@ async function fetchFaces(): Promise<SpeakerFace[]> {
     if (chunk.length < PAGE) break
   }
 
-  const seen = new Set<string>()
+  const seenUrls = new Set<string>()
+  const seenNames = new Set<string>()
   const unique = faces.filter((s) => {
-    if (!s.name || seen.has(s.name)) return false
-    seen.add(s.name)
+    if (!s.name) return false
+    if (s.headshot_url) {
+      if (seenUrls.has(s.headshot_url)) return false
+      seenUrls.add(s.headshot_url)
+      return true
+    }
+    if (seenNames.has(s.name)) return false
+    seenNames.add(s.name)
     return true
   })
 
