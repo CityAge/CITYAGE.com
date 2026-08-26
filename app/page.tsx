@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
@@ -129,14 +128,27 @@ export default async function Home() {
   // Band 1: Hero — lead (1) + secondary (2) + Influence Letter sidebar
   // Band 2: Featured row — next 4 articles, equal weight
   // Band 3: By Vertical — remaining articles grouped by vertical
-  const hasArticles = articles.length > 0
+  const hasArticles = true
   const linkPrefix = articles[0]?.source === 'magazine' ? '/magazine' : '/dispatches'
 
-  const heroLead = articles[0] || null
-  const heroSecondary = articles.slice(1, 5)  // 4 stories for middle column
-  const heroTertiary = articles.slice(5, 11)  // 6 stories for below Influence Letter in sidebar
-  const featuredArticles = articles.slice(11, 15)
-  const remainingArticles = articles.slice(15)
+  // Next West is the money product — it sits on the lead plate, not a gold shop strip.
+  const nextWestLead = {
+    id: 'next-west',
+    title: 'The Next West',
+    vertical: 'Cities',
+    tagline: 'The next room in the west.',
+    excerpt: 'The A.I. Edition — where this region can actually win.',
+    date: 'Nov 2026',
+    image: '/vancouver-banner.jpg',
+    readTime: 'The room',
+    href: '/',
+  }
+
+  const heroLead = nextWestLead
+  const heroSecondary = articles.slice(0, 4)
+  const heroTertiary = articles.slice(4, 10)
+  const featuredArticles = articles.slice(10, 14)
+  const remainingArticles = articles.slice(14)
 
   // Group remaining by vertical for category sections
   const byVertical: Record<string, typeof articles> = {}
@@ -148,9 +160,6 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
-      {/* Campaign banner — full width event promotion */}
-      <CampaignBanner />
-
       {/* Masthead (includes vertical nav) */}
       <MagazineHeader />
 
@@ -190,6 +199,7 @@ export default async function Home() {
                     readTime={heroLead.readTime}
                     variant="hero-lead"
                     linkPrefix={linkPrefix}
+                    href={heroLead.href}
                   />
                 ) : null
               }
@@ -238,13 +248,9 @@ export default async function Home() {
                         Upcoming Events
                       </span>
                       <div className="space-y-4">
-                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">May 26 · Ottawa</span>
-                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">Canada–Europe Connects</span>
-                        </a>
-                        <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">Jun 19</span>
-                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next Vancouver</span>
+                        <a href="/" className="block group">
+                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">The room</span>
+                          <span className="font-serif font-bold text-sm block mt-1 group-hover:text-[#C5A059] transition-colors">The Next West</span>
                         </a>
                         <a href="https://cityage.com/events" target="_blank" rel="noopener" className="block group">
                           <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-[#C5A059]">2026 · Washington DC</span>

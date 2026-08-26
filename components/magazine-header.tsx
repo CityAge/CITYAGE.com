@@ -97,17 +97,25 @@ export function MagazineHeader() {
 
 
 
-          {/* Wordmark: big or small */}
-          <div className="flex flex-col items-center">
+          {/* Wordmark: big or small — do not restyle .monocle-wordmark */}
+          <div className="flex flex-col items-center text-center">
             <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]'}`}>
               CITYAGE
             </a>
+            {!isCompressed && (
+              <p className="xl:hidden mt-4 px-4 font-serif text-[14px] md:text-[16px] text-black/70 leading-snug">
+                Everything happens on the earth’s 2 percent.
+              </p>
+            )}
           </div>
 
-          {/* Right bracket — hidden when compressed */}
+          {/* Right bracket — 2% line, never 3%, no Vancouver */}
           {!isCompressed && (
-            <div className="hidden xl:block absolute right-0 bottom-0 text-right">
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
+            <div className="hidden xl:block absolute right-0 bottom-0 max-w-[240px] text-right">
+              <p className="font-serif text-[15px] text-black/70 leading-snug">
+                Everything happens on the earth’s 2 percent.
+              </p>
+              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/40 hover:text-black transition-colors leading-relaxed mt-2 inline-block">
                 Published daily
               </a>
             </div>
