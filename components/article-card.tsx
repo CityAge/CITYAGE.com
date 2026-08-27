@@ -53,6 +53,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               src={image}
               alt={title}
               fill
+              priority
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />

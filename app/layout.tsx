@@ -3,17 +3,23 @@ import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-// Editorial display serif — wordmark + headlines (variable weight, local)
+// Editorial display serif — wordmark + headlines (the 5af05e2 paper cuts)
 const playfair = localFont({
-  src: '../public/fonts/playfair-display-latin-wght-normal.woff2',
+  src: [
+    { path: '../public/fonts/playfair-display-latin-wght-normal.woff2', style: 'normal' },
+    { path: '../public/fonts/playfair-display-latin-wght-italic.woff2', style: 'italic' },
+  ],
   variable: '--font-display',
   display: 'swap',
   preload: true,
 })
 
 const baskerville = localFont({
-  src: '../public/fonts/libre-baskerville-latin-400-normal.woff2',
-  weight: '400',
+  src: [
+    { path: '../public/fonts/libre-baskerville-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../public/fonts/libre-baskerville-latin-700-normal.woff2', weight: '700', style: 'normal' },
+    { path: '../public/fonts/libre-baskerville-latin-400-italic.woff2', weight: '400', style: 'italic' },
+  ],
   variable: '--font-serif',
   display: 'swap',
   preload: true,

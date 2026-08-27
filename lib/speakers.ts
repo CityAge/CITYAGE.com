@@ -35,9 +35,9 @@ export const FALLBACK_FACES: SpeakerFace[] = [
   },
 ]
 
-export const FIRST_WINDOW = 10
+export const FIRST_WINDOW = 36
 export const STREAM_PAGE = 40
-export const REEL_WINDOW = 16
+export const REEL_WINDOW = 18
 export const SUPABASE_PROJECT_URL = 'https://rniqmxpmtqmnwqtawlnz.supabase.co'
 
 // Public anon key already shipped in public/people.html. Prefer env on Vercel.
@@ -127,7 +127,7 @@ export async function getFirstPaintFaces(): Promise<{
   if (key) {
     try {
       const controller = new AbortController()
-      const timer = setTimeout(() => controller.abort(), 800)
+      const timer = setTimeout(() => controller.abort(), 1500)
       const { faces, total } = await fetchSpeakerWindow(0, FIRST_WINDOW, {
         signal: controller.signal,
         next: { revalidate: 3600 },
