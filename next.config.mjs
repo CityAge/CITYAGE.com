@@ -10,6 +10,11 @@ const nextConfig = {
         hostname: 'rniqmxpmtqmnwqtawlnz.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'rniqmxpmtqmnwqtawlnz.supabase.co',
+        pathname: '/storage/v1/render/image/public/**',
+      },
     ],
   },
   async rewrites() {

@@ -35,8 +35,9 @@ export const FALLBACK_FACES: SpeakerFace[] = [
   },
 ]
 
-export const FIRST_WINDOW = 24
-export const STREAM_PAGE = 80
+export const FIRST_WINDOW = 10
+export const STREAM_PAGE = 40
+export const REEL_WINDOW = 16
 export const SUPABASE_PROJECT_URL = 'https://rniqmxpmtqmnwqtawlnz.supabase.co'
 
 // Public anon key already shipped in public/people.html. Prefer env on Vercel.
@@ -81,13 +82,24 @@ function speakersUrl(base: string) {
   return `${base}/rest/v1/speakers?select=id,name,title,organisation,headshot_url,linkedin_url&headshot_url=not.is.null&order=id`
 }
 
+export function speakerThumbSrc(url: string | null): string | null {
+  if (!url) return null
+  if (url.startsWith('/')) return url
+  const marker = '/storage/v1/object/public/'
+  const i = url.indexOf(marker)
+  if (i === -1) return url
+  const host = url.slice(0, i)
+  const path = url.slice(i + marker.length)
+  return `${host}/storage/v1/render/image/public/${path}?width=144&height=172&resize=cover&quality=55`
+}
+
 export async function fetchSpeakerWindow(
   from: number,
   size: number,
   init?: RequestInit,
-): Promise<SpeakerFace[]> {
+): Promise<{ faces: SpeakerFace[]; total: number | null }> {
   const { url, key } = supabasePublicConfig()
-  if (!key) return []
+  if (!key) return { faces: [], total: null }
 
   const res = await fetch(speakersUrl(url), {
     ...init,
@@ -99,28 +111,33 @@ export async function fetchSpeakerWindow(
       ...(init?.headers || {}),
     },
   })
-  if (!res.ok) return []
+  if (!res.ok) return { faces: [], total: null }
   const chunk = (await res.json()) as SpeakerFace[]
-  return Array.isArray(chunk) ? chunk : []
+  const range = res.headers.get('content-range') || ''
+  const totalMatch = range.match(/\/(\d+|\*)$/)
+  const total = totalMatch && totalMatch[1] !== '*' ? Number(totalMatch[1]) : null
+  return { faces: Array.isArray(chunk) ? chunk : [], total }
 }
 
-export async function getFirstPaintFaces(): Promise<SpeakerFace[]> {
+export async function getFirstPaintFaces(): Promise<{
+  faces: SpeakerFace[]
+  total: number | null
+}> {
   const { key } = supabasePublicConfig()
   if (key) {
     try {
       const controller = new AbortController()
-      const timer = setTimeout(() => controller.abort(), 1200)
-      const faces = uniqueHeadshots(
-        await fetchSpeakerWindow(0, FIRST_WINDOW, {
-          signal: controller.signal,
-          next: { revalidate: 3600 },
-        }),
-      )
+      const timer = setTimeout(() => controller.abort(), 800)
+      const { faces, total } = await fetchSpeakerWindow(0, FIRST_WINDOW, {
+        signal: controller.signal,
+        next: { revalidate: 3600 },
+      })
       clearTimeout(timer)
-      if (faces.length > 0) return faces
+      const unique = uniqueHeadshots(faces)
+      if (unique.length > 0) return { faces: unique, total }
     } catch {
       // Fall through to local portraits so the strip still moves.
     }
   }
-  return padFaces(FALLBACK_FACES)
+  return { faces: padFaces(FALLBACK_FACES), total: null }
 }

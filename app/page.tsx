@@ -9,7 +9,7 @@ import { getFirstPaintFaces } from '@/lib/speakers'
 export const revalidate = 3600
 
 export default async function Home() {
-  const firstFaces = await getFirstPaintFaces()
+  const { faces: firstFaces, total: faceTotal } = await getFirstPaintFaces()
 
   const nextWestLead = {
     id: 'next-west',
@@ -27,7 +27,7 @@ export default async function Home() {
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
 
-      <SpeakersReel initialFaces={firstFaces} />
+      <SpeakersReel initialFaces={firstFaces} total={faceTotal} />
 
       <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
         <span id="power" className="paper-anchor" />

@@ -5,22 +5,15 @@ import './globals.css'
 
 // Editorial display serif — wordmark + headlines (variable weight, local)
 const playfair = localFont({
-  src: [
-    { path: '../public/fonts/playfair-display-latin-wght-normal.woff2', style: 'normal' },
-    { path: '../public/fonts/playfair-display-latin-wght-italic.woff2', style: 'italic' },
-  ],
+  src: '../public/fonts/playfair-display-latin-wght-normal.woff2',
   variable: '--font-display',
   display: 'swap',
   preload: true,
 })
 
-// Warm body serif — article text, taglines, excerpts (local)
 const baskerville = localFont({
-  src: [
-    { path: '../public/fonts/libre-baskerville-latin-400-normal.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/libre-baskerville-latin-700-normal.woff2', weight: '700', style: 'normal' },
-    { path: '../public/fonts/libre-baskerville-latin-400-italic.woff2', weight: '400', style: 'italic' },
-  ],
+  src: '../public/fonts/libre-baskerville-latin-400-normal.woff2',
+  weight: '400',
   variable: '--font-serif',
   display: 'swap',
   preload: true,

@@ -61,7 +61,7 @@ export function MagazineHeader() {
             <a href="/" className="paper-wordmark font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]">
               CITYAGE
             </a>
-            <p className="paper-tagline mt-4 px-4 font-serif text-[14px] md:text-[16px] text-black/70 leading-snug">
+            <p className="paper-tagline">
               Intelligence for the urban planet.
             </p>
           </div>
