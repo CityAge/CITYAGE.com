@@ -8,8 +8,11 @@ export function MagazineFooter() {
           <h2 className="font-serif text-3xl font-black uppercase tracking-[0.06em]">
             CITYAGE
           </h2>
-          <p className="text-[12px] text-white/40 leading-relaxed uppercase tracking-[0.15em]">
+          <p className="text-[12px] text-[#C5A059] leading-relaxed uppercase tracking-[0.15em]">
             Intelligence for The Urban Planet
+          </p>
+          <p className="font-serif italic text-[13px] text-white/45 leading-relaxed normal-case tracking-normal font-normal">
+            everything happens on the earth’s 2 percent.
           </p>
           <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059]">
             Est. 2012 — Vancouver
