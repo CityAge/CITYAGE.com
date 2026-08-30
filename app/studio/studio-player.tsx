@@ -11,6 +11,7 @@ const HOUSE = [
 ] as const
 
 const HERO_VIMEO = '1197477652'
+const HERO_STILL = '/studio-hero-still.jpg'
 
 const APPEARS = [
   { file: 'nyt.jpg', alt: 'The New York Times' },
@@ -184,20 +185,20 @@ const FILMS: Film[] = [
 
 function vimeoSrc(id: string, controlsOff = false) {
   const extra = controlsOff ? '&controls=0' : ''
-  return `https://player.vimeo.com/video/${id}?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0${extra}`
+  return `https://player.vimeo.com/video/${id}?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&dnt=1${extra}`
 }
 
 export function StudioPlayer() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const stillRef = useRef<HTMLImageElement>(null)
   const platoTimer = useRef<number | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [muted, setMuted] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [info, setInfo] = useState<Film | null>(null)
-  const [iframeSrc, setIframeSrc] = useState(() => vimeoSrc(HERO_VIMEO, true))
-  const [iframeOn, setIframeOn] = useState(true)
-  const [stillOn, setStillOn] = useState(false)
+  const [iframeSrc, setIframeSrc] = useState('')
+  const [iframeOn, setIframeOn] = useState(false)
+  const [stillSrc, setStillSrc] = useState(HERO_STILL)
+  const [stillOn, setStillOn] = useState(true)
   const [platoOn, setPlatoOn] = useState(true)
 
   function clearPlatoTimer() {
@@ -207,16 +208,28 @@ export function StudioPlayer() {
     }
   }
 
-  function openHero() {
-    setIframeSrc(vimeoSrc(HERO_VIMEO, true))
-    setIframeOn(true)
-    setStillOn(false)
-    if (stillRef.current) stillRef.current.removeAttribute('src')
+  function openHeroStill() {
+    setIframeSrc('')
+    setIframeOn(false)
+    setStillSrc(HERO_STILL)
+    setStillOn(true)
     setActiveId(null)
     setInfo(null)
+    setMuted(false)
     setPlatoOn(true)
     clearPlatoTimer()
     platoTimer.current = window.setTimeout(() => setPlatoOn(false), 5200)
+  }
+
+  function playHeroReel() {
+    clearPlatoTimer()
+    setPlatoOn(false)
+    setActiveId(null)
+    setInfo(null)
+    setMuted(false)
+    setStillOn(false)
+    setIframeSrc(vimeoSrc(HERO_VIMEO, true))
+    setIframeOn(true)
   }
 
   useEffect(() => {
@@ -225,14 +238,35 @@ export function StudioPlayer() {
     return () => clearPlatoTimer()
   }, [])
 
-  function postVimeo(method: string, value: number | boolean) {
+  useEffect(() => {
+    function onMessage(event: MessageEvent) {
+      if (typeof event.data !== 'string') return
+      try {
+        const data = JSON.parse(event.data) as { event?: string }
+        if (data.event === 'ended' && !activeId) openHeroStill()
+      } catch {
+        /* ignore */
+      }
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [activeId])
+
+  function postVimeo(method: string, value?: number | boolean | string) {
     const win = iframeRef.current?.contentWindow
     if (!win) return
-    win.postMessage(JSON.stringify({ method, value }), '*')
+    win.postMessage(JSON.stringify(value === undefined ? { method } : { method, value }), '*')
+  }
+
+  function onHeroIframeLoad() {
+    postVimeo('addEventListener', 'ended')
   }
 
   function toggleMute() {
-    if (!iframeRef.current?.src) return
+    if (!iframeOn || !iframeSrc) {
+      playHeroReel()
+      return
+    }
     const next = !muted
     setMuted(next)
     postVimeo('setVolume', next ? 0 : 1)
@@ -240,8 +274,7 @@ export function StudioPlayer() {
   }
 
   function stopHero() {
-    setMuted(false)
-    openHero()
+    openHeroStill()
   }
 
   function playFilm(film: Film) {
@@ -258,8 +291,8 @@ export function StudioPlayer() {
     if (film.stillImage) {
       setIframeOn(false)
       setIframeSrc('')
+      setStillSrc(film.stillImage)
       setStillOn(true)
-      if (stillRef.current) stillRef.current.src = film.stillImage
       return
     }
 
@@ -312,19 +345,22 @@ export function StudioPlayer() {
 
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          ref={stillRef}
           className="sv-still"
+          src={stillSrc}
           alt=""
           style={{ display: stillOn ? 'block' : 'none' }}
         />
-        <iframe
-          ref={iframeRef}
-          className={`sv-iframe${iframeOn ? ' sv-visible' : ''}`}
-          src={iframeSrc}
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
-          title="CityAge Studio"
-        />
+        {iframeSrc ? (
+          <iframe
+            ref={iframeRef}
+            className={`sv-iframe${iframeOn ? ' sv-visible' : ''}`}
+            src={iframeSrc}
+            onLoad={onHeroIframeLoad}
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            title="CityAge Studio"
+          />
+        ) : null}
 
         <div className={`sv-plato${platoOn ? '' : ' hidden'}`}>
           <span className="sv-p-pre">Plato Said —</span>
@@ -376,6 +412,14 @@ export function StudioPlayer() {
             </>
           )}
         </div>
+      </div>
+
+      <div className="sv-cta">
+        <div className="sv-cta-name">CityAge Studio</div>
+        <div className="sv-cta-lead">We put ideas in motion.</div>
+        <p className="sv-cta-text">
+          Our documentaries and films have been seen by millions of people. We make films and brands. We take on a few projects a year, by choice.
+        </p>
       </div>
 
       <div className="sv-logos">
@@ -436,14 +480,6 @@ export function StudioPlayer() {
             )
           })}
         </div>
-      </div>
-
-      <div className="sv-cta">
-        <div className="sv-cta-name">CityAge Studio</div>
-        <div className="sv-cta-lead">We put ideas in motion.</div>
-        <p className="sv-cta-text">
-          Our documentaries and films have been seen by millions of people. We make films and brands. We take on a few projects a year, by choice.
-        </p>
       </div>
     </div>
   )
