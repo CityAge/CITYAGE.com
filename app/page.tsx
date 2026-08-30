@@ -148,7 +148,7 @@ export default function Home() {
                   Intelligence on infrastructure, defence, space, energy, and food systems. Delivered before markets open.
                 </p>
 
-                <div className="mb-2">
+                <div className="mb-6">
                   <input
                     type="email"
                     placeholder="your@email.com"
