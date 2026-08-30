@@ -134,30 +134,39 @@ function vimeoSrc(id: string, controlsOff = false) {
 export function StudioPlayer() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const stillRef = useRef<HTMLImageElement>(null)
-  const posterRef = useRef<HTMLDivElement>(null)
+  const platoTimer = useRef<number | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [muted, setMuted] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [info, setInfo] = useState<Film | null>(null)
-  const [iframeSrc, setIframeSrc] = useState('')
-  const [iframeOn, setIframeOn] = useState(false)
+  const [iframeSrc, setIframeSrc] = useState(() => vimeoSrc(HERO_VIMEO, true))
+  const [iframeOn, setIframeOn] = useState(true)
   const [stillOn, setStillOn] = useState(false)
+  const [platoOn, setPlatoOn] = useState(true)
 
-  useEffect(() => {
+  function clearPlatoTimer() {
+    if (platoTimer.current != null) {
+      window.clearTimeout(platoTimer.current)
+      platoTimer.current = null
+    }
+  }
+
+  function openHero() {
     setIframeSrc(vimeoSrc(HERO_VIMEO, true))
     setIframeOn(true)
+    setStillOn(false)
+    if (stillRef.current) stillRef.current.removeAttribute('src')
+    setActiveId(null)
+    setInfo(null)
+    setPlatoOn(true)
+    clearPlatoTimer()
+    platoTimer.current = window.setTimeout(() => setPlatoOn(false), 5200)
+  }
 
-    fetch('https://vimeo.com/api/oembed.json?url=https://vimeo.com/1197477652&width=1280')
-      .then((r) => r.json())
-      .then((d) => {
-        if (posterRef.current && d.thumbnail_url) {
-          posterRef.current.style.backgroundImage = `url(${String(d.thumbnail_url).replace(/_\d+x\d+/, '_1280x720')})`
-        }
-      })
-      .catch(() => {})
-
-    const t = window.setTimeout(() => posterRef.current?.classList.add('loaded'), 2200)
-    return () => window.clearTimeout(t)
+  useEffect(() => {
+    clearPlatoTimer()
+    platoTimer.current = window.setTimeout(() => setPlatoOn(false), 5200)
+    return () => clearPlatoTimer()
   }, [])
 
   function postVimeo(method: string, value: number | boolean) {
@@ -175,17 +184,13 @@ export function StudioPlayer() {
   }
 
   function stopHero() {
-    setIframeOn(false)
-    setIframeSrc('')
-    setStillOn(false)
-    if (stillRef.current) stillRef.current.removeAttribute('src')
-    setActiveId(null)
-    setInfo(null)
     setMuted(false)
-    posterRef.current?.classList.remove('loaded')
+    openHero()
   }
 
   function playFilm(film: Film) {
+    clearPlatoTimer()
+    setPlatoOn(false)
     setActiveId(film.id)
     setInfo(film)
 
@@ -219,13 +224,9 @@ export function StudioPlayer() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
               </svg>
             </button>
-            <div className="sv-house-links">
-              {HOUSE.map((link) => (
-                <a key={link.href} href={link.href} className={link.href === '/studio' ? 'is-here' : undefined}>
-                  {link.label}
-                </a>
-              ))}
-            </div>
+            <a href="/" className={`sv-house-mark ${WORDMARK_COMPACT_ON_INK}`}>
+              CITYAGE
+            </a>
             <div className={`sv-drawer${menuOpen ? ' is-open' : ''}`}>
               {HOUSE.map((link) => (
                 <a key={link.href} href={link.href}>
@@ -235,16 +236,19 @@ export function StudioPlayer() {
             </div>
           </div>
           <div className="sv-house-right">
+            <div className="sv-house-links">
+              {HOUSE.map((link) => (
+                <a key={link.href} href={link.href} className={link.href === '/studio' ? 'is-here' : undefined}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
             <a href="/#subscribe" className="sv-subscribe">
               Subscribe
-            </a>
-            <a href="/" className={`sv-house-mark ${WORDMARK_COMPACT_ON_INK}`}>
-              CITYAGE
             </a>
           </div>
         </nav>
 
-        <div className="sv-poster" ref={posterRef} />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={stillRef}
@@ -260,6 +264,13 @@ export function StudioPlayer() {
           allowFullScreen
           title="CityAge Studio"
         />
+
+        <div className={`sv-plato${platoOn ? '' : ' hidden'}`}>
+          <span className="sv-p-pre">Plato Said —</span>
+          <span className="sv-p-l1">Those who tell</span>
+          <span className="sv-p-l2">the stories</span>
+          <span className="sv-p-l3">rule the world.</span>
+        </div>
 
         <div className="sv-player-btns">
           <button type="button" className="sv-mute-btn" onClick={toggleMute} title="Toggle sound">
