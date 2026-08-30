@@ -1,20 +1,29 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
 // Compact sticky: masthead(py-2) + nav. Used as a swap after the large mark is gone.
 export const HEADER_COMPRESSED_HEIGHT = 124
 
-const WORDMARK_LARGE =
-  'font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] text-[2.25rem] md:text-[4rem] lg:text-[5.5rem] xl:text-[6rem]'
-const WORDMARK_COMPACT =
-  'font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] text-2xl md:text-3xl'
+/** One CITYAGE drawing — door and Studio share this. No second face. */
+export const WORDMARK_TYPE =
+  'font-serif font-black uppercase monocle-wordmark tracking-[0.035em] leading-[0.85]'
+
+const WORDMARK_LARGE = `${WORDMARK_TYPE} text-black text-[2.25rem] md:text-[4rem] lg:text-[5.5rem] xl:text-[6rem]`
+const WORDMARK_COMPACT = `${WORDMARK_TYPE} text-black text-2xl md:text-3xl`
+
+/** Same compact mark as the door, white on ink. */
+export const WORDMARK_COMPACT_ON_INK = `${WORDMARK_TYPE} text-white text-2xl md:text-3xl`
 
 const HOUSE_LINKS = [
   { href: '/purpose', label: 'Purpose' },
   { href: '/partners', label: 'Partners' },
   { href: '/studio', label: 'Studio' },
 ] as const
+
+const HOUSE_LINK_CLASS =
+  'text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity'
 
 function UtilityBar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -35,13 +44,13 @@ function UtilityBar() {
             </svg>
           </button>
           {HOUSE_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
-              className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block"
+              className={`${HOUSE_LINK_CLASS} hidden md:block`}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
         <div className="flex items-center gap-5 md:gap-7">
@@ -56,15 +65,11 @@ function UtilityBar() {
         </div>
       </div>
       {menuOpen && (
-        <div className="max-w-[1400px] mx-auto flex flex-col gap-3 pt-3 pb-1 md:hidden">
+        <div className="max-w-[1400px] mx-auto flex flex-col gap-3 pt-3 pb-1">
           {HOUSE_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity"
-            >
+            <Link key={link.href} href={link.href} className={HOUSE_LINK_CLASS}>
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
       )}

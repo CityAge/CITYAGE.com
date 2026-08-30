@@ -1,5 +1,6 @@
 'use client'
 
+import { WORDMARK_COMPACT_ON_INK } from '@/components/magazine-header'
 import { useEffect, useRef, useState } from 'react'
 import './studio.css'
 
@@ -237,7 +238,7 @@ export function StudioPlayer() {
             <a href="/#subscribe" className="sv-subscribe">
               Subscribe
             </a>
-            <a href="/" className="sv-house-mark monocle-wordmark">
+            <a href="/" className={`sv-house-mark ${WORDMARK_COMPACT_ON_INK}`}>
               CITYAGE
             </a>
           </div>
