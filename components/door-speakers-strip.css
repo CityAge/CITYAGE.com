@@ -1,0 +1,127 @@
+/* One quiet strip on the cream door, above the house footer. */
+
+.door-speakers-reel {
+  background: #120f0b;
+  border-top: 1px solid #2a2218;
+  overflow-x: hidden;
+}
+
+.door-speakers-reel .speakers-reel-rule {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 24px 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.door-speakers-reel .speakers-reel-kicker {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f9f9f7;
+  text-decoration: none;
+}
+
+.door-speakers-reel .speakers-reel-kicker:hover {
+  color: #c5a059;
+}
+
+.door-speakers-reel .speakers-reel-count {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(250, 246, 238, 0.4);
+}
+
+.door-speakers-reel .speakers-reel-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.door-speakers-reel .speakers-reel-outer {
+  background: #120f0b;
+  position: relative;
+  overflow: hidden;
+}
+
+.door-speakers-reel .speakers-reel-fade-left,
+.door-speakers-reel .speakers-reel-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 72px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.door-speakers-reel .speakers-reel-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #120f0b, transparent);
+}
+
+.door-speakers-reel .speakers-reel-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #120f0b, transparent);
+}
+
+.door-speakers-reel .speakers-reel-track {
+  display: flex;
+  gap: 4px;
+  padding: 12px 0;
+  width: max-content;
+  animation: speakers-scroll-left 95s linear infinite;
+}
+
+.door-speakers-reel .speakers-reel-track:hover {
+  animation-play-state: paused;
+}
+
+.door-speakers-reel .speakers-reel-face {
+  flex-shrink: 0;
+  width: 64px;
+  height: 76px;
+  position: relative;
+  background: #1c1610;
+  overflow: hidden;
+  display: block;
+}
+
+.door-speakers-reel .speakers-reel-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(100%) brightness(0.85) contrast(1.1);
+}
+
+.door-speakers-reel .speakers-reel-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1c1610;
+}
+
+.door-speakers-reel .speakers-reel-placeholder span {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 14px;
+  color: rgba(184, 149, 106, 0.45);
+}
+
+.door-speakers-reel .speakers-reel-overlay {
+  display: none;
+}
+
+@keyframes speakers-scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

@@ -2,6 +2,7 @@ import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
+import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
 import { HeroGrid } from '@/components/hero-grid'
 
 export const revalidate = 60
@@ -184,6 +185,7 @@ export default function Home() {
         />
       </main>
 
+      <DoorSpeakersStrip />
       <MagazineFooter />
     </div>
   )
