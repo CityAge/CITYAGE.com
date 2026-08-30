@@ -4,7 +4,7 @@ import { StudioPlayer } from './studio-player'
 
 export const metadata: Metadata = {
   title: 'Studio — CityAge',
-  description: 'We make films and brands for people.',
+  description: 'We put ideas in motion.',
 }
 
 export default function StudioPage() {
