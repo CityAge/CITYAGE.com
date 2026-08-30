@@ -41,7 +41,7 @@ type Film = {
   vimeoId: string | null
   stillImage: string | null
   watchUrl?: string
-  bg: string
+  thumb: string | null
 }
 
 const FILMS: Film[] = [
@@ -53,7 +53,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '393076418',
     stillImage: null,
-    bg: "url('/best-day-ever-thumb.jpg') center/cover no-repeat",
+    thumb: '/best-day-ever-thumb.jpg',
   },
   {
     id: 'facing-saddam',
@@ -63,7 +63,7 @@ const FILMS: Film[] = [
     awards: ['National Geographic Channel', 'Directed by Miro Cernetig'],
     vimeoId: null,
     stillImage: '/facing-saddam-still.png',
-    bg: "url('/facing-saddam-thumb.png') center/cover no-repeat",
+    thumb: '/facing-saddam-still.png',
   },
   {
     id: 'sketch-in-the-city',
@@ -73,7 +73,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '241956203',
     stillImage: null,
-    bg: "url('/sketch-in-the-city-thumb.jpg') center/cover no-repeat",
+    thumb: '/sketch-in-the-city-thumb.jpg',
   },
   {
     id: 'west-coast-modernism',
@@ -83,7 +83,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '287190902',
     stillImage: null,
-    bg: "url('/grosvenor-thumb.jpg') center/cover no-repeat",
+    thumb: '/grosvenor-thumb.jpg',
   },
   {
     id: 'grosvenor-history',
@@ -93,7 +93,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '266034155',
     stillImage: null,
-    bg: "url('/grosvenor-history-thumb.jpg') center/cover no-repeat",
+    thumb: '/grosvenor-history-thumb.jpg',
   },
   {
     id: 'harbour-air',
@@ -103,7 +103,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '141440365',
     stillImage: null,
-    bg: "url('/harbour-air-thumb.jpg') center/cover no-repeat",
+    thumb: '/harbour-air-thumb.jpg',
   },
   {
     id: 'digging-up-a-ship',
@@ -113,7 +113,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '199052432',
     stillImage: null,
-    bg: 'linear-gradient(145deg,#0d1008 0%,#080a05 100%)',
+    thumb: null,
   },
   {
     id: 'deep-sea-mining',
@@ -123,18 +123,62 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '286643094',
     stillImage: null,
-    bg: "url('/deep-sea-mining-thumb.jpg') center/cover no-repeat",
+    thumb: '/deep-sea-mining-thumb.jpg',
   },
   {
     id: 'chinas-sexual-revolution',
     title: 'China’s Sexual Revolution',
-    type: 'Documentary · 2007 · CBC',
+    type: '',
     desc: '',
     awards: [],
     vimeoId: null,
     stillImage: null,
     watchUrl: 'https://tubitv.com/movies/608855/china-s-sexual-revolution',
-    bg: "url('/chinas-sexual-revolution-thumb.jpg') center/cover no-repeat",
+    thumb: '/chinas-sexual-revolution-thumb.jpg',
+  },
+  {
+    id: 'polar-bear-safari',
+    title: 'Polar Bear Safari',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.primevideo.com/detail/0SY3XAQ5LEZDYLQ9F41FDWZ84L',
+    thumb: '/polar-bear-safari-thumb.jpg',
+  },
+  {
+    id: 'carbon-hunters',
+    title: 'Carbon Hunters',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.youtube.com/watch?v=MLRBDD7x77M',
+    thumb: '/carbon-hunters-thumb.jpg',
+  },
+  {
+    id: 'juggling-dreams',
+    title: 'Juggling Dreams',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.primevideo.com/detail/0HBUUQSC8OYN1W79EVX02W0FFS',
+    thumb: null,
+  },
+  {
+    id: 'castros-gold',
+    title: 'Castro’s Gold',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.youtube.com/watch?v=sw2qF83VMTc',
+    thumb: '/castros-gold-thumb.jpg',
   },
 ]
 
@@ -354,18 +398,13 @@ export function StudioPlayer() {
             const cardClass = `sv-card${activeId === film.id ? ' sv-active' : ''}`
             const inner = (
               <>
-                <div className="sv-thumb" style={{ background: film.bg }}>
-                  {!film.watchUrl && <span className="sv-thumb-title">{film.title}</span>}
-                  <div className="sv-thumb-play">
-                    <div className="sv-play-btn">
-                      <div className="sv-tri" />
-                    </div>
-                  </div>
+                <div className="sv-thumb">
+                  {film.thumb ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={film.thumb} alt="" />
+                  ) : null}
                 </div>
-                <div className="sv-card-foot">
-                  <div className="sv-card-name">{film.title}</div>
-                  <div className="sv-card-type">{film.type}</div>
-                </div>
+                <div className="sv-card-name">{film.title}</div>
               </>
             )
 
