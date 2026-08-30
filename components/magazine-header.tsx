@@ -45,26 +45,14 @@ export function MagazineHeader() {
       </div>
 
       {/* ─── MASTHEAD: two states, snaps instantly ─── */}
-      <div className={`border-b border-black px-6 md:px-12 transition-all duration-200 ${isCompressed ? 'py-2' : 'py-8 md:py-12'}`}>
+      <div className={`border-b border-black px-6 md:px-12 transition-all duration-200 ${isCompressed ? 'py-2' : 'py-10 md:py-16'}`}>
         <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
-
-
-
-          {/* Wordmark: big or small */}
+          {/* Wordmark: one step down from the light cut, same face, air beside it */}
           <div className="flex flex-col items-center">
-            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]'}`}>
+            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3rem] md:text-[5.5rem] lg:text-[8rem] xl:text-[9rem]'}`}>
               CITYAGE
             </a>
           </div>
-
-          {/* Right bracket — hidden when compressed */}
-          {!isCompressed && (
-            <div className="hidden xl:block absolute right-0 bottom-0 text-right">
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
-                Published daily<br />from Vancouver
-              </a>
-            </div>
-          )}
         </div>
       </div>
 

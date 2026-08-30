@@ -13,10 +13,11 @@ interface ArticleCardProps {
   readTime?: string
   variant?: 'hero-lead' | 'hero-secondary' | 'hero-tertiary' | 'featured-card' | 'category-list' | 'default'
   linkPrefix?: string
+  href?: string
 }
 
-export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default', linkPrefix = '/dispatches' }: ArticleCardProps) {
-  const href = `${linkPrefix}/${id}`
+export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default', linkPrefix = '/dispatches', href: hrefProp }: ArticleCardProps) {
+  const href = hrefProp ?? `${linkPrefix}/${id}`
 
   // ── HERO LEAD: Large headline, image, then excerpt ──
   if (variant === 'hero-lead') {
