@@ -6,6 +6,8 @@ import { HeroGrid } from '@/components/hero-grid'
 
 export const revalidate = 60
 
+const MAGAZINE_STORY = '/magazine/41365717-a9f4-4d51-b3ff-6b7ed72b938d'
+
 const LOREM = {
   lead: {
     id: 'lorem-lead',
@@ -111,7 +113,7 @@ export default function Home() {
               image={LOREM.lead.image}
               readTime={LOREM.lead.readTime}
               variant="hero-lead"
-              href="#"
+              href={MAGAZINE_STORY}
             />
           }
           middleColumn={
@@ -128,7 +130,7 @@ export default function Home() {
                     image={article.image}
                     readTime={article.readTime}
                     variant="hero-secondary"
-                    href="#"
+                    href={MAGAZINE_STORY}
                   />
                 </div>
               ))}
@@ -172,7 +174,7 @@ export default function Home() {
                       date={article.date}
                       readTime={article.readTime}
                       variant="hero-tertiary"
-                      href="#"
+                      href={MAGAZINE_STORY}
                     />
                   </div>
                 ))}
