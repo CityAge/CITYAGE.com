@@ -167,7 +167,7 @@ const FILMS: Film[] = [
     vimeoId: null,
     stillImage: null,
     watchUrl: 'https://www.primevideo.com/detail/0HBUUQSC8OYN1W79EVX02W0FFS',
-    thumb: null,
+    thumb: '/juggling-dreams-thumb.jpg',
   },
   {
     id: 'castros-gold',
