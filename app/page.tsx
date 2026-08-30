@@ -26,7 +26,7 @@ const LOREM = {
       excerpt: null,
       date: 'Ipsum',
       readTime: '3 min read',
-      image: '/harbour-air-thumb.jpg',
+      image: '/magazine-images/aerial.png',
     },
     {
       id: 'lorem-secondary-2',
@@ -36,7 +36,7 @@ const LOREM = {
       excerpt: null,
       date: 'Dolor',
       readTime: '5 min read',
-      image: '/earth-lights.jpg',
+      image: '/magazine-images/photojournalism.png',
     },
     {
       id: 'lorem-secondary-3',
@@ -46,7 +46,7 @@ const LOREM = {
       excerpt: null,
       date: 'Sit',
       readTime: '4 min read',
-      image: '/northern-century-earth.jpg',
+      image: '/magazine-images/cinematic.png',
     },
     {
       id: 'lorem-secondary-4',
@@ -56,7 +56,7 @@ const LOREM = {
       excerpt: null,
       date: 'Amet',
       readTime: '6 min read',
-      image: '/wildfire-evacuation.jpg',
+      image: '/harbour-air-thumb.jpg',
     },
   ],
   tertiary: [
