@@ -12,20 +12,23 @@ const HOUSE = [
 const HERO_VIMEO = '1197477652'
 
 const APPEARS = [
-  { file: 'natgeo.jpg', alt: 'National Geographic' },
+  { file: 'nyt.jpg', alt: 'The New York Times' },
   { file: 'economi.jpg', alt: 'The Economist' },
+  { file: 'natgeo.jpg', alt: 'National Geographic' },
   { file: '60.jpg', alt: '60 Minutes' },
   { file: 'cbc.jpg', alt: 'CBC' },
-  { file: 'nyt.jpg', alt: 'New York Times' },
   { file: 'pbs.jpg', alt: 'PBS' },
   { file: 'tiff.jpg', alt: 'TIFF' },
   { file: 'leo.jpg', alt: 'LEO Awards' },
   { file: 'long.jpg', alt: 'Long Beach IFF' },
   { file: 'sonoma.jpg', alt: 'Sonoma IFF' },
-  { file: 'cannes.jpg', alt: 'Cannes' },
+  { file: 'cannes.jpg', alt: 'Festival de Cannes' },
   { file: 'feratum.jpg', alt: 'Feratum' },
-  { file: 'canal.jpg', alt: 'Canal' },
+  { file: 'canal.jpg', alt: 'CANAL+' },
   { file: 'cordillera.jpg', alt: 'Cordillera' },
+  { file: 'aporto.jpg', alt: 'A Porto International Short Film Festival' },
+  { file: 'baddass.jpg', alt: 'Vancouver Badass Film Festival' },
+  { file: 'victoria.jpg', alt: 'Victoria Film Festival' },
 ]
 
 type Film = {
@@ -59,6 +62,26 @@ const FILMS: Film[] = [
     vimeoId: null,
     stillImage: '/facing-saddam-still.png',
     bg: "url('/facing-saddam-thumb.png') center/cover no-repeat",
+  },
+  {
+    id: 'solar-earth',
+    title: 'Solar Earth',
+    type: 'Corporate Documentary',
+    desc: "Shot from the air across Canada's burning landscape — wildfire, drought, and the clean energy response.",
+    awards: ['Corporate Documentary', 'Aerial Photography'],
+    vimeoId: null,
+    stillImage: '/studio/posters-solarearth.jpg',
+    bg: "url('/studio/posters-solarearth.jpg') center/cover no-repeat",
+  },
+  {
+    id: 'giltrude',
+    title: "Giltrude's Dwelling",
+    type: 'Short Film',
+    desc: 'Orphaned at 11, Giltrude has waited 15 years. When a dilemma arrives, she must face the world.',
+    awards: ['LEO Award — Best Short Drama', 'Long Beach IFF'],
+    vimeoId: null,
+    stillImage: '/studio/posters-giltrude.jpg',
+    bg: "url('/studio/posters-giltrude.jpg') center/cover no-repeat",
   },
   {
     id: 'sketch-in-the-city',
@@ -170,6 +193,17 @@ export function StudioPlayer() {
     postVimeo('setMuted', next)
   }
 
+  function stopHero() {
+    setIframeOn(false)
+    setIframeSrc('')
+    setStillOn(false)
+    if (stillRef.current) stillRef.current.removeAttribute('src')
+    setActiveId(null)
+    setInfo(null)
+    setMuted(false)
+    posterRef.current?.classList.remove('loaded')
+  }
+
   function playFilm(film: Film) {
     setActiveId(film.id)
     setInfo(film)
@@ -246,22 +280,30 @@ export function StudioPlayer() {
           title="CityAge Studio"
         />
 
-        <button type="button" className="sv-mute-btn" onClick={toggleMute} title="Toggle sound">
-          {muted ? (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-              <line x1="23" y1="9" x2="17" y2="15" />
-              <line x1="17" y1="9" x2="23" y2="15" />
+        <div className="sv-player-btns">
+          <button type="button" className="sv-mute-btn" onClick={toggleMute} title="Toggle sound">
+            {muted ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <line x1="23" y1="9" x2="17" y2="15" />
+                <line x1="17" y1="9" x2="23" y2="15" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+              </svg>
+            )}
+            <span>{muted ? 'Sound Off' : 'Sound On'}</span>
+          </button>
+          <button type="button" className="sv-stop-btn" onClick={stopHero} title="Stop video">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <rect x="6" y="6" width="12" height="12" />
             </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-            </svg>
-          )}
-          <span>{muted ? 'Sound Off' : 'Sound On'}</span>
-        </button>
+            <span>Stop</span>
+          </button>
+        </div>
 
         <div className="sv-fade" />
 

@@ -153,11 +153,18 @@
   transition: opacity 0.6s;
 }
 
-#page-studio .sv-mute-btn {
+#page-studio .sv-player-btns {
   position: absolute;
   bottom: 28px;
   right: 28px;
   z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#page-studio .sv-mute-btn,
+#page-studio .sv-stop-btn {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -173,12 +180,14 @@
   backdrop-filter: blur(6px);
 }
 
-#page-studio .sv-mute-btn:hover {
+#page-studio .sv-mute-btn:hover,
+#page-studio .sv-stop-btn:hover {
   border-color: #b8956a;
   color: #b8956a;
 }
 
-#page-studio .sv-mute-btn svg {
+#page-studio .sv-mute-btn svg,
+#page-studio .sv-stop-btn svg {
   width: 16px;
   height: 16px;
 }
@@ -274,16 +283,16 @@
 
 #page-studio .sv-logo-img {
   height: 32px;
-  max-width: 100px;
+  max-width: 110px;
   object-fit: contain;
-  filter: grayscale(100%);
-  opacity: 0.65;
+  /* Designed marks are black-on-white JPEGs. Invert knocks the white canvas into the bar. */
+  filter: invert(1);
+  opacity: 0.8;
   flex-shrink: 0;
 }
 
 #page-studio .sv-logo-img:hover {
   opacity: 1;
-  filter: grayscale(0%);
 }
 
 #page-studio .sv-shelf {
