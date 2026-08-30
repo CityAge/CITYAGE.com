@@ -15,6 +15,7 @@ const LOREM = {
     excerpt: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
     date: 'Lorem',
     readTime: '4 min read',
+    image: '/vancouver-bluesky.jpg',
   },
   secondary: [
     {
@@ -25,6 +26,7 @@ const LOREM = {
       excerpt: null,
       date: 'Ipsum',
       readTime: '3 min read',
+      image: '/harbour-air-thumb.jpg',
     },
     {
       id: 'lorem-secondary-2',
@@ -34,6 +36,7 @@ const LOREM = {
       excerpt: null,
       date: 'Dolor',
       readTime: '5 min read',
+      image: '/earth-lights.jpg',
     },
     {
       id: 'lorem-secondary-3',
@@ -43,6 +46,7 @@ const LOREM = {
       excerpt: null,
       date: 'Sit',
       readTime: '4 min read',
+      image: '/northern-century-earth.jpg',
     },
     {
       id: 'lorem-secondary-4',
@@ -52,6 +56,7 @@ const LOREM = {
       excerpt: null,
       date: 'Amet',
       readTime: '6 min read',
+      image: '/wildfire-evacuation.jpg',
     },
   ],
   tertiary: [
@@ -103,6 +108,7 @@ export default function Home() {
               excerpt={LOREM.lead.excerpt}
               date={LOREM.lead.date}
               isLead={true}
+              image={LOREM.lead.image}
               readTime={LOREM.lead.readTime}
               variant="hero-lead"
               href="#"
@@ -119,6 +125,7 @@ export default function Home() {
                     tagline={article.tagline}
                     excerpt={article.excerpt}
                     date={article.date}
+                    image={article.image}
                     readTime={article.readTime}
                     variant="hero-secondary"
                     href="#"
