@@ -40,6 +40,7 @@ type Film = {
   awards: string[]
   vimeoId: string | null
   stillImage: string | null
+  watchUrl?: string
   bg: string
 }
 
@@ -124,6 +125,17 @@ const FILMS: Film[] = [
     stillImage: null,
     bg: "url('/deep-sea-mining-thumb.jpg') center/cover no-repeat",
   },
+  {
+    id: 'chinas-sexual-revolution',
+    title: 'China’s Sexual Revolution',
+    type: 'Documentary · 2007 · CBC',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://tubitv.com/movies/608855/china-s-sexual-revolution',
+    bg: "url('/chinas-sexual-revolution-thumb.jpg') center/cover no-repeat",
+  },
 ]
 
 function vimeoSrc(id: string, controlsOff = false) {
@@ -189,6 +201,11 @@ export function StudioPlayer() {
   }
 
   function playFilm(film: Film) {
+    if (film.watchUrl) {
+      window.open(film.watchUrl, '_blank', 'noopener,noreferrer')
+      return
+    }
+
     clearPlatoTimer()
     setPlatoOn(false)
     setActiveId(film.id)
@@ -333,28 +350,52 @@ export function StudioPlayer() {
       <div className="sv-shelf">
         <span className="sv-shelf-label">Select a film</span>
         <div className="sv-row">
-          {FILMS.map((film) => (
-            <button
-              key={film.id}
-              type="button"
-              id={`sv-c-${film.id}`}
-              className={`sv-card${activeId === film.id ? ' sv-active' : ''}`}
-              onClick={() => playFilm(film)}
-            >
-              <div className="sv-thumb" style={{ background: film.bg }}>
-                <span className="sv-thumb-title">{film.title}</span>
-                <div className="sv-thumb-play">
-                  <div className="sv-play-btn">
-                    <div className="sv-tri" />
+          {FILMS.map((film) => {
+            const cardClass = `sv-card${activeId === film.id ? ' sv-active' : ''}`
+            const inner = (
+              <>
+                <div className="sv-thumb" style={{ background: film.bg }}>
+                  {!film.watchUrl && <span className="sv-thumb-title">{film.title}</span>}
+                  <div className="sv-thumb-play">
+                    <div className="sv-play-btn">
+                      <div className="sv-tri" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="sv-card-foot">
-                <div className="sv-card-name">{film.title}</div>
-                <div className="sv-card-type">{film.type}</div>
-              </div>
-            </button>
-          ))}
+                <div className="sv-card-foot">
+                  <div className="sv-card-name">{film.title}</div>
+                  <div className="sv-card-type">{film.type}</div>
+                </div>
+              </>
+            )
+
+            if (film.watchUrl) {
+              return (
+                <a
+                  key={film.id}
+                  id={`sv-c-${film.id}`}
+                  className={cardClass}
+                  href={film.watchUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {inner}
+                </a>
+              )
+            }
+
+            return (
+              <button
+                key={film.id}
+                type="button"
+                id={`sv-c-${film.id}`}
+                className={cardClass}
+                onClick={() => playFilm(film)}
+              >
+                {inner}
+              </button>
+            )
+          })}
         </div>
       </div>
 

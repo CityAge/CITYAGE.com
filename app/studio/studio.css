@@ -364,6 +364,8 @@
   padding: 0;
   color: inherit;
   width: 100%;
+  display: block;
+  text-decoration: none;
 }
 
 #page-studio .sv-card:hover {
