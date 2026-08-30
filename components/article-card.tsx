@@ -26,7 +26,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/50">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-[2.6rem] md:text-[3.6rem] leading-[1.04] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
+        <h2 className="font-serif font-medium text-[1.65rem] md:text-[2.1rem] leading-[1.22] tracking-normal mt-3 mb-4 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h2>
         {tagline && (
@@ -86,7 +86,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
-        <h3 className="font-serif font-bold text-[26px] leading-[1.15] tracking-tight mt-2 mb-4 group-hover:text-[#1A365D] transition-colors">
+        <h3 className="font-serif font-medium text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 mb-4 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
         <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60">
@@ -104,7 +104,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-black/70">
           {vertical}
         </span>
-        <h3 className="font-serif font-bold text-[17px] leading-snug tracking-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
+        <h3 className="font-serif font-medium text-[16px] leading-[1.3] tracking-normal mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
         <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60 mt-auto">{readTime}</span>

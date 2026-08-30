@@ -49,7 +49,7 @@ export function MagazineHeader() {
         <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
           {/* Wordmark: one step down from the light cut, same face, air beside it */}
           <div className="flex flex-col items-center">
-            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3rem] md:text-[5.5rem] lg:text-[8rem] xl:text-[9rem]'}`}>
+            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[2.25rem] md:text-[4rem] lg:text-[5.5rem] xl:text-[6rem]'}`}>
               CITYAGE
             </a>
           </div>
