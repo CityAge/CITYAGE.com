@@ -21,7 +21,7 @@ export function MagazineFooter() {
             Subscribe
           </a>
           <p className="font-serif text-white/70 text-[14px] pt-2">
-            CityAge 2026 TM
+            © CityAge 2026
           </p>
         </div>
 
