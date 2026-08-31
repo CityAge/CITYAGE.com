@@ -38,7 +38,9 @@ export function MagazineFooter() {
         {/* Contact */}
         <div className="md:col-span-3 space-y-4">
           <h3 className="text-[13px] font-bold tracking-[0.18em] uppercase text-white">
-            Contact
+            <a href="mailto:info@cityage.com" className="hover:text-white transition-colors">
+              Contact
+            </a>
           </h3>
           <address className="text-[15px] not-italic text-white/70 leading-relaxed space-y-2">
             <div>CityAge Media</div>
