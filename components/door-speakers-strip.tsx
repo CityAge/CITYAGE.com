@@ -99,7 +99,6 @@ function VirtualDoorRow({
                   alt=""
                   fill
                   sizes="48px"
-                  quality={50}
                   loading="lazy"
                   draggable={false}
                   onError={(event) => {
