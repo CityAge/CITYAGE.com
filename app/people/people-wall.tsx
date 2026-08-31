@@ -106,11 +106,13 @@ function VirtualPeopleRow({
   reverse,
   pxPerSec,
   paused,
+  startOffset,
 }: {
   faces: SpeakerFace[]
   reverse: boolean
   pxPerSec: number
   paused: boolean
+  startOffset: number
 }) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -144,14 +146,18 @@ function VirtualPeopleRow({
 
   useEffect(() => {
     if (slotCount === 0 || faces.length === 0) return
-    const next = Array.from({ length: slotCount }, (_, i) => ({ id: i, index: i % faces.length }))
+    const origin = ((startOffset % faces.length) + faces.length) % faces.length
+    const next = Array.from({ length: slotCount }, (_, i) => ({
+      id: i,
+      index: (origin + i) % faces.length,
+    }))
     slotsRef.current = next
     setSlots(next)
     for (const slot of next) holdThumb(faces[slot.index]?.headshot_url)
     for (let n = 1; n <= PREFETCH_AHEAD; n++) {
-      holdThumb(faces[(slotCount + n - 1) % faces.length]?.headshot_url)
+      holdThumb(faces[(origin + slotCount + n - 1) % faces.length]?.headshot_url)
     }
-  }, [faces, slotCount])
+  }, [faces, slotCount, startOffset])
 
   useLayoutEffect(() => {
     const track = trackRef.current
@@ -225,6 +231,9 @@ function VirtualPeopleRow({
     <div
       ref={wrapRef}
       className={`speakers-reel-section speakers-reel-${reverse ? 'right' : 'left'}`}
+      data-pool-size={faces.length}
+      data-dom-tiles={slots.length}
+      data-start-offset={startOffset}
       onMouseEnter={() => {
         hoverRef.current = true
       }}
@@ -253,7 +262,6 @@ function VirtualPeopleRow({
 
 export function PeopleWall() {
   const [speakers, setSpeakers] = useState<SpeakerFace[]>([])
-  const [rows, setRows] = useState<SpeakerFace[][]>([[], [], [], []])
   const [query, setQuery] = useState('')
   const [failed, setFailed] = useState(false)
 
@@ -263,15 +271,8 @@ export function PeopleWall() {
       .then((res) => (res.ok ? res.json() : []))
       .then((all: SpeakerFace[]) => {
         if (cancelled || !Array.isArray(all)) return
-        setSpeakers(all)
-        const shuffled = shuffle(all)
-        const chunk = Math.ceil(shuffled.length / 4) || 1
-        setRows([
-          shuffled.slice(0, chunk),
-          shuffled.slice(chunk, chunk * 2),
-          shuffled.slice(chunk * 2, chunk * 3),
-          shuffled.slice(chunk * 3),
-        ])
+        // One shuffle, four windows. Each strip walks the whole catalog, then loops.
+        setSpeakers(shuffle(all))
       })
       .catch(() => {
         if (!cancelled) setFailed(true)
@@ -295,17 +296,22 @@ export function PeopleWall() {
   const searching = query.trim().length > 0
 
   return (
-    <div id="people-wall" className={searching ? 'is-searching' : undefined}>
+    <div
+      id="people-wall"
+      className={searching ? 'is-searching' : undefined}
+      data-catalog-size={speakers.length}
+    >
       <div className="reel-stack" aria-label="The CityAge Contributors">
         {failed ? (
           <div className="people-loading">Unable to load speakers</div>
         ) : speakers.length === 0 ? (
           <div className="people-loading">Loading</div>
         ) : (
-          rows.map((faces, i) => (
+          REVERSE.map((_, i) => (
             <div key={i} className={`reel-section reel-${i + 1}`}>
               <VirtualPeopleRow
-                faces={faces}
+                faces={speakers}
+                startOffset={Math.floor((speakers.length * i) / 4)}
                 reverse={REVERSE[i]}
                 pxPerSec={SPEEDS[i]}
                 paused={searching}
