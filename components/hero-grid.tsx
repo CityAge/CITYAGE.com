@@ -9,6 +9,7 @@ export function HeroGrid({ leadColumn, middleColumn, sidebarColumn }: HeroGridPr
 
   return (
     <section className="border-b border-black/10 relative">
+      {/* Desktop: 3-column Monocle well — photographs in the columns, lead sticks */}
       <div
         className={`hidden lg:grid lg:gap-0 lg:items-start max-w-[1400px] mx-auto ${
           hasMiddle ? 'lg:grid-cols-[50%_1fr_1fr]' : 'lg:grid-cols-[minmax(0,1fr)_minmax(280px,42%)]'
