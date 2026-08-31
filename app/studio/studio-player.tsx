@@ -69,6 +69,17 @@ const FILMS: Film[] = [
     thumb: '/facing-saddam-still.png',
   },
   {
+    id: 'facing-trump',
+    title: 'Facing Trump',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: '/facing-trump-thumb.jpg',
+    watchUrl: 'https://tv.apple.com/ca/show/facing/umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
+    thumb: '/facing-trump-thumb.jpg',
+  },
+  {
     id: 'sketch-in-the-city',
     title: 'Sketch In The City',
     type: 'Short Film',
