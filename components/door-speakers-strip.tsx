@@ -1,32 +1,13 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { fetchDoorSpeakerFaces, hasSpeakerShot, shuffle, type SpeakerFace } from '@/lib/speakers'
+import { hasSpeakerShot, shuffle, type SpeakerFace } from '@/lib/speakers'
 import './door-speakers-strip.css'
 
 const FACE_W = 51
 const PX_PER_SEC = 18
-const DOOR_FETCH = 80
 const DOOR_KEEP = 48
-
-function decodeShot(url: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    const img = new window.Image()
-    img.onload = () => resolve(img.naturalWidth >= 20 && img.naturalHeight >= 20)
-    img.onerror = () => resolve(false)
-    img.src = url
-  })
-}
-
-async function onlyLoadedFaces(faces: SpeakerFace[]): Promise<SpeakerFace[]> {
-  const checked = await Promise.all(
-    faces.map(async (face) => {
-      if (!hasSpeakerShot(face.headshot_url)) return null
-      return (await decodeShot(face.headshot_url)) ? face : null
-    }),
-  )
-  return checked.filter((face): face is SpeakerFace => face != null)
-}
 
 function VirtualDoorRow({
   faces,
@@ -40,12 +21,11 @@ function VirtualDoorRow({
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const hoverRef = useRef(false)
-  const facesRef = useRef(faces)
+  const originRef = useRef(0)
   const [slotCount, setSlotCount] = useState(0)
+  const [origin, setOrigin] = useState(0)
 
-  useEffect(() => {
-    facesRef.current = faces
-  }, [faces])
+  const starters = faces.filter((face) => hasSpeakerShot(face.headshot_url))
 
   useEffect(() => {
     const el = wrapRef.current
@@ -62,62 +42,23 @@ function VirtualDoorRow({
 
   useEffect(() => {
     const track = trackRef.current
-    if (!track || slotCount === 0 || faces.length === 0) return
+    if (!track || slotCount === 0 || starters.length === 0) return
 
     let raf = 0
     let last = performance.now()
     let shift = 0
-    let cursor = 0
-    const nodes = Array.from(track.children) as HTMLElement[]
-
-    const faceAt = (index: number) => {
-      const list = facesRef.current
-      if (list.length === 0) return null
-      return list[((index % list.length) + list.length) % list.length]
-    }
-
-    const paint = (node: HTMLElement, index: number) => {
-      const speaker = faceAt(index)
-      const img = node.querySelector('img')
-      if (!speaker || !hasSpeakerShot(speaker.headshot_url) || !img) {
-        const at = nodes.indexOf(node)
-        if (at >= 0) nodes.splice(at, 1)
-        node.remove()
-        return
-      }
-      const next = speaker.headshot_url
-      if (img.dataset.src !== next) {
-        img.dataset.src = next
-        img.src = next
-      }
-    }
-
-    nodes.forEach((node, i) => paint(node, i))
 
     const tick = (now: number) => {
       const dt = Math.min(48, now - last)
       last = now
-      if (!hoverRef.current && document.visibilityState === 'visible' && facesRef.current.length > 0) {
+      if (!hoverRef.current && document.visibilityState === 'visible') {
         shift += PX_PER_SEC * (dt / 1000)
         while (shift >= FACE_W) {
           shift -= FACE_W
-          if (reverse) {
-            cursor = (cursor - 1 + facesRef.current.length) % facesRef.current.length
-            const lastNode = nodes.pop()
-            if (lastNode) {
-              nodes.unshift(lastNode)
-              track.insertBefore(lastNode, track.firstChild)
-              paint(lastNode, cursor)
-            }
-          } else {
-            cursor = (cursor + 1) % facesRef.current.length
-            const first = nodes.shift()
-            if (first) {
-              nodes.push(first)
-              track.appendChild(first)
-              paint(first, cursor + nodes.length - 1)
-            }
-          }
+          originRef.current = reverse
+            ? (originRef.current - 1 + starters.length) % starters.length
+            : (originRef.current + 1) % starters.length
+          setOrigin(originRef.current)
         }
         const x = reverse ? shift - FACE_W : -shift
         track.style.transform = `translate3d(${x}px,0,0)`
@@ -127,10 +68,11 @@ function VirtualDoorRow({
 
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [faces.length, reverse, slotCount])
+  }, [reverse, slotCount, starters.length])
 
-  const starters = faces.filter((face) => hasSpeakerShot(face.headshot_url))
-  if (starters.length === 0) return null
+  if (starters.length === 0 || slotCount === 0) {
+    return <div ref={wrapRef} className="speakers-reel-section" />
+  }
 
   return (
     <div
@@ -148,19 +90,18 @@ function VirtualDoorRow({
         <div className="speakers-reel-fade-right" />
         <div ref={trackRef} className="speakers-reel-track">
           {Array.from({ length: slotCount }, (_, i) => {
-            const speaker = starters[i % starters.length]
+            const speaker = starters[(origin + i) % starters.length]
             if (!speaker?.headshot_url) return null
             return (
               <a key={i} className="speakers-reel-face" href={href}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={speaker.headshot_url}
                   alt=""
-                  width={48}
-                  height={58}
-                  decoding="async"
+                  fill
+                  sizes="48px"
+                  quality={50}
+                  loading="lazy"
                   draggable={false}
-                  data-src={speaker.headshot_url}
                   onError={(event) => {
                     event.currentTarget.closest('a')?.remove()
                   }}
@@ -186,15 +127,18 @@ export function DoorSpeakersStrip() {
     let idleId = 0
 
     const load = () => {
-      fetchDoorSpeakerFaces(DOOR_FETCH)
-        .then((all) => onlyLoadedFaces(shuffle(all)))
-        .then((ready) => {
-          if (cancelled) return
-          const keep = ready.slice(0, DOOR_KEEP)
-          if (keep.length < 8) return
-          const mid = Math.ceil(keep.length / 2)
-          setTop(keep.slice(0, mid))
-          setBottom(keep.slice(mid))
+      fetch('/api/door-faces')
+        .then((res) => (res.ok ? res.json() : []))
+        .then((all: SpeakerFace[]) => {
+          if (cancelled || !Array.isArray(all)) return
+          const ready = shuffle(all.filter((face) => hasSpeakerShot(face.headshot_url))).slice(
+            0,
+            DOOR_KEEP,
+          )
+          if (ready.length < 8) return
+          const mid = Math.ceil(ready.length / 2)
+          setTop(ready.slice(0, mid))
+          setBottom(ready.slice(mid))
         })
         .catch(() => {})
     }

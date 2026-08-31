@@ -61,9 +61,12 @@
   display: none;
 }
 
+.door-speakers-reel .speakers-reel-face > span {
+  position: absolute !important;
+  inset: 0;
+}
+
 .door-speakers-reel .speakers-reel-face img {
-  width: 48px;
-  height: 58px;
   object-fit: cover;
   object-position: center top;
   filter: grayscale(100%) brightness(0.85) contrast(1.1);

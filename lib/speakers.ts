@@ -82,6 +82,7 @@ export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> 
         apikey: key,
         Authorization: `Bearer ${key}`,
       },
+      next: { revalidate: 3600 },
     },
   )
   if (!res.ok) return []
