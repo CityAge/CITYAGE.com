@@ -1,9 +1,14 @@
+import dynamic from 'next/dynamic'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
 import { HeroGrid } from '@/components/hero-grid'
+
+const DoorSpeakersStrip = dynamic(
+  () => import('@/components/door-speakers-strip').then((m) => m.DoorSpeakersStrip),
+  { ssr: false, loading: () => null },
+)
 
 export const revalidate = 60
 
@@ -185,7 +190,9 @@ export default function Home() {
         />
       </main>
 
-      <DoorSpeakersStrip />
+      <div style={{ minHeight: 136, background: '#120f0b', borderTop: '1px solid #2a2218' }}>
+        <DoorSpeakersStrip />
+      </div>
       <MagazineFooter />
     </div>
   )

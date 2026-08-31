@@ -53,6 +53,40 @@ export function shuffle<T>(items: T[]): T[] {
   return a
 }
 
+/** 48×58 door tiles. Do not bake; transform at the edge. */
+export function speakerThumbUrl(
+  url: string | null,
+  width = 96,
+  height = 116,
+): string | null {
+  if (!url) return null
+  const rendered = url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/')
+  if (rendered === url) return url
+  const join = rendered.includes('?') ? '&' : '?'
+  return `${rendered}${join}width=${width}&height=${height}&resize=cover&quality=55`
+}
+
+/** Door only: one small page of faces with shots. Not the full catalog. */
+export async function fetchDoorSpeakerFaces(limit = 48): Promise<SpeakerFace[]> {
+  const key = PEOPLE_HTML_ANON_KEY
+  const res = await fetch(
+    `${SPEAKERS_SUPABASE_URL}/rest/v1/speakers?select=id,name,headshot_url&headshot_url=not.is.null&limit=${limit}`,
+    {
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+      },
+    },
+  )
+  if (!res.ok) return []
+  const batch = (await res.json()) as SpeakerRow[]
+  if (!Array.isArray(batch)) return []
+  return uniqueByName(batch.map(toFace)).map((face) => ({
+    ...face,
+    headshot_url: speakerThumbUrl(face.headshot_url),
+  }))
+}
+
 export async function fetchSpeakerFaces(): Promise<SpeakerFace[]> {
   const key = PEOPLE_HTML_ANON_KEY
   const page = 1000
