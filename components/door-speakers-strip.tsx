@@ -5,20 +5,21 @@ import { ReelStrip } from '@/components/speakers-reel-strip'
 import { fetchSpeakerFaces, shuffle, type SpeakerFace } from '@/lib/speakers'
 import './door-speakers-strip.css'
 
-const DOOR_WINDOW = 72
+const DOOR_WINDOW = 96
 
 export function DoorSpeakersStrip() {
-  const [faces, setFaces] = useState<SpeakerFace[]>([])
-  const [total, setTotal] = useState(0)
+  const [top, setTop] = useState<SpeakerFace[]>([])
+  const [bottom, setBottom] = useState<SpeakerFace[]>([])
 
   useEffect(() => {
     let cancelled = false
     fetchSpeakerFaces()
       .then((all) => {
         if (cancelled) return
-        const withShots = all.filter((s) => s.headshot_url)
-        setTotal(all.length)
-        setFaces(shuffle(withShots).slice(0, DOOR_WINDOW))
+        const withShots = shuffle(all.filter((s) => s.headshot_url)).slice(0, DOOR_WINDOW)
+        const mid = Math.ceil(withShots.length / 2)
+        setTop(withShots.slice(0, mid))
+        setBottom(withShots.slice(mid))
       })
       .catch(() => {})
     return () => {
@@ -26,19 +27,12 @@ export function DoorSpeakersStrip() {
     }
   }, [])
 
-  if (faces.length === 0) return null
+  if (top.length === 0 && bottom.length === 0) return null
 
   return (
-    <section className="door-speakers-reel" aria-label="The CityAge Contributors">
-      <div className="speakers-reel-rule">
-        <a href="/people" className="speakers-reel-kicker">
-          The CityAge Contributors
-        </a>
-        <span className="speakers-reel-count">
-          {total > 0 ? `${total.toLocaleString()} faces` : 'The reel'}
-        </span>
-      </div>
-      <ReelStrip faces={faces} direction="left" duration="95s" eagerCount={8} faceHref="/people" />
+    <section className="door-speakers-reel" aria-label="Speakers">
+      <ReelStrip faces={top} direction="left" duration="110s" eagerCount={8} faceHref="/people" />
+      <ReelStrip faces={bottom} direction="right" duration="130s" eagerCount={8} faceHref="/people" />
     </section>
   )
 }

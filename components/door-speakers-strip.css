@@ -1,40 +1,9 @@
-/* One quiet strip on the cream door, above the house footer. */
+/* Two thin opposite rows on the cream door, above the house footer. */
 
 .door-speakers-reel {
   background: #120f0b;
   border-top: 1px solid #2a2218;
   overflow-x: hidden;
-}
-
-.door-speakers-reel .speakers-reel-rule {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 10px 24px 8px;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.door-speakers-reel .speakers-reel-kicker {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #f9f9f7;
-  text-decoration: none;
-}
-
-.door-speakers-reel .speakers-reel-kicker:hover {
-  color: #c5a059;
-}
-
-.door-speakers-reel .speakers-reel-count {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(250, 246, 238, 0.4);
 }
 
 .door-speakers-reel .speakers-reel-section {
@@ -53,7 +22,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 72px;
+  width: 56px;
   z-index: 4;
   pointer-events: none;
 }
@@ -70,10 +39,19 @@
 
 .door-speakers-reel .speakers-reel-track {
   display: flex;
-  gap: 4px;
-  padding: 12px 0;
+  gap: 3px;
+  padding: 5px 0;
   width: max-content;
-  animation: speakers-scroll-left 95s linear infinite;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.door-speakers-reel .speakers-reel-left .speakers-reel-track {
+  animation-name: speakers-scroll-left;
+}
+
+.door-speakers-reel .speakers-reel-right .speakers-reel-track {
+  animation-name: speakers-scroll-right;
 }
 
 .door-speakers-reel .speakers-reel-track:hover {
@@ -82,8 +60,8 @@
 
 .door-speakers-reel .speakers-reel-face {
   flex-shrink: 0;
-  width: 64px;
-  height: 76px;
+  width: 48px;
+  height: 58px;
   position: relative;
   background: #1c1610;
   overflow: hidden;
@@ -109,7 +87,7 @@
 
 .door-speakers-reel .speakers-reel-placeholder span {
   font-family: var(--font-display), Georgia, serif;
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(184, 149, 106, 0.45);
 }
 
@@ -123,5 +101,14 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes speakers-scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
