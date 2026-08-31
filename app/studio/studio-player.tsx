@@ -354,7 +354,7 @@ export function StudioPlayer() {
                 </a>
               ))}
             </div>
-            <a href="/#subscribe" className="sv-subscribe">
+            <a href="/subscribe" className="sv-subscribe">
               Subscribe
             </a>
           </div>

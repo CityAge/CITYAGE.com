@@ -115,7 +115,7 @@ export default function PurposePage() {
                 info@cityage.com
               </a>
               <a
-                href="/#subscribe"
+                href="/subscribe"
                 className="inline-block bg-[#C5A059] text-black px-8 py-2.5 text-[11px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-colors"
               >
                 Subscribe

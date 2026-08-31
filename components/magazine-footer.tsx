@@ -15,7 +15,7 @@ export function MagazineFooter() {
             Earth’s two per cent. Where everything happens.
           </p>
           <a
-            href="/#subscribe"
+            href="/subscribe"
             className="inline-block bg-[#C5A059] text-black px-8 py-2.5 text-[11px] font-black tracking-[0.15em] uppercase hover:bg-white transition-colors"
           >
             Subscribe
@@ -31,7 +31,7 @@ export function MagazineFooter() {
             <li><a href="/purpose" className="hover:text-white transition-colors">Purpose</a></li>
             <li><a href="/partners" className="hover:text-white transition-colors">Partners</a></li>
             <li><a href="/studio" className="hover:text-white transition-colors">Studio</a></li>
-            <li><a href="/#subscribe" className="hover:text-white transition-colors">Subscribe</a></li>
+            <li><a href="/subscribe" className="hover:text-white transition-colors">Subscribe</a></li>
           </ul>
         </div>
 
