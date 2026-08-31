@@ -17,7 +17,7 @@ const MIDDLE_PHOTOS = [
   { src: '/magazine-images/cinematic.png', alt: '' },
 ] as const
 
-const SIDEBAR_PHOTOS = [{ src: '/harbour-air-thumb.jpg', alt: '' }] as const
+const SIDEBAR_PHOTOS = [{ src: '/vancouver-banner.jpg', alt: '' }] as const
 
 function WellPhoto({
   src,
