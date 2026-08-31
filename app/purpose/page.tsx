@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
+import './purpose.css'
 
 export const metadata: Metadata = {
   title: 'Purpose — CityAge',
@@ -47,7 +48,7 @@ export default function PurposePage() {
 
           <div className="max-w-[720px] mx-auto px-6 md:px-12 mt-12 md:mt-16">
             <blockquote className="border-l-[3px] border-[#C5A059] pl-6 md:pl-7 mb-14 md:mb-16">
-              <p className="font-serif italic text-[1.2rem] md:text-[1.45rem] leading-[1.5] text-black">
+              <p className="font-serif italic text-[1.05rem] md:text-[1.15rem] leading-[1.55] text-black">
                 “Cities, regions, even small hamlets in the Arctic — built on two per cent of
                 the planet, producing more than 80 per cent of its GDP. Every structural
                 challenge of our era — climate, capital, sovereignty — gets solved or
@@ -57,10 +58,11 @@ export default function PurposePage() {
                 — Miro Cernetig, Founder, CEO and Publisher
               </footer>
             </blockquote>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-10">
-              Look closely and the web has no centre. A port at the edge of the ice. A valley of
-              engineers. A capital on a river. Each a point of light, each wired to the others
-              by money, technology and the aspirations of people who build.
+            <p className="purpose-map-graf font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-10">
+              Look at the map above closely and you&apos;ll see the web of lights has no
+              centre. A port at the edge of the ice. A valley of engineers. A capital on a
+              river. Each a point of light, each wired to the others by money, technology and
+              the aspirations of people who build.
             </p>
 
             <p className="font-serif italic text-[1.35rem] md:text-[1.7rem] leading-[1.4] text-black mb-14 md:mb-16">
