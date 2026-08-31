@@ -301,37 +301,40 @@
 }
 
 #page-studio .sv-logos {
-  background: #080706;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 16px 48px;
+  background: #faf6ee;
+  border-bottom: none;
+  padding: 28px 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 40px;
   flex-wrap: wrap;
 }
 
 #page-studio .sv-logos-label {
-  font-size: 7.5px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 8px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(122, 112, 96, 0.4);
+  color: rgba(80, 70, 60, 0.4);
   flex-shrink: 0;
   white-space: nowrap;
+  margin-right: 8px;
 }
 
 #page-studio .sv-logo-img {
   height: 32px;
-  max-width: 110px;
+  max-width: 100px;
   object-fit: contain;
-  /* Designed marks are black-on-white JPEGs. Invert knocks the white canvas into the bar. */
-  filter: invert(1);
-  opacity: 0.8;
+  object-position: center;
+  filter: grayscale(100%);
+  opacity: 0.65;
   flex-shrink: 0;
 }
 
 #page-studio .sv-logo-img:hover {
   opacity: 1;
+  filter: grayscale(0%);
 }
 
 #page-studio .sv-shelf {

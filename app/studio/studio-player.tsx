@@ -182,6 +182,17 @@ const FILMS: Film[] = [
     watchUrl: 'https://www.youtube.com/watch?v=sw2qF83VMTc',
     thumb: '/castros-gold-thumb.jpg',
   },
+  {
+    id: 'the-new-american-city',
+    title: 'The New American City',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.youtube.com/watch?v=xMhFP2oM3CY',
+    thumb: '/new-american-city-thumb.jpg',
+  },
 ]
 
 function vimeoSrc(id: string, controlsOff = false) {
