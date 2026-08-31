@@ -7,6 +7,8 @@
 
 #people-wall .reel-stack {
   height: 100vh;
+  min-height: 100vh;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
 }
@@ -100,6 +102,16 @@
 
 #people-wall .people-virtual-track {
   animation: none;
+}
+
+#people-wall .people-slot {
+  flex-shrink: 0;
+  width: 110px;
+  height: 132px;
+}
+
+#people-wall .people-thumb-pending {
+  opacity: 0;
 }
 
 #people-wall .speakers-reel-face {

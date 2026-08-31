@@ -8,6 +8,8 @@ import './people.css'
 const FACE_W = 116
 const SPEEDS = [48, 40, 44, 36] as const
 const REVERSE = [false, true, false, true] as const
+const PREFETCH_AHEAD = 12
+const heldThumbs = new Set<string>()
 
 function initials(name: string) {
   return name
@@ -17,6 +19,87 @@ function initials(name: string) {
     .slice(0, 2)
     .toUpperCase()
 }
+
+function optimizerThumb(src: string, width = 128) {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=75`
+}
+
+function holdThumb(src: string | null | undefined) {
+  if (!src || heldThumbs.has(src) || typeof window === 'undefined') return
+  heldThumbs.add(src)
+  const img = new window.Image()
+  img.decoding = 'async'
+  img.src = optimizerThumb(src)
+}
+
+function HeldThumb({ src }: { src: string }) {
+  const [shown, setShown] = useState(src)
+  const [pending, setPending] = useState<string | null>(null)
+
+  useEffect(() => {
+    holdThumb(src)
+    if (src === shown) {
+      setPending(null)
+      return
+    }
+    setPending(src)
+  }, [src, shown])
+
+  return (
+    <>
+      <Image
+        src={shown}
+        alt=""
+        fill
+        sizes="110px"
+        loading="eager"
+        draggable={false}
+      />
+      {pending && pending !== shown ? (
+        <Image
+          src={pending}
+          alt=""
+          fill
+          sizes="110px"
+          loading="eager"
+          draggable={false}
+          className="people-thumb-pending"
+          onLoad={() => setShown(pending)}
+        />
+      ) : null}
+    </>
+  )
+}
+
+function FaceTile({ speaker }: { speaker: SpeakerFace }) {
+  const dest = speaker.linkedin_url || undefined
+  const inner = (
+    <>
+      {hasSpeakerShot(speaker.headshot_url) ? (
+        <HeldThumb src={speaker.headshot_url} />
+      ) : (
+        <div className="speakers-reel-placeholder">
+          <span>{initials(speaker.name)}</span>
+        </div>
+      )}
+      <div className="speakers-reel-overlay">
+        <div className="speakers-reel-name">{speaker.name}</div>
+        {speaker.organisation && <div className="speakers-reel-org">{speaker.organisation}</div>}
+      </div>
+    </>
+  )
+
+  if (dest) {
+    return (
+      <a className="speakers-reel-face" href={dest} target="_blank" rel="noopener noreferrer">
+        {inner}
+      </a>
+    )
+  }
+  return <div className="speakers-reel-face">{inner}</div>
+}
+
+type Slot = { id: number; index: number }
 
 function VirtualPeopleRow({
   faces,
@@ -32,16 +115,26 @@ function VirtualPeopleRow({
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const hoverRef = useRef(false)
-  const originRef = useRef(0)
+  const pausedRef = useRef(paused)
+  const facesRef = useRef(faces)
+  const reverseRef = useRef(reverse)
+  const slotsRef = useRef<Slot[]>([])
+  const shiftRef = useRef(0)
+  const skipTransformRef = useRef(false)
   const [slotCount, setSlotCount] = useState(0)
-  const [origin, setOrigin] = useState(0)
+  const [slots, setSlots] = useState<Slot[]>([])
+
+  pausedRef.current = paused
+  facesRef.current = faces
+  reverseRef.current = reverse
+  slotsRef.current = slots
 
   useEffect(() => {
     const el = wrapRef.current
     if (!el) return
     const measure = () => {
       const w = el.clientWidth || window.innerWidth
-      setSlotCount(Math.max(8, Math.ceil(w / FACE_W) + 3))
+      setSlotCount(Math.max(10, Math.ceil(w / FACE_W) + 5))
     }
     measure()
     const ro = new ResizeObserver(measure)
@@ -50,36 +143,85 @@ function VirtualPeopleRow({
   }, [])
 
   useEffect(() => {
+    if (slotCount === 0 || faces.length === 0) return
+    const next = Array.from({ length: slotCount }, (_, i) => ({ id: i, index: i % faces.length }))
+    slotsRef.current = next
+    setSlots(next)
+    for (const slot of next) holdThumb(faces[slot.index]?.headshot_url)
+    for (let n = 1; n <= PREFETCH_AHEAD; n++) {
+      holdThumb(faces[(slotCount + n - 1) % faces.length]?.headshot_url)
+    }
+  }, [faces, slotCount])
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track || slots.length === 0) return
+    const shift = shiftRef.current
+    const x = reverseRef.current ? shift - FACE_W : -shift
+    track.style.transform = `translate3d(${x}px,0,0)`
+    skipTransformRef.current = false
+  }, [slots])
+
+  useEffect(() => {
     const track = trackRef.current
     if (!track || slotCount === 0 || faces.length === 0) return
 
     let raf = 0
     let last = performance.now()
-    let shift = 0
+
+    const recycle = () => {
+      const pool = facesRef.current
+      const goingRight = reverseRef.current
+      const current = slotsRef.current
+      if (current.length === 0 || pool.length === 0) return
+
+      const next = [...current]
+      if (goingRight) {
+        const recycled = { ...next.pop()! }
+        const first = next[0]
+        recycled.index = (first.index - 1 + pool.length) % pool.length
+        next.unshift(recycled)
+        holdThumb(pool[recycled.index]?.headshot_url)
+        for (let n = 1; n <= PREFETCH_AHEAD; n++) {
+          holdThumb(pool[(recycled.index - n + pool.length) % pool.length]?.headshot_url)
+        }
+      } else {
+        const recycled = { ...next.shift()! }
+        const lastSlot = next[next.length - 1]
+        recycled.index = (lastSlot.index + 1) % pool.length
+        next.push(recycled)
+        holdThumb(pool[recycled.index]?.headshot_url)
+        for (let n = 1; n <= PREFETCH_AHEAD; n++) {
+          holdThumb(pool[(recycled.index + n) % pool.length]?.headshot_url)
+        }
+      }
+      skipTransformRef.current = true
+      slotsRef.current = next
+      setSlots(next)
+    }
 
     const tick = (now: number) => {
       const dt = Math.min(48, now - last)
       last = now
-      if (!hoverRef.current && !paused && document.visibilityState === 'visible') {
-        shift += pxPerSec * (dt / 1000)
-        while (shift >= FACE_W) {
-          shift -= FACE_W
-          originRef.current = reverse
-            ? (originRef.current - 1 + faces.length) % faces.length
-            : (originRef.current + 1) % faces.length
-          setOrigin(originRef.current)
+      if (!hoverRef.current && !pausedRef.current && document.visibilityState === 'visible') {
+        shiftRef.current += pxPerSec * (dt / 1000)
+        while (shiftRef.current >= FACE_W) {
+          shiftRef.current -= FACE_W
+          recycle()
         }
-        const x = reverse ? shift - FACE_W : -shift
-        track.style.transform = `translate3d(${x}px,0,0)`
+        if (!skipTransformRef.current) {
+          const x = reverseRef.current ? shiftRef.current - FACE_W : -shiftRef.current
+          track.style.transform = `translate3d(${x}px,0,0)`
+        }
       }
       raf = requestAnimationFrame(tick)
     }
 
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [faces.length, paused, pxPerSec, reverse, slotCount])
+  }, [faces.length, pxPerSec, slotCount])
 
-  if (faces.length === 0 || slotCount === 0) {
+  if (faces.length === 0 || slotCount === 0 || slots.length === 0) {
     return <div ref={wrapRef} className="speakers-reel-section" />
   }
 
@@ -98,53 +240,12 @@ function VirtualPeopleRow({
         <div className="speakers-reel-fade-left" />
         <div className="speakers-reel-fade-right" />
         <div ref={trackRef} className="speakers-reel-track people-virtual-track">
-          {Array.from({ length: slotCount }, (_, i) => {
-            const speaker = faces[(origin + i) % faces.length]
+          {slots.map((slot) => {
+            const speaker = faces[slot.index]
             if (!speaker) return null
-            const dest = speaker.linkedin_url || undefined
-            const inner = (
-              <>
-                {hasSpeakerShot(speaker.headshot_url) ? (
-                  <Image
-                    src={speaker.headshot_url}
-                    alt=""
-                    fill
-                    sizes="110px"
-                    loading="lazy"
-                    draggable={false}
-                    onError={(event) => {
-                      event.currentTarget.closest('.speakers-reel-face')?.remove()
-                    }}
-                  />
-                ) : (
-                  <div className="speakers-reel-placeholder">
-                    <span>{initials(speaker.name)}</span>
-                  </div>
-                )}
-                <div className="speakers-reel-overlay">
-                  <div className="speakers-reel-name">{speaker.name}</div>
-                  {speaker.organisation && (
-                    <div className="speakers-reel-org">{speaker.organisation}</div>
-                  )}
-                </div>
-              </>
-            )
-            if (dest) {
-              return (
-                <a
-                  key={`${speaker.id}-${i}`}
-                  className="speakers-reel-face"
-                  href={dest}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {inner}
-                </a>
-              )
-            }
             return (
-              <div key={`${speaker.id}-${i}`} className="speakers-reel-face">
-                {inner}
+              <div key={slot.id} className="people-slot">
+                <FaceTile speaker={speaker} />
               </div>
             )
           })}
@@ -237,47 +338,39 @@ export function PeopleWall() {
         </div>
       </section>
 
-      {searching && (
-        <section className="people-results">
-          <div className="people-results-count">
-            <span>{matches.length}</span> result{matches.length === 1 ? '' : 's'} for “{query.trim()}”
+      <section className="people-results" hidden={!searching} aria-hidden={!searching}>
+        <div className="people-results-count">
+          <span>{matches.length}</span> result{matches.length === 1 ? '' : 's'} for “{query.trim()}”
+        </div>
+        {matches.length === 0 ? (
+          <div className="people-empty">No matches found.</div>
+        ) : (
+          <div className="people-results-grid">
+            {matches.map((s) => (
+              <a
+                key={s.id}
+                className="people-result"
+                href={s.linkedin_url || undefined}
+                target={s.linkedin_url ? '_blank' : undefined}
+                rel={s.linkedin_url ? 'noopener noreferrer' : undefined}
+              >
+                <div className="people-result-thumb">
+                  {hasSpeakerShot(s.headshot_url) ? (
+                    <Image src={s.headshot_url} alt="" fill sizes="44px" loading="lazy" />
+                  ) : (
+                    <span className="people-result-initials">{initials(s.name)}</span>
+                  )}
+                </div>
+                <div>
+                  <div className="people-result-name">{s.name}</div>
+                  {s.title && <div className="people-result-title">{s.title}</div>}
+                  {s.organisation && <div className="people-result-org">{s.organisation}</div>}
+                </div>
+              </a>
+            ))}
           </div>
-          {matches.length === 0 ? (
-            <div className="people-empty">No matches found.</div>
-          ) : (
-            <div className="people-results-grid">
-              {matches.map((s) => (
-                <a
-                  key={s.id}
-                  className="people-result"
-                  href={s.linkedin_url || undefined}
-                  target={s.linkedin_url ? '_blank' : undefined}
-                  rel={s.linkedin_url ? 'noopener noreferrer' : undefined}
-                >
-                  <div className="people-result-thumb">
-                    {hasSpeakerShot(s.headshot_url) ? (
-                      <Image
-                        src={s.headshot_url}
-                        alt=""
-                        fill
-                        sizes="44px"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <span className="people-result-initials">{initials(s.name)}</span>
-                    )}
-                  </div>
-                  <div>
-                    <div className="people-result-name">{s.name}</div>
-                    {s.title && <div className="people-result-title">{s.title}</div>}
-                    {s.organisation && <div className="people-result-org">{s.organisation}</div>}
-                  </div>
-                </a>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
+        )}
+      </section>
     </div>
   )
 }
