@@ -112,7 +112,8 @@ const FILMS: Film[] = [
     type: 'Documentary',
     desc: 'The extraordinary story of an archaeological excavation — and what an ancient vessel reveals about the city built above it.',
     awards: ['CityAge Studio'],
-    vimeoId: '199052432',
+    // cityage-FINAL had 199052432 — that Vimeo is gone. No other id in this repo.
+    vimeoId: null,
     stillImage: null,
     thumb: null,
   },
@@ -185,65 +186,55 @@ const FILMS: Film[] = [
 
 function vimeoSrc(id: string, controlsOff = false) {
   const extra = controlsOff ? '&controls=0' : ''
-  return `https://player.vimeo.com/video/${id}?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&dnt=1${extra}`
+  return `https://player.vimeo.com/video/${id}?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&dnt=1${extra}#t=0s`
 }
 
 export function StudioPlayer() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const platoTimer = useRef<number | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [muted, setMuted] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [info, setInfo] = useState<Film | null>(null)
   const [iframeSrc, setIframeSrc] = useState('')
   const [iframeOn, setIframeOn] = useState(false)
+  const [playNonce, setPlayNonce] = useState(0)
   const [stillSrc, setStillSrc] = useState(HERO_STILL)
-  const [stillOn, setStillOn] = useState(true)
+  const [stillOn, setStillOn] = useState(false)
   const [platoOn, setPlatoOn] = useState(true)
 
-  function clearPlatoTimer() {
-    if (platoTimer.current != null) {
-      window.clearTimeout(platoTimer.current)
-      platoTimer.current = null
-    }
-  }
-
-  function openHeroStill() {
+  function openBlackPlato() {
     setIframeSrc('')
     setIframeOn(false)
     setStillSrc(HERO_STILL)
-    setStillOn(true)
+    setStillOn(false)
     setActiveId(null)
     setInfo(null)
     setMuted(false)
     setPlatoOn(true)
-    clearPlatoTimer()
-    platoTimer.current = window.setTimeout(() => setPlatoOn(false), 5200)
+  }
+
+  function playVimeo(id: string, controlsOff: boolean, poster: string | null) {
+    setPlatoOn(false)
+    setMuted(false)
+    setStillSrc(poster || HERO_STILL)
+    setStillOn(Boolean(poster))
+    setPlayNonce((n) => n + 1)
+    setIframeOn(false)
+    setIframeSrc(vimeoSrc(id, controlsOff))
   }
 
   function playHeroReel() {
-    clearPlatoTimer()
-    setPlatoOn(false)
     setActiveId(null)
     setInfo(null)
-    setMuted(false)
-    setStillOn(false)
-    setIframeSrc(vimeoSrc(HERO_VIMEO, true))
-    setIframeOn(true)
+    playVimeo(HERO_VIMEO, true, HERO_STILL)
   }
-
-  useEffect(() => {
-    clearPlatoTimer()
-    platoTimer.current = window.setTimeout(() => setPlatoOn(false), 5200)
-    return () => clearPlatoTimer()
-  }, [])
 
   useEffect(() => {
     function onMessage(event: MessageEvent) {
       if (typeof event.data !== 'string') return
       try {
         const data = JSON.parse(event.data) as { event?: string }
-        if (data.event === 'ended' && !activeId) openHeroStill()
+        if (data.event === 'ended' && !activeId) openBlackPlato()
       } catch {
         /* ignore */
       }
@@ -259,11 +250,12 @@ export function StudioPlayer() {
   }
 
   function onHeroIframeLoad() {
+    setIframeOn(true)
     postVimeo('addEventListener', 'ended')
   }
 
   function toggleMute() {
-    if (!iframeOn || !iframeSrc) {
+    if (!iframeSrc) {
       playHeroReel()
       return
     }
@@ -274,32 +266,33 @@ export function StudioPlayer() {
   }
 
   function stopHero() {
-    openHeroStill()
+    openBlackPlato()
   }
 
   function playFilm(film: Film) {
-    if (film.watchUrl) {
+    if (film.watchUrl && !film.vimeoId) {
       window.open(film.watchUrl, '_blank', 'noopener,noreferrer')
       return
     }
 
-    clearPlatoTimer()
-    setPlatoOn(false)
     setActiveId(film.id)
     setInfo(film)
 
+    if (film.vimeoId) {
+      playVimeo(film.vimeoId, false, film.thumb || film.stillImage)
+      return
+    }
+
+    setIframeOn(false)
+    setIframeSrc('')
+    setPlatoOn(false)
     if (film.stillImage) {
-      setIframeOn(false)
-      setIframeSrc('')
       setStillSrc(film.stillImage)
       setStillOn(true)
       return
     }
 
     setStillOn(false)
-    if (!film.vimeoId) return
-    setIframeSrc(vimeoSrc(film.vimeoId))
-    setIframeOn(true)
   }
 
   return (
@@ -343,15 +336,13 @@ export function StudioPlayer() {
           </div>
         </nav>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          className="sv-still"
-          src={stillSrc}
-          alt=""
-          style={{ display: stillOn ? 'block' : 'none' }}
-        />
+        {stillOn ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="sv-still" src={stillSrc} alt="" />
+        ) : null}
         {iframeSrc ? (
           <iframe
+            key={`${iframeSrc}-${playNonce}`}
             ref={iframeRef}
             className={`sv-iframe${iframeOn ? ' sv-visible' : ''}`}
             src={iframeSrc}
@@ -431,6 +422,7 @@ export function StudioPlayer() {
             className="sv-logo-img"
             src={`/studio/logos/${logo.file}`}
             alt={logo.alt}
+            loading="lazy"
           />
         ))}
       </div>
@@ -445,14 +437,14 @@ export function StudioPlayer() {
                 <div className="sv-thumb">
                   {film.thumb ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={film.thumb} alt="" />
+                    <img src={film.thumb} alt="" loading="lazy" />
                   ) : null}
                 </div>
                 <div className="sv-card-name">{film.title}</div>
               </>
             )
 
-            if (film.watchUrl) {
+            if (film.watchUrl && !film.vimeoId) {
               return (
                 <a
                   key={film.id}
