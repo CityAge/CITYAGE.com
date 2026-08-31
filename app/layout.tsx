@@ -24,18 +24,12 @@ const baskerville = localFont({
   display: 'swap',
 })
 
-// UI sans-serif (kept for utility text)
-const inter = localFont({
-  src: '../public/fonts/inter-latin-wght-normal.woff2',
-  variable: '--font-ui',
-  display: 'swap',
-})
-
-// Monospace for metadata, dates, verticals
+// Monospace for metadata, dates, verticals — not on the first cream screen
 const jetbrains = localFont({
   src: '../public/fonts/jetbrains-mono-latin-wght-normal.woff2',
   variable: '--font-mono',
   display: 'swap',
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -63,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${baskerville.variable} ${inter.variable} ${jetbrains.variable}`}
+      className={`${playfair.variable} ${baskerville.variable} ${jetbrains.variable}`}
       style={{ backgroundColor: '#F9F9F7' }}
     >
       <head>

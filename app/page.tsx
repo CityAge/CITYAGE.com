@@ -29,7 +29,7 @@ const LOREM = {
       excerpt: null,
       date: 'Ipsum',
       readTime: '3 min read',
-      image: '/magazine-images/aerial.png',
+      image: '/magazine-images/aerial.jpg',
     },
     {
       id: 'lorem-secondary-2',
@@ -39,7 +39,7 @@ const LOREM = {
       excerpt: null,
       date: 'Dolor',
       readTime: '5 min read',
-      image: '/magazine-images/photojournalism.png',
+      image: '/magazine-images/photojournalism.jpg',
     },
     {
       id: 'lorem-secondary-3',
@@ -49,7 +49,7 @@ const LOREM = {
       excerpt: null,
       date: 'Sit',
       readTime: '4 min read',
-      image: '/magazine-images/cinematic.png',
+      image: '/magazine-images/cinematic.jpg',
     },
     {
       id: 'lorem-secondary-4',

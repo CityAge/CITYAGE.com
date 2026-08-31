@@ -11,6 +11,7 @@ export function CampaignBanner() {
           src="/vancouver-banner.jpg"
           alt=""
           fill
+          sizes="(max-width: 1060px) calc(100vw - 3rem), 1000px"
           className="object-cover object-[center_40%]"
           priority
         />

@@ -1,6 +1,6 @@
 'use client'
 
-import { WORDMARK_COMPACT_ON_INK } from '@/components/magazine-header'
+import { WORDMARK_COMPACT_ON_INK } from '@/components/magazine-header-chrome'
 import { useEffect, useRef, useState } from 'react'
 import './studio.css'
 
