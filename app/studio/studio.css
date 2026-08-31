@@ -104,7 +104,8 @@
 }
 
 #page-studio .sv-house-mark {
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   text-align: left;
 }

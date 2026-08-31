@@ -115,59 +115,34 @@ function VirtualDoorRow({
 }
 
 export function DoorSpeakersStrip() {
-  const rootRef = useRef<HTMLElement>(null)
   const [top, setTop] = useState<SpeakerFace[]>([])
   const [bottom, setBottom] = useState<SpeakerFace[]>([])
 
   useEffect(() => {
-    const el = rootRef.current
-    if (!el) return
     let cancelled = false
-    let idleId = 0
 
-    const load = () => {
-      fetch('/api/door-faces')
-        .then((res) => (res.ok ? res.json() : []))
-        .then((all: SpeakerFace[]) => {
-          if (cancelled || !Array.isArray(all)) return
-          const ready = shuffle(all.filter((face) => hasSpeakerShot(face.headshot_url))).slice(
-            0,
-            DOOR_KEEP,
-          )
-          if (ready.length < 8) return
-          const mid = Math.ceil(ready.length / 2)
-          setTop(ready.slice(0, mid))
-          setBottom(ready.slice(mid))
-        })
-        .catch(() => {})
-    }
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return
-        io.disconnect()
-        const ric = window.requestIdleCallback
-        if (typeof ric === 'function') {
-          idleId = ric(load, { timeout: 1600 })
-        } else {
-          load()
-        }
-      },
-      { rootMargin: '200px 0px' },
-    )
-    io.observe(el)
+    fetch('/api/door-faces')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((all: SpeakerFace[]) => {
+        if (cancelled || !Array.isArray(all)) return
+        const ready = shuffle(all.filter((face) => hasSpeakerShot(face.headshot_url))).slice(
+          0,
+          DOOR_KEEP,
+        )
+        if (ready.length < 8) return
+        const mid = Math.ceil(ready.length / 2)
+        setTop(ready.slice(0, mid))
+        setBottom(ready.slice(mid))
+      })
+      .catch(() => {})
 
     return () => {
       cancelled = true
-      io.disconnect()
-      if (idleId && typeof window.cancelIdleCallback === 'function') {
-        window.cancelIdleCallback(idleId)
-      }
     }
   }, [])
 
   return (
-    <section ref={rootRef} className="door-speakers-reel" aria-label="Speakers">
+    <section className="door-speakers-reel" aria-label="Speakers">
       {top.length > 0 ? <VirtualDoorRow faces={top} reverse={false} href="/people" /> : null}
       {bottom.length > 0 ? <VirtualDoorRow faces={bottom} reverse href="/people" /> : null}
     </section>

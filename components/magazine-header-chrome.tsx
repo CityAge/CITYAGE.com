@@ -1,15 +1,37 @@
 // Compact sticky: masthead(py-2) + nav. Used as a swap after the large mark is gone.
 export const HEADER_COMPRESSED_HEIGHT = 124
 
-/** One CITYAGE drawing — door and Studio share this. No second face. */
-export const WORDMARK_TYPE =
-  'font-serif font-black uppercase monocle-wordmark tracking-[0.035em] leading-[0.85]'
+/** Official drawn mark — C and A stand taller. Not a web-font CITYAGE. */
+export const LOGO_BLACK = '/logo-ca-black.png'
+export const LOGO_WHITE = '/logo-ca-white.png'
 
-export const WORDMARK_LARGE = `${WORDMARK_TYPE} text-black text-[2.25rem] md:text-[4rem] lg:text-[5.5rem] xl:text-[6rem]`
-export const WORDMARK_COMPACT = `${WORDMARK_TYPE} text-black text-2xl md:text-3xl`
+const LOGO_LARGE_CLASS = 'block h-auto w-[min(88vw,36rem)]'
+const LOGO_COMPACT_CLASS = 'block h-7 w-auto md:h-8'
 
-/** Same compact mark as the door, white on ink. */
-export const WORDMARK_COMPACT_ON_INK = `${WORDMARK_TYPE} text-white text-2xl md:text-3xl`
+export function CityAgeMark({
+  tone,
+  size,
+  id,
+}: {
+  tone: 'cream' | 'ink'
+  size: 'large' | 'compact'
+  id?: string
+}) {
+  const src = tone === 'cream' ? LOGO_BLACK : LOGO_WHITE
+  return (
+    <a id={id} href="/" className="inline-flex items-center justify-center">
+      <img
+        src={src}
+        alt="CITYAGE"
+        width={517}
+        height={119}
+        className={size === 'large' ? LOGO_LARGE_CLASS : LOGO_COMPACT_CLASS}
+        decoding="async"
+        fetchPriority={size === 'large' ? 'high' : 'low'}
+      />
+    </a>
+  )
+}
 
 export function VerticalNav() {
   return (

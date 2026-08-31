@@ -1,5 +1,5 @@
-/* Reserved strip on the cream door, above the house footer. Height is locked
-   so CITYAGE, the well, and the footer do not jump when faces arrive. */
+/* Reserved strip on the cream door, under the rail. Height is locked
+   so the plate, logo, rail, and well do not jump when faces arrive. */
 
 .door-speakers-reel {
   background: #120f0b;

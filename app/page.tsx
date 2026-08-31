@@ -2,7 +2,7 @@ import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { ArticleCard } from '@/components/article-card'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { DoorSpeakersLazy } from '@/components/door-speakers-lazy'
+import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
 import { HeroGrid } from '@/components/hero-grid'
 
 export const revalidate = 60
@@ -100,6 +100,8 @@ export default function Home() {
 
       <MagazineHeader />
 
+      <DoorSpeakersStrip />
+
       <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
         <HeroGrid
           leadColumn={
@@ -185,9 +187,6 @@ export default function Home() {
         />
       </main>
 
-      <div style={{ minHeight: 136, background: '#120f0b', borderTop: '1px solid #2a2218' }}>
-        <DoorSpeakersLazy />
-      </div>
       <MagazineFooter />
     </div>
   )

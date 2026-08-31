@@ -1,6 +1,6 @@
 'use client'
 
-import { WORDMARK_COMPACT_ON_INK } from '@/components/magazine-header-chrome'
+import { CityAgeMark } from '@/components/magazine-header-chrome'
 import { useEffect, useRef, useState } from 'react'
 import './studio.css'
 
@@ -346,9 +346,9 @@ export function StudioPlayer() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
               </svg>
             </button>
-            <a href="/" className={`sv-house-mark ${WORDMARK_COMPACT_ON_INK}`}>
-              CITYAGE
-            </a>
+            <span className="sv-house-mark">
+              <CityAgeMark tone="ink" size="compact" />
+            </span>
             <div className={`sv-drawer${menuOpen ? ' is-open' : ''}`}>
               {HOUSE.map((link) => (
                 <a key={link.href} href={link.href}>

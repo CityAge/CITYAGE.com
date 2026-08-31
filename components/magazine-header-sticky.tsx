@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { WORDMARK_COMPACT, VerticalNav } from '@/components/magazine-header-chrome'
+import { CityAgeMark, VerticalNav } from '@/components/magazine-header-chrome'
 
 export function MagazineStickyHeader() {
   const [mastheadGone, setMastheadGone] = useState(false)
@@ -28,9 +28,7 @@ export function MagazineStickyHeader() {
       <div className="border-b border-black px-6 md:px-12 py-2">
         <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
           <div className="flex flex-col items-center">
-            <a href="/" className={WORDMARK_COMPACT}>
-              CITYAGE
-            </a>
+            <CityAgeMark tone="cream" size="compact" />
           </div>
         </div>
       </div>
