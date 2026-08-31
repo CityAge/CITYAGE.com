@@ -20,6 +20,7 @@ const APPEARS = [
   { file: 'cbc.jpg', alt: 'CBC' },
   { file: 'nyt.jpg', alt: 'The New York Times' },
   { file: 'pbs.jpg', alt: 'PBS' },
+  { file: 'appletv.jpg', alt: 'Apple TV' },
   { file: 'tiff.jpg', alt: 'TIFF' },
   { file: 'leo.jpg', alt: 'LEO Awards' },
   { file: 'long.jpg', alt: 'Long Beach IFF' },
@@ -64,6 +65,7 @@ const FILMS: Film[] = [
     awards: ['National Geographic Channel', 'Directed by Miro Cernetig'],
     vimeoId: null,
     stillImage: '/facing-saddam-still.png',
+    watchUrl: 'https://tv.apple.com/ca/episode/facing-saddam/umc.cmc.71rhkd7ko45ypb6z2h4ywr4gs?showId=umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
     thumb: '/facing-saddam-still.png',
   },
   {
