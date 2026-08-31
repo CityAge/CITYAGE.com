@@ -1,7 +1,7 @@
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
+import { DoorSpeakersLazy } from '@/components/door-speakers-lazy'
 import Link from 'next/link'
 
 export const revalidate = 60
@@ -14,8 +14,6 @@ export default function Home() {
       <CampaignBanner />
 
       <MagazineHeader />
-
-      <DoorSpeakersStrip />
 
       <main className="flex-grow w-full bg-[#F9F9F7]">
         <section
@@ -39,6 +37,9 @@ export default function Home() {
         </section>
       </main>
 
+      <div style={{ minHeight: 136, background: '#120f0b' }}>
+        <DoorSpeakersLazy />
+      </div>
       <MagazineFooter />
     </div>
   )
