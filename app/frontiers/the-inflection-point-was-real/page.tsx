@@ -34,7 +34,10 @@ export default function MillerInterviewPage() {
             Two Per Cent
           </span>
 
-          <h1 className="font-serif font-normal text-[1.85rem] md:text-[2.75rem] leading-[1.12] tracking-tight text-black mb-5">
+          <h1
+            className="font-serif font-black text-[2.4rem] md:text-[3.4rem] leading-[1.04] tracking-tight text-black mb-5"
+            style={{ fontWeight: 900 }}
+          >
             The inflection point was real
           </h1>
 
