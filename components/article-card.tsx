@@ -48,7 +48,10 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         </div>
         {/* Image — portrait ratio like Monocle lead */}
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[3/4] mt-6">
+          <div
+            className="ca-photo ca-photo-lead w-full relative overflow-hidden bg-gray-100 aspect-[3/4] mt-6"
+            style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3 / 4' }}
+          >
             <Image
               src={image}
               alt={title}
@@ -74,7 +77,10 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
     return (
       <Link href={href} className="block group">
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5">
+          <div
+            className="ca-photo ca-photo-well w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5"
+            style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4 / 3' }}
+          >
             <Image
               src={image}
               alt={title}

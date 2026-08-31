@@ -53,9 +53,12 @@
   width: 48px;
   height: 58px;
   position: relative;
-  background: #1c1610;
   overflow: hidden;
   display: block;
+}
+
+.door-speakers-reel .speakers-reel-face:not(:has(img)) {
+  display: none;
 }
 
 .door-speakers-reel .speakers-reel-face img {

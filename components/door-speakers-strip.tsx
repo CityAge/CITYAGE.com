@@ -1,12 +1,32 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { fetchDoorSpeakerFaces, shuffle, type SpeakerFace } from '@/lib/speakers'
+import { fetchDoorSpeakerFaces, hasSpeakerShot, shuffle, type SpeakerFace } from '@/lib/speakers'
 import './door-speakers-strip.css'
 
 const FACE_W = 51
 const PX_PER_SEC = 18
-const DOOR_LIMIT = 48
+const DOOR_FETCH = 80
+const DOOR_KEEP = 48
+
+function decodeShot(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new window.Image()
+    img.onload = () => resolve(img.naturalWidth >= 20 && img.naturalHeight >= 20)
+    img.onerror = () => resolve(false)
+    img.src = url
+  })
+}
+
+async function onlyLoadedFaces(faces: SpeakerFace[]): Promise<SpeakerFace[]> {
+  const checked = await Promise.all(
+    faces.map(async (face) => {
+      if (!hasSpeakerShot(face.headshot_url)) return null
+      return (await decodeShot(face.headshot_url)) ? face : null
+    }),
+  )
+  return checked.filter((face): face is SpeakerFace => face != null)
+}
 
 function VirtualDoorRow({
   faces,
@@ -59,8 +79,13 @@ function VirtualDoorRow({
     const paint = (node: HTMLElement, index: number) => {
       const speaker = faceAt(index)
       const img = node.querySelector('img')
-      if (!speaker || !img) return
-      const next = speaker.headshot_url || ''
+      if (!speaker || !hasSpeakerShot(speaker.headshot_url) || !img) {
+        const at = nodes.indexOf(node)
+        if (at >= 0) nodes.splice(at, 1)
+        node.remove()
+        return
+      }
+      const next = speaker.headshot_url
       if (img.dataset.src !== next) {
         img.dataset.src = next
         img.src = next
@@ -72,7 +97,7 @@ function VirtualDoorRow({
     const tick = (now: number) => {
       const dt = Math.min(48, now - last)
       last = now
-      if (!hoverRef.current && document.visibilityState === 'visible') {
+      if (!hoverRef.current && document.visibilityState === 'visible' && facesRef.current.length > 0) {
         shift += PX_PER_SEC * (dt / 1000)
         while (shift >= FACE_W) {
           shift -= FACE_W
@@ -104,6 +129,9 @@ function VirtualDoorRow({
     return () => cancelAnimationFrame(raf)
   }, [faces.length, reverse, slotCount])
 
+  const starters = faces.filter((face) => hasSpeakerShot(face.headshot_url))
+  if (starters.length === 0) return null
+
   return (
     <div
       ref={wrapRef}
@@ -120,24 +148,23 @@ function VirtualDoorRow({
         <div className="speakers-reel-fade-right" />
         <div ref={trackRef} className="speakers-reel-track">
           {Array.from({ length: slotCount }, (_, i) => {
-            const speaker = faces[i % faces.length]
+            const speaker = starters[i % starters.length]
+            if (!speaker?.headshot_url) return null
             return (
               <a key={i} className="speakers-reel-face" href={href}>
-                {speaker?.headshot_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={speaker.headshot_url}
-                    alt=""
-                    width={48}
-                    height={58}
-                    decoding="async"
-                    loading="lazy"
-                    draggable={false}
-                    data-src={speaker.headshot_url}
-                  />
-                ) : (
-                  <span />
-                )}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={speaker.headshot_url}
+                  alt=""
+                  width={48}
+                  height={58}
+                  decoding="async"
+                  draggable={false}
+                  data-src={speaker.headshot_url}
+                  onError={(event) => {
+                    event.currentTarget.closest('a')?.remove()
+                  }}
+                />
               </a>
             )
           })}
@@ -159,13 +186,15 @@ export function DoorSpeakersStrip() {
     let idleId = 0
 
     const load = () => {
-      fetchDoorSpeakerFaces(DOOR_LIMIT)
-        .then((all) => {
+      fetchDoorSpeakerFaces(DOOR_FETCH)
+        .then((all) => onlyLoadedFaces(shuffle(all)))
+        .then((ready) => {
           if (cancelled) return
-          const ready = shuffle(all.filter((s) => s.headshot_url))
-          const mid = Math.ceil(ready.length / 2)
-          setTop(ready.slice(0, mid))
-          setBottom(ready.slice(mid))
+          const keep = ready.slice(0, DOOR_KEEP)
+          if (keep.length < 8) return
+          const mid = Math.ceil(keep.length / 2)
+          setTop(keep.slice(0, mid))
+          setBottom(keep.slice(mid))
         })
         .catch(() => {})
     }

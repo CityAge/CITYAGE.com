@@ -3,7 +3,10 @@ import Image from 'next/image'
 export function CampaignBanner() {
   return (
     <div className="bg-[#F9F9F7] pt-5 pb-4">
-      <div className="relative mx-auto w-[min(1000px,calc(100%-3rem))] h-[260px] md:h-[290px] overflow-hidden">
+      <div
+        className="ca-photo ca-photo-banner relative mx-auto w-[min(1000px,calc(100%-3rem))] h-[260px] md:h-[290px] overflow-hidden"
+        style={{ position: 'relative', overflow: 'hidden' }}
+      >
         <Image
           src="/vancouver-banner.jpg"
           alt=""
