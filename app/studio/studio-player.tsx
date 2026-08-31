@@ -14,11 +14,11 @@ const HERO_VIMEO = '1197477652'
 const HERO_STILL = '/studio-hero-still.jpg'
 
 const APPEARS = [
-  { file: 'nyt.jpg', alt: 'The New York Times' },
-  { file: 'economi.jpg', alt: 'The Economist' },
   { file: 'natgeo.jpg', alt: 'National Geographic' },
+  { file: 'economi.jpg', alt: 'The Economist' },
   { file: '60.jpg', alt: '60 Minutes' },
   { file: 'cbc.jpg', alt: 'CBC' },
+  { file: 'nyt.jpg', alt: 'The New York Times' },
   { file: 'pbs.jpg', alt: 'PBS' },
   { file: 'tiff.jpg', alt: 'TIFF' },
   { file: 'leo.jpg', alt: 'LEO Awards' },
