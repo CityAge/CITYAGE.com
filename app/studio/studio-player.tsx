@@ -44,6 +44,7 @@ type Film = {
   stillImage: string | null
   watchUrl?: string
   thumb: string | null
+  credit?: string
 }
 
 const FILMS: Film[] = [
@@ -204,6 +205,17 @@ const FILMS: Film[] = [
     stillImage: null,
     watchUrl: 'https://www.youtube.com/watch?v=xMhFP2oM3CY',
     thumb: '/new-american-city-thumb.jpg',
+  },
+  {
+    id: 'giltrudes-dwelling',
+    title: "Giltrude's Dwelling",
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: '1197480982',
+    stillImage: null,
+    thumb: null,
+    credit: 'Directed by Jeremy Lutter',
   },
 ]
 
@@ -464,6 +476,7 @@ export function StudioPlayer() {
                   ) : null}
                 </div>
                 <div className="sv-card-name">{film.title}</div>
+                {film.credit ? <div className="sv-card-credit">{film.credit}</div> : null}
               </>
             )
 

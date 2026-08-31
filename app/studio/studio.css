@@ -405,6 +405,15 @@
   color: #faf6ee;
 }
 
+#page-studio .sv-card-credit {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: rgba(250, 246, 238, 0.42);
+  margin-top: 6px;
+  line-height: 1.35;
+}
+
 #page-studio .sv-cta {
   padding: 32px 48px 36px;
   background: #050403;
