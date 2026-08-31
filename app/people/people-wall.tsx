@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { hasSpeakerShot, shuffle, type SpeakerFace } from '@/lib/speakers'
 import './people.css'
 
@@ -153,7 +153,7 @@ function VirtualPeopleRow({
     }
   }, [faces, slotCount])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const track = trackRef.current
     if (!track || slots.length === 0) return
     const shift = shiftRef.current
@@ -219,11 +219,7 @@ function VirtualPeopleRow({
 
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [faces.length, pxPerSec, slotCount])
-
-  if (faces.length === 0 || slotCount === 0 || slots.length === 0) {
-    return <div ref={wrapRef} className="speakers-reel-section" />
-  }
+  }, [faces.length, pxPerSec, slotCount, slots.length])
 
   return (
     <div
