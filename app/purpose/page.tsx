@@ -15,8 +15,8 @@ export default function PurposePage() {
       <MagazineHeader />
 
       <main className="flex-grow">
-        <article className="max-w-[1100px] mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-24 md:pb-36">
-          <header className="max-w-[720px]">
+        <article className="pt-16 md:pt-24 pb-24 md:pb-36">
+          <header className="max-w-[720px] mx-auto px-6 md:px-12">
             <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-6">
               PURPOSE
             </span>
@@ -30,38 +30,33 @@ export default function PurposePage() {
             </p>
           </header>
 
-          <figure className="mt-12 md:mt-16">
-            <div className="md:grid md:grid-cols-12 md:gap-10 md:items-start">
-              <div className="md:col-span-7">
-                <Image
-                  src="/earth-lights.jpg"
-                  alt="The Earth at Night · NASA"
-                  width={2560}
-                  height={1288}
-                  sizes="(max-width: 768px) calc(100vw - 3rem), 640px"
-                  priority
-                  className="w-full h-auto"
-                />
-                <figcaption className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/45 mt-3">
-                  The Earth at Night · NASA
-                </figcaption>
-              </div>
-
-              <blockquote className="md:col-span-5 mt-10 md:mt-0 border-l-[3px] border-[#C5A059] pl-6 md:pl-7">
-                <p className="font-serif italic text-[1.2rem] md:text-[1.45rem] leading-[1.5] text-black">
-                  “Cities, regions, even small hamlets in the Arctic — built on two per cent of
-                  the planet, producing more than 80 per cent of its GDP. Every structural
-                  challenge of our era — climate, capital, sovereignty — gets solved or
-                  doesn&apos;t get solved there.”
-                </p>
-                <footer className="font-mono text-[10px] tracking-[0.18em] uppercase text-black/50 mt-5">
-                  — Miro Cernetig, Founder, CEO and Publisher
-                </footer>
-              </blockquote>
-            </div>
+          <figure className="mt-12 md:mt-16 w-full">
+            <Image
+              src="/earth-lights.jpg"
+              alt="The Earth at Night · NASA"
+              width={2560}
+              height={1288}
+              sizes="100vw"
+              priority
+              className="w-full h-auto block"
+            />
+            <figcaption className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/45 text-center mt-4 px-6">
+              The Earth at Night · NASA
+            </figcaption>
           </figure>
 
-          <div className="max-w-[720px] mt-16 md:mt-20">
+          <div className="max-w-[720px] mx-auto px-6 md:px-12 mt-12 md:mt-16">
+            <blockquote className="border-l-[3px] border-[#C5A059] pl-6 md:pl-7 mb-14 md:mb-16">
+              <p className="font-serif italic text-[1.2rem] md:text-[1.45rem] leading-[1.5] text-black">
+                “Cities, regions, even small hamlets in the Arctic — built on two per cent of
+                the planet, producing more than 80 per cent of its GDP. Every structural
+                challenge of our era — climate, capital, sovereignty — gets solved or
+                doesn&apos;t get solved there.”
+              </p>
+              <footer className="font-mono text-[10px] tracking-[0.18em] uppercase text-black/50 mt-5">
+                — Miro Cernetig, Founder, CEO and Publisher
+              </footer>
+            </blockquote>
             <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-10">
               Look closely and the web has no centre. A port at the edge of the ice. A valley of
               engineers. A capital on a river. Each a point of light, each wired to the others
@@ -106,10 +101,8 @@ export default function PurposePage() {
             <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
               We don&apos;t take on every idea. Only the ones that add something to the world.
             </p>
-          </div>
 
-          <div className="max-w-[720px] mt-20 md:mt-28">
-            <p className="font-serif text-[1.85rem] md:text-[2.6rem] leading-[1.2] tracking-tight text-black mb-8">
+            <p className="font-serif text-[1.85rem] md:text-[2.6rem] leading-[1.2] tracking-tight text-black mt-20 md:mt-28 mb-8">
               What ideas do you want to put in motion?
             </p>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
