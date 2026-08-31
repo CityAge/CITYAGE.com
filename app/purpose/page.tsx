@@ -76,7 +76,7 @@ export default function PurposePage() {
               What we do.
             </h2>
             <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-14 md:mb-16">
-              We connect the leaders who build the Urban Planet. Twenty-five thousand of them,
+              We connect the leaders who build the Urban Planet. Twenty thousand of them,
               across fifty cities and fifteen years — founders, government leaders, investors,
               architects, engineers, mayors, Fortune 1000 executives and more. We bring them
               together through campaigns, brands, films and curated rooms where decisions and
