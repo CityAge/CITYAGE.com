@@ -112,6 +112,7 @@ export async function fetchSpeakerFaces(): Promise<SpeakerFace[]> {
           Range: `${from}-${from + page - 1}`,
           Prefer: 'count=exact',
         },
+        next: { revalidate: 3600 },
       },
     )
     if (!res.ok) break
@@ -123,4 +124,13 @@ export async function fetchSpeakerFaces(): Promise<SpeakerFace[]> {
   }
 
   return uniqueByName(rows.map(toFace))
+}
+
+/** Full network for /people. Render thumbs only — never the original portraits. */
+export async function fetchPeopleWallFaces(): Promise<SpeakerFace[]> {
+  const faces = await fetchSpeakerFaces()
+  return faces.map((face) => ({
+    ...face,
+    headshot_url: speakerThumbUrl(face.headshot_url, 220, 264),
+  }))
 }

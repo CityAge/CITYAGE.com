@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PeoplePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#050403]">
+    <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
       <PeopleWall />
       <MagazineFooter />
