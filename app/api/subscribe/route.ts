@@ -3,11 +3,18 @@ import { CITYAGE_PUBLICATION_ID } from '@/lib/beehiiv'
 
 export async function POST(req: Request) {
   let email = ''
+  let website = ''
   try {
     const body = await req.json()
     email = typeof body?.email === 'string' ? body.email.trim() : ''
+    website = typeof body?.website === 'string' ? body.website.trim() : ''
   } catch {
     return NextResponse.json({ error: 'Need an email.' }, { status: 400 })
+  }
+
+  // Honeypot from the locked HTML form. Bots fill "website"; real users do not.
+  if (website) {
+    return NextResponse.json({ ok: true, success: true })
   }
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
