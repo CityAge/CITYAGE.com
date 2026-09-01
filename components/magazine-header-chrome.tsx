@@ -5,7 +5,7 @@ export const HEADER_COMPRESSED_HEIGHT = 124
 export const LOGO_BLACK = '/logo-ca-black.png'
 export const LOGO_WHITE = '/logo-ca-white.png'
 
-const LOGO_LARGE_CLASS = 'block h-auto w-[min(88vw,36rem)]'
+const LOGO_LARGE_CLASS = 'block h-auto w-[min(88vw,31.5rem)]'
 const LOGO_COMPACT_CLASS = 'block h-7 w-auto md:h-8'
 
 export function CityAgeMark({
