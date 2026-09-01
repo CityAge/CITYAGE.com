@@ -1,48 +1,131 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { DoorSpeakersLazy } from '@/components/door-speakers-lazy'
 import { ArticleCard } from '@/components/article-card'
 import { HeroGrid } from '@/components/hero-grid'
+import { SPEAKERS_SUPABASE_URL } from '@/lib/speakers'
 
 export const revalidate = 60
 
 const MILLER_HREF = '/frontiers/the-inflection-point-was-real'
 
-/** House plates from the magazine well on this branch. Photographs only — no dummy heds. */
-const MIDDLE_PHOTOS = [
-  { src: '/magazine-images/aerial.png', alt: '' },
-  { src: '/magazine-images/photojournalism.png', alt: '' },
-  { src: '/magazine-images/cinematic.png', alt: '' },
+/** f9v02snor well plates — house photographs, not dummy heds. */
+const WELL_PLATES = [
+  { src: '/magazine-images/aerial.png', vertical: 'Cities' },
+  { src: '/magazine-images/photojournalism.png', vertical: 'Power' },
+  { src: '/magazine-images/cinematic.png', vertical: 'Frontiers' },
+  { src: '/vancouver-banner.jpg', vertical: 'Culture' },
 ] as const
 
-const SIDEBAR_PHOTOS = [{ src: '/vancouver-banner.jpg', alt: '' }] as const
-
-function WellPhoto({
-  src,
-  sizes,
-}: {
-  src: string
-  sizes: string
-}) {
-  return (
-    <div
-      className="ca-photo ca-photo-well w-full relative overflow-hidden bg-gray-100 aspect-[4/3]"
-      style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4 / 3' }}
-    >
-      <Image
-        src={src}
-        alt=""
-        fill
-        sizes={sizes}
-        className="object-cover grayscale hover:grayscale-0 hover:scale-[1.02] transition-all duration-700"
-      />
-    </div>
-  )
+type WellStory = {
+  id: string
+  headline: string
+  vertical: string
 }
 
-export default function Home() {
+async function fetchWellStories(): Promise<WellStory[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || SPEAKERS_SUPABASE_URL
+  // Same public anon key already shipped for /magazine and /people.
+  const key =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
+  if (!url || !key) return []
+
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/magazine?select=id,headline,vertical,featured,published_at&status=eq.published&order=featured.desc,published_at.desc&limit=16`,
+      {
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+        },
+        next: { revalidate: 60 },
+      },
+    )
+    if (!res.ok) return []
+    const rows = (await res.json()) as Array<{
+      id: string
+      headline: string
+      vertical: string
+    }>
+    if (!Array.isArray(rows)) return []
+    return rows
+      .filter((row) => row.id && row.headline && row.vertical)
+      .map((row) => ({
+        id: row.id,
+        headline: row.headline,
+        vertical: row.vertical,
+      }))
+  } catch {
+    return []
+  }
+}
+
+function WellPhotoTile({
+  src,
+  vertical,
+  title,
+  href,
+}: {
+  src: string
+  vertical: string
+  title?: string
+  href?: string
+}) {
+  const body = (
+    <>
+      <div
+        className="ca-photo ca-photo-well w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5"
+        style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4 / 3' }}
+      >
+        <Image
+          src={src}
+          alt=""
+          fill
+          sizes="(max-width: 1023px) 92vw, 25vw"
+          className="object-cover grayscale group-hover:grayscale-0 hover:grayscale-0 hover:scale-[1.02] group-hover:scale-[1.02] transition-all duration-700"
+        />
+      </div>
+      <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
+        {vertical}
+      </span>
+      {title ? (
+        <h3 className="font-serif font-normal text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
+          {title}
+        </h3>
+      ) : null}
+    </>
+  )
+
+  if (href) {
+    return (
+      <Link href={href} className="block group">
+        {body}
+      </Link>
+    )
+  }
+
+  return <div className="block">{body}</div>
+}
+
+export default async function Home() {
+  const stories = await fetchWellStories()
+  const used = new Set<string>()
+  const photoTiles = WELL_PLATES.map((plate) => {
+    const story = stories.find((s) => s.vertical === plate.vertical && !used.has(s.id))
+    if (story) used.add(story.id)
+    return {
+      src: plate.src,
+      vertical: plate.vertical,
+      title: story?.headline,
+      href: story ? `/magazine/${story.id}` : undefined,
+    }
+  })
+  const sidebarStories = stories.filter((s) => !used.has(s.id)).slice(0, 3)
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <CampaignBanner />
@@ -72,24 +155,40 @@ export default function Home() {
             />
           }
           middleColumn={
-            <div className="flex flex-col gap-10">
-              {MIDDLE_PHOTOS.map((photo) => (
-                <WellPhoto
-                  key={photo.src}
-                  src={photo.src}
-                  sizes="(max-width: 1023px) 92vw, 25vw"
-                />
+            <div className="flex flex-col">
+              {photoTiles.map((tile, i) => (
+                <div
+                  key={tile.src}
+                  className={i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}
+                >
+                  <WellPhotoTile
+                    src={tile.src}
+                    vertical={tile.vertical}
+                    title={tile.title}
+                    href={tile.href}
+                  />
+                </div>
               ))}
             </div>
           }
           sidebarColumn={
-            <div className="flex flex-col gap-10">
-              {SIDEBAR_PHOTOS.map((photo) => (
-                <WellPhoto
-                  key={photo.src}
-                  src={photo.src}
-                  sizes="(max-width: 1023px) 92vw, 25vw"
-                />
+            <div className="pt-0 space-y-6">
+              {sidebarStories.map((story, i) => (
+                <div
+                  key={story.id}
+                  className={i > 0 ? 'border-t border-black/10 pt-6' : ''}
+                >
+                  <ArticleCard
+                    id={story.id}
+                    title={story.headline}
+                    vertical={story.vertical}
+                    tagline={null}
+                    excerpt={null}
+                    date=""
+                    variant="hero-tertiary"
+                    href={`/magazine/${story.id}`}
+                  />
+                </div>
               ))}
             </div>
           }
