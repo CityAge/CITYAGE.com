@@ -48,7 +48,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               fill
               priority
               sizes="(max-width: 1023px) 92vw, 50vw"
-              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+              className="object-cover lg:grayscale lg:group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
         ) : null}

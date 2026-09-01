@@ -90,7 +90,7 @@ function WellPhotoTile({
           alt=""
           fill
           sizes="(max-width: 1023px) 92vw, 25vw"
-          className="object-cover grayscale group-hover:grayscale-0 hover:grayscale-0 hover:scale-[1.02] group-hover:scale-[1.02] transition-all duration-700"
+          className="object-cover lg:grayscale lg:group-hover:grayscale-0 lg:hover:grayscale-0 hover:scale-[1.02] group-hover:scale-[1.02] transition-all duration-700"
         />
       </div>
       <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
