@@ -1,17 +1,16 @@
 import { MagazineHeader } from '@/components/magazine-header'
-import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
-      <Navigation />
 
-      <main className="flex-grow max-w-[720px] mx-auto w-full px-6 py-12 md:py-16">
-        <div className="mb-10 pb-8 border-b border-black/10">
-          <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-4">Legal</span>
-          <h1 className="font-serif font-black text-3xl md:text-4xl leading-tight tracking-tight">
+      <main className="flex-grow">
+        <article className="max-w-[720px] mx-auto w-full px-6 md:px-12 pt-16 md:pt-24 pb-24 md:pb-36">
+          <div className="mb-10 pb-8 border-b border-black/10">
+          <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-4">Legal</span>
+          <h1 className="font-serif font-normal text-[2rem] md:text-[3.1rem] leading-[1.12] tracking-tight text-black">
             Privacy Policy
           </h1>
         </div>
@@ -121,6 +120,7 @@ export default function PrivacyPolicy() {
             CityAge Media · Vancouver, BC · <a href="mailto:info@cityage.com" className="hover:text-[#C5A059] transition-colors">info@cityage.com</a>
           </p>
         </div>
+        </article>
       </main>
 
       <MagazineFooter />

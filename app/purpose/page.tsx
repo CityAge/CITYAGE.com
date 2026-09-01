@@ -1,12 +1,13 @@
 import { Metadata } from 'next'
-import Link from 'next/link'
+import Image from 'next/image'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
+import './purpose.css'
 
 export const metadata: Metadata = {
   title: 'Purpose — CityAge',
   description:
-    'The Urban Planet: cities, regions, even small hamlets in the Arctic — built on 3 per cent of the planet, producing more than 80% of its GDP. CityAge convenes the leaders deciding what gets built there.',
+    'Fifteen years ago, CityAge was founded on an image. The Earth at night. Two per cent of the surface, lit.',
 }
 
 export default function PurposePage() {
@@ -15,151 +16,113 @@ export default function PurposePage() {
       <MagazineHeader />
 
       <main className="flex-grow">
-
-        {/* ── HERO: THE EARTH AT NIGHT — unmasked ── */}
-        <section className="border-b border-black bg-black text-white">
-          <div className="max-w-[900px] mx-auto px-6 md:px-12 pt-20 md:pt-28 pb-12 md:pb-16">
-            <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[#C5A059] block mb-10">
-              Our Founding Thesis
+        <article className="pt-16 md:pt-24 pb-24 md:pb-36">
+          <header className="max-w-[720px] mx-auto px-6 md:px-12">
+            <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-6">
+              PURPOSE
             </span>
-            <h1 className="font-serif font-black text-[2.6rem] md:text-[4.2rem] leading-[1.05] tracking-tight mb-8">
+            <h1 className="font-serif font-normal text-[2rem] md:text-[3.1rem] leading-[1.12] tracking-tight text-black mb-8">
               The Urban Planet.
             </h1>
-            <p className="font-mono text-[10px] tracking-[0.22em] uppercase text-white/55 max-w-[560px] leading-[1.9]">
-              The image CityAge was founded on, fifteen years ago. The Earth at night.
-              Three per cent of the surface. A single web of light.
+            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
+              Fifteen years ago, CityAge was founded on an image. The Earth at night. Two per
+              cent of the surface, lit. A single web of lights where nearly everything that
+              matters gets decided.
             </p>
-          </div>
-          <img
-            src="/earth-lights.jpg"
-            alt="The Earth at night — the Urban Planet"
-            className="w-full h-auto block"
-          />
-        </section>
+          </header>
 
-        {/* ── THE QUOTE ── */}
-        <section className="border-b border-black bg-black text-white">
-          <div className="max-w-[900px] mx-auto px-6 md:px-12 py-16 md:py-20">
-            <blockquote className="font-serif italic text-[1.4rem] md:text-[1.9rem] leading-[1.55] text-white/90 border-l-2 border-[#C5A059] pl-6 md:pl-10">
-              &ldquo;Cities, regions, even small hamlets in the Arctic &mdash; built on
-              3 per cent of the planet, producing more than 80% of its GDP. Every
-              structural challenge of our era &mdash; climate, capital, sovereignty &mdash;
-              gets solved or doesn&rsquo;t get solved there.&rdquo;
+          <figure className="mt-12 md:mt-16 w-full">
+            <Image
+              src="/earth-lights.jpg"
+              alt="The Earth at Night · NASA"
+              width={2560}
+              height={1288}
+              sizes="100vw"
+              priority
+              className="w-full h-auto block"
+            />
+            <figcaption className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/45 text-center mt-4 px-6">
+              The Earth at Night · NASA
+            </figcaption>
+          </figure>
+
+          <div className="max-w-[720px] mx-auto px-6 md:px-12 mt-12 md:mt-16">
+            <blockquote className="border-l-[3px] border-[#C5A059] pl-6 md:pl-7 mb-14 md:mb-16">
+              <p className="font-serif italic text-[1.05rem] md:text-[1.15rem] leading-[1.55] text-black">
+                “Cities, regions, even small hamlets in the Arctic — built on two per cent of
+                the planet, producing more than 80 per cent of its GDP. Every structural
+                challenge of our era — climate, capital, sovereignty — gets solved or
+                doesn&apos;t get solved there.”
+              </p>
+              <footer className="font-mono text-[10px] tracking-[0.18em] uppercase text-black/50 mt-5">
+                — Miro Cernetig, Founder, CEO and Publisher
+              </footer>
             </blockquote>
-            <p className="font-mono text-[9px] tracking-[0.22em] uppercase text-white/40 mt-8 pl-6 md:pl-10">
-              Miro Cernetig &mdash; Founder, CEO &amp; Publisher
-            </p>
-          </div>
-        </section>
-
-        {/* ── THE THESIS ── */}
-        <section className="border-b border-black bg-[#F9F9F7]">
-          <div className="max-w-[760px] mx-auto px-6 md:px-12 py-20 md:py-24">
-            <p className="font-serif text-[18px] md:text-[20px] leading-[1.8] text-black/80 mb-8">
-              The Urban Planet is the three per cent of the Earth where people mostly
-              are &mdash; and where innovation and investment happens. Sometimes it&rsquo;s
-              a vast urban region. Sometimes it&rsquo;s a small and distant place. All of
-              it is connected &mdash; through modern technology and human endeavour &mdash;
-              into a single web of decisions.
+            <p className="purpose-map-graf font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-10">
+              Look at the map above closely and you&apos;ll see the web of lights has no
+              centre. A port at the edge of the ice. A valley of engineers. A capital on a
+              river. Each a point of light, each wired to the others by money, technology and
+              the aspirations of people who build.
             </p>
 
-            <p className="font-serif italic text-[1.5rem] md:text-[2rem] leading-[1.45] text-[#8C6B48] py-6">
-              Iqaluit is as connected to the Urban Planet as New York, Beijing or
-              Brussels.
+            <p className="font-serif italic text-[1.35rem] md:text-[1.7rem] leading-[1.4] text-black mb-14 md:mb-16">
+              Iqaluit is as connected to the Urban Planet as New York, Beijing or Brussels.
             </p>
 
-            <p className="font-serif text-[18px] md:text-[20px] leading-[1.8] text-black/80 mb-8">
-              CityAge was founded on a single observation: the decision-makers
-              responsible for building the next century rarely get to talk to each
-              other. Not the right ones. Not under conditions where trust gets built
-              and decisions get made.
+            <h2 className="font-serif font-normal text-[1.65rem] md:text-[2rem] leading-tight tracking-tight text-black mb-6">
+              What we do.
+            </h2>
+            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-14 md:mb-16">
+              We connect the leaders who build the Urban Planet. Twenty thousand of them,
+              across fifty cities and fifteen years — founders, government leaders, investors,
+              architects, engineers, mayors, Fortune 1000 executives and more. We bring them
+              together through campaigns, brands, films and curated rooms where decisions and
+              investments follow.
             </p>
 
-            <p className="font-serif text-[18px] md:text-[20px] leading-[1.8] text-black/80">
-              Fifteen years and 100+ forums later, we&rsquo;ve built the network that
-              changes that &mdash; 25,000 verified leaders across government, capital,
-              and industry, convened around the problems worth solving.
+            <p className="font-serif italic text-[1.15rem] md:text-[1.3rem] leading-snug text-black border-t border-[#C5A059] pt-6 mb-8">
+              A small room of enormous influence.
             </p>
-          </div>
-        </section>
 
-        {/* ── STATS ── */}
-        <section className="border-b border-black bg-white">
-          <div className="max-w-[900px] mx-auto px-6 md:px-12 py-14">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-black/10">
-              {[
-                { num: '15', label: 'Years convening leaders' },
-                { num: '100+', label: 'Forums worldwide' },
-                { num: '25,000+', label: 'Verified decision-makers' },
-                { num: '3%', label: 'Of the Earth. Most of what matters.' },
-              ].map((stat, i) => (
-                <div key={i} className="px-6 md:px-10 py-4 first:pl-0 last:pr-0">
-                  <div className="font-serif font-black text-[2rem] md:text-[2.8rem] leading-none tracking-tight text-black mb-2">
-                    {stat.num}
-                  </div>
-                  <div className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+            <h2 className="font-serif font-normal text-[1.65rem] md:text-[2rem] leading-tight tracking-tight text-black mb-6">
+              Why we do it.
+            </h2>
+            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-6">
+              CityAge puts ideas in motion.
+            </p>
+            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-6">
+              We find the ideas worth moving. We put each one in a small room of enormous
+              influence. Then we make the films, brands and campaigns that forge the
+              connections to make it real.
+            </p>
+            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-6">
+              Our knowledge partners have built companies, changed policy, raised capital, seen
+              their valuations climb, been featured in major media — and, most important of
+              all, formed friendships and partnerships that endure.
+            </p>
+            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
+              We don&apos;t take on every idea. Only the ones that add something to the world.
+            </p>
+
+            <p className="font-serif text-[1.85rem] md:text-[2.6rem] leading-[1.2] tracking-tight text-black mt-20 md:mt-28 mb-8">
+              What ideas do you want to put in motion?
+            </p>
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+              <a
+                href="mailto:info@cityage.com"
+                className="font-serif text-[18px] md:text-[20px] text-black underline underline-offset-4 decoration-black/20 hover:text-[#C5A059] hover:decoration-[#C5A059] transition-colors"
+              >
+                info@cityage.com
+              </a>
+              <a
+                href="/subscribe"
+                className="inline-block bg-[#C5A059] text-black px-8 py-2.5 text-[11px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-colors"
+              >
+                Subscribe
+              </a>
             </div>
           </div>
-        </section>
-
-        {/* ── WHAT WE DO ── */}
-        <section className="border-b border-black bg-[#F9F9F7]">
-          <div className="max-w-[900px] mx-auto px-6 md:px-12 py-20">
-            <div className="flex items-baseline gap-6 mb-12 pb-6 border-b border-black/10">
-              <h2 className="font-serif font-black text-[1.8rem] md:text-[2.4rem] tracking-tight">
-                What we do
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-black/10">
-              {[
-                {
-                  label: 'Intelligence',
-                  body: 'Editorial briefings for decision-makers across the verticals that define the Urban Planet — written with the standards of a newsroom, not a newsletter farm.',
-                },
-                {
-                  label: 'Campaigns',
-                  body: 'We work with organisations that want to lead the conversation, not just participate in it. Knowledge partnerships that create influence and open doors.',
-                },
-                {
-                  label: 'Convening',
-                  body: 'We bring leaders and ideas into the same room at the moments that matter — summits, intimate roundtables, and the networks that outlast them.',
-                },
-              ].map((item, i) => (
-                <div key={i} className="py-8 md:py-0 md:px-8 first:md:pl-0 last:md:pr-0">
-                  <span className="font-mono text-[10px] tracking-[0.26em] uppercase text-[#8C6B48] block mb-4">
-                    {item.label}
-                  </span>
-                  <p className="font-serif text-[15px] leading-[1.75] text-black/70">
-                    {item.body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── CLOSE ── */}
-        <section className="bg-black text-white">
-          <div className="max-w-[900px] mx-auto px-6 md:px-12 py-24 md:py-32 text-center">
-            <p className="font-serif font-black text-[1.8rem] md:text-[2.8rem] leading-[1.25] tracking-tight mb-12">
-              Three per cent of the Earth.<br />
-              Most of what matters.<br />
-              <span className="text-[#C5A059]">We work there.</span>
-            </p>
-            <Link
-              href="/network"
-              className="inline-block font-mono text-[10px] tracking-[0.24em] uppercase border border-white/40 px-8 py-4 hover:border-[#C5A059] hover:text-[#C5A059] transition-colors"
-            >
-              Join the Network &rarr;
-            </Link>
-          </div>
-        </section>
-
+        </article>
       </main>
 
       <MagazineFooter />

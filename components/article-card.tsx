@@ -13,19 +13,23 @@ interface ArticleCardProps {
   readTime?: string
   variant?: 'hero-lead' | 'hero-secondary' | 'hero-tertiary' | 'featured-card' | 'category-list' | 'default'
   linkPrefix?: string
+  href?: string
 }
 
-export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default', linkPrefix = '/dispatches' }: ArticleCardProps) {
-  const href = `${linkPrefix}/${id}`
+export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default', linkPrefix = '/dispatches', href: hrefProp }: ArticleCardProps) {
+  const href = hrefProp ?? `${linkPrefix}/${id}`
 
-  // ── HERO LEAD: Large headline, image, then excerpt ──
+  // Instant Magazine lead — huge black hed. Photo only when a real still exists.
   if (variant === 'hero-lead') {
     return (
       <Link href={href} className="flex flex-col flex-1 group">
-        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-black/50">
+        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
           {vertical}
         </span>
-        <h2 className="font-serif font-black text-[2.6rem] md:text-[3.6rem] leading-[1.04] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors" style={{ fontWeight: 900 }}>
+        <h2
+          className="font-serif font-black text-[2.6rem] md:text-[3.6rem] leading-[1.04] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors"
+          style={{ fontWeight: 900 }}
+        >
           {title}
         </h2>
         {tagline && (
@@ -33,33 +37,21 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             {tagline}
           </p>
         )}
-        <div className="flex items-center gap-3 mb-4">
-          <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60">{date}</span>
-          {readTime && (
-            <>
-              <span className="text-black/15 text-[8px]">·</span>
-              <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60">
-                <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
-                {readTime}
-              </span>
-            </>
-          )}
-        </div>
-        {/* Image — portrait ratio like Monocle lead */}
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[3/4] mt-6">
+          <div
+            className="ca-photo ca-photo-lead w-full relative overflow-hidden bg-gray-100 aspect-[3/4] mt-6"
+            style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3 / 4' }}
+          >
             <Image
               src={image}
-              alt={title}
+              alt=""
               fill
+              priority
+              sizes="(max-width: 1023px) 92vw, 50vw"
               className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
-        ) : (
-          <div className="w-full aspect-[3/4] mt-6 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-            <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
-          </div>
-        )}
+        ) : null}
       </Link>
     )
   }
@@ -69,11 +61,15 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
     return (
       <Link href={href} className="block group">
         {image ? (
-          <div className="w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5">
+          <div
+            className="ca-photo ca-photo-well w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5"
+            style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4 / 3' }}
+          >
             <Image
               src={image}
               alt={title}
               fill
+              sizes="(max-width: 1023px) 92vw, 25vw"
               className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
             />
           </div>
@@ -82,16 +78,14 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
-        <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-black/70">
+        <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
           {vertical}
         </span>
-        <h3 className="font-serif font-bold text-[26px] leading-[1.15] tracking-tight mt-2 mb-4 group-hover:text-[#1A365D] transition-colors">
-          {title}
-        </h3>
-        <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60">
-          <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
-          {readTime}
-        </span>
+        {title ? (
+          <h3 className="font-serif font-normal text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 mb-4 group-hover:text-[#1A365D] transition-colors">
+            {title}
+          </h3>
+        ) : null}
       </Link>
     )
   }
@@ -100,13 +94,12 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-tertiary') {
     return (
       <Link href={href} className="flex flex-col group">
-        <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-black/70">
+        <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
           {vertical}
         </span>
-        <h3 className="font-serif font-bold text-[17px] leading-snug tracking-tight mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
+        <h3 className="font-serif font-normal text-[16px] leading-[1.3] tracking-normal mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
-        <span className="font-mono text-[12px] tracking-[0.12em] uppercase text-black/60 mt-auto">{readTime}</span>
       </Link>
     )
   }

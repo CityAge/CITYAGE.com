@@ -1,72 +1,79 @@
 export function MagazineFooter() {
   return (
     <footer className="bg-black text-white py-16 px-8 mt-auto">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-10">
 
         {/* Brand */}
-        <div className="md:col-span-2 space-y-5">
-          <h2 className="font-serif text-3xl font-black uppercase tracking-[0.06em]">
+        <div className="md:col-span-5 space-y-5">
+          <h2 className="font-serif text-4xl md:text-5xl font-black uppercase tracking-[0.06em] text-white">
             CITYAGE
           </h2>
-          <p className="text-[12px] text-white/40 leading-relaxed uppercase tracking-[0.15em]">
+          <p className="font-serif text-white text-[18px] md:text-[20px] leading-snug">
             Intelligence for The Urban Planet
           </p>
-          <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#C5A059]">
-            Est. 2012 — Vancouver
-          </span>
+          <p className="font-serif text-white/80 text-[16px] md:text-[17px] leading-relaxed">
+            Earth’s two per cent. Where everything happens.
+          </p>
+          <a
+            href="/subscribe"
+            className="inline-block bg-[#C5A059] text-black px-8 py-2.5 text-[11px] font-black tracking-[0.15em] uppercase hover:bg-white transition-colors"
+          >
+            Subscribe
+          </a>
+          <p className="font-serif text-white/70 text-[14px] pt-2">
+            © CityAge 2026
+          </p>
         </div>
 
-        {/* Network */}
-        <div className="space-y-5">
-          <h3 className="text-[9px] font-black tracking-[0.4em] uppercase text-white/20">
-            The Network
-          </h3>
-          <ul className="text-[11px] space-y-3 font-medium tracking-wider uppercase text-white/60">
-            <li><a href="/purpose" className="hover:text-[#C5A059] transition-colors">Purpose</a></li>
-            <li><a href="/partners" className="hover:text-[#C5A059] transition-colors">Knowledge Partners</a></li>
-            <li><a href="/network" className="hover:text-[#C5A059] transition-colors">The Network</a></li>
-            <li><a href="/dispatches" className="hover:text-[#C5A059] transition-colors">Dispatches</a></li>
-            <li><a href="/canada-europe-connects" className="hover:text-[#C5A059] transition-colors">Canada–Europe Connects</a></li>
-            <li><a href="https://cityage.com/events" className="hover:text-[#C5A059] transition-colors">Events 2026</a></li>
-            <li><a href="https://orbit.cityage.com" className="hover:text-[#C5A059] transition-colors">Orbit — Space Economy</a></li>
+        {/* House links */}
+        <div className="md:col-span-2 space-y-4">
+          <ul className="text-[15px] space-y-3 text-white/70">
+            <li><a href="/purpose" className="hover:text-white transition-colors">Purpose</a></li>
+            <li><a href="/partners" className="hover:text-white transition-colors">Partners</a></li>
+            <li><a href="/studio" className="hover:text-white transition-colors">Studio</a></li>
+            <li><a href="/subscribe" className="hover:text-white transition-colors">Subscribe</a></li>
           </ul>
         </div>
 
         {/* Contact */}
-        <div className="space-y-5">
-          <h3 className="text-[9px] font-black tracking-[0.4em] uppercase text-white/20">
-            Contact
+        <div className="md:col-span-3 space-y-4">
+          <h3 className="text-[13px] font-bold tracking-[0.18em] uppercase text-white">
+            <a href="mailto:info@cityage.com" className="hover:text-white transition-colors">
+              Contact
+            </a>
           </h3>
-          <address className="text-[11px] not-italic text-white/50 leading-loose tracking-wider uppercase">
-            CityAge Media<br />
-            Vancouver, BC<br />
-            <a href="mailto:info@cityage.com" className="hover:text-[#C5A059] transition-colors">info@cityage.com</a>
+          <address className="text-[15px] not-italic text-white/70 leading-relaxed space-y-2">
+            <div>CityAge Media</div>
+            <div>
+              <a href="mailto:info@cityage.com" className="hover:text-white transition-colors">
+                info@cityage.com
+              </a>
+            </div>
+            <div>
+              <a
+                href="https://www.linkedin.com/company/cityage/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                LinkedIn
+              </a>
+            </div>
           </address>
-          <div className="flex gap-4">
-            <a href="https://x.com/CityAge" className="text-[10px] font-bold tracking-widest uppercase text-white/30 hover:text-[#C5A059] transition-colors">X</a>
-            <a href="https://www.linkedin.com/company/cityage/" className="text-[10px] font-bold tracking-widest uppercase text-white/30 hover:text-[#C5A059] transition-colors">LinkedIn</a>
-            <a href="https://youtube.com/@cityagemedia7043" className="text-[10px] font-bold tracking-widest uppercase text-white/30 hover:text-[#C5A059] transition-colors">YouTube</a>
-          </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-3">
-        <span className="font-mono text-[9px] text-white/20 tracking-wider uppercase">
-          © 2026 CityAge Media. All Rights Reserved.
-        </span>
-        <div className="flex items-center gap-4">
-          <a href="/ai-policy" className="font-mono text-[9px] text-white/20 tracking-wider uppercase hover:text-[#C5A059] transition-colors">
-            AI & Editorial Policy
-          </a>
-          <span className="text-white/10">·</span>
-          <a href="/privacy" className="font-mono text-[9px] text-white/20 tracking-wider uppercase hover:text-[#C5A059] transition-colors">
-            Privacy
-          </a>
-          <span className="text-white/10">·</span>
-          <span className="font-mono text-[9px] text-white/20 tracking-wider uppercase">
-            100+ Convenings · 50+ Cities · 15 Years
-          </span>
+        {/* Legal */}
+        <div className="md:col-span-2 space-y-4">
+          <h3 className="text-[13px] font-bold tracking-[0.18em] uppercase text-white">
+            Legal
+          </h3>
+          <ul className="text-[15px] space-y-3 text-white/70">
+            <li>
+              <a href="/privacy" className="hover:text-white transition-colors">
+                Privacy
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>

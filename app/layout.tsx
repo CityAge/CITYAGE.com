@@ -24,18 +24,12 @@ const baskerville = localFont({
   display: 'swap',
 })
 
-// UI sans-serif (kept for utility text)
-const inter = localFont({
-  src: '../public/fonts/inter-latin-wght-normal.woff2',
-  variable: '--font-ui',
-  display: 'swap',
-})
-
-// Monospace for metadata, dates, verticals
+// Monospace for metadata, dates, verticals — not on the first cream screen
 const jetbrains = localFont({
   src: '../public/fonts/jetbrains-mono-latin-wght-normal.woff2',
   variable: '--font-mono',
   display: 'swap',
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -61,8 +55,23 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${baskerville.variable} ${inter.variable} ${jetbrains.variable}`}>
-      <body className="font-serif antialiased bg-[#F9F9F7] text-black selection:bg-[#1A365D] selection:text-white">
+    <html
+      lang="en"
+      className={`${playfair.variable} ${baskerville.variable} ${jetbrains.variable}`}
+      style={{ backgroundColor: '#F9F9F7' }}
+    >
+      <head>
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              'html,body{background:#F9F9F7}.ca-photo{position:relative;overflow:hidden;display:block;width:100%}.ca-photo-banner{height:260px;max-width:1000px;width:calc(100% - 3rem);margin:0 auto}.ca-photo-lead{aspect-ratio:3/4}.ca-photo-well{aspect-ratio:4/3}.ca-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}',
+          }}
+        />
+      </head>
+      <body
+        className="font-serif antialiased bg-[#F9F9F7] text-black selection:bg-[#1A365D] selection:text-white"
+        style={{ backgroundColor: '#F9F9F7' }}
+      >
         {children}
         <Analytics />
       </body>

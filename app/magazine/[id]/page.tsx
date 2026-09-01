@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 
@@ -97,22 +96,16 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
 
   if (!article) notFound()
 
-  const date = new Date(article.published_at).toLocaleDateString('en-CA', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-    timeZone: 'America/Toronto'
-  })
-
   const html = renderMarkdown(article.body)
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
-      <CampaignBanner />
       <MagazineHeader />
 
       <article className="flex-grow">
 
         {/* ── ARTICLE HEADER ── */}
-        <div className="border-b border-black/10 bg-white">
+        <div className="border-b border-black/10">
           <div className="max-w-[800px] mx-auto px-6 pt-12 pb-10 text-center">
 
             {/* Vertical + sub-vertical */}
@@ -131,7 +124,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif font-black text-[2rem] md:text-[2.8rem] leading-[1.1] tracking-tight mb-5 text-black">
+            <h1 className="font-serif font-normal text-[1.65rem] md:text-[2.1rem] leading-[1.22] tracking-normal mb-5 text-black">
               {article.headline}
             </h1>
 
@@ -195,18 +188,6 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                 className="article-body"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
-
-              {/* Footer */}
-              <div className="border-t border-black/10 mt-14 pt-8 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">{article.vertical}</span>
-                  <span className="text-black/20 text-[8px]">·</span>
-                  <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/40">Published {date}</span>
-                </div>
-                <Link href="/" className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 hover:text-black transition-colors">
-                  ← Home
-                </Link>
-              </div>
             </div>
 
             {/* Sidebar */}

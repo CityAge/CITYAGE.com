@@ -1,0 +1,71 @@
+/* One quiet strip on the cream door, immediately above the footer. */
+
+.door-speakers-reel {
+  background: #120f0b;
+  overflow-x: hidden;
+  min-height: 136px;
+  contain: layout style;
+}
+
+.door-speakers-reel .speakers-reel-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.door-speakers-reel .speakers-reel-outer {
+  background: #120f0b;
+  position: relative;
+  overflow: hidden;
+  height: 68px;
+}
+
+.door-speakers-reel .speakers-reel-fade-left,
+.door-speakers-reel .speakers-reel-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 56px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.door-speakers-reel .speakers-reel-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #120f0b, transparent);
+}
+
+.door-speakers-reel .speakers-reel-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #120f0b, transparent);
+}
+
+.door-speakers-reel .speakers-reel-track {
+  display: flex;
+  gap: 3px;
+  padding: 5px 0;
+  width: max-content;
+  will-change: transform;
+}
+
+.door-speakers-reel .speakers-reel-face {
+  flex-shrink: 0;
+  width: 48px;
+  height: 58px;
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.door-speakers-reel .speakers-reel-face img {
+  display: block;
+  width: 48px;
+  height: 58px;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(100%) brightness(0.85) contrast(1.1);
+}
+
+.door-speakers-reel .speakers-reel-placeholder,
+.door-speakers-reel .speakers-reel-overlay {
+  display: none;
+}

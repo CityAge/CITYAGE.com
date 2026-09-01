@@ -1,89 +1,28 @@
-'use client'
+import { CityAgeMark, VerticalNav } from '@/components/magazine-header-chrome'
+import { MagazineUtilityBar } from '@/components/magazine-header-menu'
+import { MagazineStickyHeader } from '@/components/magazine-header-sticky'
 
-import { useState, useEffect } from 'react'
-
-// When compressed, header height is exactly: utility(36) + masthead(48) + nav(40) = 124px
-export const HEADER_COMPRESSED_HEIGHT = 124
+export { HEADER_COMPRESSED_HEIGHT } from '@/components/magazine-header-chrome'
+export { CityAgeMark } from '@/components/magazine-header-chrome'
 
 export function MagazineHeader() {
-  const [isCompressed, setIsCompressed] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setIsCompressed(window.scrollY > 100)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <header className="sticky top-0 z-[100] bg-[#F9F9F7]">
+    <>
+      <header className="bg-[#F9F9F7]">
+        <MagazineUtilityBar />
 
-      {/* ─── TOP UTILITY BAR — hidden when compressed ─── */}
-      <div className={`border-b border-black/15 px-6 md:px-12 py-2 transition-all duration-200 ${isCompressed ? 'hidden' : ''}`}>
-        <div className="max-w-[1400px] mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-5 md:gap-7">
-            <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.15em] uppercase text-black hover:opacity-60 transition-opacity">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-            <a href="/purpose" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden md:block">Purpose</a>
-            <a href="/partners" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">Knowledge Partners</a>
-            <a href="/network" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden lg:block">The Network</a>
-          </div>
-          <div className="flex items-center gap-5 md:gap-7">
-            <button className="hover:opacity-60 transition-opacity text-black">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-            <a href="#" className="text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity hidden sm:block">Log in</a>
-            <a href="#" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
-              Subscribe
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* ─── MASTHEAD: two states, snaps instantly ─── */}
-      <div className={`border-b border-black px-6 md:px-12 transition-all duration-200 ${isCompressed ? 'py-2' : 'py-8 md:py-12'}`}>
-        <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
-
-
-
-          {/* Wordmark: big or small */}
-          <div className="flex flex-col items-center">
-            <a href="/" className={`font-serif font-black uppercase monocle-wordmark text-black tracking-[0.035em] leading-[0.85] transition-all duration-200 ${isCompressed ? 'text-2xl md:text-3xl' : 'text-[3.5rem] md:text-[7rem] lg:text-[10rem] xl:text-[11rem]'}`}>
-              CITYAGE
-            </a>
-          </div>
-
-          {/* Right bracket — hidden when compressed */}
-          {!isCompressed && (
-            <div className="hidden xl:block absolute right-0 bottom-0 text-right">
-              <a href="#subscribe" className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/50 hover:text-black transition-colors leading-relaxed">
-                Published daily<br />from Vancouver
-              </a>
+        <div className="border-b border-black px-6 md:px-12 py-10 md:py-16">
+          <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
+            <div className="flex flex-col items-center">
+              <CityAgeMark id="cityage-masthead" tone="cream" size="large" />
             </div>
-          )}
+          </div>
         </div>
-      </div>
 
-      {/* ─── VERTICAL NAV ─── */}
-      <div className="border-b-2 border-black px-4 md:px-12">
-        <div className="max-w-[1400px] mx-auto flex items-center justify-center overflow-x-auto md:overflow-visible">
-          {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
-            <div key={name} className="flex items-center shrink-0">
-              {i > 0 && <span className="text-black/60 mx-4 md:mx-6 text-base font-normal">|</span>}
-              <a
-                href={`#${name.toLowerCase()}`}
-                className="px-3 md:px-5 py-4 text-[14px] md:text-[16px] font-black tracking-[0.15em] uppercase text-black hover:opacity-50 transition-opacity"
-              >
-                {name}
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
-    </header>
+        <VerticalNav />
+      </header>
+
+      <MagazineStickyHeader />
+    </>
   )
 }

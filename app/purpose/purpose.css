@@ -1,0 +1,10 @@
+/* House drop cap — Playfair already on the magazine. Do not add a type family. */
+.purpose-map-graf::first-letter {
+  float: left;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 3.7rem;
+  font-weight: 500;
+  line-height: 0.82;
+  padding: 0.08em 0.14em 0 0;
+  color: #000;
+}

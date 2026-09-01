@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
@@ -73,11 +72,6 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
   const sidebarArticles = relatedArticles.slice(0, 3)
   const bottomArticles = relatedArticles.slice(3, 6)
 
-  const date = new Date(brief.published_at).toLocaleDateString('en-CA', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-    timeZone: 'America/Toronto'
-  })
-
   const shortDate = new Date(brief.published_at).toLocaleDateString('en-CA', {
     month: 'long', day: 'numeric', year: 'numeric',
     timeZone: 'America/Toronto'
@@ -108,10 +102,6 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
-      {/* Campaign banner */}
-      <CampaignBanner />
-
-      {/* Full masthead */}
       <MagazineHeader />
 
       {/* Navigation */}
@@ -176,24 +166,6 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
                 className="brief-content"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
-
-              {/* Article footer */}
-              <div className="border-t border-black/10 mt-12 pt-8">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase text-black/70">
-                      {brief.vertical}
-                    </span>
-                    <span className="text-black/20 text-[8px]">·</span>
-                    <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/40">
-                      Published {date}
-                    </span>
-                  </div>
-                  <Link href="/dispatches" className="font-mono text-[9px] tracking-[0.2em] uppercase text-[#C5A059] hover:text-black transition-colors">
-                    ← All Dispatches
-                  </Link>
-                </div>
-              </div>
             </div>
 
             {/* Recommendations sidebar */}
