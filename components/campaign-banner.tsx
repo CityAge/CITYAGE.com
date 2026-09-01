@@ -1,7 +1,6 @@
 import Image from 'next/image'
 
-const INVITE_HREF =
-  'mailto:info@cityage.com?subject=The%20Next%20West%20invitation'
+const INVITE_HREF = '/the-next-west'
 
 export function CampaignBanner() {
   return (
