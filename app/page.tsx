@@ -141,7 +141,7 @@ export default async function Home() {
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <CampaignBanner />
 
-      <MagazineHeader />
+      <MagazineHeader hideRailOnPhone />
 
       <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
         <span id="power" className="paper-anchor" />

@@ -33,9 +33,9 @@ export function CityAgeMark({
   )
 }
 
-export function VerticalNav() {
+export function VerticalNav({ hideOnPhone = false }: { hideOnPhone?: boolean } = {}) {
   return (
-    <div className="border-b-2 border-black">
+    <div className={`border-b-2 border-black${hideOnPhone ? ' max-lg:hidden' : ''}`}>
       <div className="ca-rail max-w-[1400px] mx-auto flex items-center justify-start lg:justify-center overflow-x-auto lg:overflow-visible px-4 md:px-12">
         {['Power', 'Money', 'Cities', 'Frontiers', 'Culture'].map((name, i) => (
           <div key={name} className="flex items-center shrink-0">

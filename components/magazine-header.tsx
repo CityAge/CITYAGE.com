@@ -5,7 +5,7 @@ import { MagazineStickyHeader } from '@/components/magazine-header-sticky'
 export { HEADER_COMPRESSED_HEIGHT } from '@/components/magazine-header-chrome'
 export { CityAgeMark } from '@/components/magazine-header-chrome'
 
-export function MagazineHeader() {
+export function MagazineHeader({ hideRailOnPhone = false }: { hideRailOnPhone?: boolean } = {}) {
   return (
     <>
       <header className="bg-[#F9F9F7]">
@@ -19,10 +19,10 @@ export function MagazineHeader() {
           </div>
         </div>
 
-        <VerticalNav />
+        <VerticalNav hideOnPhone={hideRailOnPhone} />
       </header>
 
-      <MagazineStickyHeader />
+      <MagazineStickyHeader hideRailOnPhone={hideRailOnPhone} />
     </>
   )
 }
