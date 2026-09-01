@@ -1,3 +1,5 @@
+import { LOGO_WHITE } from '@/components/magazine-header-chrome'
+
 export function MagazineFooter() {
   return (
     <footer className="bg-black text-white py-16 px-8 mt-auto">
@@ -5,8 +7,16 @@ export function MagazineFooter() {
 
         {/* Brand */}
         <div className="md:col-span-5 space-y-5">
-          <h2 className="font-serif text-4xl md:text-5xl font-black uppercase tracking-[0.06em] text-white">
-            CITYAGE
+          <h2 className="m-0">
+            {/* Drawn mark — same as the masthead, white, smaller. Not a web-font CITYAGE. */}
+            <img
+              src={LOGO_WHITE}
+              alt="CITYAGE"
+              width={517}
+              height={119}
+              className="block h-auto w-[min(64vw,18rem)]"
+              decoding="async"
+            />
           </h2>
           <p className="font-serif text-white text-[18px] md:text-[20px] leading-snug">
             Intelligence for The Urban Planet
