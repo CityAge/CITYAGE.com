@@ -3,10 +3,14 @@ import Link from 'next/link'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { DoorSpeakersLazy } from '@/components/door-speakers-lazy'
+import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
 import { ArticleCard } from '@/components/article-card'
 import { HeroGrid } from '@/components/hero-grid'
-import { SPEAKERS_SUPABASE_URL } from '@/lib/speakers'
+import {
+  SPEAKERS_SUPABASE_URL,
+  fetchDoorSpeakerFaces,
+  shuffle,
+} from '@/lib/speakers'
 
 export const revalidate = 60
 
@@ -112,7 +116,14 @@ function WellPhotoTile({
 }
 
 export default async function Home() {
-  const stories = await fetchWellStories()
+  const [stories, doorFaces] = await Promise.all([
+    fetchWellStories(),
+    fetchDoorSpeakerFaces(),
+  ])
+  const readyDoor = shuffle(doorFaces).slice(0, 48)
+  const doorMid = Math.ceil(readyDoor.length / 2)
+  const doorTop = readyDoor.slice(0, doorMid)
+  const doorBottom = readyDoor.slice(doorMid)
   const used = new Set<string>()
   const photoTiles = WELL_PLATES.map((plate) => {
     const story = stories.find((s) => s.vertical === plate.vertical && !used.has(s.id))
@@ -196,7 +207,7 @@ export default async function Home() {
       </main>
 
       <div style={{ minHeight: 136, background: '#120f0b' }}>
-        <DoorSpeakersLazy />
+        <DoorSpeakersStrip top={doorTop} bottom={doorBottom} />
       </div>
       <MagazineFooter />
     </div>

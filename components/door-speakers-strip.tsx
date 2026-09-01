@@ -1,17 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { hasSpeakerShot, shuffle, type SpeakerFace } from '@/lib/speakers'
+import { hasSpeakerShot, type SpeakerFace } from '@/lib/speakers'
 import './door-speakers-strip.css'
 
 const FACE_W = 51
 const PX_PER_SEC = 18
-const DOOR_KEEP = 48
-
-function firstSlotCount() {
-  if (typeof window === 'undefined') return 28
-  return Math.max(12, Math.ceil(window.innerWidth / FACE_W) + 3)
-}
+const SSR_SLOT_COUNT = 28
 
 function VirtualDoorRow({
   faces,
@@ -26,7 +21,7 @@ function VirtualDoorRow({
   const trackRef = useRef<HTMLDivElement>(null)
   const hoverRef = useRef(false)
   const originRef = useRef(0)
-  const [slotCount, setSlotCount] = useState(firstSlotCount)
+  const [slotCount, setSlotCount] = useState(SSR_SLOT_COUNT)
   const [origin, setOrigin] = useState(0)
 
   const starters = faces.filter((face) => hasSpeakerShot(face.headshot_url))
@@ -104,7 +99,7 @@ function VirtualDoorRow({
                   alt=""
                   width={48}
                   height={58}
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   draggable={false}
                 />
@@ -117,33 +112,13 @@ function VirtualDoorRow({
   )
 }
 
-export function DoorSpeakersStrip() {
-  const [top, setTop] = useState<SpeakerFace[]>([])
-  const [bottom, setBottom] = useState<SpeakerFace[]>([])
-
-  useEffect(() => {
-    let cancelled = false
-
-    fetch('/api/door-faces')
-      .then((res) => (res.ok ? res.json() : []))
-      .then((all: SpeakerFace[]) => {
-        if (cancelled || !Array.isArray(all)) return
-        const ready = shuffle(all.filter((face) => hasSpeakerShot(face.headshot_url))).slice(
-          0,
-          DOOR_KEEP,
-        )
-        if (ready.length < 8) return
-        const mid = Math.ceil(ready.length / 2)
-        setTop(ready.slice(0, mid))
-        setBottom(ready.slice(mid))
-      })
-      .catch(() => {})
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
+export function DoorSpeakersStrip({
+  top,
+  bottom,
+}: {
+  top: SpeakerFace[]
+  bottom: SpeakerFace[]
+}) {
   return (
     <section className="door-speakers-reel" aria-label="Speakers">
       {top.length > 0 ? <VirtualDoorRow faces={top} reverse={false} href="/people" /> : null}

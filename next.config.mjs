@@ -28,19 +28,6 @@ const nextConfig = {
         // Future city subdomains follow the same pattern:
         // westvan.cityage.com → /daybreak/westvan
         // beverlyhills.cityage.com → /daybreak/beverlyhills
-
-        // ── FRONT DOOR ──
-        // The locked CityAge design (Ink/Cream/Brass) is the site.
-        // The magazine build remains intact at its own routes for future use.
-        {
-          source: '/',
-          destination: '/cityage-FINAL.html',
-        },
-        // Purpose: locked-design page (overrides the magazine app route)
-        {
-          source: '/purpose',
-          destination: '/purpose.html',
-        },
       ],
     }
   },
