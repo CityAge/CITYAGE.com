@@ -107,9 +107,6 @@ export default function TheNextWestPage() {
             </ol>
 
             <section id="invite">
-              <h2 className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-8">
-                The Form
-              </h2>
               <div className="border border-black/20 bg-[#F9F9F7] px-5 py-8 md:px-8 md:py-10">
                 <InviteForm />
               </div>

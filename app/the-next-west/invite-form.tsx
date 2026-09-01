@@ -10,6 +10,8 @@ const FIELD =
 
 const LABEL = 'font-mono text-[10px] font-bold tracking-[0.16em] uppercase text-black/55'
 
+const TICK = 'flex items-center gap-3 font-serif text-[17px] text-black'
+
 export function InviteForm() {
   const [status, setStatus] = useState<Status>('idle')
 
@@ -34,6 +36,10 @@ export function InviteForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
+      <p className="font-mono text-[11px] font-black tracking-[0.15em] uppercase text-[#C5A059]">
+        Apply for an invitation
+      </p>
+
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
@@ -68,15 +74,15 @@ export function InviteForm() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 pt-2">
-        <label className="flex items-center gap-3 font-serif text-[17px] text-black">
-          <input
-            type="checkbox"
-            name="speak"
-            className="size-4 accent-[#C5A059] border-black"
-          />
+        <label className={TICK}>
+          <input type="checkbox" name="attend" className="size-4 accent-[#C5A059] border-black" />
+          Attend.
+        </label>
+        <label className={TICK}>
+          <input type="checkbox" name="speak" className="size-4 accent-[#C5A059] border-black" />
           Speak.
         </label>
-        <label className="flex items-center gap-3 font-serif text-[17px] text-black">
+        <label className={TICK}>
           <input
             type="checkbox"
             name="knowledgePartner"
@@ -85,6 +91,15 @@ export function InviteForm() {
           Knowledge partner.
         </label>
       </div>
+
+      <label className="block">
+        <span className={LABEL}>Comments</span>
+        <textarea
+          className={`${FIELD} min-h-[6rem] resize-none`}
+          name="comments"
+          rows={4}
+        />
+      </label>
 
       <button
         type="submit"
