@@ -64,7 +64,7 @@ export default function RootLayout({
         <style
           dangerouslySetInnerHTML={{
             __html:
-              'html,body{background:#F9F9F7}.ca-photo{position:relative;overflow:hidden;display:block;width:100%}.ca-photo-banner{height:260px;max-width:1000px;width:calc(100% - 3rem);margin:0 auto}.ca-photo-lead{aspect-ratio:3/4}.ca-photo-well{aspect-ratio:4/3}.ca-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}',
+              'html,body{background:#F9F9F7}.ca-photo{position:relative;overflow:hidden;display:block;width:100%}.ca-photo-banner{height:128px;max-width:1000px;width:calc(100% - 3rem);margin:0 auto}@media (min-width:768px){.ca-photo-banner{height:240px}}.ca-photo-lead{aspect-ratio:4/3}@media (min-width:1024px){.ca-photo-lead{aspect-ratio:3/4}}.ca-photo-well{aspect-ratio:4/3}.ca-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}',
           }}
         />
       </head>

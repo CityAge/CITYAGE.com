@@ -170,7 +170,7 @@ export default async function Home() {
               {photoTiles.map((tile, i) => (
                 <div
                   key={tile.src}
-                  className={i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}
+                  className={i > 0 ? 'border-t border-black/10 pt-10 mt-10 max-lg:pt-4 max-lg:mt-4' : ''}
                 >
                   <WellPhotoTile
                     src={tile.src}

@@ -27,20 +27,20 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
           {vertical}
         </span>
         <h2
-          className="font-serif font-black text-[2.6rem] md:text-[3.6rem] leading-[1.04] tracking-tight mt-3 mb-4 group-hover:text-[#1A365D] transition-colors"
+          className="font-serif font-black text-[1.55rem] md:text-[2.6rem] lg:text-[3.6rem] leading-[1.08] lg:leading-[1.04] tracking-tight mt-2 mb-3 lg:mt-3 lg:mb-4 group-hover:text-[#1A365D] transition-colors"
           style={{ fontWeight: 900 }}
         >
           {title}
         </h2>
         {tagline && (
-          <p className="font-serif text-black/60 text-[17px] leading-[1.6] mb-4">
+          <p className="font-serif text-black/60 text-[13px] md:text-[17px] leading-[1.45] lg:leading-[1.6] mb-3 lg:mb-4">
             {tagline}
           </p>
         )}
         {image ? (
           <div
-            className="ca-photo ca-photo-lead w-full relative overflow-hidden bg-gray-100 aspect-[3/4] mt-6"
-            style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3 / 4' }}
+            className="ca-photo ca-photo-lead w-full relative overflow-hidden bg-gray-100 aspect-[4/3] lg:aspect-[3/4] mt-4 lg:mt-6"
+            style={{ position: 'relative', overflow: 'hidden' }}
           >
             <Image
               src={image}
