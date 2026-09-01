@@ -128,7 +128,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '199052432',
     stillImage: null,
-    thumb: null,
+    thumb: '/digging-up-a-ship-thumb.jpg',
   },
   {
     id: 'deep-sea-mining',
@@ -214,7 +214,7 @@ const FILMS: Film[] = [
     awards: [],
     vimeoId: '1197480982',
     stillImage: null,
-    thumb: null,
+    thumb: '/giltrudes-dwelling-thumb.jpg',
     credit: 'Directed by Jeremy Lutter',
   },
 ]

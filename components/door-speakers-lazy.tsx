@@ -31,5 +31,10 @@ export function DoorSpeakersLazy() {
     return () => io.disconnect()
   }, [])
 
-  return <div ref={slotRef}>{Strip ? <Strip /> : null}</div>
+  // Sized target so IntersectionObserver can fire. A zero-height slot never paints.
+  return (
+    <div ref={slotRef} style={{ minHeight: 136, width: '100%' }}>
+      {Strip ? <Strip /> : null}
+    </div>
+  )
 }

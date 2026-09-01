@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { hasSpeakerShot, shuffle, type SpeakerFace } from '@/lib/speakers'
 import './door-speakers-strip.css'
@@ -8,6 +7,11 @@ import './door-speakers-strip.css'
 const FACE_W = 51
 const PX_PER_SEC = 18
 const DOOR_KEEP = 48
+
+function firstSlotCount() {
+  if (typeof window === 'undefined') return 28
+  return Math.max(12, Math.ceil(window.innerWidth / FACE_W) + 3)
+}
 
 function VirtualDoorRow({
   faces,
@@ -22,7 +26,7 @@ function VirtualDoorRow({
   const trackRef = useRef<HTMLDivElement>(null)
   const hoverRef = useRef(false)
   const originRef = useRef(0)
-  const [slotCount, setSlotCount] = useState(0)
+  const [slotCount, setSlotCount] = useState(firstSlotCount)
   const [origin, setOrigin] = useState(0)
 
   const starters = faces.filter((face) => hasSpeakerShot(face.headshot_url))
@@ -32,7 +36,7 @@ function VirtualDoorRow({
     if (!el) return
     const measure = () => {
       const w = el.clientWidth || window.innerWidth
-      setSlotCount(Math.max(8, Math.ceil(w / FACE_W) + 3))
+      setSlotCount(Math.max(12, Math.ceil(w / FACE_W) + 3))
     }
     measure()
     const ro = new ResizeObserver(measure)
@@ -70,7 +74,7 @@ function VirtualDoorRow({
     return () => cancelAnimationFrame(raf)
   }, [reverse, slotCount, starters.length])
 
-  if (starters.length === 0 || slotCount === 0) {
+  if (starters.length === 0) {
     return <div ref={wrapRef} className="speakers-reel-section" />
   }
 
@@ -94,16 +98,15 @@ function VirtualDoorRow({
             if (!speaker?.headshot_url) return null
             return (
               <a key={i} className="speakers-reel-face" href={href}>
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={speaker.headshot_url}
                   alt=""
-                  fill
-                  sizes="48px"
+                  width={48}
+                  height={58}
                   loading="lazy"
+                  decoding="async"
                   draggable={false}
-                  onError={(event) => {
-                    event.currentTarget.closest('a')?.remove()
-                  }}
                 />
               </a>
             )
