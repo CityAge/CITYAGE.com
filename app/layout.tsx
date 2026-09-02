@@ -3,26 +3,8 @@ import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-// Editorial display serif — wordmark + headlines (variable weight, local)
-const playfair = localFont({
-  src: [
-    { path: '../public/fonts/playfair-display-latin-wght-normal.woff2', style: 'normal' },
-    { path: '../public/fonts/playfair-display-latin-wght-italic.woff2', style: 'italic' },
-  ],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-// Warm body serif — article text, taglines, excerpts (local)
-const baskerville = localFont({
-  src: [
-    { path: '../public/fonts/libre-baskerville-latin-400-normal.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/libre-baskerville-latin-700-normal.woff2', weight: '700', style: 'normal' },
-    { path: '../public/fonts/libre-baskerville-latin-400-italic.woff2', weight: '400', style: 'italic' },
-  ],
-  variable: '--font-serif',
-  display: 'swap',
-})
+// Newsreader (all text) is registered with @font-face in globals.css and
+// preloaded below; --font-serif and --font-display point at it there.
 
 // Monospace for metadata, dates, verticals — not on the first cream screen
 const jetbrains = localFont({
@@ -57,10 +39,24 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${baskerville.variable} ${jetbrains.variable}`}
+      className={jetbrains.variable}
       style={{ backgroundColor: '#F9F9F7' }}
     >
       <head>
+        <link
+          rel="preload"
+          href="/fonts/newsreader-latin-opsz-normal.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/newsreader-latin-opsz-italic.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <style
           dangerouslySetInnerHTML={{
             __html:

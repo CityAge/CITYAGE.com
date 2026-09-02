@@ -3,6 +3,24 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Newsreader: one variable family for all text. Optical size and weight
+   axes, latin subset, self-hosted. */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/newsreader-latin-opsz-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/newsreader-latin-opsz-italic.woff2') format('woff2-variations');
+}
+
 :root {
   --background: #F9F9F7;
   --foreground: #000000;
@@ -31,8 +49,8 @@
 
 @theme inline {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-display: 'Newsreader', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -61,9 +79,12 @@
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; }
-  
-  /* Headlines use display serif (Playfair Display) */
+  body { @apply bg-background text-foreground; font-optical-sizing: auto; }
+
+  /* Italic one step up from regular so decks and asides don't read light. */
+  .italic, em, i { font-weight: 500; }
+
+  /* Headlines use the house serif (Newsreader) */
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     -webkit-font-smoothing: antialiased;
