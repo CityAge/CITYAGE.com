@@ -42,7 +42,7 @@ export function VerticalNav({ hideOnPhone = false }: { hideOnPhone?: boolean } =
           <div key={name} className="flex items-center shrink-0">
             {i > 0 && <span className="text-black/60 mx-2.5 md:mx-6 text-base font-normal">|</span>}
             <a
-              href={`#${name.toLowerCase()}`}
+              href={`/${name.toLowerCase()}`}
               className="px-2.5 md:px-5 py-4 text-[13px] md:text-[16px] font-black tracking-[0.15em] uppercase text-black hover:opacity-50 transition-opacity"
             >
               {name}
