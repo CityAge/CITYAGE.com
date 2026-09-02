@@ -57,7 +57,7 @@ export default async function Home() {
           leadColumn={
             <ArticleCard
               id="miller"
-              title="The inflection point was real"
+              title="Space: commercialization is rocketing ahead under U.S. President Donald Trump"
               vertical="Frontiers"
               tagline="Charles Miller, who spoke at CityAge Orbit in Washington, on the commercialization of space."
               excerpt={null}
