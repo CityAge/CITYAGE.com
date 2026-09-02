@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { readMinutes } from '@/lib/magazine'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { MagazineHeader } from '@/components/magazine-header'
@@ -133,7 +134,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
       if (article) {
         const { data: rel } = await supabase
           .from('magazine')
-          .select('id, headline, vertical, image_url, read_time, published_at')
+          .select('id, headline, vertical, image_url, published_at, body')
           .eq('status', 'published')
           .eq('vertical', article.vertical)
           .neq('id', id)
@@ -149,6 +150,13 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
   if (!article) notFound()
 
   const html = renderMarkdown(article.body)
+  const readMin = readMinutes(article.body)
+  const dateLabel = new Date(article.published_at).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
@@ -160,19 +168,19 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
         <div className="border-b border-black/10">
           <div className="max-w-[800px] mx-auto px-6 pt-12 pb-10 text-center">
 
-            {/* Vertical + sub-vertical */}
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="type-kicker">
-                {article.vertical}
-              </span>
-              {article.sub_vertical && (
+            {/* One meta line: section | (opinion) | date | read time */}
+            <div className="type-meta flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mb-6">
+              <span className="text-[#C5A059]">{article.vertical}</span>
+              {article.sub_vertical ? (
                 <>
-                  <span className="text-black/20">·</span>
-                  <span className="type-meta">
-                    {article.sub_vertical}
-                  </span>
+                  <span className="text-black/25">|</span>
+                  <span>{article.sub_vertical}</span>
                 </>
-              )}
+              ) : null}
+              <span className="text-black/25">|</span>
+              <span>{dateLabel}</span>
+              <span className="text-black/25">|</span>
+              <span>{readMin} min read</span>
             </div>
 
             {/* Headline */}
@@ -182,15 +190,18 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
 
             {/* Deck */}
             {article.deck && (
-              <p className="type-deck text-black/60 max-w-[640px] mx-auto mb-7">
+              <p className="type-deck text-black/60 max-w-[640px] mx-auto mb-6">
                 {article.deck}
               </p>
             )}
 
-            {/* Dateline */}
-            <div className="type-meta mb-6">
-              {(article.dateline_city || 'Vancouver').toUpperCase()} · {new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {article.read_time || 5} Min Read
-            </div>
+            {/* Writer */}
+            {article.author ? (
+              <div className="flex items-baseline justify-center gap-2 mb-6">
+                <span className="type-meta">Writer</span>
+                <span className="font-serif text-[15px] text-black/80">{article.author}</span>
+              </div>
+            ) : null}
 
             {/* Share */}
             <div className="flex items-center justify-center gap-5 pt-1">
@@ -247,24 +258,22 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
               <div className="sticky top-28">
                 {related.length > 0 && (
                   <>
-                    <div className="border-t-2 border-black pt-4 mb-8">
-                      <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-black/40">More from {article.vertical}</span>
+                    <div className="border-t-2 border-black pt-3 mb-6">
+                      <span className="font-serif font-bold text-[18px] leading-none uppercase tracking-[0.02em] text-black">Recommendations</span>
                     </div>
                     <div className="space-y-8">
                       {related.map((a: any) => (
-                        <Link key={a.id} href={`/magazine/${a.id}`} className="block group">
+                        <div key={a.id}>
                           {a.image_url && (
-                            <div className="w-full aspect-[4/3] mb-3 overflow-hidden">
-                              <img src={a.image_url} alt={a.headline} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" />
-                            </div>
+                            <Link href={`/magazine/${a.id}`} className="block w-full aspect-[16/10] mb-3 overflow-hidden" tabIndex={-1} aria-hidden="true">
+                              <img src={a.image_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                            </Link>
                           )}
-                          <h4 className="font-serif font-bold text-[14px] leading-snug group-hover:text-[#1A365D] transition-colors mb-1">
-                            {a.headline}
+                          <h4 className="font-serif font-medium text-[16px] leading-snug mb-2">
+                            <Link href={`/magazine/${a.id}`} className="story-link">{a.headline}</Link>
                           </h4>
-                          <span className="type-meta">
-                            {a.read_time || 5} min read
-                          </span>
-                        </Link>
+                          <span className="type-meta block">{readMinutes(a.body)} min read</span>
+                        </div>
                       ))}
                     </div>
                   </>
