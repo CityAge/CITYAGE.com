@@ -6,7 +6,7 @@ export function MagazineFooter() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-10">
 
         {/* Brand */}
-        <div className="md:col-span-5 space-y-5">
+        <div className="md:col-span-4 space-y-5">
           <h2 className="m-0">
             {/* Drawn mark — same as the masthead, white, smaller. Not a web-font CITYAGE. */}
             <img
@@ -35,15 +35,21 @@ export function MagazineFooter() {
           </p>
         </div>
 
-        {/* House links */}
+        {/* House */}
         <div className="md:col-span-2 space-y-4">
+          <h3 className="text-[13px] font-bold tracking-[0.18em] uppercase text-white">CityAge</h3>
           <ul className="text-[15px] space-y-3 text-white/70">
             <li><a href="/purpose" className="hover:text-white transition-colors">Purpose</a></li>
             <li><a href="/partners" className="hover:text-white transition-colors">Partners</a></li>
             <li><a href="/studio" className="hover:text-white transition-colors">Studio</a></li>
             <li><a href="/subscribe" className="hover:text-white transition-colors">Subscribe</a></li>
           </ul>
-          <ul className="text-[15px] space-y-3 text-white/70 border-t border-white/15 pt-4">
+        </div>
+
+        {/* Discover */}
+        <div className="md:col-span-2 space-y-4">
+          <h3 className="text-[13px] font-bold tracking-[0.18em] uppercase text-white">Discover</h3>
+          <ul className="text-[15px] space-y-3 text-white/70">
             <li><a href="/dispatches" className="hover:text-white transition-colors">Dispatches</a></li>
             <li><a href="/the-next-west" className="hover:text-white transition-colors">The Next West</a></li>
             <li><a href="/northern-century" className="hover:text-white transition-colors">Northern Century</a></li>
@@ -54,7 +60,7 @@ export function MagazineFooter() {
         </div>
 
         {/* Contact */}
-        <div className="md:col-span-3 space-y-4">
+        <div className="md:col-span-2 space-y-4">
           <h3 className="text-[13px] font-bold tracking-[0.18em] uppercase text-white">
             <a href="mailto:info@cityage.com" className="hover:text-white transition-colors">
               Contact
