@@ -27,7 +27,7 @@ export default function PurposePage() {
             <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
               Fifteen years ago, CityAge was founded on an image. The Earth at night. Two per
               cent of the surface, lit. A single web of lights where nearly everything that
-              matters gets decided.
+              matters gets connected.
             </p>
           </header>
 
