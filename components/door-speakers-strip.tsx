@@ -60,6 +60,7 @@ function DoorRow({
                   decoding="async"
                   draggable={false}
                 />
+                {speaker.name ? <span className="speakers-reel-name">{speaker.name}</span> : null}
               </a>
             )
           })}
