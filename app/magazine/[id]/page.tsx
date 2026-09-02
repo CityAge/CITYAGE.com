@@ -10,6 +10,10 @@ export const dynamic = 'force-dynamic'
 
 const SITE_URL = 'https://cityage.com'
 
+/** /magazine/[id] takes either the row uuid or its optional slug. */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const lookupColumn = (param: string) => (UUID_RE.test(param) ? 'id' : 'slug')
+
 function renderMarkdown(md: string): string {
   // Process line by line for clean, reliable rendering
   const lines = md.split('\n')
@@ -72,7 +76,7 @@ async function fetchArticleMeta(id: string): Promise<ArticleMeta | null> {
   if (!url || !key) return null
   try {
     const res = await fetch(
-      `${url}/rest/v1/magazine?select=headline,deck,image_url&id=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
+      `${url}/rest/v1/magazine?select=headline,deck,image_url&${lookupColumn(id)}=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
       {
         headers: { apikey: key, Authorization: `Bearer ${key}` },
         next: { revalidate: 60 },
@@ -124,7 +128,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
       const { data } = await supabase
         .from('magazine')
         .select('*')
-        .eq('id', id)
+        .eq(lookupColumn(id), id)
         .eq('status', 'published')
         .single()
 
@@ -136,7 +140,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
           .select('id, headline, vertical, image_url, read_time, published_at')
           .eq('status', 'published')
           .eq('vertical', article.vertical)
-          .neq('id', id)
+          .neq('id', article.id)
           .order('published_at', { ascending: false })
           .limit(3)
         related = rel || []
