@@ -133,10 +133,10 @@ export default function PartnersPage() {
       <main className="flex-grow">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-24 md:pb-36">
           <div className="max-w-[820px] mx-auto text-center">
-            <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-10">
+            <span className="type-kicker block mb-10">
               Knowledge Partners
             </span>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.85] text-black">
+            <p className="type-body text-black">
               {NAMES.join(' · ')}
             </p>
           </div>

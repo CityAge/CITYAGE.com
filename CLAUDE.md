@@ -7,6 +7,6 @@
 - Speaker faces load server-side from Supabase and sit in a strip directly above the footer, linking to /people.
 - Studio page stays exactly as it is (dark page, Plato line, logo wall, film grid).
 - Purpose page copy stays as it is.
-- Design tokens: cream #F9F9F7 background, gold #C5A059 accents, drawn wordmark, Playfair Display headlines, Libre Baskerville body.
+- Design tokens: Newsreader (variable, optical sizing) for all text; drawn wordmark for the masthead; cream #F9F9F7, gold #C5A059; type scale lead 40 / rail 24 / deck 18 / body 17 / kicker+meta 12 caps.
 - Stories come from the Supabase `magazine` table. Do not hardcode stories.
 - Subscribe goes to Beehiiv.

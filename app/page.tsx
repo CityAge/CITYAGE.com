@@ -87,11 +87,11 @@ function WellPhotoTile({
           className="object-cover lg:grayscale lg:group-hover:grayscale-0 lg:hover:grayscale-0 hover:scale-[1.02] group-hover:scale-[1.02] transition-all duration-700"
         />
       </div>
-      <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
+      <span className="type-kicker">
         {vertical}
       </span>
       {title ? (
-        <h3 className="font-serif font-normal text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
+        <h3 className="type-rail-h tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
       ) : null}

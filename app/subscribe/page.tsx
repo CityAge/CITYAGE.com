@@ -17,10 +17,10 @@ export default function SubscribePage() {
       <main className="flex-grow">
         <article className="pt-16 md:pt-24 pb-24 md:pb-36">
           <div className="max-w-[720px] mx-auto px-6 md:px-12">
-            <h1 className="font-serif font-normal text-[2rem] md:text-[3.1rem] leading-[1.12] tracking-tight text-black mb-6">
+            <h1 className="type-title tracking-tight text-black mb-6">
               The letter.
             </h1>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-12">
+            <p className="type-body text-black mb-12">
               Intelligence for the Urban Planet.
             </p>
 

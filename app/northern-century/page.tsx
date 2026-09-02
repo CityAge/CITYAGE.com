@@ -40,7 +40,7 @@ function Band({
   return (
     <section className={`border-t border-black/10 py-16 md:py-24 ${className}`}>
       <div className="max-w-[1100px] mx-auto px-6 md:px-12">
-        <h2 className="font-serif font-normal text-[1.65rem] md:text-[2rem] leading-tight tracking-tight text-black mb-8 md:mb-10">
+        <h2 className="type-section tracking-tight text-black mb-8 md:mb-10">
           {title}
         </h2>
         {children}
@@ -74,13 +74,13 @@ export default async function NorthernCenturyPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/15" />
           <div className="absolute inset-0 flex items-end">
             <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12 pb-10 md:pb-16">
-              <span className="font-mono text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-3 md:mb-4">
+              <span className="type-kicker block mb-3 md:mb-4">
                 A CityAge campaign
               </span>
-              <h1 className="font-serif font-normal text-[2.4rem] md:text-[4.2rem] leading-[1.02] tracking-tight text-white m-0">
+              <h1 className="font-serif font-medium text-[1.7rem] md:text-[2.9rem] leading-[1.02] tracking-tight text-white m-0">
                 The Northern Century.
               </h1>
-              <p className="font-serif italic text-[17px] md:text-[21px] leading-snug text-white/85 mt-3 md:mt-4 m-0">
+              <p className="type-deck text-white/85 mt-3 md:mt-4 m-0">
                 The twenty-first century belongs to the North.
               </p>
             </div>
@@ -92,10 +92,10 @@ export default async function NorthernCenturyPage() {
           <div className="max-w-[1100px] mx-auto px-6 md:px-12">
             <div className="max-w-[760px]">
               <div className="w-12 h-[2px] bg-[#C5A059] mb-10 md:mb-12" aria-hidden="true" />
-              <p className="font-serif text-[1.25rem] md:text-[1.5rem] leading-[1.45] text-[#F9F9F7] mb-8">
+              <p className="type-body text-[#F9F9F7] mb-8">
                 {THESIS[0]}
               </p>
-              <p className="font-serif text-[18px] md:text-[21px] leading-[1.6] text-[#F9F9F7]/75">
+              <p className="type-body text-[#F9F9F7]/75">
                 {THESIS[1]}
               </p>
             </div>
@@ -114,7 +114,7 @@ export default async function NorthernCenturyPage() {
         {/* 4. MEMBERS */}
         <section className="border-t border-black/10 py-16 md:py-24">
           <div className="max-w-[1100px] mx-auto px-6 md:px-12">
-            <h2 className="font-serif font-normal text-[1.65rem] md:text-[2rem] leading-tight tracking-tight text-black mb-8 md:mb-10">
+            <h2 className="type-section tracking-tight text-black mb-8 md:mb-10">
               The people shaping the North.
             </h2>
           </div>
@@ -122,7 +122,7 @@ export default async function NorthernCenturyPage() {
             <DoorSpeakersStrip top={members.slice(0, mid)} bottom={members.slice(mid)} />
           </div>
           <div className="max-w-[1100px] mx-auto px-6 md:px-12">
-            <p className="font-serif italic text-[17px] md:text-[19px] leading-[1.6] text-black/75 mt-8">
+            <p className="type-deck text-black/75 mt-8">
               A network of five hundred. Founding members first.
             </p>
           </div>
@@ -131,7 +131,7 @@ export default async function NorthernCenturyPage() {
         {/* 5. THE BRIEF */}
         <Band title="Intelligence that matters, north of sixty.">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 md:gap-16 items-center">
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.6] text-black max-w-[640px]">
+            <p className="type-body text-black max-w-[640px]">
               Stories, reports and calls, from the magazine and from the network. A newsletter of
               its own is coming.
             </p>
@@ -146,7 +146,7 @@ export default async function NorthernCenturyPage() {
 
         {/* 6. THE CALLS */}
         <Band title="Calls we're making.">
-          <p className="font-serif italic text-[17px] md:text-[19px] leading-[1.6] text-black/75 mb-8">
+          <p className="type-deck text-black/75 mb-8">
             Falsifiable, dated, kept score. First calls this autumn.
           </p>
           <ol aria-label="Calls" className="border-t border-black/15 min-h-[120px]" />
@@ -157,13 +157,13 @@ export default async function NorthernCenturyPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
             {ROOMS.map((room) => (
               <Link key={room.city} href={room.href} className="block group border-t border-black/10 pt-6">
-                <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
+                <span className="type-kicker">
                   {room.when}
                 </span>
-                <h3 className="font-serif font-normal text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
+                <h3 className="type-rail-h tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
                   {room.city}
                 </h3>
-                <div className="font-mono text-[9px] tracking-[0.22em] uppercase text-black/40 mt-4">
+                <div className="type-meta mt-4">
                   {[room.city, room.when, room.note].filter(Boolean).join(' · ')}
                 </div>
               </Link>

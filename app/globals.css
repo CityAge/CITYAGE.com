@@ -3,6 +3,24 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Newsreader: one variable family for all text. Optical size and weight
+   axes, latin subset, self-hosted. */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/newsreader-latin-opsz-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/newsreader-latin-opsz-italic.woff2') format('woff2-variations');
+}
+
 :root {
   --background: #F9F9F7;
   --foreground: #000000;
@@ -27,12 +45,32 @@
   --gold: #C5A059;
   --navy: #1A365D;
   --cream: #F9F9F7;
+
+  /* Type scale. Sizes only; see DECISIONS.md. */
+  --type-lead-h: 40px;   --type-lead-h-lh: 1.08; --type-lead-h-w: 600;
+  --type-rail-h: 24px;   --type-rail-h-lh: 1.2;  --type-rail-h-w: 500;
+  --type-deck: 18px;     --type-deck-lh: 1.5;    --type-deck-w: 500;
+  --type-body: 17px;     --type-body-lh: 1.6;    --type-body-w: 400;
+  --type-kicker: 12px;   --type-kicker-ls: 0.12em; --type-kicker-color: #C5A059;
+  --type-meta: 12px;     --type-meta-ls: 0.08em;   --type-meta-color: #6B6B6B;
+  /* Page and section titles: ~0.7x their former size, same family as the lead. */
+  --type-title: 35px;    --type-title-lh: 1.1;   --type-title-w: 500;
+  --type-section: 22px;  --type-section-lh: 1.2; --type-section-w: 500;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --type-lead-h: 32px;
+    --type-rail-h: 21px;
+    --type-title: 22px;
+    --type-section: 18px;
+  }
 }
 
 @theme inline {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-display: 'Newsreader', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -59,11 +97,25 @@
   --radius-xl: 0px;
 }
 
+@layer components {
+  .type-lead-h { font-family: var(--font-serif); font-size: var(--type-lead-h); line-height: var(--type-lead-h-lh); font-weight: var(--type-lead-h-w); }
+  .type-rail-h { font-family: var(--font-serif); font-size: var(--type-rail-h); line-height: var(--type-rail-h-lh); font-weight: var(--type-rail-h-w); }
+  .type-deck   { font-family: var(--font-serif); font-size: var(--type-deck);   line-height: var(--type-deck-lh);   font-weight: var(--type-deck-w); font-style: italic; }
+  .type-body   { font-family: var(--font-serif); font-size: var(--type-body);   line-height: var(--type-body-lh);   font-weight: var(--type-body-w); }
+  .type-kicker { font-family: var(--font-serif); font-size: var(--type-kicker); line-height: 1; font-weight: 500; text-transform: uppercase; letter-spacing: var(--type-kicker-ls); color: var(--type-kicker-color); }
+  .type-meta   { font-family: var(--font-serif); font-size: var(--type-meta);   line-height: 1; font-weight: 500; text-transform: uppercase; letter-spacing: var(--type-meta-ls);   color: var(--type-meta-color); }
+  .type-title   { font-family: var(--font-serif); font-size: var(--type-title);   line-height: var(--type-title-lh);   font-weight: var(--type-title-w); }
+  .type-section { font-family: var(--font-serif); font-size: var(--type-section); line-height: var(--type-section-lh); font-weight: var(--type-section-w); }
+}
+
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; }
-  
-  /* Headlines use display serif (Playfair Display) */
+  body { @apply bg-background text-foreground; font-optical-sizing: auto; }
+
+  /* Italic one step up from regular so decks and asides don't read light. */
+  .italic, em, i { font-weight: 500; }
+
+  /* Headlines use the house serif (Newsreader) */
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     -webkit-font-smoothing: antialiased;

@@ -50,37 +50,37 @@ export default function TheNextWestPage() {
           </figure>
 
           <header className="max-w-[720px] mx-auto px-6 md:px-12 pt-12 md:pt-16">
-            <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-6">
+            <span className="type-kicker block mb-6">
               A CityAge Room
             </span>
-            <h1 className="font-serif font-normal text-[2.4rem] md:text-[3.6rem] leading-[1.04] tracking-tight text-black mb-5">
+            <h1 className="font-serif font-medium text-[1.7rem] md:text-[2.5rem] leading-[1.04] tracking-tight text-black mb-5">
               The Next West.
             </h1>
-            <p className="font-serif italic text-[18px] md:text-[21px] leading-[1.5] text-black">
+            <p className="type-deck text-black">
               Vancouver · Winter 2026 · Invitation only.
             </p>
-            <p className="font-serif italic text-[16px] md:text-[18px] leading-[1.5] text-black/75 mt-2">
+            <p className="type-deck text-black/75 mt-2">
               A half-day. 8:30 to 12:00. Four rooms in one.
             </p>
           </header>
 
           <div className="max-w-[720px] mx-auto px-6 md:px-12 mt-14 md:mt-20">
-            <h2 className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-6">
+            <h2 className="type-kicker mb-6">
               The Thesis
             </h2>
-            <p className="font-serif text-[1.25rem] md:text-[1.5rem] leading-[1.45] text-black mb-8">
+            <p className="type-body text-black mb-8">
               Serious money is coming to the Canadian west. This room puts it next to the idea,
               and next to the project that can take the cheque.
             </p>
-            <p className="font-serif italic text-[17px] md:text-[19px] leading-[1.6] text-black/75 mb-16 md:mb-20">
+            <p className="type-deck text-black/75 mb-16 md:mb-20">
               One morning. Four places where the West is being built. In each, one idea, two or
               three people who own it, and one ask.
             </p>
 
-            <h2 className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-6">
+            <h2 className="type-kicker mb-6">
               The Room
             </h2>
-            <p className="font-serif text-[18px] md:text-[20px] leading-[1.5] text-black mb-8">
+            <p className="type-body text-black mb-8">
               Eight people who make the room worth being in.
             </p>
             <ul className="grid grid-cols-2 gap-x-8 gap-y-8 mb-16 md:mb-20">
@@ -93,7 +93,7 @@ export default function TheNextWestPage() {
               ))}
             </ul>
 
-            <h2 className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-8">
+            <h2 className="type-kicker mb-8">
               The Day
             </h2>
             <ol className="mb-16 md:mb-20">
@@ -117,16 +117,16 @@ export default function TheNextWestPage() {
               ))}
             </ol>
 
-            <h2 className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] mb-6">
+            <h2 className="type-kicker mb-6">
               After Vancouver.
             </h2>
-            <p className="font-serif italic text-[17px] md:text-[19px] leading-[1.6] text-black/75 mb-16 md:mb-20">
+            <p className="type-deck text-black/75 mb-16 md:mb-20">
               Calgary in the spring. Ottawa after. A campaign in the magazine, not a conference
               brand.
             </p>
 
             <section id="invite">
-              <p className="font-serif text-[18px] md:text-[20px] leading-[1.5] text-black mb-6">
+              <p className="type-body text-black mb-6">
                 Seats are limited and the room is curated. Tell us who you are and which room you
                 belong in.
               </p>

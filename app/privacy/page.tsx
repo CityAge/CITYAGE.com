@@ -9,13 +9,13 @@ export default function PrivacyPolicy() {
       <main className="flex-grow">
         <article className="max-w-[720px] mx-auto w-full px-6 md:px-12 pt-16 md:pt-24 pb-24 md:pb-36">
           <div className="mb-10 pb-8 border-b border-black/10">
-          <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-4">Legal</span>
-          <h1 className="font-serif font-normal text-[2rem] md:text-[3.1rem] leading-[1.12] tracking-tight text-black">
+          <span className="type-kicker block mb-4">Legal</span>
+          <h1 className="type-title tracking-tight text-black">
             Privacy Policy
           </h1>
         </div>
 
-        <div className="space-y-6 font-serif text-black/75 text-[17px] leading-[1.8]">
+        <div className="space-y-6 type-body text-black/75">
           <p>
             Please read the following statements carefully, as they address the rules of engagement between you, the user of this website, and us, the provider of this website.
           </p>
