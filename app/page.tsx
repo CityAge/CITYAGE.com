@@ -5,19 +5,47 @@ import { StageBand } from '@/components/stage-band'
 import { ArticleCard } from '@/components/article-card'
 import { HeroGrid } from '@/components/hero-grid'
 import { StoryBox } from '@/components/story-box'
+import { HouseTile, type HouseEntry } from '@/components/house-tile'
 import { fetchWellStories, type SectionStory } from '@/lib/magazine'
 import { fetchDoorSpeakerFaces, shuffle } from '@/lib/speakers'
 
 export const revalidate = 60
 
 const MILLER_HREF = '/frontiers/the-inflection-point-was-real'
+
+/** House tile, top of column three. One shows per page load, at random. */
+const HOUSE_ENTRIES: HouseEntry[] = [
+  {
+    image: '/vancouver-banner.jpg',
+    headline: 'The Next West.',
+    body: 'Vancouver, winter 2026. A half-day. Four rooms in one.',
+    cta: 'Apply for an invitation',
+    href: '/the-next-west',
+  },
+  {
+    image: '/northern-century-earth.jpg',
+    headline: 'The Northern Century.',
+    body: 'A network of the leaders shaping the North.',
+    cta: 'Join',
+    href: '/northern-century',
+  },
+  {
+    // No /studio-still.jpg in public/; the first film's thumbnail stands in.
+    image: '/best-day-ever-thumb.jpg',
+    headline: 'CityAge Studio.',
+    body: 'Those who tell the stories rule the world.',
+    cta: 'Watch',
+    href: '/studio',
+  },
+]
 /** ceil(words / 220) of the Miller page text; it is a static page, not a magazine row. */
 const MILLER_READ_MIN = 2
 
 /** One column of the well: stacked boxes with a rule between each. */
-function WellColumn({ stories }: { stories: SectionStory[] }) {
+function WellColumn({ stories, head }: { stories: SectionStory[]; head?: React.ReactNode }) {
   return (
     <div className="flex flex-col divide-y divide-[#D9D7D0]">
+      {head ? <div className="pb-7">{head}</div> : null}
       {stories.map((story) => (
         <div key={story.id} className="py-7 first:pt-0 last:pb-0">
           <StoryBox story={story} />
@@ -70,7 +98,7 @@ export default async function Home() {
             />
           }
           middleColumn={<WellColumn stories={columnTwo} />}
-          sidebarColumn={<WellColumn stories={columnThree} />}
+          sidebarColumn={<WellColumn stories={columnThree} head={<HouseTile entries={HOUSE_ENTRIES} />} />}
         />
       </main>
 
