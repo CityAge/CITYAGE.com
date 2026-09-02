@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CampaignBanner } from '@/components/campaign-banner'
+import Image from 'next/image'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
@@ -58,27 +58,47 @@ export default async function NorthernCenturyPage() {
       <MagazineHeader />
 
       <main className="flex-grow">
-        {/* 1. PLATE */}
-        <CampaignBanner
-          image="/northern-century-earth.jpg"
-          crop="object-top"
-          kicker="A CityAge campaign"
-          heading="The Northern Century."
-          headingAs="h1"
-          italic="The twenty-first century belongs to the North."
-          cta={false}
-          priority
-        />
+        {/* 1. PLATE — full bleed, the Earth fills it, copy sits bottom-left */}
+        <section
+          className="ca-photo relative w-full h-[80vh] min-h-[480px] overflow-hidden bg-black"
+          style={{ position: 'relative', overflow: 'hidden' }}
+        >
+          <Image
+            src="/northern-century-earth.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/15" />
+          <div className="absolute inset-0 flex items-end">
+            <div className="w-full max-w-[1100px] mx-auto px-6 md:px-12 pb-10 md:pb-16">
+              <span className="font-mono text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-3 md:mb-4">
+                A CityAge campaign
+              </span>
+              <h1 className="font-serif font-normal text-[2.4rem] md:text-[4.2rem] leading-[1.02] tracking-tight text-white m-0">
+                The Northern Century.
+              </h1>
+              <p className="font-serif italic text-[17px] md:text-[21px] leading-snug text-white/85 mt-3 md:mt-4 m-0">
+                The twenty-first century belongs to the North.
+              </p>
+            </div>
+          </div>
+        </section>
 
-        {/* 2. THESIS */}
-        <section className="py-16 md:py-24">
-          <div className="max-w-[760px] mx-auto px-6 md:px-12">
-            <p className="font-serif text-[1.25rem] md:text-[1.5rem] leading-[1.45] text-black mb-8">
-              {THESIS[0]}
-            </p>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.6] text-black/80">
-              {THESIS[1]}
-            </p>
+        {/* 2. THESIS — black band, cream text, gold rule under the h1 above */}
+        <section className="bg-black text-[#F9F9F7] py-16 md:py-24">
+          <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+            <div className="max-w-[760px]">
+              <div className="w-12 h-[2px] bg-[#C5A059] mb-10 md:mb-12" aria-hidden="true" />
+              <p className="font-serif text-[1.25rem] md:text-[1.5rem] leading-[1.45] text-[#F9F9F7] mb-8">
+                {THESIS[0]}
+              </p>
+              <p className="font-serif text-[18px] md:text-[21px] leading-[1.6] text-[#F9F9F7]/75">
+                {THESIS[1]}
+              </p>
+            </div>
           </div>
         </section>
 
