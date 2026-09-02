@@ -26,16 +26,15 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <span className="type-kicker">
           {vertical}
         </span>
-        <h2
-          className="type-lead-h tracking-tight mt-2 mb-3 lg:mt-3 lg:mb-4 group-hover:text-[#1A365D] transition-colors"
-        >
-          {title}
+        <h2 className="type-lead-h tracking-tight mt-2 mb-3 lg:mt-3 lg:mb-4">
+          <span className="story-link">{title}</span>
         </h2>
         {tagline && (
           <p className="type-deck text-black/60 mb-3 lg:mb-4">
             {tagline}
           </p>
         )}
+        {readTime ? <span className="type-meta block mb-3 lg:mb-4">{readTime}</span> : null}
         {image ? (
           <div
             className="ca-photo ca-photo-lead w-full relative overflow-hidden bg-gray-100 aspect-[4/3] lg:aspect-[3/4] mt-4 lg:mt-6"
@@ -47,7 +46,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               fill
               priority
               sizes="(max-width: 1023px) 92vw, 50vw"
-              className="object-cover lg:grayscale lg:group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+              className="object-cover"
             />
           </div>
         ) : null}

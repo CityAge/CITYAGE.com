@@ -45,6 +45,7 @@
   --gold: #C5A059;
   --navy: #1A365D;
   --cream: #F9F9F7;
+  --rule: #D9D7D0;
 
   /* Type scale. Sizes only; see DECISIONS.md. */
   --type-lead-h: 40px;   --type-lead-h-lh: 1.08; --type-lead-h-w: 600;
@@ -106,6 +107,10 @@
   .type-meta   { font-family: var(--font-serif); font-size: var(--type-meta);   line-height: 1; font-weight: 500; text-transform: uppercase; letter-spacing: var(--type-meta-ls);   color: var(--type-meta-color); }
   .type-title   { font-family: var(--font-serif); font-size: var(--type-title);   line-height: var(--type-title-lh);   font-weight: var(--type-title-w); }
   .type-section { font-family: var(--font-serif); font-size: var(--type-section); line-height: var(--type-section-lh); font-weight: var(--type-section-w); }
+
+  /* Headlines are links and read as links: 1px underline in the text colour, 2px on hover. */
+  .story-link { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: currentColor; }
+  .story-link:hover { text-decoration-thickness: 2px; }
 }
 
 @layer base {

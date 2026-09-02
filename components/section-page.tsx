@@ -1,16 +1,18 @@
-import Link from 'next/link'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
+import { StoryBox } from '@/components/story-box'
 import { fetchSectionStories, type SectionName } from '@/lib/magazine'
 
-function formatDate(iso: string | null): string {
-  if (!iso) return ''
-  return new Date(iso)
-    .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
-    .toUpperCase()
-}
+/**
+ * Section page: one vertical's published stories, newest first, in the
+ * same box as the door well. Three columns with 1px rules between columns
+ * and between rows; one column on phones, rule between every story.
+ */
+const CELL =
+  'border-t border-[#D9D7D0] py-7 first:border-t-0 first:pt-0 ' +
+  'md:[&:nth-child(-n+3)]:border-t-0 md:[&:nth-child(-n+3)]:pt-0 ' +
+  'md:[&:not(:nth-child(3n+1))]:border-l md:[&:not(:nth-child(3n+1))]:pl-8 md:[&:not(:nth-child(3n))]:pr-8'
 
-/** Section page: one vertical's published stories, newest first. Well typography. */
 export async function SectionPage({ name }: { name: SectionName }) {
   const stories = await fetchSectionStories(name)
 
@@ -19,50 +21,19 @@ export async function SectionPage({ name }: { name: SectionName }) {
       <MagazineHeader />
 
       <main className="flex-grow max-w-[1400px] mx-auto w-full px-6 md:px-12 py-10 md:py-14">
-        <div className="border-b border-black pb-6 mb-2">
+        <div className="border-b border-black pb-6 mb-10">
           <h1 className="type-title tracking-tight">{name}</h1>
         </div>
 
         {stories.length === 0 ? (
-          <p className="type-body text-black/60 pt-10">
+          <p className="type-body text-black/60">
             No published stories in {name} yet.
           </p>
         ) : (
-          <div className="max-w-[800px]">
-            {stories.map((story, i) => (
-              <div key={story.id} className={i > 0 ? 'border-t border-black/10 pt-10 mt-10' : 'pt-10'}>
-                <Link href={`/magazine/${story.id}`} className="block group">
-                  {story.image_url ? (
-                    <div
-                      className="ca-photo ca-photo-well w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5"
-                      style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4 / 3' }}
-                    >
-                      <img
-                        src={story.image_url}
-                        alt=""
-                        className="object-cover lg:grayscale lg:group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  ) : null}
-                  <span className="type-kicker">
-                    {story.vertical}
-                  </span>
-                  <h2 className="type-rail-h tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
-                    {story.headline}
-                  </h2>
-                  {story.deck ? (
-                    <p className="type-deck text-black/60 mt-3">
-                      {story.deck}
-                    </p>
-                  ) : null}
-                  <div className="type-meta mt-4">
-                    {formatDate(story.published_at)}
-                    {story.published_at ? ' · ' : ''}
-                    {story.read_time || 5} Min Read
-                  </div>
-                </Link>
+          <div className="grid grid-cols-1 md:grid-cols-3">
+            {stories.map((story) => (
+              <div key={story.id} className={CELL}>
+                <StoryBox story={story} />
               </div>
             ))}
           </div>
