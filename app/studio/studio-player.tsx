@@ -376,8 +376,9 @@ export function StudioPlayer() {
 
     setActiveId(film.id)
     setInfo(film)
-    // Take the viewer to the player, so the loading wheel and the film are in view.
-    heroRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    // Take the viewer to the player, so the loading wheel and the film are in
+    // view. Instant: a smooth scroll gets cancelled when the iframe re-mounts.
+    heroRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' })
 
     if (film.vimeoId) {
       playVimeo(film.vimeoId, false, film.thumb || film.stillImage, false)
