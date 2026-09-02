@@ -29,15 +29,22 @@ const nextConfig = {
         // westvan.cityage.com → /daybreak/westvan
         // beverlyhills.cityage.com → /daybreak/beverlyhills
       ],
+      afterFiles: [
+        // Legacy static pages in public/ served at clean URLs
+        { source: '/northern-century', destination: '/northern-century.html' },
+        { source: '/next-vancouver', destination: '/next-vancouver.html' },
+        { source: '/advisory', destination: '/advisory.html' },
+        { source: '/contact', destination: '/contact.html' },
+      ],
     }
   },
   async redirects() {
     return [
       // Clean URLs → locked-design pages
       { source: '/home', destination: '/', permanent: false },
-      { source: '/the-next-vancouver', destination: '/next-vancouver.html', permanent: false },
-      { source: '/contributors', destination: '/people.html', permanent: false },
-      { source: '/private-advisory', destination: '/advisory.html', permanent: false },
+      { source: '/the-next-vancouver', destination: '/next-vancouver', permanent: false },
+      { source: '/contributors', destination: '/people', permanent: false },
+      { source: '/private-advisory', destination: '/advisory', permanent: false },
     ]
   },
 }
