@@ -12,7 +12,7 @@ export const revalidate = 60
 
 const MILLER_HREF = '/frontiers/the-inflection-point-was-real'
 /** ceil(words / 220) of the Miller page text; it is a static page, not a magazine row. */
-const MILLER_READ_MIN = 1
+const MILLER_READ_MIN = 2
 
 /** One column of the well: stacked boxes with a rule between each. */
 function WellColumn({ stories }: { stories: SectionStory[] }) {
