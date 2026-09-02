@@ -55,7 +55,7 @@ export function DubaiHero() {
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '1.5rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 10 }}>
         <a href="https://cityagemag.vercel.app" style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>← CityAge</a>
         <span style={{ fontFamily: 'monospace', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{dubaiTime} · Dubai</span>
-        <a href="#subscribe" style={{ fontFamily: 'monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#000', background: '#C5A059', padding: '0.4rem 1.25rem', textDecoration: 'none' }}>Subscribe</a>
+        <a href="/subscribe" style={{ fontFamily: 'monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#000', background: '#C5A059', padding: '0.4rem 1.25rem', textDecoration: 'none' }}>Subscribe</a>
       </div>
 
       {/* Wordmark + sunrise */}

@@ -278,7 +278,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                   <p className="font-serif text-white/60 text-[13px] leading-relaxed mb-5">
                     Daily intelligence for leaders of The Urban Planet.
                   </p>
-                  <a href="#subscribe" className="block w-full bg-[#C5A059] text-black font-mono text-[9px] font-black tracking-[0.2em] uppercase py-2.5 text-center hover:bg-white transition-colors">
+                  <a href="/subscribe" className="block w-full bg-[#C5A059] text-black font-mono text-[9px] font-black tracking-[0.2em] uppercase py-2.5 text-center hover:bg-white transition-colors">
                     Subscribe Free
                   </a>
                 </div>
