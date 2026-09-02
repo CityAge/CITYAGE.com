@@ -18,17 +18,6 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      beforeFiles: [
-        // dubai.cityage.com → /daybreak/dubai
-        {
-          source: '/',
-          has: [{ type: 'host', value: 'dubai.cityage.com' }],
-          destination: '/daybreak/dubai',
-        },
-        // Future city subdomains follow the same pattern:
-        // westvan.cityage.com → /daybreak/westvan
-        // beverlyhills.cityage.com → /daybreak/beverlyhills
-      ],
       afterFiles: [
         // Legacy static pages in public/ served at clean URLs
         { source: '/northern-century', destination: '/northern-century.html' },

@@ -104,7 +104,7 @@ export default function AIPolicy() {
               {/* FormSubmit config */}
               <input type="hidden" name="_subject" value="CityAge Contributor Inquiry" />
               <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_next" value="https://cityagemag.vercel.app/ai-policy?submitted=true" />
+              <input type="hidden" name="_next" value="https://cityage.com/ai-policy?submitted=true" />
               <input type="text" name="_honey" style={{ display: 'none' }} />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

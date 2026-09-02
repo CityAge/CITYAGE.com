@@ -1,4 +1,4 @@
-import { SPEAKERS_SUPABASE_URL } from '@/lib/speakers'
+import { supabaseEnv } from '@/lib/supabase/env'
 
 /** Locked section names and order. See DECISIONS.md. */
 export const SECTIONS = [
@@ -21,14 +21,11 @@ export type SectionStory = {
   read_time: number | null
 }
 
-// Same public anon key already shipped for / and /people. Not a service_role key.
-const PUBLIC_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
-
 /** Published stories for one section from the `magazine` table, newest first. */
 export async function fetchSectionStories(vertical: SectionName): Promise<SectionStory[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || SPEAKERS_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || PUBLIC_ANON_KEY
+  const env = supabaseEnv()
+  if (!env) return []
+  const { url, key } = env
 
   try {
     const res = await fetch(

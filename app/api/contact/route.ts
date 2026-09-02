@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server'
-
-const SUPABASE_URL = 'https://rniqmxpmtqmnwqtawlnz.supabase.co'
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
+import { supabaseEnv } from '@/lib/supabase/env'
 
 export async function POST(req: Request) {
   try {
@@ -17,16 +15,19 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    await fetch(`${SUPABASE_URL}/rest/v1/contact_submissions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        Prefer: 'return-minimal',
-      },
-      body: JSON.stringify({ name, organisation, email, enquiry, message }),
-    })
+    const supabase = supabaseEnv()
+    if (supabase) {
+      await fetch(`${supabase.url}/rest/v1/contact_submissions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabase.key,
+          Authorization: `Bearer ${supabase.key}`,
+          Prefer: 'return-minimal',
+        },
+        body: JSON.stringify({ name, organisation, email, enquiry, message }),
+      })
+    }
 
     const RESEND_KEY = process.env.RESEND_API_KEY
     if (RESEND_KEY) {
