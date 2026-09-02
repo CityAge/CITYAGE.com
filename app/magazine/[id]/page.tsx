@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -57,6 +58,55 @@ function applyInline(text: string): string {
     .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-black">$1</strong>')
     // Italic
     .replace(/\*(.+?)\*/g, '<em class="italic text-black/70">$1</em>')
+}
+
+type ArticleMeta = {
+  headline: string
+  deck: string | null
+  image_url: string | null
+}
+
+async function fetchArticleMeta(id: string): Promise<ArticleMeta | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return null
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/magazine?select=headline,deck,image_url&id=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
+      {
+        headers: { apikey: key, Authorization: `Bearer ${key}` },
+        next: { revalidate: 60 },
+      },
+    )
+    if (!res.ok) return null
+    const rows = (await res.json()) as ArticleMeta[]
+    return Array.isArray(rows) && rows[0]?.headline ? rows[0] : null
+  } catch {
+    return null
+  }
+}
+
+/** Each article gets its own <title> and Open Graph title/description. */
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const article = await fetchArticleMeta(id)
+  if (!article) return {}
+
+  const title = `${article.headline} — CityAge`
+  const description = article.deck || undefined
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: article.headline,
+      description,
+      url: `${SITE_URL}/magazine/${id}`,
+      type: 'article',
+      siteName: 'CityAge',
+      images: article.image_url ? [{ url: article.image_url }] : undefined,
+    },
+  }
 }
 
 export default async function MagazineArticlePage({ params }: { params: Promise<{ id: string }> }) {
