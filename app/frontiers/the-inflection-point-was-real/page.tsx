@@ -3,7 +3,7 @@ import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 
 export const metadata: Metadata = {
-  title: 'The inflection point was real — CityAge',
+  title: 'Space: commercialization is rocketing ahead under U.S. President Donald Trump — CityAge',
   description:
     'Charles Miller, who spoke at CityAge Orbit in Washington, on the commercialization of space.',
 }
@@ -38,7 +38,7 @@ export default function MillerInterviewPage() {
             className="font-serif font-black text-[2.4rem] md:text-[3.4rem] leading-[1.04] tracking-tight text-black mb-5"
             style={{ fontWeight: 900 }}
           >
-            The inflection point was real
+            Space: commercialization is rocketing ahead under U.S. President Donald Trump
           </h1>
 
           <p className="font-serif text-[17px] md:text-[19px] leading-[1.65] text-black mb-5">
