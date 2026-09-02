@@ -34,7 +34,7 @@ const jetbrains = localFont({
 
 export const metadata: Metadata = {
   title: 'CityAge | Intelligence for The Urban Planet',
-  description: 'The primary intelligence source for global urban leadership. 25,000+ decision-makers across infrastructure, space, energy, defence, and food systems.',
+  description: 'The primary intelligence source for global urban leadership. 25,000 decision-makers across infrastructure, space, energy, defence, and food systems.',
   icons: {
     icon: [
       { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
