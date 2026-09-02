@@ -45,6 +45,33 @@
   padding: 5px 0;
   width: max-content;
   will-change: transform;
+  /* One continuous CSS loop over one copy of the row. --reel-w and --reel-s
+     are set inline per row. Nothing re-renders while it moves. */
+  animation: door-reel-left var(--reel-s, 60s) linear infinite;
+}
+
+.door-speakers-reel .speakers-reel-right .speakers-reel-track {
+  animation-name: door-reel-right;
+}
+
+.door-speakers-reel .speakers-reel-section:hover .speakers-reel-track {
+  animation-play-state: paused;
+}
+
+@keyframes door-reel-left {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(calc(var(--reel-w) * -1), 0, 0); }
+}
+
+@keyframes door-reel-right {
+  from { transform: translate3d(calc(var(--reel-w) * -1), 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door-speakers-reel .speakers-reel-track {
+    animation: none;
+  }
 }
 
 .door-speakers-reel .speakers-reel-face {
