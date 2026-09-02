@@ -20,7 +20,6 @@ const nextConfig = {
     return {
       afterFiles: [
         // Legacy static pages in public/ served at clean URLs
-        { source: '/northern-century', destination: '/northern-century.html' },
         { source: '/next-vancouver', destination: '/next-vancouver.html' },
         { source: '/advisory', destination: '/advisory.html' },
         { source: '/contact', destination: '/contact.html' },
