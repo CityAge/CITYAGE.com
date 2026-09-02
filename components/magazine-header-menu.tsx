@@ -9,6 +9,16 @@ const HOUSE_LINKS = [
   { href: '/studio', label: 'Studio' },
 ] as const
 
+/** Older pages, reachable from the hamburger only. Top line stays Purpose / Partners / Studio / Subscribe. */
+const MORE_LINKS = [
+  { href: '/dispatches', label: 'Dispatches' },
+  { href: '/the-next-west', label: 'The Next West' },
+  { href: '/northern-century', label: 'Northern Century' },
+  { href: '/next-vancouver', label: 'Next Vancouver' },
+  { href: '/advisory', label: 'Advisory' },
+  { href: '/contact', label: 'Contact' },
+] as const
+
 const HOUSE_LINK_CLASS =
   'text-[11px] font-bold tracking-[0.12em] uppercase text-black hover:opacity-60 transition-opacity'
 
@@ -58,6 +68,13 @@ export function MagazineUtilityBar() {
               {link.label}
             </Link>
           ))}
+          <div className="border-t border-black/15 pt-3 mt-1 flex flex-col gap-3">
+            {MORE_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className={HOUSE_LINK_CLASS}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>
