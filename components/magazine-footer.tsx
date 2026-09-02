@@ -43,6 +43,14 @@ export function MagazineFooter() {
             <li><a href="/studio" className="hover:text-white transition-colors">Studio</a></li>
             <li><a href="/subscribe" className="hover:text-white transition-colors">Subscribe</a></li>
           </ul>
+          <ul className="text-[15px] space-y-3 text-white/70 border-t border-white/15 pt-4">
+            <li><a href="/dispatches" className="hover:text-white transition-colors">Dispatches</a></li>
+            <li><a href="/the-next-west" className="hover:text-white transition-colors">The Next West</a></li>
+            <li><a href="/northern-century" className="hover:text-white transition-colors">Northern Century</a></li>
+            <li><a href="/next-vancouver" className="hover:text-white transition-colors">Next Vancouver</a></li>
+            <li><a href="/advisory" className="hover:text-white transition-colors">Advisory</a></li>
+            <li><a href="/contact" className="hover:text-white transition-colors">Contact</a></li>
+          </ul>
         </div>
 
         {/* Contact */}

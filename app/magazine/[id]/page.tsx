@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -6,6 +7,8 @@ import { MagazineFooter } from '@/components/magazine-footer'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
+
+const SITE_URL = 'https://cityage.com'
 
 function renderMarkdown(md: string): string {
   // Process line by line for clean, reliable rendering
@@ -55,6 +58,55 @@ function applyInline(text: string): string {
     .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-black">$1</strong>')
     // Italic
     .replace(/\*(.+?)\*/g, '<em class="italic text-black/70">$1</em>')
+}
+
+type ArticleMeta = {
+  headline: string
+  deck: string | null
+  image_url: string | null
+}
+
+async function fetchArticleMeta(id: string): Promise<ArticleMeta | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return null
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/magazine?select=headline,deck,image_url&id=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
+      {
+        headers: { apikey: key, Authorization: `Bearer ${key}` },
+        next: { revalidate: 60 },
+      },
+    )
+    if (!res.ok) return null
+    const rows = (await res.json()) as ArticleMeta[]
+    return Array.isArray(rows) && rows[0]?.headline ? rows[0] : null
+  } catch {
+    return null
+  }
+}
+
+/** Each article gets its own <title> and Open Graph title/description. */
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const article = await fetchArticleMeta(id)
+  if (!article) return {}
+
+  const title = `${article.headline} — CityAge`
+  const description = article.deck || undefined
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: article.headline,
+      description,
+      url: `${SITE_URL}/magazine/${id}`,
+      type: 'article',
+      siteName: 'CityAge',
+      images: article.image_url ? [{ url: article.image_url }] : undefined,
+    },
+  }
 }
 
 export default async function MagazineArticlePage({ params }: { params: Promise<{ id: string }> }) {
@@ -143,13 +195,13 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
             {/* Share */}
             <div className="flex items-center justify-center gap-5 pt-1">
               <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/30">Share</span>
-              <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(`https://cityagemag.vercel.app/magazine/${id}`)}&text=${encodeURIComponent(article.headline)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
+              <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(`${SITE_URL}/magazine/${id}`)}&text=${encodeURIComponent(article.headline)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://cityagemag.vercel.app/magazine/${id}`)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
+              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/magazine/${id}`)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </a>
-              <a href={`mailto:?subject=${encodeURIComponent(article.headline)}&body=${encodeURIComponent(`https://cityagemag.vercel.app/magazine/${id}`)}`} className="text-black/30 hover:text-black transition-colors">
+              <a href={`mailto:?subject=${encodeURIComponent(article.headline)}&body=${encodeURIComponent(`${SITE_URL}/magazine/${id}`)}`} className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               </a>
             </div>
@@ -226,7 +278,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                   <p className="font-serif text-white/60 text-[13px] leading-relaxed mb-5">
                     Daily intelligence for leaders of The Urban Planet.
                   </p>
-                  <a href="#subscribe" className="block w-full bg-[#C5A059] text-black font-mono text-[9px] font-black tracking-[0.2em] uppercase py-2.5 text-center hover:bg-white transition-colors">
+                  <a href="/subscribe" className="block w-full bg-[#C5A059] text-black font-mono text-[9px] font-black tracking-[0.2em] uppercase py-2.5 text-center hover:bg-white transition-colors">
                     Subscribe Free
                   </a>
                 </div>

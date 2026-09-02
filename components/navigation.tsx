@@ -15,7 +15,7 @@ export function Navigation() {
         {sections.map((section, i) => (
           <div key={section.name} className="relative group">
             <a
-              href={`#${section.name.toLowerCase()}`}
+              href={`/${section.name.toLowerCase()}`}
               className={`flex items-center gap-1 px-4 md:px-6 py-3 text-[11px] font-black tracking-[0.25em] uppercase hover:text-[#C5A059] transition-colors ${i === sections.length - 1 ? 'text-[#C5A059]' : 'text-black/70'}`}
             >
               {section.name}
