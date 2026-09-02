@@ -93,6 +93,46 @@ export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> 
     .filter((face) => hasSpeakerShot(face.headshot_url))
 }
 
+/**
+ * Northern Century members: speakers with the boolean `northern_century` column
+ * set. Until that column exists in Supabase the request fails; render an empty
+ * strip and say so in the server log rather than failing the build.
+ */
+export async function fetchNorthernCenturyFaces(): Promise<SpeakerFace[]> {
+  const env = supabaseEnv()
+  if (!env) return []
+  const { url, key } = env
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/speakers?select=id,name,headshot_url&northern_century=is.true&headshot_url=not.is.null&order=id&limit=200`,
+      {
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+        },
+        next: { revalidate: 3600 },
+      },
+    )
+    if (!res.ok) {
+      console.warn(
+        `[northern-century] speakers.northern_century not queryable yet (HTTP ${res.status}); rendering an empty strip`,
+      )
+      return []
+    }
+    const batch = (await res.json()) as SpeakerRow[]
+    if (!Array.isArray(batch)) return []
+    return uniqueByName(batch.map(toFace))
+      .map((face) => ({
+        ...face,
+        headshot_url: speakerThumbUrl(face.headshot_url),
+      }))
+      .filter((face) => hasSpeakerShot(face.headshot_url))
+  } catch (err) {
+    console.warn('[northern-century] speakers fetch failed; rendering an empty strip', err)
+    return []
+  }
+}
+
 export async function fetchSpeakerFaces(): Promise<SpeakerFace[]> {
   const env = supabaseEnv()
   if (!env) return []
