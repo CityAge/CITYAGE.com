@@ -200,6 +200,15 @@ export default async function Home() {
         />
       </main>
 
+      <CampaignBanner
+        image="/northern-century-earth.jpg"
+        crop="object-top"
+        heading="The Northern Century."
+        italic="Washington and Ottawa. Alternating editions."
+        href="/northern-century"
+        priority={false}
+      />
+
       <div style={{ minHeight: 136, background: '#120f0b' }}>
         <DoorSpeakersStrip top={doorTop} bottom={doorBottom} />
       </div>
