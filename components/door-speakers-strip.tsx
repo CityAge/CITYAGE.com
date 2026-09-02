@@ -1,14 +1,13 @@
-'use client'
-
-import { useEffect, useRef, useState } from 'react'
 import { hasSpeakerShot, type SpeakerFace } from '@/lib/speakers'
 import './door-speakers-strip.css'
 
+/** 48px face + 3px gap: the distance the track travels per face. */
 const FACE_W = 51
 const PX_PER_SEC = 18
-const SSR_SLOT_COUNT = 28
+/** Widest door we expect to fill; the row is repeated until it covers this plus one loop. */
+const MAX_DOOR_W = 2600
 
-function VirtualDoorRow({
+function DoorRow({
   faces,
   reverse,
   href,
@@ -17,85 +16,43 @@ function VirtualDoorRow({
   reverse: boolean
   href: string
 }) {
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const hoverRef = useRef(false)
-  const originRef = useRef(0)
-  const [slotCount, setSlotCount] = useState(SSR_SLOT_COUNT)
-  const [origin, setOrigin] = useState(0)
+  const shots = faces.filter((face) => hasSpeakerShot(face.headshot_url))
+  if (shots.length === 0) return null
 
-  const starters = faces.filter((face) => hasSpeakerShot(face.headshot_url))
-
-  useEffect(() => {
-    const el = wrapRef.current
-    if (!el) return
-    const measure = () => {
-      const w = el.clientWidth || window.innerWidth
-      setSlotCount(Math.max(12, Math.ceil(w / FACE_W) + 3))
-    }
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  useEffect(() => {
-    const track = trackRef.current
-    if (!track || slotCount === 0 || starters.length === 0) return
-
-    let raf = 0
-    let last = performance.now()
-    let shift = 0
-
-    const tick = (now: number) => {
-      const dt = Math.min(48, now - last)
-      last = now
-      if (!hoverRef.current && document.visibilityState === 'visible') {
-        shift += PX_PER_SEC * (dt / 1000)
-        while (shift >= FACE_W) {
-          shift -= FACE_W
-          originRef.current = reverse
-            ? (originRef.current - 1 + starters.length) % starters.length
-            : (originRef.current + 1) % starters.length
-          setOrigin(originRef.current)
-        }
-        const x = reverse ? shift - FACE_W : -shift
-        track.style.transform = `translate3d(${x}px,0,0)`
-      }
-      raf = requestAnimationFrame(tick)
-    }
-
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [reverse, slotCount, starters.length])
-
-  if (starters.length === 0) {
-    return <div ref={wrapRef} className="speakers-reel-section" />
-  }
+  // One loop = one full copy of the row. Copies beyond the first exist only so
+  // the track never runs out before the loop point; the seam is invisible
+  // because every copy is identical. No state changes while it moves.
+  const loopWidth = shots.length * FACE_W
+  const copies = Math.max(2, Math.ceil(MAX_DOOR_W / loopWidth) + 1)
+  const track = Array.from({ length: copies }, () => shots).flat()
 
   return (
-    <div
-      ref={wrapRef}
-      className={`speakers-reel-section speakers-reel-${reverse ? 'right' : 'left'}`}
-      onMouseEnter={() => {
-        hoverRef.current = true
-      }}
-      onMouseLeave={() => {
-        hoverRef.current = false
-      }}
-    >
+    <div className={`speakers-reel-section speakers-reel-${reverse ? 'right' : 'left'}`}>
       <div className="speakers-reel-outer">
         <div className="speakers-reel-fade-left" />
         <div className="speakers-reel-fade-right" />
-        <div ref={trackRef} className="speakers-reel-track">
-          {Array.from({ length: slotCount }, (_, i) => {
-            const speaker = starters[(origin + i) % starters.length]
-            if (!speaker?.headshot_url) return null
+        <div
+          className="speakers-reel-track"
+          style={
+            {
+              '--reel-w': `${loopWidth}px`,
+              '--reel-s': `${loopWidth / PX_PER_SEC}s`,
+            } as React.CSSProperties
+          }
+        >
+          {track.map((speaker, i) => {
+            const duplicate = i >= shots.length
             return (
-              <a key={i} className="speakers-reel-face" href={href}>
+              <a
+                key={`${speaker.id}-${i}`}
+                className="speakers-reel-face"
+                href={href}
+                aria-hidden={duplicate || undefined}
+                tabIndex={duplicate ? -1 : undefined}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={speaker.headshot_url}
+                  src={speaker.headshot_url ?? undefined}
                   alt=""
                   width={48}
                   height={58}
@@ -121,8 +78,8 @@ export function DoorSpeakersStrip({
 }) {
   return (
     <section className="door-speakers-reel" aria-label="Speakers">
-      {top.length > 0 ? <VirtualDoorRow faces={top} reverse={false} href="/people" /> : null}
-      {bottom.length > 0 ? <VirtualDoorRow faces={bottom} reverse href="/people" /> : null}
+      {top.length > 0 ? <DoorRow faces={top} reverse={false} href="/people" /> : null}
+      {bottom.length > 0 ? <DoorRow faces={bottom} reverse href="/people" /> : null}
     </section>
   )
 }
