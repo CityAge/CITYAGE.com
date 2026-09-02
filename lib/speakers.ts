@@ -1,3 +1,5 @@
+import { supabaseEnv } from '@/lib/supabase/env'
+
 export type SpeakerFace = {
   id: string
   name: string
@@ -6,13 +8,6 @@ export type SpeakerFace = {
   headshot_url: string | null
   linkedin_url: string | null
 }
-
-/** urban-planet-brain — same project as public/people.html */
-export const SPEAKERS_SUPABASE_URL = 'https://rniqmxpmtqmnwqtawlnz.supabase.co'
-
-// Public anon key already shipped in public/people.html. Not a service_role key.
-const PEOPLE_HTML_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
 
 type SpeakerRow = {
   id?: string | number
@@ -34,7 +29,7 @@ function toFace(row: SpeakerRow, index: number): SpeakerFace {
   }
 }
 
-/** Same as people.html: one card per name. */
+/** One card per name. */
 export function uniqueByName(faces: SpeakerFace[]): SpeakerFace[] {
   const seen = new Set<string>()
   return faces.filter((s) => {
@@ -74,9 +69,11 @@ export function speakerThumbUrl(
 
 /** Door only: one small page of faces with shots. Not the full catalog. */
 export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> {
-  const key = PEOPLE_HTML_ANON_KEY
+  const env = supabaseEnv()
+  if (!env) return []
+  const { url, key } = env
   const res = await fetch(
-    `${SPEAKERS_SUPABASE_URL}/rest/v1/speakers?select=id,name,headshot_url&headshot_url=not.is.null&limit=${limit}`,
+    `${url}/rest/v1/speakers?select=id,name,headshot_url&headshot_url=not.is.null&limit=${limit}`,
     {
       headers: {
         apikey: key,
@@ -97,14 +94,16 @@ export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> 
 }
 
 export async function fetchSpeakerFaces(): Promise<SpeakerFace[]> {
-  const key = PEOPLE_HTML_ANON_KEY
+  const env = supabaseEnv()
+  if (!env) return []
+  const { url, key } = env
   const page = 1000
   let from = 0
   const rows: SpeakerRow[] = []
 
   while (true) {
     const res = await fetch(
-      `${SPEAKERS_SUPABASE_URL}/rest/v1/speakers?select=id,name,title,organisation,headshot_url,linkedin_url&order=id`,
+      `${url}/rest/v1/speakers?select=id,name,title,organisation,headshot_url,linkedin_url&order=id`,
       {
         headers: {
           apikey: key,
