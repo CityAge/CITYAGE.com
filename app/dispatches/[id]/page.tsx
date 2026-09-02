@@ -20,7 +20,7 @@ function renderMarkdown(md: string): string {
     .replace(/\*(.+?)\*/g, '<em class="italic text-black/60">$1</em>')
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-[#1A365D] hover:text-[#C5A059] underline underline-offset-4 decoration-black/15 hover:decoration-[#C5A059] transition-colors">$1</a>')
     .replace(/^---$/gm, '<hr class="border-black/10 my-12" />')
-    .replace(/^(?!<[h|p|s|e|a|u|hr])(.*\S.*)$/gm, '<p class="font-serif text-black/85 text-[18px] md:text-[20px] leading-[1.85] mb-6">$1</p>')
+    .replace(/^(?!<[h|p|s|e|a|u|hr])(.*\S.*)$/gm, '<p class="type-body text-black/85 mb-6">$1</p>')
 }
 
 export default async function BriefPage({ params }: { params: Promise<{ id: string }> }) {
@@ -117,27 +117,27 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
           <div className="max-w-[900px] mx-auto px-6 pt-10 pb-10 text-center">
             {/* Meta row — centered */}
             <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-black/70">
+              <span className="type-kicker">
                 {brief.vertical}
               </span>
               <span className="text-black/20 text-[8px]">|</span>
-              <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-black/40">
+              <span className="type-meta">
                 {shortDate}
               </span>
               <span className="text-black/20 text-[8px]">|</span>
-              <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-black/40">
+              <span className="type-meta">
                 5 Min Read
               </span>
             </div>
 
             {/* Headline — centered, large */}
-            <h1 className="font-serif font-black text-3xl md:text-[2.75rem] leading-[1.15] tracking-tight mb-5 max-w-[750px] mx-auto">
+            <h1 className="type-lead-h tracking-tight mb-5 max-w-[750px] mx-auto">
               {brief.title}
             </h1>
 
             {/* Deck / subtitle — centered */}
             {tagline && (
-              <p className="font-serif text-black/50 text-lg md:text-xl leading-relaxed max-w-[650px] mx-auto mb-6">
+              <p className="type-deck text-black/50 max-w-[650px] mx-auto mb-6">
                 {tagline}
               </p>
             )}

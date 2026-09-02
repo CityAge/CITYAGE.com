@@ -20,11 +20,11 @@ export async function SectionPage({ name }: { name: SectionName }) {
 
       <main className="flex-grow max-w-[1400px] mx-auto w-full px-6 md:px-12 py-10 md:py-14">
         <div className="border-b border-black pb-6 mb-2">
-          <h1 className="font-serif font-black text-4xl md:text-5xl tracking-tight">{name}</h1>
+          <h1 className="type-title tracking-tight">{name}</h1>
         </div>
 
         {stories.length === 0 ? (
-          <p className="font-serif text-black/60 text-[17px] md:text-[19px] leading-[1.65] pt-10">
+          <p className="type-body text-black/60 pt-10">
             No published stories in {name} yet.
           </p>
         ) : (
@@ -46,18 +46,18 @@ export async function SectionPage({ name }: { name: SectionName }) {
                       />
                     </div>
                   ) : null}
-                  <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
+                  <span className="type-kicker">
                     {story.vertical}
                   </span>
-                  <h2 className="font-serif font-normal text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
+                  <h2 className="type-rail-h tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
                     {story.headline}
                   </h2>
                   {story.deck ? (
-                    <p className="font-serif text-black/60 text-[15px] md:text-[17px] leading-[1.6] mt-3">
+                    <p className="type-deck text-black/60 mt-3">
                       {story.deck}
                     </p>
                   ) : null}
-                  <div className="font-mono text-[9px] tracking-[0.22em] uppercase text-black/40 mt-4">
+                  <div className="type-meta mt-4">
                     {formatDate(story.published_at)}
                     {story.published_at ? ' · ' : ''}
                     {story.read_time || 5} Min Read

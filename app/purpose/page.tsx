@@ -18,13 +18,13 @@ export default function PurposePage() {
       <main className="flex-grow">
         <article className="pt-16 md:pt-24 pb-24 md:pb-36">
           <header className="max-w-[720px] mx-auto px-6 md:px-12">
-            <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059] block mb-6">
+            <span className="type-kicker block mb-6">
               PURPOSE
             </span>
-            <h1 className="font-serif font-normal text-[2rem] md:text-[3.1rem] leading-[1.12] tracking-tight text-black mb-8">
+            <h1 className="type-title tracking-tight text-black mb-8">
               The Urban Planet.
             </h1>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
+            <p className="type-body text-black">
               Fifteen years ago, CityAge was founded on an image. The Earth at night. Two per
               cent of the surface, lit. A single web of lights where nearly everything that
               matters gets connected.
@@ -58,7 +58,7 @@ export default function PurposePage() {
                 — Miro Cernetig, Founder, CEO and Publisher
               </footer>
             </blockquote>
-            <p className="purpose-map-graf font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-10">
+            <p className="purpose-map-graf type-body text-black mb-10">
               Look at the map above closely and you&apos;ll see the web of lights has no
               centre. A port at the edge of the ice. A valley of engineers. A capital on a
               river. Each a point of light, each wired to the others by money, technology and
@@ -69,10 +69,10 @@ export default function PurposePage() {
               Iqaluit is as connected to the Urban Planet as New York, Beijing or Brussels.
             </p>
 
-            <h2 className="font-serif font-normal text-[1.65rem] md:text-[2rem] leading-tight tracking-tight text-black mb-6">
+            <h2 className="type-section tracking-tight text-black mb-6">
               What we do.
             </h2>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-14 md:mb-16">
+            <p className="type-body text-black mb-14 md:mb-16">
               We connect the leaders who build the Urban Planet. 25,000 of them,
               across fifty cities and fifteen years — founders, government leaders, investors,
               architects, engineers, mayors, Fortune 1000 executives and more. We bring them
@@ -84,23 +84,23 @@ export default function PurposePage() {
               A small room of enormous influence.
             </p>
 
-            <h2 className="font-serif font-normal text-[1.65rem] md:text-[2rem] leading-tight tracking-tight text-black mb-6">
+            <h2 className="type-section tracking-tight text-black mb-6">
               Why we do it.
             </h2>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-6">
+            <p className="type-body text-black mb-6">
               CityAge puts ideas in motion.
             </p>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-6">
+            <p className="type-body text-black mb-6">
               We find the ideas worth moving. We put each one in a small room of enormous
               influence. Then we make the films, brands and campaigns that forge the
               connections to make it real.
             </p>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black mb-6">
+            <p className="type-body text-black mb-6">
               Our knowledge partners have built companies, changed policy, raised capital, seen
               their valuations climb, been featured in major media — and, most important of
               all, formed friendships and partnerships that endure.
             </p>
-            <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
+            <p className="type-body text-black">
               We don&apos;t take on every idea. Only the ones that add something to the world.
             </p>
 

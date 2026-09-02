@@ -23,17 +23,16 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-lead') {
     return (
       <Link href={href} className="flex flex-col flex-1 group">
-        <span className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
+        <span className="type-kicker">
           {vertical}
         </span>
         <h2
-          className="font-serif font-black text-[1.55rem] md:text-[2.6rem] lg:text-[3.6rem] leading-[1.08] lg:leading-[1.04] tracking-tight mt-2 mb-3 lg:mt-3 lg:mb-4 group-hover:text-[#1A365D] transition-colors"
-          style={{ fontWeight: 900 }}
+          className="type-lead-h tracking-tight mt-2 mb-3 lg:mt-3 lg:mb-4 group-hover:text-[#1A365D] transition-colors"
         >
           {title}
         </h2>
         {tagline && (
-          <p className="font-serif text-black/60 text-[13px] md:text-[17px] leading-[1.45] lg:leading-[1.6] mb-3 lg:mb-4">
+          <p className="type-deck text-black/60 mb-3 lg:mb-4">
             {tagline}
           </p>
         )}
@@ -78,11 +77,11 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/10">Photograph</span>
           </div>
         )}
-        <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
+        <span className="type-kicker">
           {vertical}
         </span>
         {title ? (
-          <h3 className="font-serif font-normal text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 mb-4 group-hover:text-[#1A365D] transition-colors">
+          <h3 className="type-rail-h tracking-normal mt-2 mb-4 group-hover:text-[#1A365D] transition-colors">
             {title}
           </h3>
         ) : null}
@@ -94,10 +93,10 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
   if (variant === 'hero-tertiary') {
     return (
       <Link href={href} className="flex flex-col group">
-        <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
+        <span className="type-kicker">
           {vertical}
         </span>
-        <h3 className="font-serif font-normal text-[16px] leading-[1.3] tracking-normal mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
+        <h3 className="type-rail-h tracking-normal mt-2 mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h3>
       </Link>
@@ -133,7 +132,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
             {excerpt || tagline}
           </p>
         )}
-        <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
+        <span className="type-meta">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -148,7 +147,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         <h4 className="font-serif font-bold text-[16px] leading-snug tracking-tight mb-2 group-hover:text-[#1A365D] transition-colors">
           {title}
         </h4>
-        <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
+        <span className="type-meta">
           <span className="inline-block w-3 h-3 mr-1 align-[-2px]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
           {readTime}
         </span>
@@ -191,13 +190,13 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         )}
 
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
+          <span className="type-meta">
             {date}
           </span>
           {readTime && (
             <>
               <span className="text-black/15 text-[8px]">·</span>
-              <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-black/60">
+              <span className="type-meta">
                 {readTime}
               </span>
             </>

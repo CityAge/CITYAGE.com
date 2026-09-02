@@ -39,7 +39,7 @@ function renderMarkdown(md: string): string {
       line = `<p class="font-serif font-bold text-[18px] md:text-[20px] text-black mt-10 mb-3">${applyInline(line)}</p>`
     // Regular paragraph
     } else {
-      line = `<p class="font-serif text-[18px] md:text-[19px] leading-[1.82] text-black/85 mb-6">${applyInline(line)}</p>`
+      line = `<p class="type-body text-black/85 mb-6">${applyInline(line)}</p>`
     }
     
     output.push(line)
@@ -162,13 +162,13 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
 
             {/* Vertical + sub-vertical */}
             <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
+              <span className="type-kicker">
                 {article.vertical}
               </span>
               {article.sub_vertical && (
                 <>
                   <span className="text-black/20">·</span>
-                  <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40">
+                  <span className="type-meta">
                     {article.sub_vertical}
                   </span>
                 </>
@@ -176,19 +176,19 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif font-normal text-[1.65rem] md:text-[2.1rem] leading-[1.22] tracking-normal mb-5 text-black">
+            <h1 className="type-lead-h tracking-normal mb-5 text-black">
               {article.headline}
             </h1>
 
             {/* Deck */}
             {article.deck && (
-              <p className="font-serif text-black/60 text-[17px] md:text-[19px] leading-[1.65] max-w-[640px] mx-auto mb-7">
+              <p className="type-deck text-black/60 max-w-[640px] mx-auto mb-7">
                 {article.deck}
               </p>
             )}
 
             {/* Dateline */}
-            <div className="font-mono text-[9px] tracking-[0.22em] uppercase text-black/40 mb-6">
+            <div className="type-meta mb-6">
               {(article.dateline_city || 'Vancouver').toUpperCase()} · {new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {article.read_time || 5} Min Read
             </div>
 
@@ -261,7 +261,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                           <h4 className="font-serif font-bold text-[14px] leading-snug group-hover:text-[#1A365D] transition-colors mb-1">
                             {a.headline}
                           </h4>
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30">
+                          <span className="type-meta">
                             {a.read_time || 5} min read
                           </span>
                         </Link>
