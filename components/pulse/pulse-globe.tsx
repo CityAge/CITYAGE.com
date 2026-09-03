@@ -34,9 +34,9 @@ const SOUTH: [number, number] = [0, -78]
 function fitZoom(el: HTMLElement | null): number {
   const w = el?.clientWidth || 1400
   const h = el?.clientHeight || 843
-  // MapLibre's globe diameter is about 163px × 2^zoom
+  // Measured: MapLibre's globe is about 439px × 2^zoom across on screen.
   const diameter = 0.86 * Math.min(w, h)
-  return Math.max(0.8, Math.min(3, Math.log2(diameter / 163)))
+  return Math.max(-1, Math.min(3, Math.log2(diameter / 439)))
 }
 const DAY = 86_400_000
 
@@ -165,7 +165,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       style: buildStyle(),
       center: NORTH,
       zoom: fitZoom(containerRef.current),
-      minZoom: 0.8,
+      minZoom: -1,
       pitch: 0,
       bearing: 0,
       attributionControl: false,
