@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Map as MLMap, Marker, type GeoJSONSource, type StyleSpecification } from 'maplibre-gl'
+// MapLibre 5.x: its worker ships inline, so nothing extra has to be served. (6.x is ESM-only with an
+// external module worker the bundler cannot serve.)
+import maplibregl, { type Map as MLMap, type Marker as MLMarker, type GeoJSONSource, type StyleSpecification } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { createClient } from '@/lib/supabase/client'
 import './pulse.css'
@@ -25,6 +27,7 @@ export type Project = {
 type Age = 'fresh' | 'recent' | 'old'
 
 const GOLD = '#C5A059'
+
 const NORTH: [number, number] = [-55, 75]
 const SOUTH: [number, number] = [0, -78]
 const OPEN_ZOOM = 2.4
@@ -44,6 +47,43 @@ function ageOf(pulseAt: string | null, now: number): Age {
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
+
+const toVec = ([lng, lat]: [number, number]) => {
+  const φ = (lat * Math.PI) / 180
+  const λ = (lng * Math.PI) / 180
+  return [Math.cos(φ) * Math.cos(λ), Math.cos(φ) * Math.sin(λ), Math.sin(φ)]
+}
+const toLngLat = (v: number[]): [number, number] => [
+  (Math.atan2(v[1], v[0]) * 180) / Math.PI,
+  (Math.atan2(v[2], Math.hypot(v[0], v[1])) * 180) / Math.PI,
+]
+/**
+ * A path from a to b along their great circle, taking the long arc, which for
+ * two high-latitude points on opposite sides of the world crosses a pole.
+ * Returns a function of t in [0, 1].
+ */
+function longWayRound(a: [number, number], b: [number, number]) {
+  const va = toVec(a)
+  const vb = toVec(b)
+  const dot = va[0] * vb[0] + va[1] * vb[1] + va[2] * vb[2]
+  const short = Math.acos(Math.max(-1, Math.min(1, dot)))
+  let n = [va[1] * vb[2] - va[2] * vb[1], va[2] * vb[0] - va[0] * vb[2], va[0] * vb[1] - va[1] * vb[0]]
+  const len = Math.hypot(n[0], n[1], n[2]) || 1
+  n = n.map((x) => x / len)
+  const total = 2 * Math.PI - short
+  return (t: number): [number, number] => {
+    const θ = -total * t // away from b, round the back, arriving from the other side
+    const cos = Math.cos(θ)
+    const sin = Math.sin(θ)
+    const k = n[0] * va[0] + n[1] * va[1] + n[2] * va[2]
+    const v = [
+      va[0] * cos + (n[1] * va[2] - n[2] * va[1]) * sin + n[0] * k * (1 - cos),
+      va[1] * cos + (n[2] * va[0] - n[0] * va[2]) * sin + n[1] * k * (1 - cos),
+      va[2] * cos + (n[0] * va[1] - n[1] * va[0]) * sin + n[2] * k * (1 - cos),
+    ]
+    return toLngLat(v)
+  }
+}
 
 function buildStyle(): StyleSpecification {
   return {
@@ -78,7 +118,12 @@ function buildStyle(): StyleSpecification {
         type: 'circle',
         source: 'projects',
         paint: {
-          'circle-radius': ['*', ['interpolate', ['linear'], ['zoom'], 2.4, 7, 6, 11], ['case', ['boolean', ['feature-state', 'hover'], false], 1.3, 1]],
+          // 7px at zoom 2.4 → 11px at zoom 6; hover is 130% of either. Zoom must sit at the top level.
+          'circle-radius': [
+            'interpolate', ['linear'], ['zoom'],
+            2.4, ['case', ['boolean', ['feature-state', 'hover'], false], 9.1, 7],
+            6, ['case', ['boolean', ['feature-state', 'hover'], false], 14.3, 11],
+          ],
           'circle-color': GOLD,
           'circle-opacity': ['case', ['==', ['get', 'age'], 'old'], 0.55, 1],
           'circle-stroke-color': '#000000',
@@ -94,7 +139,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MLMap | null>(null)
   const projectsRef = useRef<Project[]>([])
-  const labelMarkers = useRef<Marker[]>([])
+  const labelMarkers = useRef<MLMarker[]>([])
   const [ready, setReady] = useState(false)
   const [pole, setPole] = useState<'north' | 'south'>('north')
   const [active, setActive] = useState<Project | null>(null)
@@ -104,7 +149,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   // ---- map
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
-    const map = new MLMap({
+    const map: MLMap = new maplibregl.Map({
       container: containerRef.current,
       style: buildStyle(),
       center: NORTH,
@@ -121,6 +166,9 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     })
     mapRef.current = map
     map.touchZoomRotate.disableRotation()
+    map.on('error', (e) => console.error('[pulse] map error', e.error))
+    // Handle for tests and the console; harmless in production.
+    ;(window as unknown as { __pulseMap?: MLMap }).__pulseMap = map
 
     let hovered: string | null = null
     const setHover = (slug: string | null) => {
@@ -171,7 +219,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
         const el = document.createElement('div')
         el.className = `pulse-label ${cls}`
         el.textContent = String(f.properties?.name ?? '')
-        labelMarkers.current.push(new Marker({ element: el, anchor: 'center' }).setLngLat([lng, lat]).addTo(map))
+        labelMarkers.current.push(new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([lng, lat]).addTo(map))
       }
       for (const f of countries.features) if (Number(f.properties?.rank) <= (z < 6.5 ? 3 : 6)) add(f, 'is-country')
       for (const f of places.features) if (Number(f.properties?.rank) <= (z < 6.5 ? 0 : 2)) add(f, 'is-place')
@@ -260,23 +308,39 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // ---- the other pole: an arc over the globe, 1.6s, ease-in-out
+  // ---- the other pole: the long way round the great circle, over the top of
+  // the globe rather than through the equator. 1.6s, ease-in-out, with a zoom
+  // dip at the midpoint so the whole sphere turns in view.
+  const flightRef = useRef<number | null>(null)
   function flip() {
     const map = mapRef.current
     if (!map) return
     const next = pole === 'north' ? 'south' : 'north'
     setPole(next)
     setActive(null)
-    map.flyTo({
-      center: next === 'south' ? SOUTH : NORTH,
-      zoom: OPEN_ZOOM,
-      pitch: 0,
-      bearing: 0,
-      duration: reduced ? 0 : 1600,
-      easing: easeInOut,
-      curve: 1.9,
-      essential: true,
-    })
+    const to = next === 'south' ? SOUTH : NORTH
+    if (flightRef.current) cancelAnimationFrame(flightRef.current)
+    if (reduced) {
+      map.jumpTo({ center: to, zoom: OPEN_ZOOM, pitch: 0, bearing: 0 })
+      return
+    }
+    const c = map.getCenter()
+    const path = longWayRound([c.lng, c.lat], to)
+    const z0 = map.getZoom()
+    const t0 = performance.now()
+    const D = 1600
+    const tick = (now: number) => {
+      const u = Math.min((now - t0) / D, 1)
+      const e = easeInOut(u)
+      const [lng, lat] = path(e)
+      // dip to zoom 1.5 mid-flight, back to the opening zoom at the end
+      const dip = Math.sin(Math.PI * e)
+      const zoom = z0 + (OPEN_ZOOM - z0) * e - (z0 - 1.5) * dip * 0.9
+      map.jumpTo({ center: [lng, Math.max(-89.5, Math.min(89.5, lat))], zoom, pitch: 0, bearing: 0 })
+      if (u < 1) flightRef.current = requestAnimationFrame(tick)
+      else map.jumpTo({ center: to, zoom: OPEN_ZOOM, pitch: 0, bearing: 0 })
+    }
+    flightRef.current = requestAnimationFrame(tick)
   }
 
   const embed = mode === 'embed'
