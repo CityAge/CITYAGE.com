@@ -22,6 +22,11 @@ export type Project = {
   pulse_at: string | null
   lat: number
   lng: number
+  announced_cad: number | null
+  committed_cad: number | null
+  announced_note: string | null
+  committed_note: string | null
+  value_source_url: string | null
 }
 
 type Age = 'fresh' | 'recent' | 'old'
@@ -48,6 +53,40 @@ function ageOf(pulseAt: string | null, now: number): Age {
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
+
+/** "C$9.5 billion" — the headline figure, in words. */
+function cadLong(n: number): string {
+  if (n >= 1e9) return `C$${(n / 1e9).toFixed(1)} billion`
+  if (n >= 1e6) return `C$${Math.round(n / 1e6)} million`
+  return `C$${Math.round(n).toLocaleString('en-CA')}`
+}
+/** "C$0.55bn" — panel rows, always in billions to two places so the columns compare. */
+const cadBn = (n: number) => `C$${(n / 1e9).toFixed(2)}bn`
+/** "C$1.0bn" / "C$72m" — card lines. */
+function cadShort(n: number): string {
+  if (n >= 1e9) return `C$${(n / 1e9).toFixed(1)}bn`
+  if (n >= 1e6) return `C$${Math.round(n / 1e6)}m`
+  return `C$${Math.round(n).toLocaleString('en-CA')}`
+}
+type CapitalRow = { country: string; announced: number | null; committed: number | null }
+function capitalByCountry(rows: Project[]): { total: { announced: number; committed: number }; countries: CapitalRow[] } {
+  const by = new Map<string, CapitalRow>()
+  let announced = 0
+  let committed = 0
+  for (const p of rows) {
+    const c = by.get(p.country) ?? { country: p.country, announced: null, committed: null }
+    if (p.announced_cad != null) {
+      c.announced = (c.announced ?? 0) + p.announced_cad
+      announced += p.announced_cad
+    }
+    if (p.committed_cad != null) {
+      c.committed = (c.committed ?? 0) + p.committed_cad
+      committed += p.committed_cad
+    }
+    by.set(p.country, c)
+  }
+  return { total: { announced, committed }, countries: [...by.values()].sort((a, b) => a.country.localeCompare(b.country)) }
+}
 
 /**
  * The opening zoom: the sphere fills the viewport height and bleeds off the
@@ -387,12 +426,17 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     const supabase = createClient()
     supabase
       .from('northern_projects')
-      .select('slug,name,place,country,type,summary,source_url,story_url,status,pole,pulse_at,lat,lng')
+      .select('slug,name,place,country,type,summary,source_url,story_url,status,pole,pulse_at,lat,lng,announced_cad,committed_cad,announced_note,committed_note,value_source_url')
       .eq('published', true)
       .then(({ data }) => {
         if (cancelled || !data) return
         const now = Date.now()
-        const rows = data as Project[]
+        // numeric columns arrive as strings
+        const rows = (data as Array<Record<string, unknown>>).map((r) => ({
+          ...r,
+          announced_cad: r.announced_cad == null ? null : Number(r.announced_cad),
+          committed_cad: r.committed_cad == null ? null : Number(r.committed_cad),
+        })) as Project[]
         projectsRef.current = rows
         setProjects(rows)
         const fc: GeoJSON.FeatureCollection = {
@@ -522,6 +566,30 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     flightRef.current = requestAnimationFrame(tick)
   }
 
+  // ---- capital: the committed sum counts up from zero over 1.6s on first load
+  const capital = useMemo(() => capitalByCountry(projects), [projects])
+  const [shown, setShown] = useState(0)
+  const [panelOpen, setPanelOpen] = useState(false)
+  useEffect(() => {
+    const target = capital.total.committed
+    if (!target) return
+    if (reduced) {
+      setShown(target)
+      return
+    }
+    const t0 = performance.now()
+    let raf = 0
+    const tick = (now: number) => {
+      const u = Math.min((now - t0) / 1600, 1)
+      setShown(target * easeOut(u))
+      if (u < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [capital.total.committed])
+  const share = capital.total.announced > 0 ? capital.total.committed / capital.total.announced : 0
+
   // ---- index: projects grouped by country
   const index = useMemo(() => {
     const groups = new Map<string, Project[]>()
@@ -541,13 +609,55 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       <div ref={containerRef} className={`pulse-map${ready ? ' is-ready' : ''}`} aria-label="Northern Pulse globe" />
       <div ref={limbRef} className="pulse-limb" aria-hidden="true" />
 
-      <div className="pulse-chrome pulse-title">
-        <span className="name">Northern Pulse</span>
-        <span className="line">The world from the two poles.</span>
-      </div>
+      <div className="pulse-chrome pulse-left">
+        <div className="pulse-title">
+          <span className="name">Northern Pulse</span>
+          <span className="line">The world from the two poles.</span>
+        </div>
+
+        {!embed && capital.total.committed > 0 ? (
+          <div className="pulse-capital">
+            <span className="label">Capital committed to the North</span>
+            <button
+              type="button"
+              className="figure"
+              aria-haspopup="true"
+              aria-expanded={panelOpen}
+              onMouseEnter={() => setPanelOpen(true)}
+              onMouseLeave={() => setPanelOpen(false)}
+              onFocus={() => setPanelOpen(true)}
+              onBlur={() => setPanelOpen(false)}
+              onClick={() => setPanelOpen((o) => !o)}
+            >
+              {cadLong(shown)}
+            </button>
+            <span className="of">Of {cadLong(capital.total.announced).replace(/^C\$/, 'C$')} announced</span>
+            <span className="rule" aria-hidden="true">
+              <span className="gold" style={{ width: `${Math.max(0, Math.min(1, share)) * 100}%` }} />
+            </span>
+            <span className="note">The CityAge estimate · Sourced per project</span>
+            {panelOpen ? (
+              <div className="panel" role="tooltip">
+                {capital.countries.map((c) => (
+                  <div key={c.country} className="row">
+                    <span className="country">{c.country}</span>
+                    {c.announced != null || c.committed != null ? (
+                      <span className="values">
+                        {cadBn(c.committed ?? 0)} / {c.announced != null ? cadBn(c.announced) : '—'}
+                        {c.announced ? <span className="pct"> · {Math.round(((c.committed ?? 0) / c.announced) * 100)}%</span> : null}
+                      </span>
+                    ) : (
+                      <span className="values muted">No public figure</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
       {!embed && index.length > 0 ? (
-        <nav className="pulse-chrome pulse-index" aria-label="Projects">
+        <nav className="pulse-index" aria-label="Projects">
           {index.map(([country, items]) => (
             <div key={country} className="group">
               <span className="country">{country}</span>
@@ -565,6 +675,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
           ))}
         </nav>
       ) : null}
+      </div>
 
       <div className="pulse-chrome pulse-layers" role="group" aria-label="Layers">
         <button type="button" className="is-on" aria-pressed="true">Projects</button>
@@ -595,8 +706,22 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
             <span className="place">{[active.place?.trim(), active.country].filter(Boolean).join(' · ')}</span>
             {active.summary ? <p className="summary">{active.summary}</p> : null}
             {active.status ? <span className="status">{active.status.replace(/_/g, ' ')}</span> : null}
+            <dl className="figures">
+              <div>
+                <dt>Announced</dt>
+                <dd>{active.announced_cad != null ? cadShort(active.announced_cad) : <span className="muted">No public figure</span>}</dd>
+                {active.announced_note ? <dd className="fnote">{active.announced_note}</dd> : null}
+              </div>
+              <div>
+                <dt>Committed</dt>
+                <dd>{active.committed_cad != null ? cadShort(active.committed_cad) : <span className="muted">No public figure</span>}</dd>
+                {active.committed_note ? <dd className="fnote">{active.committed_note}</dd> : null}
+              </div>
+            </dl>
             <div className="links">
-              {active.source_url ? <a href={active.source_url} target="_blank" rel="noopener">Source</a> : null}
+              {active.value_source_url || active.source_url ? (
+                <a href={active.value_source_url || active.source_url || '#'} target="_blank" rel="noopener">Source</a>
+              ) : null}
               {active.story_url ? <a href={active.story_url}>Read</a> : null}
             </div>
           </>
