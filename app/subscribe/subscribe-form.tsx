@@ -26,7 +26,7 @@ export function SubscribeForm() {
   if (status === 'done') {
     return (
       <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
-        Check your email.
+        You have been added to the CityAge list.
       </p>
     )
   }
