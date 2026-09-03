@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 // MapLibre 5.x: its worker ships inline, so nothing extra has to be served. (6.x is ESM-only with an
 // external module worker the bundler cannot serve.)
 import maplibregl, { type Map as MLMap, type Marker as MLMarker, type GeoJSONSource, type StyleSpecification } from 'maplibre-gl'
@@ -26,18 +26,12 @@ export type Project = {
 
 type Age = 'fresh' | 'recent' | 'old'
 
-const GOLD = '#C5A059'
-
+const GOLD = '#D4AF5A'
 const NORTH: [number, number] = [-30, 74]
 const SOUTH: [number, number] = [0, -78]
-/** Zoom at which the whole globe fits the container with a margin: the wide shot. */
-function fitZoom(el: HTMLElement | null): number {
-  const w = el?.clientWidth || 1400
-  const h = el?.clientHeight || 843
-  // Measured: MapLibre's globe is about 439px × 2^zoom across on screen.
-  const diameter = 0.86 * Math.min(w, h)
-  return Math.max(-1, Math.min(3, Math.log2(diameter / 439)))
-}
+const PROJECT_ZOOM = 7
+const FLY_TO_MS = 1800
+const FLY_BACK_MS = 1400
 const DAY = 86_400_000
 
 const NASA_TILES =
@@ -55,6 +49,16 @@ function ageOf(pulseAt: string | null, now: number): Age {
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
 
+/**
+ * The opening zoom: the sphere fills the viewport height and bleeds off the
+ * top and bottom. MapLibre's globe spans roughly 439px × 2^zoom on screen;
+ * measureSphere() then corrects the guess against the real silhouette.
+ */
+function fillZoom(el: HTMLElement | null): number {
+  const h = el?.clientHeight || 843
+  return Math.max(-1, Math.min(3, Math.log2((1.15 * h) / 439)))
+}
+
 const toVec = ([lng, lat]: [number, number]) => {
   const φ = (lat * Math.PI) / 180
   const λ = (lng * Math.PI) / 180
@@ -64,10 +68,15 @@ const toLngLat = (v: number[]): [number, number] => [
   (Math.atan2(v[1], v[0]) * 180) / Math.PI,
   (Math.atan2(v[2], Math.hypot(v[0], v[1])) * 180) / Math.PI,
 ]
+/** Point at angular distance `deg` from `a`, heading due south along its meridian (or north past the pole). */
+function alongMeridian(a: [number, number], deg: number): [number, number] {
+  const lat = a[1] - deg
+  if (lat >= -90) return [a[0], lat]
+  return [a[0] + 180, -180 - lat]
+}
 /**
  * A path from a to b along their great circle, taking the long arc, which for
  * two high-latitude points on opposite sides of the world crosses a pole.
- * Returns a function of t in [0, 1].
  */
 function longWayRound(a: [number, number], b: [number, number]) {
   const va = toVec(a)
@@ -79,7 +88,7 @@ function longWayRound(a: [number, number], b: [number, number]) {
   n = n.map((x) => x / len)
   const total = 2 * Math.PI - short
   return (t: number): [number, number] => {
-    const θ = -total * t // away from b, round the back, arriving from the other side
+    const θ = -total * t
     const cos = Math.cos(θ)
     const sin = Math.sin(θ)
     const k = n[0] * va[0] + n[1] * va[1] + n[2] * va[2]
@@ -97,7 +106,6 @@ function buildStyle(): StyleSpecification {
     version: 8,
     projection: { type: 'globe' },
     sources: {
-      // 512px sizing: a quarter of the tiles at globe scale (the images are 256px; fine at zoom < 5)
       marble: { type: 'raster', tiles: [NASA_TILES], tileSize: 512, maxzoom: 8, attribution: 'NASA GIBS' },
       esri: { type: 'raster', tiles: [ESRI_TILES], tileSize: 256, maxzoom: 18, attribution: 'Esri, Maxar, Earthstar Geographics, and the GIS User Community' },
       coast: { type: 'geojson', data: '/pulse/coastline-110m.json' },
@@ -105,15 +113,22 @@ function buildStyle(): StyleSpecification {
     },
     layers: [
       { id: 'bg', type: 'background', paint: { 'background-color': '#000000' } },
-      { id: 'marble', type: 'raster', source: 'marble', paint: { 'raster-opacity': 0.65, 'raster-fade-duration': 300 } },
+      {
+        id: 'marble',
+        type: 'raster',
+        source: 'marble',
+        // 90%, contrast lifted so towns read as points of light
+        // desaturated so the lights are warm points on black, not the source's blue haze
+        paint: { 'raster-opacity': 0.9, 'raster-contrast': 0.3, 'raster-saturation': -0.7, 'raster-brightness-min': 0, 'raster-fade-duration': 300 },
+      },
       {
         id: 'esri',
         type: 'raster',
         source: 'esri',
         minzoom: 5.5,
-        paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 6, 0, 7, 1], 'raster-fade-duration': 0 },
+        paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 6, 0, 7, 1], 'raster-fade-duration': 300 },
       },
-      { id: 'coast', type: 'line', source: 'coast', paint: { 'line-color': 'rgba(249,249,247,0.3)', 'line-width': 1 } },
+      { id: 'coast', type: 'line', source: 'coast', paint: { 'line-color': '#F9F9F7', 'line-opacity': 0.22, 'line-width': 0.6 } },
       {
         id: 'pulse-ring',
         type: 'circle',
@@ -126,20 +141,18 @@ function buildStyle(): StyleSpecification {
         type: 'circle',
         source: 'projects',
         paint: {
-          // 5px at zoom 3 and below → 11px by zoom 6; hover is 130% of either. Zoom must sit at the top level.
+          // 3.5px at zoom 3 and below → 11px by zoom 6; hover is 130% of either. Zoom must sit at the top level.
           'circle-radius': [
             'interpolate', ['linear'], ['zoom'],
-            3, ['case', ['boolean', ['feature-state', 'hover'], false], 6.5, 5],
+            3, ['case', ['boolean', ['feature-state', 'hover'], false], 4.55, 3.5],
             6, ['case', ['boolean', ['feature-state', 'hover'], false], 14.3, 11],
           ],
           'circle-color': GOLD,
           // Translucent gold on black: where dots overlap they read brighter, not bigger.
-          // (Circle layers have no additive blend mode; this is the same effect at 500 dots.)
-          'circle-opacity': ['case', ['==', ['get', 'age'], 'old'], 0.4, 0.75],
+          'circle-opacity': ['case', ['==', ['get', 'age'], 'old'], 0.4, 0.78],
           'circle-stroke-color': '#000000',
-          'circle-stroke-width': 1,
-          // No stroke at globe scale so a dot never cuts a line through its neighbour; 1px black by zoom 6.
-          'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 3, 0, 6, ['case', ['==', ['get', 'age'], 'old'], 0.55, 1]],
+          'circle-stroke-width': 0.75,
+          'circle-stroke-opacity': ['case', ['==', ['get', 'age'], 'old'], 0.55, 1],
         },
       },
     ],
@@ -148,14 +161,86 @@ function buildStyle(): StyleSpecification {
 
 export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'embed'; initialSlug?: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const limbRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MLMap | null>(null)
   const projectsRef = useRef<Project[]>([])
+  /** The opening zoom after correction against the real silhouette; every return flight comes back here. */
+  const homeZoom = useRef<number | null>(null)
   const labelMarkers = useRef<MLMarker[]>([])
   const [ready, setReady] = useState(false)
   const [pole, setPole] = useState<'north' | 'south'>('north')
   const [active, setActive] = useState<Project | null>(null)
+  const [projects, setProjects] = useState<Project[]>([])
   const [armed, setArmed] = useState(mode === 'page')
+  const embed = mode === 'embed'
   const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // ---- idle spin state (declared early so handlers below can use it)
+  const idleRef = useRef<number | null>(null)
+  const idleStopped = useRef(false)
+  const stopIdle = useCallback(() => {
+    idleStopped.current = true
+    if (idleRef.current) cancelAnimationFrame(idleRef.current)
+    idleRef.current = null
+  }, [])
+  const startIdle = useCallback(() => {
+    const map = mapRef.current
+    if (!map || embed || reduced) return
+    idleStopped.current = false
+    if (idleRef.current) cancelAnimationFrame(idleRef.current)
+    const t0 = performance.now()
+    let last = t0
+    const tick = (now: number) => {
+      if (idleStopped.current) return
+      const dt = (now - last) / 1000
+      last = now
+      const ramp = Math.min((now - t0) / 2000, 1)
+      const ease = ramp * ramp * (3 - 2 * ramp)
+      map.setBearing(map.getBearing() + 2 * dt * ease)
+      idleRef.current = requestAnimationFrame(tick)
+    }
+    idleRef.current = requestAnimationFrame(tick)
+  }, [embed, reduced])
+
+  // ---- the limb: an overlay sized to the sphere's real silhouette
+  const measureSphere = useCallback((map: MLMap) => {
+    const c = map.getCenter()
+    const center: [number, number] = [c.lng, c.lat]
+    const t = (map as unknown as { transform?: { isLocationOccluded?: (l: { lng: number; lat: number }) => boolean } }).transform
+    let radiusPx: number | null = null
+    if (t?.isLocationOccluded) {
+      // binary search the angular distance at which the meridian point disappears behind the globe
+      let lo = 45
+      let hi = 90
+      for (let i = 0; i < 18; i++) {
+        const mid = (lo + hi) / 2
+        const [lng, lat] = alongMeridian(center, mid)
+        if (t.isLocationOccluded({ lng, lat })) hi = mid
+        else lo = mid
+      }
+      const [lng, lat] = alongMeridian(center, lo)
+      const p = map.project([lng, lat])
+      const o = map.project(center)
+      radiusPx = Math.hypot(p.x - o.x, p.y - o.y)
+    }
+    if (!radiusPx || !isFinite(radiusPx)) radiusPx = (439 * Math.pow(2, map.getZoom())) / 2
+    return { radiusPx, cx: map.project(center).x, cy: map.project(center).y }
+  }, [])
+  const updateLimb = useCallback(() => {
+    const map = mapRef.current
+    const limb = limbRef.current
+    if (!map || !limb) return
+    const { radiusPx, cx, cy } = measureSphere(map)
+    if (map.getZoom() > 5) {
+      limb.style.opacity = '0'
+      return
+    }
+    limb.style.opacity = '1'
+    limb.style.width = `${radiusPx * 2}px`
+    limb.style.height = `${radiusPx * 2}px`
+    limb.style.left = `${cx - radiusPx}px`
+    limb.style.top = `${cy - radiusPx}px`
+  }, [measureSphere])
 
   // ---- map
   useEffect(() => {
@@ -164,7 +249,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       container: containerRef.current,
       style: buildStyle(),
       center: NORTH,
-      zoom: fitZoom(containerRef.current),
+      zoom: fillZoom(containerRef.current),
       minZoom: -1,
       pitch: 0,
       bearing: 0,
@@ -178,9 +263,8 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     })
     mapRef.current = map
     map.touchZoomRotate.disableRotation()
-    map.on('error', (e) => console.error('[pulse] map error', e.error))
-    // Handle for tests and the console; harmless in production.
     ;(window as unknown as { __pulseMap?: MLMap }).__pulseMap = map
+    map.on('error', (e) => console.error('[pulse] map error', e.error))
 
     let hovered: string | null = null
     const setHover = (slug: string | null) => {
@@ -189,33 +273,30 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       if (slug) map.setFeatureState({ source: 'projects', id: slug }, { hover: true })
       map.getCanvas().style.cursor = slug ? 'pointer' : ''
     }
-    map.on('mousemove', 'dots', (e) => {
-      const f = e.features?.[0]
-      setHover((f?.properties?.slug as string) ?? null)
-    })
+    map.on('mousemove', 'dots', (e) => setHover((e.features?.[0]?.properties?.slug as string) ?? null))
     map.on('mouseleave', 'dots', () => setHover(null))
-    map.on('click', (e) => {
-      const hits = map.queryRenderedFeatures(e.point, { layers: ['dots'] })
-      const slug = hits[0]?.properties?.slug as string | undefined
-      const p = slug ? projectsRef.current.find((x) => x.slug === slug) : undefined
-      setActive(p ?? null)
-    })
 
-    // Fade in from black as soon as the sphere and its coastlines have rendered;
-    // the night lights fade in behind over the next moments. Then the 50m coast.
-    const onCoast = (e: { sourceId?: string; isSourceLoaded?: boolean }) => {
-      if (e.sourceId !== 'coast' || !e.isSourceLoaded) return
-      map.off('sourcedata', onCoast)
-      map.once('render', () => setReady(true))
-    }
-    map.on('sourcedata', onCoast)
+    // Correct the opening zoom against the real silhouette once the style is in.
+    map.once('styledata', () => {
+      const el = containerRef.current
+      if (!el) return
+      const { radiusPx } = measureSphere(map)
+      const target = (1.15 * el.clientHeight) / 2
+      if (radiusPx > 0) map.jumpTo({ zoom: map.getZoom() + Math.log2(target / radiusPx) })
+      homeZoom.current = map.getZoom()
+      updateLimb()
+    })
+    map.on('move', updateLimb)
+    map.on('resize', updateLimb)
+
     map.once('idle', () => {
       setReady(true)
+      updateLimb()
       const src = map.getSource('coast') as GeoJSONSource | undefined
       src?.setData('/pulse/coastline-50m.json')
     })
 
-    // Labels above zoom 5, sparse, in Newsreader (DOM markers, so the house face is real).
+    // Labels above zoom 5, sparse, in Newsreader (DOM markers).
     let countries: GeoJSON.FeatureCollection | null = null
     let places: GeoJSON.FeatureCollection | null = null
     Promise.all([
@@ -249,7 +330,56 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       map.remove()
       mapRef.current = null
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // ---- flights
+  const flightRef = useRef<number | null>(null)
+  const flyToProject = useCallback(
+    (p: Project) => {
+      const map = mapRef.current
+      if (!map) return
+      stopIdle()
+      if (reduced) {
+        map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM, bearing: 0, pitch: 0 })
+        setActive(p)
+        return
+      }
+      map.once('moveend', () => setActive(p))
+      map.flyTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM, bearing: 0, pitch: 0, duration: FLY_TO_MS, easing: easeInOut, essential: true })
+    },
+    [reduced, stopIdle],
+  )
+  const closeCard = useCallback(() => {
+    const map = mapRef.current
+    setActive(null)
+    if (!map) return
+    const home = pole === 'south' ? SOUTH : NORTH
+    const zoom = homeZoom.current ?? fillZoom(containerRef.current)
+    if (reduced) {
+      map.jumpTo({ center: home, zoom, bearing: 0, pitch: 0 })
+      return
+    }
+    map.once('moveend', () => startIdle())
+    map.flyTo({ center: home, zoom, bearing: 0, pitch: 0, duration: FLY_BACK_MS, easing: easeInOut, essential: true })
+  }, [pole, reduced, startIdle])
+
+  // click: a dot flies there; anywhere else closes
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    const onClick = (e: maplibregl.MapMouseEvent) => {
+      const hits = map.queryRenderedFeatures(e.point, { layers: ['dots'] })
+      const slug = hits[0]?.properties?.slug as string | undefined
+      const p = slug ? projectsRef.current.find((x) => x.slug === slug) : undefined
+      if (p) flyToProject(p)
+      else if (active) closeCard()
+    }
+    map.on('click', onClick)
+    return () => {
+      map.off('click', onClick)
+    }
+  }, [active, closeCard, flyToProject])
 
   // ---- data
   useEffect(() => {
@@ -264,6 +394,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
         const now = Date.now()
         const rows = data as Project[]
         projectsRef.current = rows
+        setProjects(rows)
         const fc: GeoJSON.FeatureCollection = {
           type: 'FeatureCollection',
           features: rows.map((p) => ({
@@ -274,8 +405,6 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
           })),
         }
         const map = mapRef.current
-        // The source exists as soon as the style JSON is parsed; tiles may still be
-        // loading, so do not gate on isStyleLoaded() or a load event that may have passed.
         const apply = () => {
           if (!map) return
           const src = map.getSource('projects') as GeoJSONSource | undefined
@@ -287,8 +416,9 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
           if (initialSlug) {
             const p = rows.find((x) => x.slug === initialSlug)
             if (p) {
+              stopIdle()
               setActive(p)
-              map.jumpTo({ center: [p.lng, p.lat], zoom: 4 })
+              map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM })
             }
           }
         }
@@ -319,6 +449,29 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   }
   useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }, [])
 
+  // ---- idle spin: after the fade, unless something already stopped it
+  useEffect(() => {
+    if (!ready || embed || reduced || idleStopped.current || active) return
+    startIdle()
+    const el = containerRef.current
+    if (!el) return
+    const opts = { passive: true } as AddEventListenerOptions
+    el.addEventListener('pointerdown', stopIdle, opts)
+    el.addEventListener('touchstart', stopIdle, opts)
+    el.addEventListener('wheel', stopIdle, opts)
+    window.addEventListener('keydown', stopIdle)
+    return () => {
+      el.removeEventListener('pointerdown', stopIdle)
+      el.removeEventListener('touchstart', stopIdle)
+      el.removeEventListener('wheel', stopIdle)
+      window.removeEventListener('keydown', stopIdle)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready])
+  useEffect(() => {
+    if (active) stopIdle()
+  }, [active, stopIdle])
+
   // ---- card ↔ URL, Escape
   useEffect(() => {
     if (mode !== 'page') return
@@ -328,15 +481,14 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     window.history.replaceState(null, '', url.pathname + (url.search || ''))
   }, [active, mode])
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setActive(null) }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && active) closeCard()
+    }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  }, [active, closeCard])
 
-  // ---- the other pole: the long way round the great circle, over the top of
-  // the globe rather than through the equator. 1.6s, ease-in-out, with a zoom
-  // dip at the midpoint so the whole sphere turns in view.
-  const flightRef = useRef<number | null>(null)
+  // ---- the other pole: the long way round the great circle, over the top
   function flip() {
     const map = mapRef.current
     if (!map) return
@@ -345,15 +497,15 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     setActive(null)
     const to = next === 'south' ? SOUTH : NORTH
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
+    stopIdle()
+    const z1 = homeZoom.current ?? fillZoom(containerRef.current)
     if (reduced) {
-      map.jumpTo({ center: to, zoom: fitZoom(containerRef.current), pitch: 0, bearing: 0 })
+      map.jumpTo({ center: to, zoom: z1, pitch: 0, bearing: 0 })
       return
     }
-    stopIdle()
     const c = map.getCenter()
     const path = longWayRound([c.lng, c.lat], to)
     const z0 = map.getZoom()
-    const z1 = fitZoom(containerRef.current)
     const b0 = map.getBearing()
     const t0 = performance.now()
     const D = 1600
@@ -361,62 +513,24 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       const u = Math.min((now - t0) / D, 1)
       const e = easeInOut(u)
       const [lng, lat] = path(e)
-      // dip to zoom 1.5 mid-flight, back to the opening zoom at the end
       const dip = Math.sin(Math.PI * e)
-      const zoom = z0 + (z1 - z0) * e - Math.max(0, z0 - 1.2) * dip * 0.9
+      const zoom = z0 + (z1 - z0) * e - Math.max(0, z0 - 0.6) * dip * 0.6
       map.jumpTo({ center: [lng, Math.max(-89.5, Math.min(89.5, lat))], zoom, pitch: 0, bearing: b0 * (1 - e) })
       if (u < 1) flightRef.current = requestAnimationFrame(tick)
-      else map.jumpTo({ center: to, zoom: fitZoom(containerRef.current), pitch: 0, bearing: 0 })
+      else map.jumpTo({ center: to, zoom: z1, pitch: 0, bearing: 0 })
     }
     flightRef.current = requestAnimationFrame(tick)
   }
 
-  // ---- idle rotation: 2° per second (a turn in three minutes), easing in over
-  // 2s once the globe has faded in. Stops for good on the first pointer, touch,
-  // wheel or key, and whenever a card is open. Off for reduced motion and embeds.
-  const idleRef = useRef<number | null>(null)
-  const idleStopped = useRef(false)
-  function stopIdle() {
-    idleStopped.current = true
-    if (idleRef.current) cancelAnimationFrame(idleRef.current)
-    idleRef.current = null
-  }
-  useEffect(() => {
-    if (!ready || mode === 'embed' || reduced || idleStopped.current) return
-    const map = mapRef.current
-    const el = containerRef.current
-    if (!map || !el) return
-    const t0 = performance.now()
-    let last = t0
-    const tick = (now: number) => {
-      if (idleStopped.current) return
-      const dt = (now - last) / 1000
-      last = now
-      const ramp = Math.min((now - t0) / 2000, 1)
-      const ease = ramp * ramp * (3 - 2 * ramp)
-      map.setBearing(map.getBearing() + 2 * dt * ease)
-      idleRef.current = requestAnimationFrame(tick)
+  // ---- index: projects grouped by country
+  const index = useMemo(() => {
+    const groups = new Map<string, Project[]>()
+    for (const p of [...projects].sort((a, b) => a.country.localeCompare(b.country) || a.name.localeCompare(b.name))) {
+      if (!groups.has(p.country)) groups.set(p.country, [])
+      groups.get(p.country)!.push(p)
     }
-    idleRef.current = requestAnimationFrame(tick)
-    const opts = { passive: true } as AddEventListenerOptions
-    el.addEventListener('pointerdown', stopIdle, opts)
-    el.addEventListener('touchstart', stopIdle, opts)
-    el.addEventListener('wheel', stopIdle, opts)
-    window.addEventListener('keydown', stopIdle)
-    return () => {
-      if (idleRef.current) cancelAnimationFrame(idleRef.current)
-      el.removeEventListener('pointerdown', stopIdle)
-      el.removeEventListener('touchstart', stopIdle)
-      el.removeEventListener('wheel', stopIdle)
-      window.removeEventListener('keydown', stopIdle)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, mode])
-  useEffect(() => {
-    if (active) stopIdle()
-  }, [active])
-
-  const embed = mode === 'embed'
+    return [...groups.entries()]
+  }, [projects])
 
   return (
     <div className={`pulse ${embed ? 'pulse-embed' : 'pulse-page'}`}>
@@ -425,11 +539,32 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
         <img src="/pulse/poster.jpg" alt="" className="pulse-poster" decoding="async" fetchPriority="high" />
       ) : null}
       <div ref={containerRef} className={`pulse-map${ready ? ' is-ready' : ''}`} aria-label="Northern Pulse globe" />
+      <div ref={limbRef} className="pulse-limb" aria-hidden="true" />
 
       <div className="pulse-chrome pulse-title">
         <span className="name">Northern Pulse</span>
         <span className="line">The world from the two poles.</span>
       </div>
+
+      {!embed && index.length > 0 ? (
+        <nav className="pulse-chrome pulse-index" aria-label="Projects">
+          {index.map(([country, items]) => (
+            <div key={country} className="group">
+              <span className="country">{country}</span>
+              {items.map((p) => (
+                <button
+                  key={p.slug}
+                  type="button"
+                  className={active?.slug === p.slug ? 'is-active' : undefined}
+                  onClick={() => (active?.slug === p.slug ? closeCard() : flyToProject(p))}
+                >
+                  {p.name}
+                </button>
+              ))}
+            </div>
+          ))}
+        </nav>
+      ) : null}
 
       <div className="pulse-chrome pulse-layers" role="group" aria-label="Layers">
         <button type="button" className="is-on" aria-pressed="true">Projects</button>
@@ -454,7 +589,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       <aside className={`pulse-card${active ? ' is-open' : ''}`} aria-hidden={!active} aria-label="Project">
         {active ? (
           <>
-            <button type="button" className="close" onClick={() => setActive(null)} aria-label="Close">×</button>
+            <button type="button" className="close" onClick={closeCard} aria-label="Close">×</button>
             <span className="kicker">{active.type}</span>
             <h2 className="name">{active.name}</h2>
             <span className="place">{[active.place?.trim(), active.country].filter(Boolean).join(' · ')}</span>
