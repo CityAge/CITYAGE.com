@@ -103,14 +103,18 @@ function capitalByCountry(rows: Project[]): { total: { announced: number; commit
   return { total: { announced, committed }, countries: [...by.values()].sort((a, b) => a.country.localeCompare(b.country)) }
 }
 
+/** Target diameter: the whole sphere on the viewport's shorter side, rim visible, never above 90% of the height. */
+function fitDiameter(el: HTMLElement | null): number {
+  const w = el?.clientWidth || 1400
+  const h = el?.clientHeight || 843
+  return 0.9 * Math.min(w, h)
+}
 /**
- * The opening zoom: the sphere fills the viewport height and bleeds off the
- * top and bottom. MapLibre's globe spans roughly 439px × 2^zoom on screen;
+ * The opening zoom. MapLibre's globe spans roughly 439px × 2^zoom on screen;
  * measureSphere() then corrects the guess against the real silhouette.
  */
 function fillZoom(el: HTMLElement | null): number {
-  const h = el?.clientHeight || 843
-  return Math.max(-1, Math.min(3, Math.log2((1.15 * h) / 439)))
+  return Math.max(-1.5, Math.min(3, Math.log2(fitDiameter(el) / 439)))
 }
 
 const toVec = ([lng, lat]: [number, number]) => {
@@ -256,11 +260,24 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   // ---- idle spin state (declared early so handlers below can use it)
   const idleRef = useRef<number | null>(null)
   const idleStopped = useRef(false)
+  const resumeTimer = useRef<number | null>(null)
+  const activeRef = useRef<Project | null>(null)
   const stopIdle = useCallback(() => {
     idleStopped.current = true
     if (idleRef.current) cancelAnimationFrame(idleRef.current)
     idleRef.current = null
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current)
+    resumeTimer.current = null
   }, [])
+  /** An interaction: stop, then come back 12s after the last one unless a card is open. */
+  const onInteract = useCallback(() => {
+    stopIdle()
+    resumeTimer.current = window.setTimeout(() => {
+      resumeTimer.current = null
+      if (!activeRef.current) startIdleRef.current?.()
+    }, 12000)
+  }, [stopIdle])
+  const startIdleRef = useRef<(() => void) | null>(null)
   const startIdle = useCallback(() => {
     const map = mapRef.current
     if (!map || embed || reduced) return
@@ -279,6 +296,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     }
     idleRef.current = requestAnimationFrame(tick)
   }, [embed, reduced])
+  startIdleRef.current = startIdle
 
   // ---- the limb: an overlay sized to the sphere's real silhouette
   const measureSphere = useCallback((map: MLMap) => {
@@ -328,7 +346,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       style: buildStyle(),
       center: NORTH,
       zoom: fillZoom(containerRef.current),
-      minZoom: -1,
+      minZoom: -1.5,
       pitch: 0,
       bearing: 0,
       attributionControl: false,
@@ -359,7 +377,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       const el = containerRef.current
       if (!el) return
       const { radiusPx } = measureSphere(map)
-      const target = (1.15 * el.clientHeight) / 2
+      const target = fitDiameter(el) / 2
       if (radiusPx > 0) map.jumpTo({ zoom: map.getZoom() + Math.log2(target / radiusPx) })
       homeZoom.current = map.getZoom()
       updateLimb()
@@ -539,19 +557,20 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     const el = containerRef.current
     if (!el) return
     const opts = { passive: true } as AddEventListenerOptions
-    el.addEventListener('pointerdown', stopIdle, opts)
-    el.addEventListener('touchstart', stopIdle, opts)
-    el.addEventListener('wheel', stopIdle, opts)
-    window.addEventListener('keydown', stopIdle)
+    el.addEventListener('pointerdown', onInteract, opts)
+    el.addEventListener('touchstart', onInteract, opts)
+    el.addEventListener('wheel', onInteract, opts)
+    window.addEventListener('keydown', onInteract)
     return () => {
-      el.removeEventListener('pointerdown', stopIdle)
-      el.removeEventListener('touchstart', stopIdle)
-      el.removeEventListener('wheel', stopIdle)
-      window.removeEventListener('keydown', stopIdle)
+      el.removeEventListener('pointerdown', onInteract)
+      el.removeEventListener('touchstart', onInteract)
+      el.removeEventListener('wheel', onInteract)
+      window.removeEventListener('keydown', onInteract)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready])
   useEffect(() => {
+    activeRef.current = active
     if (active) stopIdle()
   }, [active, stopIdle])
 
@@ -582,7 +601,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     setActive(null)
     const to = next === 'south' ? SOUTH : NORTH
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
-    stopIdle()
+    onInteract()
     const z1 = homeZoom.current ?? fillZoom(containerRef.current)
     if (reduced) {
       map.jumpTo({ center: to, zoom: z1, pitch: 0, bearing: 0 })
@@ -649,6 +668,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       ) : null}
       <div ref={containerRef} className={`pulse-map${ready ? ' is-ready' : ''}`} aria-label="Northern Pulse globe" />
       <div ref={limbRef} className="pulse-limb" aria-hidden="true" />
+      {!embed ? <div className="pulse-scrim" aria-hidden="true" /> : null}
 
       <div className="pulse-chrome pulse-left">
         <div className="pulse-title">

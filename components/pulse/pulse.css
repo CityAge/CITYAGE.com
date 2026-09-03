@@ -48,7 +48,9 @@
 /* Chrome */
 .pulse-chrome { position: absolute; z-index: 4; pointer-events: none; }
 .pulse-chrome > * { pointer-events: auto; }
-.pulse-left { top: 20px; left: 20px; bottom: 72px; width: 240px; display: flex; flex-direction: column; gap: 22px; }
+.pulse-left { top: 20px; left: 20px; bottom: 72px; width: 300px; display: flex; flex-direction: column; gap: 22px; }
+/* Scrim under the left panel: black at 85% fading to transparent over 360px, so the text sits on dark. */
+.pulse-scrim { position: absolute; z-index: 3; top: 0; left: 0; bottom: 0; width: 360px; pointer-events: none; background: linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0)); }
 .pulse-title { display: flex; flex-direction: column; gap: 6px; }
 .pulse-title .name { font-size: 14px; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: #F9F9F7; }
 .pulse-title .line { font-size: 15px; line-height: 1.2; font-style: italic; font-weight: 500; color: rgba(249, 249, 247, 0.7); }
@@ -77,14 +79,14 @@
 .pulse-index::-webkit-scrollbar { display: none; }
 .pulse-index .group { display: flex; flex-direction: column; gap: 6px; }
 .pulse-index .country { font-size: 12px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #C5A059; margin-bottom: 2px; }
-.pulse-index button { font: inherit; font-size: 12px; line-height: 1.25; letter-spacing: 0.08em; text-transform: uppercase; text-align: left; color: rgba(249, 249, 247, 0.7); background: none; border: 0; padding: 0; cursor: pointer; }
+.pulse-index button { font: inherit; font-size: 12px; line-height: 1.25; letter-spacing: 0.08em; text-transform: uppercase; text-align: left; color: rgba(249, 249, 247, 0.8); background: none; border: 0; padding: 0; cursor: pointer; }
 .pulse-index button:hover, .pulse-index button.is-active { color: #F9F9F7; }
 .pulse-index button:focus-visible { outline: 2px solid #C5A059; outline-offset: 2px; }
 @media (max-width: 767px) { .pulse-index { display: none; } .pulse-left { bottom: auto; width: calc(100% - 28px); } }
 
 /* Capital committed: two numbers and a line between them */
 .pulse-capital { position: relative; display: flex; flex-direction: column; gap: 8px; }
-.pulse-capital .label { font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #9A9A9A; }
+.pulse-capital .label { font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #9A9A9A; white-space: nowrap; }
 .pulse-capital .counter { display: flex; align-items: baseline; gap: 12px; }
 .pulse-capital .ccy { display: inline-flex; align-items: baseline; gap: 6px; font-size: 11px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(249, 249, 247, 0.55); }
 .pulse-capital .ccy button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
