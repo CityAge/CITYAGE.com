@@ -45,7 +45,7 @@
   .pulse-layers button:not(.is-on) { display: none; }
   .pulse-layers .sep { display: none; }
   .pulse-pole { bottom: 14px; left: 14px; }
-  .pulse-attrib { bottom: 8px; right: 10px; font-size: 9px; }
+  .pulse-attrib { bottom: 8px; right: 10px; font-size: 9px; max-width: 48%; }
 }
 
 /* Labels: sparse, Newsreader, only above zoom 5 */
