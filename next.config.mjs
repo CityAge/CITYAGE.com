@@ -22,7 +22,6 @@ const nextConfig = {
         // Legacy static pages in public/ served at clean URLs
         { source: '/next-vancouver', destination: '/next-vancouver.html' },
         { source: '/advisory', destination: '/advisory.html' },
-        { source: '/contact', destination: '/contact.html' },
       ],
     }
   },
