@@ -21,6 +21,9 @@ export function MagazineFooter() {
           <p className="font-serif text-white text-[18px] md:text-[20px] leading-snug">
             Intelligence for The Urban Planet
           </p>
+          <p className="font-serif text-[12px] leading-none uppercase tracking-[0.08em] text-white/60">
+            Vancouver · Ottawa · Washington
+          </p>
           <p className="font-serif text-white/80 text-[16px] md:text-[17px] leading-relaxed">
             Earth’s two per cent. Where everything happens.
           </p>
