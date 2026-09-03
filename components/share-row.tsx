@@ -22,6 +22,21 @@ export function ShareRow({ url, title, align = 'start' }: { url: string; title: 
     try {
       await navigator.clipboard.writeText(url)
       setCopied(true)
+      return
+    } catch {
+      /* fall through to the legacy path */
+    }
+    try {
+      const ta = document.createElement('textarea')
+      ta.value = url
+      ta.setAttribute('readonly', '')
+      ta.style.position = 'fixed'
+      ta.style.left = '-9999px'
+      document.body.appendChild(ta)
+      ta.select()
+      const ok = document.execCommand('copy')
+      document.body.removeChild(ta)
+      if (ok) setCopied(true)
     } catch {
       /* clipboard unavailable: leave the label alone */
     }
