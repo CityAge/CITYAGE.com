@@ -10,3 +10,4 @@
 - Design tokens: Newsreader (variable, optical sizing) for all text; drawn wordmark for the masthead; cream #F9F9F7, gold #C5A059; type scale lead 40 / rail 24 / deck 18 / body 17 / kicker+meta 12 caps.
 - Stories come from the Supabase `magazine` table. Do not hardcode stories.
 - Subscribe goes to Beehiiv.
+- Interviews are Two Per Cent, in the house Q&A format: kicker line SECTION | TWO PER CENT | date | read time; headline; the interview intro as the deck; the dateline line "City, date. As spoken." in italic at the top of the body; one pull quote (a `> ` line) as the single bold move; bold-only lines are the questions, roman paragraphs the answers; no name labels. The subject's words are never changed.
