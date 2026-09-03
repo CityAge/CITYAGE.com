@@ -1,4 +1,6 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { readMinutes } from '@/lib/magazine'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { MagazineHeader } from '@/components/magazine-header'
@@ -6,6 +8,12 @@ import { MagazineFooter } from '@/components/magazine-footer'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
+
+const SITE_URL = 'https://cityage.com'
+
+/** /magazine/[id] takes either the row uuid or its optional slug. */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const lookupColumn = (param: string) => (UUID_RE.test(param) ? 'id' : 'slug')
 
 function renderMarkdown(md: string): string {
   // Process line by line for clean, reliable rendering
@@ -28,15 +36,18 @@ function renderMarkdown(md: string): string {
       line = `<h2 class="font-serif font-bold text-[26px] md:text-[30px] text-black mt-14 mb-5 leading-snug">${applyInline(line.slice(3))}</h2>`
     } else if (line.startsWith('# ')) {
       line = `<h1 class="font-serif font-black text-[30px] md:text-[36px] text-black mt-10 mb-5 leading-tight">${applyInline(line.slice(2))}</h1>`
+    // Pull quote: one bold move. 24px under a heavy rule, short gold bar.
+    } else if (line.startsWith('> ')) {
+      line = `<figure class="my-10 pt-5 border-t-2 border-black"><p class="font-serif text-[24px] leading-[1.25] font-medium text-black m-0">${applyInline(line.slice(2))}</p><span class="block w-12 h-[2px] bg-[#C5A059] mt-5" aria-hidden="true"></span></figure>`
     // Horizontal rule
     } else if (line.trim() === '---') {
       line = '<hr class="border-black/10 my-12" />'
-    // Bold-only line = subheading
+    // Bold-only line = a question (interviews) or a subheading: 19px, weight 600
     } else if (/^\*\*[^*]+\*\*$/.test(line.trim())) {
-      line = `<p class="font-serif font-bold text-[18px] md:text-[20px] text-black mt-10 mb-3">${applyInline(line)}</p>`
+      line = `<p class="font-serif font-semibold text-[19px] leading-[1.35] text-black mt-8 mb-2">${applyInline(line)}</p>`
     // Regular paragraph
     } else {
-      line = `<p class="font-serif text-[18px] md:text-[19px] leading-[1.82] text-black/85 mb-6">${applyInline(line)}</p>`
+      line = `<p class="type-body text-black/85 mb-6">${applyInline(line)}</p>`
     }
     
     output.push(line)
@@ -57,6 +68,55 @@ function applyInline(text: string): string {
     .replace(/\*(.+?)\*/g, '<em class="italic text-black/70">$1</em>')
 }
 
+type ArticleMeta = {
+  headline: string
+  deck: string | null
+  image_url: string | null
+}
+
+async function fetchArticleMeta(id: string): Promise<ArticleMeta | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return null
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/magazine?select=headline,deck,image_url&${lookupColumn(id)}=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
+      {
+        headers: { apikey: key, Authorization: `Bearer ${key}` },
+        next: { revalidate: 60 },
+      },
+    )
+    if (!res.ok) return null
+    const rows = (await res.json()) as ArticleMeta[]
+    return Array.isArray(rows) && rows[0]?.headline ? rows[0] : null
+  } catch {
+    return null
+  }
+}
+
+/** Each article gets its own <title> and Open Graph title/description. */
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const article = await fetchArticleMeta(id)
+  if (!article) return {}
+
+  const title = `${article.headline} — CityAge`
+  const description = article.deck || undefined
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: article.headline,
+      description,
+      url: `${SITE_URL}/magazine/${id}`,
+      type: 'article',
+      siteName: 'CityAge',
+      images: article.image_url ? [{ url: article.image_url }] : undefined,
+    },
+  }
+}
+
 export default async function MagazineArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
@@ -72,7 +132,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
       const { data } = await supabase
         .from('magazine')
         .select('*')
-        .eq('id', id)
+        .eq(lookupColumn(id), id)
         .eq('status', 'published')
         .single()
 
@@ -81,10 +141,10 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
       if (article) {
         const { data: rel } = await supabase
           .from('magazine')
-          .select('id, headline, vertical, image_url, read_time, published_at')
+          .select('id, headline, vertical, image_url, published_at, body')
           .eq('status', 'published')
           .eq('vertical', article.vertical)
-          .neq('id', id)
+          .neq('id', article.id)
           .order('published_at', { ascending: false })
           .limit(3)
         related = rel || []
@@ -97,6 +157,13 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
   if (!article) notFound()
 
   const html = renderMarkdown(article.body)
+  const readMin = readMinutes(article.body)
+  const dateLabel = new Date(article.published_at).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
@@ -108,48 +175,52 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
         <div className="border-b border-black/10">
           <div className="max-w-[800px] mx-auto px-6 pt-12 pb-10 text-center">
 
-            {/* Vertical + sub-vertical */}
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-[#C5A059]">
-                {article.vertical}
-              </span>
-              {article.sub_vertical && (
+            {/* One meta line: section | (opinion) | date | read time */}
+            <div className="type-meta flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mb-6">
+              <span className="text-[#C5A059]">{article.vertical}</span>
+              {article.sub_vertical ? (
                 <>
-                  <span className="text-black/20">·</span>
-                  <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40">
-                    {article.sub_vertical}
-                  </span>
+                  <span className="text-black/25">|</span>
+                  <span>{article.sub_vertical}</span>
                 </>
-              )}
+              ) : null}
+              <span className="text-black/25">|</span>
+              <span>{dateLabel}</span>
+              <span className="text-black/25">|</span>
+              <span>{readMin} min read</span>
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif font-normal text-[1.65rem] md:text-[2.1rem] leading-[1.22] tracking-normal mb-5 text-black">
+            <h1 className="type-lead-h tracking-normal mb-5 text-black">
               {article.headline}
             </h1>
 
             {/* Deck */}
             {article.deck && (
-              <p className="font-serif text-black/60 text-[17px] md:text-[19px] leading-[1.65] max-w-[640px] mx-auto mb-7">
-                {article.deck}
-              </p>
+              <p
+                className="type-deck text-black/60 max-w-[640px] mx-auto mb-6 [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-1 hover:[&_a]:decoration-2"
+                dangerouslySetInnerHTML={{ __html: applyInline(article.deck) }}
+              />
             )}
 
-            {/* Dateline */}
-            <div className="font-mono text-[9px] tracking-[0.22em] uppercase text-black/40 mb-6">
-              {(article.dateline_city || 'Vancouver').toUpperCase()} · {new Date(article.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).toUpperCase()} · {article.read_time || 5} Min Read
-            </div>
+            {/* Writer */}
+            {article.author ? (
+              <div className="flex items-baseline justify-center gap-2 mb-6">
+                <span className="type-meta">Writer</span>
+                <span className="font-serif text-[15px] text-black/80">{article.author}</span>
+              </div>
+            ) : null}
 
             {/* Share */}
             <div className="flex items-center justify-center gap-5 pt-1">
               <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/30">Share</span>
-              <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(`https://cityagemag.vercel.app/magazine/${id}`)}&text=${encodeURIComponent(article.headline)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
+              <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(`${SITE_URL}/magazine/${id}`)}&text=${encodeURIComponent(article.headline)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://cityagemag.vercel.app/magazine/${id}`)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
+              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/magazine/${id}`)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </a>
-              <a href={`mailto:?subject=${encodeURIComponent(article.headline)}&body=${encodeURIComponent(`https://cityagemag.vercel.app/magazine/${id}`)}`} className="text-black/30 hover:text-black transition-colors">
+              <a href={`mailto:?subject=${encodeURIComponent(article.headline)}&body=${encodeURIComponent(`${SITE_URL}/magazine/${id}`)}`} className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               </a>
             </div>
@@ -195,24 +266,22 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
               <div className="sticky top-28">
                 {related.length > 0 && (
                   <>
-                    <div className="border-t-2 border-black pt-4 mb-8">
-                      <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-black/40">More from {article.vertical}</span>
+                    <div className="border-t-2 border-black pt-3 mb-6">
+                      <span className="font-serif font-bold text-[18px] leading-none uppercase tracking-[0.02em] text-black">Recommendations</span>
                     </div>
                     <div className="space-y-8">
                       {related.map((a: any) => (
-                        <Link key={a.id} href={`/magazine/${a.id}`} className="block group">
+                        <div key={a.id}>
                           {a.image_url && (
-                            <div className="w-full aspect-[4/3] mb-3 overflow-hidden">
-                              <img src={a.image_url} alt={a.headline} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" />
-                            </div>
+                            <Link href={`/magazine/${a.id}`} className="block w-full aspect-[16/10] mb-3 overflow-hidden" tabIndex={-1} aria-hidden="true">
+                              <img src={a.image_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                            </Link>
                           )}
-                          <h4 className="font-serif font-bold text-[14px] leading-snug group-hover:text-[#1A365D] transition-colors mb-1">
-                            {a.headline}
+                          <h4 className="font-serif font-medium text-[16px] leading-snug mb-2">
+                            <Link href={`/magazine/${a.id}`} className="story-link">{a.headline}</Link>
                           </h4>
-                          <span className="font-mono text-[9px] tracking-[0.15em] uppercase text-black/30">
-                            {a.read_time || 5} min read
-                          </span>
-                        </Link>
+                          <span className="type-meta block">{readMinutes(a.body)} min read</span>
+                        </div>
                       ))}
                     </div>
                   </>
@@ -226,7 +295,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                   <p className="font-serif text-white/60 text-[13px] leading-relaxed mb-5">
                     Daily intelligence for leaders of The Urban Planet.
                   </p>
-                  <a href="#subscribe" className="block w-full bg-[#C5A059] text-black font-mono text-[9px] font-black tracking-[0.2em] uppercase py-2.5 text-center hover:bg-white transition-colors">
+                  <a href="/subscribe" className="block w-full bg-[#C5A059] text-black font-mono text-[9px] font-black tracking-[0.2em] uppercase py-2.5 text-center hover:bg-white transition-colors">
                     Subscribe Free
                   </a>
                 </div>

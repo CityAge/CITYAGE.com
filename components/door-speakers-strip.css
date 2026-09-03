@@ -1,7 +1,8 @@
 /* One quiet strip on the cream door, immediately above the footer. */
 
 .door-speakers-reel {
-  background: #120f0b;
+  /* The band that hosts the strip may set --reel-bg; the door default is warm black. */
+  background: var(--reel-bg, #120f0b);
   overflow-x: hidden;
   min-height: 136px;
   contain: layout style;
@@ -13,7 +14,7 @@
 }
 
 .door-speakers-reel .speakers-reel-outer {
-  background: #120f0b;
+  background: var(--reel-bg, #120f0b);
   position: relative;
   overflow: hidden;
   height: 68px;
@@ -31,12 +32,12 @@
 
 .door-speakers-reel .speakers-reel-fade-left {
   left: 0;
-  background: linear-gradient(to right, #120f0b, transparent);
+  background: linear-gradient(to right, var(--reel-bg, #120f0b), transparent);
 }
 
 .door-speakers-reel .speakers-reel-fade-right {
   right: 0;
-  background: linear-gradient(to left, #120f0b, transparent);
+  background: linear-gradient(to left, var(--reel-bg, #120f0b), transparent);
 }
 
 .door-speakers-reel .speakers-reel-track {
@@ -45,6 +46,33 @@
   padding: 5px 0;
   width: max-content;
   will-change: transform;
+  /* One continuous CSS loop over one copy of the row. --reel-w and --reel-s
+     are set inline per row. Nothing re-renders while it moves. */
+  animation: door-reel-left var(--reel-s, 60s) linear infinite;
+}
+
+.door-speakers-reel .speakers-reel-right .speakers-reel-track {
+  animation-name: door-reel-right;
+}
+
+.door-speakers-reel .speakers-reel-section:hover .speakers-reel-track {
+  animation-play-state: paused;
+}
+
+@keyframes door-reel-left {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(calc(var(--reel-w) * -1), 0, 0); }
+}
+
+@keyframes door-reel-right {
+  from { transform: translate3d(calc(var(--reel-w) * -1), 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door-speakers-reel .speakers-reel-track {
+    animation: none;
+  }
 }
 
 .door-speakers-reel .speakers-reel-face {
@@ -68,4 +96,31 @@
 .door-speakers-reel .speakers-reel-placeholder,
 .door-speakers-reel .speakers-reel-overlay {
   display: none;
+}
+
+/* Hover: the speaker's name on a dark gradient at the tile's bottom edge. */
+.door-speakers-reel .speakers-reel-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 3px 3px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 11px;
+  line-height: 1.1;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.door-speakers-reel .speakers-reel-face:hover .speakers-reel-name {
+  opacity: 1;
 }

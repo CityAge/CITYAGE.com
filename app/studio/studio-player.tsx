@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { CityAgeMark } from '@/components/magazine-header-chrome'
 import { useEffect, useRef, useState } from 'react'
 import './studio.css'
@@ -11,7 +12,15 @@ const HOUSE = [
 ] as const
 
 const HERO_VIMEO = '1197477652'
-const HERO_STILL = '/studio-hero-still.jpg'
+/** Vimeo hosts: warm the connections before the first frame is asked for. */
+const VIMEO_ORIGINS = [
+  'https://player.vimeo.com',
+  'https://i.vimeocdn.com',
+  'https://f.vimeocdn.com',
+  'https://fresnel.vimeocdn.com',
+] as const
+/** If Vimeo never reports playback, stop showing the wheel after this long. */
+const BUFFER_TIMEOUT_MS = 8000
 
 const APPEARS = [
   { file: 'natgeo.jpg', alt: 'National Geographic' },
@@ -219,63 +228,116 @@ const FILMS: Film[] = [
   },
 ]
 
-function vimeoSrc(id: string, controlsOff = false) {
+function vimeoSrc(id: string, controlsOff = false, startMuted = false) {
   const extra = controlsOff ? '&controls=0' : ''
-  return `https://player.vimeo.com/video/${id}?autoplay=1&muted=0&color=B8956A&title=0&byline=0&portrait=0&dnt=1${extra}#t=0s`
+  // Browsers only allow autoplay before a click when the sound is off.
+  return `https://player.vimeo.com/video/${id}?autoplay=1&muted=${startMuted ? 1 : 0}&playsinline=1&color=B8956A&title=0&byline=0&portrait=0&dnt=1${extra}#t=0s`
 }
 
 export function StudioPlayer() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const heroRef = useRef<HTMLDivElement>(null)
+  const bufferTimer = useRef<number | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [muted, setMuted] = useState(false)
+  const [muted, setMuted] = useState(true)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [info, setInfo] = useState<Film | null>(null)
   const [iframeSrc, setIframeSrc] = useState('')
   const [iframeOn, setIframeOn] = useState(false)
   const [playNonce, setPlayNonce] = useState(0)
-  const [stillSrc, setStillSrc] = useState(HERO_STILL)
+  const [stillSrc, setStillSrc] = useState<string | null>(null)
   const [stillOn, setStillOn] = useState(false)
   const [platoOn, setPlatoOn] = useState(true)
+  const [buffering, setBuffering] = useState(false)
+
+  function clearBufferTimer() {
+    if (bufferTimer.current) {
+      window.clearTimeout(bufferTimer.current)
+      bufferTimer.current = null
+    }
+  }
 
   function openBlackPlato() {
+    clearBufferTimer()
     setIframeSrc('')
     setIframeOn(false)
-    setStillSrc(HERO_STILL)
+    setStillSrc(null)
     setStillOn(false)
     setActiveId(null)
     setInfo(null)
     setMuted(false)
+    setBuffering(false)
     setPlatoOn(true)
   }
 
-  function playVimeo(id: string, controlsOff: boolean, poster: string | null) {
-    setPlatoOn(false)
-    setMuted(false)
-    setStillSrc(poster || HERO_STILL)
+  /**
+   * Start a Vimeo player. The Plato screen stays up until Vimeo reports the
+   * first frame is playing, so nothing else flashes in between.
+   */
+  function playVimeo(id: string, controlsOff: boolean, poster: string | null, startMuted: boolean) {
+    clearBufferTimer()
+    setMuted(startMuted)
+    setStillSrc(poster)
     setStillOn(Boolean(poster))
+    if (poster) setPlatoOn(false)
+    setBuffering(true)
     setPlayNonce((n) => n + 1)
     setIframeOn(false)
-    setIframeSrc(vimeoSrc(id, controlsOff))
+    setIframeSrc(vimeoSrc(id, controlsOff, startMuted))
+    bufferTimer.current = window.setTimeout(() => {
+      // Vimeo went quiet: show whatever it has rather than a wheel forever.
+      setBuffering(false)
+      setIframeOn(true)
+      setPlatoOn(false)
+    }, BUFFER_TIMEOUT_MS)
   }
 
-  function playHeroReel() {
+  function playHeroReel(startMuted: boolean) {
     setActiveId(null)
     setInfo(null)
-    playVimeo(HERO_VIMEO, true, HERO_STILL)
+    playVimeo(HERO_VIMEO, true, null, startMuted)
   }
+
+  // The reel starts on its own when the page opens, silent, over the Plato screen.
+  useEffect(() => {
+    playHeroReel(true)
+    return clearBufferTimer
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     function onMessage(event: MessageEvent) {
       if (typeof event.data !== 'string') return
       try {
         const data = JSON.parse(event.data) as { event?: string }
-        if (data.event === 'ended' && !activeId) openBlackPlato()
+        switch (data.event) {
+          case 'ready':
+            for (const name of ['play', 'playing', 'bufferstart', 'bufferend', 'ended']) {
+              postVimeo('addEventListener', name)
+            }
+            break
+          case 'play':
+          case 'playing':
+          case 'bufferend':
+            clearBufferTimer()
+            setBuffering(false)
+            setIframeOn(true)
+            setPlatoOn(false)
+            break
+          case 'bufferstart':
+            setBuffering(true)
+            break
+          case 'ended':
+            if (!activeId) openBlackPlato()
+            break
+        }
       } catch {
         /* ignore */
       }
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId])
 
   function postVimeo(method: string, value?: number | boolean | string) {
@@ -285,13 +347,15 @@ export function StudioPlayer() {
   }
 
   function onHeroIframeLoad() {
-    setIframeOn(true)
-    postVimeo('addEventListener', 'ended')
+    // Ask for events in case 'ready' fired before our listener was attached.
+    for (const name of ['play', 'playing', 'bufferstart', 'bufferend', 'ended']) {
+      postVimeo('addEventListener', name)
+    }
   }
 
   function toggleMute() {
     if (!iframeSrc) {
-      playHeroReel()
+      playHeroReel(false)
       return
     }
     const next = !muted
@@ -312,12 +376,17 @@ export function StudioPlayer() {
 
     setActiveId(film.id)
     setInfo(film)
+    // Take the viewer to the player, so the loading wheel and the film are in
+    // view. Instant: a smooth scroll gets cancelled when the iframe re-mounts.
+    heroRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' })
 
     if (film.vimeoId) {
-      playVimeo(film.vimeoId, false, film.thumb || film.stillImage)
+      playVimeo(film.vimeoId, false, film.thumb || film.stillImage, false)
       return
     }
 
+    clearBufferTimer()
+    setBuffering(false)
     setIframeOn(false)
     setIframeSrc('')
     setPlatoOn(false)
@@ -332,7 +401,10 @@ export function StudioPlayer() {
 
   return (
     <div id="page-studio">
-      <div className="sv-hero">
+      {VIMEO_ORIGINS.map((origin) => (
+        <link key={origin} rel="preconnect" href={origin} crossOrigin="" />
+      ))}
+      <div className="sv-hero" ref={heroRef}>
         <nav className="sv-nav">
           <div className="sv-house-left">
             <button
@@ -371,7 +443,7 @@ export function StudioPlayer() {
           </div>
         </nav>
 
-        {stillOn ? (
+        {stillOn && stillSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="sv-still" src={stillSrc} alt="" />
         ) : null}
@@ -387,6 +459,11 @@ export function StudioPlayer() {
             title="CityAge Studio"
           />
         ) : null}
+
+        <div className={`sv-buffer${buffering ? ' sv-visible' : ''}`} aria-live="polite" aria-hidden={!buffering}>
+          <span className="sv-buffer-ring" />
+          <span className="sv-buffer-label">Loading</span>
+        </div>
 
         <div className={`sv-plato${platoOn ? '' : ' hidden'}`}>
           <span className="sv-p-pre">Plato Said —</span>
@@ -471,8 +548,13 @@ export function StudioPlayer() {
               <>
                 <div className="sv-thumb">
                   {film.thumb ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={film.thumb} alt="" loading="lazy" />
+                    <Image
+                      src={film.thumb}
+                      alt=""
+                      fill
+                      sizes="(max-width: 900px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                      loading="lazy"
+                    />
                   ) : null}
                 </div>
                 <div className="sv-card-name">{film.title}</div>

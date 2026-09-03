@@ -194,13 +194,59 @@
 }
 
 #page-studio .sv-player-btns {
+  /* Bottom centre, so sound and stop are one reach away. */
   position: absolute;
   bottom: 28px;
-  right: 28px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 30;
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Buffering wheel: sits over the player until Vimeo reports the first frame. */
+#page-studio .sv-buffer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#page-studio .sv-buffer.sv-visible {
+  opacity: 1;
+}
+
+#page-studio .sv-buffer-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid rgba(250, 246, 238, 0.2);
+  border-top-color: #b8956a;
+  animation: sv-spin 0.9s linear infinite;
+}
+
+#page-studio .sv-buffer-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(250, 246, 238, 0.7);
+}
+
+@keyframes sv-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-studio .sv-buffer-ring { animation: none; }
 }
 
 #page-studio .sv-mute-btn,
@@ -271,7 +317,7 @@
 
 #page-studio .sv-info-title {
   font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(20px, 2.8vw, 38px);
+  font-size: clamp(14px, 2vw, 27px);
   font-weight: 300;
   color: #faf6ee;
   margin-bottom: 8px;
@@ -389,6 +435,9 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  /* next/image fills the tile: keep it pinned inside the aspect box. */
+  position: absolute;
+  inset: 0;
 }
 
 #page-studio .sv-card-name {
@@ -423,7 +472,7 @@
 
 #page-studio .sv-cta-name {
   font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(22px, 2.4vw, 34px);
+  font-size: clamp(15px, 1.7vw, 24px);
   font-weight: 400;
   color: #faf6ee;
   line-height: 1.15;
@@ -432,7 +481,7 @@
 
 #page-studio .sv-cta-lead {
   font-family: var(--font-serif), Georgia, serif;
-  font-size: clamp(18px, 1.8vw, 26px);
+  font-size: clamp(13px, 1.3vw, 18px);
   font-weight: 400;
   color: rgba(250, 246, 238, 0.85);
   line-height: 1.3;

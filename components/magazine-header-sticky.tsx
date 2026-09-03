@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react'
 import { CityAgeMark, VerticalNav } from '@/components/magazine-header-chrome'
 
-export function MagazineStickyHeader() {
+export function MagazineStickyHeader({
+  hideRailOnPhone = false,
+}: {
+  hideRailOnPhone?: boolean
+}) {
   const [mastheadGone, setMastheadGone] = useState(false)
 
   useEffect(() => {
@@ -32,7 +36,7 @@ export function MagazineStickyHeader() {
           </div>
         </div>
       </div>
-      <VerticalNav />
+      <VerticalNav hideOnPhone={hideRailOnPhone} />
     </header>
   )
 }

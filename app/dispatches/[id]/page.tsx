@@ -8,6 +8,8 @@ import { MagazineFooter } from '@/components/magazine-footer'
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
+const SITE_URL = 'https://cityage.com'
+
 function renderMarkdown(md: string): string {
   return md
     .replace(/^### (.+)$/gm, '<h3 class="font-serif font-bold text-xl md:text-2xl text-black mt-12 mb-5">$1</h3>')
@@ -18,7 +20,7 @@ function renderMarkdown(md: string): string {
     .replace(/\*(.+?)\*/g, '<em class="italic text-black/60">$1</em>')
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-[#1A365D] hover:text-[#C5A059] underline underline-offset-4 decoration-black/15 hover:decoration-[#C5A059] transition-colors">$1</a>')
     .replace(/^---$/gm, '<hr class="border-black/10 my-12" />')
-    .replace(/^(?!<[h|p|s|e|a|u|hr])(.*\S.*)$/gm, '<p class="font-serif text-black/85 text-[18px] md:text-[20px] leading-[1.85] mb-6">$1</p>')
+    .replace(/^(?!<[h|p|s|e|a|u|hr])(.*\S.*)$/gm, '<p class="type-body text-black/85 mb-6">$1</p>')
 }
 
 export default async function BriefPage({ params }: { params: Promise<{ id: string }> }) {
@@ -115,27 +117,27 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
           <div className="max-w-[900px] mx-auto px-6 pt-10 pb-10 text-center">
             {/* Meta row — centered */}
             <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-black/70">
+              <span className="type-kicker">
                 {brief.vertical}
               </span>
               <span className="text-black/20 text-[8px]">|</span>
-              <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-black/40">
+              <span className="type-meta">
                 {shortDate}
               </span>
               <span className="text-black/20 text-[8px]">|</span>
-              <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-black/40">
+              <span className="type-meta">
                 5 Min Read
               </span>
             </div>
 
             {/* Headline — centered, large */}
-            <h1 className="font-serif font-black text-3xl md:text-[2.75rem] leading-[1.15] tracking-tight mb-5 max-w-[750px] mx-auto">
+            <h1 className="type-lead-h tracking-tight mb-5 max-w-[750px] mx-auto">
               {brief.title}
             </h1>
 
             {/* Deck / subtitle — centered */}
             {tagline && (
-              <p className="font-serif text-black/50 text-lg md:text-xl leading-relaxed max-w-[650px] mx-auto mb-6">
+              <p className="type-deck text-black/50 max-w-[650px] mx-auto mb-6">
                 {tagline}
               </p>
             )}
@@ -143,13 +145,13 @@ export default async function BriefPage({ params }: { params: Promise<{ id: stri
             {/* Share row */}
             <div className="flex items-center justify-center gap-4 pt-2">
               <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/30">Share</span>
-              <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(`https://cityagemag.vercel.app/dispatches/${id}`)}&text=${encodeURIComponent(brief.title)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
+              <a href={`https://x.com/intent/tweet?url=${encodeURIComponent(`${SITE_URL}/dispatches/${id}`)}&text=${encodeURIComponent(brief.title)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://cityagemag.vercel.app/dispatches/${id}`)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
+              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/dispatches/${id}`)}`} target="_blank" rel="noopener" className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </a>
-              <a href={`mailto:?subject=${encodeURIComponent(brief.title)}&body=${encodeURIComponent(`https://cityagemag.vercel.app/dispatches/${id}`)}`} className="text-black/30 hover:text-black transition-colors">
+              <a href={`mailto:?subject=${encodeURIComponent(brief.title)}&body=${encodeURIComponent(`${SITE_URL}/dispatches/${id}`)}`} className="text-black/30 hover:text-black transition-colors">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               </a>
             </div>

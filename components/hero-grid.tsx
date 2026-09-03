@@ -18,16 +18,19 @@ export function HeroGrid({ leadColumn, middleColumn, sidebarColumn }: HeroGridPr
         <div className="sticky top-[100px] py-10 px-10">{leadColumn}</div>
 
         {hasMiddle && (
-          <div className="border-l border-black/10 px-10 py-10">{middleColumn}</div>
+          <div className="border-l border-[#D9D7D0] px-10 py-10">{middleColumn}</div>
         )}
 
-        <div className="border-l border-black/10 px-8 py-10">{sidebarColumn}</div>
+        <div className="border-l border-[#D9D7D0] px-8 py-10">{sidebarColumn}</div>
       </div>
 
-      <div className="lg:hidden px-6">
-        <div className="py-8">{leadColumn}</div>
-        {hasMiddle && <div className="py-4">{middleColumn}</div>}
-        <div className="py-4">{sidebarColumn}</div>
+      {/* Phone/tablet: two-column newspaper well, thin center rule */}
+      <div className="lg:hidden grid grid-cols-2 max-w-[1400px] mx-auto">
+        <div className="py-6 pl-4 pr-3 border-r border-[#D9D7D0]">{leadColumn}</div>
+        <div className="py-6 pr-4 pl-3">
+          {hasMiddle ? <div>{middleColumn}</div> : null}
+          <div className={hasMiddle ? 'mt-7 pt-7 border-t border-[#D9D7D0]' : undefined}>{sidebarColumn}</div>
+        </div>
       </div>
     </section>
   )

@@ -1,136 +1,78 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { DoorSpeakersLazy } from '@/components/door-speakers-lazy'
+import { StageBand } from '@/components/stage-band'
 import { ArticleCard } from '@/components/article-card'
 import { HeroGrid } from '@/components/hero-grid'
-import { SPEAKERS_SUPABASE_URL } from '@/lib/speakers'
+import { StoryBox } from '@/components/story-box'
+import { HouseTile, type HouseEntry } from '@/components/house-tile'
+import { fetchWellStories, type SectionStory } from '@/lib/magazine'
+import { fetchDoorSpeakerFaces, shuffle } from '@/lib/speakers'
 
 export const revalidate = 60
 
 const MILLER_HREF = '/frontiers/the-inflection-point-was-real'
 
-/** f9v02snor well plates — house photographs, not dummy heds. */
-const WELL_PLATES = [
-  { src: '/magazine-images/aerial.png', vertical: 'Cities' },
-  { src: '/magazine-images/photojournalism.png', vertical: 'Power' },
-  { src: '/magazine-images/cinematic.png', vertical: 'Frontiers' },
-  { src: '/vancouver-banner.jpg', vertical: 'Culture' },
-] as const
+/** House tile, top of column three. One shows per page load, at random. */
+const HOUSE_ENTRIES: HouseEntry[] = [
+  {
+    image: '/vancouver-banner.jpg',
+    headline: 'The Next West.',
+    body: 'Vancouver, winter 2026. A half-day. Four rooms in one.',
+    cta: 'Apply for an invitation',
+    href: '/the-next-west',
+  },
+  {
+    image: '/northern-century-earth.jpg',
+    headline: 'The Northern Century.',
+    body: 'A network of the leaders shaping the North.',
+    cta: 'Join',
+    href: '/northern-century',
+  },
+  {
+    // No /studio-still.jpg in public/; the first film's thumbnail stands in.
+    image: '/best-day-ever-thumb.jpg',
+    headline: 'CityAge Studio.',
+    body: 'Those who tell the stories rule the world.',
+    cta: 'Watch',
+    href: '/studio',
+  },
+]
+/** ceil(words / 220) of the Miller page text; it is a static page, not a magazine row. */
+const MILLER_READ_MIN = 2
 
-type WellStory = {
-  id: string
-  headline: string
-  vertical: string
-}
-
-async function fetchWellStories(): Promise<WellStory[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || SPEAKERS_SUPABASE_URL
-  // Same public anon key already shipped for /magazine and /people.
-  const key =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXFteHBtdHFtbndxdGF3bG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMTAyMzEsImV4cCI6MjA4NTU4NjIzMX0.m3jrPO52RU7SW3h8ypSIUyhI17sF0RVufaO7mlex6EQ'
-  if (!url || !key) return []
-
-  try {
-    const res = await fetch(
-      `${url}/rest/v1/magazine?select=id,headline,vertical,featured,published_at&status=eq.published&order=featured.desc,published_at.desc&limit=16`,
-      {
-        headers: {
-          apikey: key,
-          Authorization: `Bearer ${key}`,
-        },
-        next: { revalidate: 60 },
-      },
-    )
-    if (!res.ok) return []
-    const rows = (await res.json()) as Array<{
-      id: string
-      headline: string
-      vertical: string
-    }>
-    if (!Array.isArray(rows)) return []
-    return rows
-      .filter((row) => row.id && row.headline && row.vertical)
-      .map((row) => ({
-        id: row.id,
-        headline: row.headline,
-        vertical: row.vertical,
-      }))
-  } catch {
-    return []
-  }
-}
-
-function WellPhotoTile({
-  src,
-  vertical,
-  title,
-  href,
-}: {
-  src: string
-  vertical: string
-  title?: string
-  href?: string
-}) {
-  const body = (
-    <>
-      <div
-        className="ca-photo ca-photo-well w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mb-5"
-        style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4 / 3' }}
-      >
-        <Image
-          src={src}
-          alt=""
-          fill
-          sizes="(max-width: 1023px) 92vw, 25vw"
-          className="object-cover grayscale group-hover:grayscale-0 hover:grayscale-0 hover:scale-[1.02] group-hover:scale-[1.02] transition-all duration-700"
-        />
-      </div>
-      <span className="font-mono text-[12px] font-bold tracking-[0.2em] uppercase text-[#C5A059]">
-        {vertical}
-      </span>
-      {title ? (
-        <h3 className="font-serif font-normal text-[20px] md:text-[22px] leading-[1.28] tracking-normal mt-2 group-hover:text-[#1A365D] transition-colors">
-          {title}
-        </h3>
-      ) : null}
-    </>
+/** One column of the well: stacked boxes with a rule between each. */
+function WellColumn({ stories, head }: { stories: SectionStory[]; head?: React.ReactNode }) {
+  return (
+    <div className="flex flex-col divide-y divide-[#D9D7D0]">
+      {head ? <div className="pb-7">{head}</div> : null}
+      {stories.map((story) => (
+        <div key={story.id} className="py-7 first:pt-0 last:pb-0">
+          <StoryBox story={story} />
+        </div>
+      ))}
+    </div>
   )
-
-  if (href) {
-    return (
-      <Link href={href} className="block group">
-        {body}
-      </Link>
-    )
-  }
-
-  return <div className="block">{body}</div>
 }
 
 export default async function Home() {
-  const stories = await fetchWellStories()
-  const used = new Set<string>()
-  const photoTiles = WELL_PLATES.map((plate) => {
-    const story = stories.find((s) => s.vertical === plate.vertical && !used.has(s.id))
-    if (story) used.add(story.id)
-    return {
-      src: plate.src,
-      vertical: plate.vertical,
-      title: story?.headline,
-      href: story ? `/magazine/${story.id}` : undefined,
-    }
-  })
-  const sidebarStories = stories.filter((s) => !used.has(s.id)).slice(0, 3)
+  const [stories, doorFaces] = await Promise.all([
+    fetchWellStories(9),
+    fetchDoorSpeakerFaces(),
+  ])
+  const readyDoor = shuffle(doorFaces).slice(0, 48)
+  const doorMid = Math.ceil(readyDoor.length / 2)
+  const doorTop = readyDoor.slice(0, doorMid)
+  const doorBottom = readyDoor.slice(doorMid)
+  // Nine beside the lead, alternating between the two side columns.
+  const columnTwo = stories.filter((_, i) => i % 2 === 0)
+  const columnThree = stories.filter((_, i) => i % 2 === 1)
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <CampaignBanner />
 
-      <MagazineHeader />
+      <MagazineHeader hideRailOnPhone />
 
       <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
         <span id="power" className="paper-anchor" />
@@ -143,61 +85,33 @@ export default async function Home() {
           leadColumn={
             <ArticleCard
               id="miller"
-              title="The inflection point was real"
+              title="Space: commercialization is rocketing ahead under U.S. President Donald Trump"
               vertical="Frontiers"
               tagline="Charles Miller, who spoke at CityAge Orbit in Washington, on the commercialization of space."
               excerpt={null}
               date=""
+              readTime={`${MILLER_READ_MIN} min read`}
               isLead
               image="/vancouver-bluesky.jpg"
               variant="hero-lead"
               href={MILLER_HREF}
             />
           }
-          middleColumn={
-            <div className="flex flex-col">
-              {photoTiles.map((tile, i) => (
-                <div
-                  key={tile.src}
-                  className={i > 0 ? 'border-t border-black/10 pt-10 mt-10' : ''}
-                >
-                  <WellPhotoTile
-                    src={tile.src}
-                    vertical={tile.vertical}
-                    title={tile.title}
-                    href={tile.href}
-                  />
-                </div>
-              ))}
-            </div>
-          }
-          sidebarColumn={
-            <div className="pt-0 space-y-6">
-              {sidebarStories.map((story, i) => (
-                <div
-                  key={story.id}
-                  className={i > 0 ? 'border-t border-black/10 pt-6' : ''}
-                >
-                  <ArticleCard
-                    id={story.id}
-                    title={story.headline}
-                    vertical={story.vertical}
-                    tagline={null}
-                    excerpt={null}
-                    date=""
-                    variant="hero-tertiary"
-                    href={`/magazine/${story.id}`}
-                  />
-                </div>
-              ))}
-            </div>
-          }
+          middleColumn={<WellColumn stories={columnTwo} />}
+          sidebarColumn={<WellColumn stories={columnThree} head={<HouseTile entries={HOUSE_ENTRIES} />} />}
         />
       </main>
 
-      <div style={{ minHeight: 136, background: '#120f0b' }}>
-        <DoorSpeakersLazy />
-      </div>
+      <CampaignBanner
+        image="/northern-century-earth.jpg"
+        crop="object-top"
+        heading="The Northern Century."
+        italic="Washington and Ottawa. Alternating editions."
+        href="/northern-century"
+        priority={false}
+      />
+
+      <StageBand top={doorTop} bottom={doorBottom} />
       <MagazineFooter />
     </div>
   )

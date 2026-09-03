@@ -2,14 +2,26 @@
 
 import Image from 'next/image'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { hasSpeakerShot, shuffle, type SpeakerFace } from '@/lib/speakers'
+import { hasSpeakerShot, type SpeakerFace } from '@/lib/speakers'
 import './people.css'
 
 const FACE_W = 116
 const SPEEDS = [48, 40, 44, 36] as const
 const REVERSE = [false, true, false, true] as const
 const PREFETCH_AHEAD = 12
+const SSR_SLOT_COUNT = 16
 const heldThumbs = new Set<string>()
+
+type Slot = { id: number; index: number }
+
+function buildSlots(faceCount: number, slotCount: number, startOffset: number): Slot[] {
+  if (faceCount === 0 || slotCount === 0) return []
+  const origin = ((startOffset % faceCount) + faceCount) % faceCount
+  return Array.from({ length: slotCount }, (_, i) => ({
+    id: i,
+    index: (origin + i) % faceCount,
+  }))
+}
 
 function initials(name: string) {
   return name
@@ -99,8 +111,6 @@ function FaceTile({ speaker }: { speaker: SpeakerFace }) {
   return <div className="speakers-reel-face">{inner}</div>
 }
 
-type Slot = { id: number; index: number }
-
 function VirtualPeopleRow({
   faces,
   reverse,
@@ -123,8 +133,10 @@ function VirtualPeopleRow({
   const slotsRef = useRef<Slot[]>([])
   const shiftRef = useRef(0)
   const skipTransformRef = useRef(false)
-  const [slotCount, setSlotCount] = useState(0)
-  const [slots, setSlots] = useState<Slot[]>([])
+  const [slotCount, setSlotCount] = useState(SSR_SLOT_COUNT)
+  const [slots, setSlots] = useState<Slot[]>(() =>
+    buildSlots(faces.length, SSR_SLOT_COUNT, startOffset),
+  )
 
   pausedRef.current = paused
   facesRef.current = faces
@@ -260,27 +272,8 @@ function VirtualPeopleRow({
   )
 }
 
-export function PeopleWall() {
-  const [speakers, setSpeakers] = useState<SpeakerFace[]>([])
+export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
   const [query, setQuery] = useState('')
-  const [failed, setFailed] = useState(false)
-
-  useEffect(() => {
-    let cancelled = false
-    fetch('/api/people-faces')
-      .then((res) => (res.ok ? res.json() : []))
-      .then((all: SpeakerFace[]) => {
-        if (cancelled || !Array.isArray(all)) return
-        // One shuffle, four windows. Each strip walks the whole catalog, then loops.
-        setSpeakers(shuffle(all))
-      })
-      .catch(() => {
-        if (!cancelled) setFailed(true)
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -302,10 +295,8 @@ export function PeopleWall() {
       data-catalog-size={speakers.length}
     >
       <div className="reel-stack" aria-label="The CityAge Contributors">
-        {failed ? (
+        {speakers.length === 0 ? (
           <div className="people-loading">Unable to load speakers</div>
-        ) : speakers.length === 0 ? (
-          <div className="people-loading">Loading</div>
         ) : (
           REVERSE.map((_, i) => (
             <div key={i} className={`reel-section reel-${i + 1}`}>

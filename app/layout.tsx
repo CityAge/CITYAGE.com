@@ -3,26 +3,8 @@ import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-// Editorial display serif — wordmark + headlines (variable weight, local)
-const playfair = localFont({
-  src: [
-    { path: '../public/fonts/playfair-display-latin-wght-normal.woff2', style: 'normal' },
-    { path: '../public/fonts/playfair-display-latin-wght-italic.woff2', style: 'italic' },
-  ],
-  variable: '--font-display',
-  display: 'swap',
-})
-
-// Warm body serif — article text, taglines, excerpts (local)
-const baskerville = localFont({
-  src: [
-    { path: '../public/fonts/libre-baskerville-latin-400-normal.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/libre-baskerville-latin-700-normal.woff2', weight: '700', style: 'normal' },
-    { path: '../public/fonts/libre-baskerville-latin-400-italic.woff2', weight: '400', style: 'italic' },
-  ],
-  variable: '--font-serif',
-  display: 'swap',
-})
+// Newsreader (all text) is registered with @font-face in globals.css and
+// preloaded below; --font-serif and --font-display point at it there.
 
 // Monospace for metadata, dates, verticals — not on the first cream screen
 const jetbrains = localFont({
@@ -34,7 +16,7 @@ const jetbrains = localFont({
 
 export const metadata: Metadata = {
   title: 'CityAge | Intelligence for The Urban Planet',
-  description: 'The primary intelligence source for global urban leadership. 25,000+ decision-makers across infrastructure, space, energy, defence, and food systems.',
+  description: 'The primary intelligence source for global urban leadership. 25,000 decision-makers across infrastructure, space, energy, defence, and food systems.',
   icons: {
     icon: [
       { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
@@ -57,14 +39,28 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${baskerville.variable} ${jetbrains.variable}`}
+      className={jetbrains.variable}
       style={{ backgroundColor: '#F9F9F7' }}
     >
       <head>
+        <link
+          rel="preload"
+          href="/fonts/newsreader-latin-opsz-normal.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/newsreader-latin-opsz-italic.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <style
           dangerouslySetInnerHTML={{
             __html:
-              'html,body{background:#F9F9F7}.ca-photo{position:relative;overflow:hidden;display:block;width:100%}.ca-photo-banner{height:260px;max-width:1000px;width:calc(100% - 3rem);margin:0 auto}.ca-photo-lead{aspect-ratio:3/4}.ca-photo-well{aspect-ratio:4/3}.ca-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}',
+              'html,body{background:#F9F9F7}.ca-photo{position:relative;overflow:hidden;display:block;width:100%}.ca-photo-banner{height:128px;max-width:1000px;width:calc(100% - 3rem);margin:0 auto}@media (min-width:768px){.ca-photo-banner{height:240px}}.ca-photo-lead{aspect-ratio:4/3}@media (min-width:1024px){.ca-photo-lead{aspect-ratio:3/4}}.ca-photo-well{aspect-ratio:4/3}.ca-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}',
           }}
         />
       </head>
