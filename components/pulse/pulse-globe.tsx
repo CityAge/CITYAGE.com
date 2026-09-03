@@ -90,14 +90,15 @@ function buildStyle(): StyleSpecification {
     version: 8,
     projection: { type: 'globe' },
     sources: {
-      marble: { type: 'raster', tiles: [NASA_TILES], tileSize: 256, maxzoom: 8, attribution: 'NASA GIBS' },
+      // 512px sizing: a quarter of the tiles at globe scale (the images are 256px; fine at zoom < 5)
+      marble: { type: 'raster', tiles: [NASA_TILES], tileSize: 512, maxzoom: 8, attribution: 'NASA GIBS' },
       esri: { type: 'raster', tiles: [ESRI_TILES], tileSize: 256, maxzoom: 18, attribution: 'Esri, Maxar, Earthstar Geographics, and the GIS User Community' },
       coast: { type: 'geojson', data: '/pulse/coastline-110m.json' },
       projects: { type: 'geojson', data: { type: 'FeatureCollection', features: [] }, promoteId: 'slug' },
     },
     layers: [
       { id: 'bg', type: 'background', paint: { 'background-color': '#000000' } },
-      { id: 'marble', type: 'raster', source: 'marble', paint: { 'raster-opacity': 0.65, 'raster-fade-duration': 0 } },
+      { id: 'marble', type: 'raster', source: 'marble', paint: { 'raster-opacity': 0.65, 'raster-fade-duration': 300 } },
       {
         id: 'esri',
         type: 'raster',
@@ -189,7 +190,14 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       setActive(p ?? null)
     })
 
-    // Fade in from black once the first tiles have arrived; then the 50m coast.
+    // Fade in from black as soon as the sphere and its coastlines have rendered;
+    // the night lights fade in behind over the next moments. Then the 50m coast.
+    const onCoast = (e: { sourceId?: string; isSourceLoaded?: boolean }) => {
+      if (e.sourceId !== 'coast' || !e.isSourceLoaded) return
+      map.off('sourcedata', onCoast)
+      map.once('render', () => setReady(true))
+    }
+    map.on('sourcedata', onCoast)
     map.once('idle', () => {
       setReady(true)
       const src = map.getSource('coast') as GeoJSONSource | undefined
