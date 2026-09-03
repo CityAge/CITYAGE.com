@@ -66,19 +66,34 @@ function pulseDate(iso: string): string {
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
 
+type Ccy = 'cad' | 'usd'
+type Fx = { rate: number; asOf: string } | null
+/** Amounts are stored in CAD; a Money formats them in the chosen currency through the CAD_USD rate. */
+type Money = (n: number) => number
+const symbol = (ccy: Ccy) => (ccy === 'usd' ? 'US$' : 'C$')
 /** "C$9.5 billion" — the headline figure, in words. */
-function cadLong(n: number): string {
-  if (n >= 1e9) return `C$${(n / 1e9).toFixed(1)} billion`
-  if (n >= 1e6) return `C$${Math.round(n / 1e6)} million`
-  return `C$${Math.round(n).toLocaleString('en-CA')}`
+function moneyLong(n: number, ccy: Ccy, conv: Money): string {
+  const v = conv(n)
+  const s = symbol(ccy)
+  if (v >= 1e9) return `${s}${(v / 1e9).toFixed(1)} billion`
+  if (v >= 1e6) return `${s}${Math.round(v / 1e6)} million`
+  return `${s}${Math.round(v).toLocaleString('en-CA')}`
 }
 /** "C$0.55bn" — panel rows, always in billions to two places so the columns compare. */
-const cadBn = (n: number) => `C$${(n / 1e9).toFixed(2)}bn`
+const moneyBn = (n: number, ccy: Ccy, conv: Money) => `${symbol(ccy)}${(conv(n) / 1e9).toFixed(2)}bn`
 /** "C$1.0bn" / "C$72m" — card lines. */
-function cadShort(n: number): string {
-  if (n >= 1e9) return `C$${(n / 1e9).toFixed(1)}bn`
-  if (n >= 1e6) return `C$${Math.round(n / 1e6)}m`
-  return `C$${Math.round(n).toLocaleString('en-CA')}`
+function moneyShort(n: number, ccy: Ccy, conv: Money): string {
+  const v = conv(n)
+  const s = symbol(ccy)
+  if (v >= 1e9) return `${s}${(v / 1e9).toFixed(1)}bn`
+  if (v >= 1e6) return `${s}${Math.round(v / 1e6)}m`
+  return `${s}${Math.round(v).toLocaleString('en-CA')}`
+}
+/** "3 SEPT 2026" */
+function rateDate(iso: string): string {
+  const d = new Date(iso + 'T00:00:00Z')
+  const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()]
+  return `${d.getUTCDate()} ${m} ${d.getUTCFullYear()}`
 }
 type CapitalRow = { country: string; announced: number | null; committed: number | null }
 function capitalByCountry(rows: Project[]): { total: { announced: number; committed: number }; countries: CapitalRow[] } {
@@ -227,6 +242,30 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   const pulseOnRef = useRef(true)
   const embed = mode === 'embed'
   const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // ---- currency: C$ by default, US$ through the CAD_USD rate; the choice lives in ?ccy=usd
+  const [ccy, setCcy] = useState<Ccy>(() => {
+    if (mode !== 'page' || typeof window === 'undefined') return 'cad'
+    return new URLSearchParams(window.location.search).get('ccy') === 'usd' ? 'usd' : 'cad'
+  })
+  const [fx, setFx] = useState<Fx>(null)
+  useEffect(() => {
+    let cancelled = false
+    createClient()
+      .from('fx_rates')
+      .select('rate,as_of')
+      .eq('pair', 'CAD_USD')
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!cancelled && data && data.rate) setFx({ rate: Number(data.rate), asOf: String(data.as_of) })
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+  // US$ only once the rate is in; until then everything stays in C$.
+  const live: Ccy = ccy === 'usd' && fx ? 'usd' : 'cad'
+  const conv: Money = live === 'usd' && fx ? (n) => n * fx.rate : (n) => n
 
   // ---- idle spin state (declared early so handlers below can use it)
   const idleRef = useRef<number | null>(null)
@@ -595,8 +634,10 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     const url = new URL(window.location.href)
     if (active) url.searchParams.set('p', active.slug)
     else url.searchParams.delete('p')
+    if (ccy === 'usd') url.searchParams.set('ccy', 'usd')
+    else url.searchParams.delete('ccy')
     window.history.replaceState(null, '', url.pathname + (url.search || ''))
-  }, [active, mode])
+  }, [active, ccy, mode])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && active) closeCard()
@@ -705,24 +746,32 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
         {!embed && capital.total.committed > 0 ? (
           <div className="pulse-capital">
             <span className="label">Capital committed to the North</span>
-            <button
-              type="button"
-              className="figure"
-              aria-haspopup="true"
-              aria-expanded={panelOpen}
-              onMouseEnter={() => setPanelOpen(true)}
-              onMouseLeave={() => setPanelOpen(false)}
-              onFocus={() => setPanelOpen(true)}
-              onBlur={() => setPanelOpen(false)}
-              onClick={() => setPanelOpen((o) => !o)}
-            >
-              {cadLong(shown)}
-            </button>
-            <span className="of">Of {cadLong(capital.total.announced).replace(/^C\$/, 'C$')} announced</span>
+            <div className="counter">
+              <button
+                type="button"
+                className="figure"
+                aria-haspopup="true"
+                aria-expanded={panelOpen}
+                onMouseEnter={() => setPanelOpen(true)}
+                onMouseLeave={() => setPanelOpen(false)}
+                onFocus={() => setPanelOpen(true)}
+                onBlur={() => setPanelOpen(false)}
+                onClick={() => setPanelOpen((o) => !o)}
+              >
+                {moneyLong(shown, live, conv)}
+              </button>
+              <span className="ccy" role="group" aria-label="Currency">
+                <button type="button" className={live === 'cad' ? 'is-on' : undefined} aria-pressed={live === 'cad'} onClick={() => setCcy('cad')}>C$</button>
+                <span className="bar">|</span>
+                <button type="button" className={live === 'usd' ? 'is-on' : undefined} aria-pressed={live === 'usd'} disabled={!fx} title={fx ? undefined : 'Rate loading'} onClick={() => setCcy('usd')}>US$</button>
+              </span>
+            </div>
+            <span className="of">Of {moneyLong(capital.total.announced, live, conv)} announced</span>
             <span className="rule" aria-hidden="true">
               <span className="gold" style={{ width: `${Math.max(0, Math.min(1, share)) * 100}%` }} />
             </span>
             <span className="note">The CityAge estimate · Sourced per project</span>
+            {live === 'usd' && fx ? <span className="note">At 1 C$ = {fx.rate} US$, {rateDate(fx.asOf)}</span> : null}
             {panelOpen ? (
               <div className="panel" role="tooltip">
                 {capital.countries.map((c) => (
@@ -730,7 +779,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
                     <span className="country">{c.country}</span>
                     {c.announced != null || c.committed != null ? (
                       <span className="values">
-                        {cadBn(c.committed ?? 0)} / {c.announced != null ? cadBn(c.announced) : '—'}
+                        {moneyBn(c.committed ?? 0, live, conv)} / {c.announced != null ? moneyBn(c.announced, live, conv) : '—'}
                         {c.announced ? <span className="pct"> · {Math.round(((c.committed ?? 0) / c.announced) * 100)}%</span> : null}
                       </span>
                     ) : (
@@ -799,12 +848,12 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
             <dl className="figures">
               <div>
                 <dt>Announced</dt>
-                <dd>{active.announced_cad != null ? cadShort(active.announced_cad) : <span className="muted">No public figure</span>}</dd>
+                <dd>{active.announced_cad != null ? moneyShort(active.announced_cad, live, conv) : <span className="muted">No public figure</span>}</dd>
                 {active.announced_note ? <dd className="fnote">{active.announced_note}</dd> : null}
               </div>
               <div>
                 <dt>Committed</dt>
-                <dd>{active.committed_cad != null ? cadShort(active.committed_cad) : <span className="muted">No public figure</span>}</dd>
+                <dd>{active.committed_cad != null ? moneyShort(active.committed_cad, live, conv) : <span className="muted">No public figure</span>}</dd>
                 {active.committed_note ? <dd className="fnote">{active.committed_note}</dd> : null}
               </div>
             </dl>
