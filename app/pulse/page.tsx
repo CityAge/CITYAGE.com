@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function PulsePage({ searchParams }: { searchParams: Promise<{ p?: string }> }) {
   const { p } = await searchParams
   return (
-    <div className="min-h-screen bg-black text-[#F9F9F7]">
+    <div className="min-h-screen bg-[#F9F9F7] text-black">
       <PulseHeader />
       <main>
         <PulseLazy mode="page" initialSlug={p} />

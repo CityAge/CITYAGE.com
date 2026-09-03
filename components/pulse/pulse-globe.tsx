@@ -30,7 +30,14 @@ const GOLD = '#C5A059'
 
 const NORTH: [number, number] = [-30, 74]
 const SOUTH: [number, number] = [0, -78]
-const OPEN_ZOOM = 2.4
+/** Zoom at which the whole globe fits the container with a margin: the wide shot. */
+function fitZoom(el: HTMLElement | null): number {
+  const w = el?.clientWidth || 1400
+  const h = el?.clientHeight || 843
+  // MapLibre's globe diameter is about 163px × 2^zoom
+  const diameter = 0.86 * Math.min(w, h)
+  return Math.max(0.8, Math.min(3, Math.log2(diameter / 163)))
+}
 const DAY = 86_400_000
 
 const NASA_TILES =
@@ -157,7 +164,8 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       container: containerRef.current,
       style: buildStyle(),
       center: NORTH,
-      zoom: OPEN_ZOOM,
+      zoom: fitZoom(containerRef.current),
+      minZoom: 0.8,
       pitch: 0,
       bearing: 0,
       attributionControl: false,
@@ -338,13 +346,14 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     const to = next === 'south' ? SOUTH : NORTH
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
     if (reduced) {
-      map.jumpTo({ center: to, zoom: OPEN_ZOOM, pitch: 0, bearing: 0 })
+      map.jumpTo({ center: to, zoom: fitZoom(containerRef.current), pitch: 0, bearing: 0 })
       return
     }
     stopIdle()
     const c = map.getCenter()
     const path = longWayRound([c.lng, c.lat], to)
     const z0 = map.getZoom()
+    const z1 = fitZoom(containerRef.current)
     const b0 = map.getBearing()
     const t0 = performance.now()
     const D = 1600
@@ -354,10 +363,10 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       const [lng, lat] = path(e)
       // dip to zoom 1.5 mid-flight, back to the opening zoom at the end
       const dip = Math.sin(Math.PI * e)
-      const zoom = z0 + (OPEN_ZOOM - z0) * e - (z0 - 1.5) * dip * 0.9
+      const zoom = z0 + (z1 - z0) * e - Math.max(0, z0 - 1.2) * dip * 0.9
       map.jumpTo({ center: [lng, Math.max(-89.5, Math.min(89.5, lat))], zoom, pitch: 0, bearing: b0 * (1 - e) })
       if (u < 1) flightRef.current = requestAnimationFrame(tick)
-      else map.jumpTo({ center: to, zoom: OPEN_ZOOM, pitch: 0, bearing: 0 })
+      else map.jumpTo({ center: to, zoom: fitZoom(containerRef.current), pitch: 0, bearing: 0 })
     }
     flightRef.current = requestAnimationFrame(tick)
   }

@@ -105,7 +105,7 @@ export default async function NorthernCenturyPage() {
 
         {/* 3. MAP */}
         <Band title="The North, from above.">
-          <div className="h-[640px] max-md:h-[480px] bg-black">
+          <div className="h-[640px] max-md:h-[480px] bg-[#F9F9F7]">
             <PulseLazy mode="embed" />
           </div>
         </Band>

@@ -1,10 +1,11 @@
 /* Northern Pulse. Black, cream, gold. Nothing decorative. */
 
 .pulse {
+  /* The globe alone on the house cream; outside the sphere the canvas is clear. */
   position: relative;
   width: 100%;
-  background: #000;
-  color: #F9F9F7;
+  background: #F9F9F7;
+  color: #000;
   overflow: hidden;
   font-family: var(--font-serif), Georgia, serif;
 }
@@ -36,18 +37,18 @@
 .pulse-chrome { position: absolute; z-index: 4; pointer-events: none; }
 .pulse-chrome > * { pointer-events: auto; }
 .pulse-title { top: 20px; left: 20px; display: flex; flex-direction: column; gap: 6px; }
-.pulse-title .name { font-size: 14px; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: #F9F9F7; }
-.pulse-title .line { font-size: 15px; line-height: 1.2; font-style: italic; font-weight: 500; color: rgba(249, 249, 247, 0.7); }
+.pulse-title .name { font-size: 14px; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: #000; }
+.pulse-title .line { font-size: 15px; line-height: 1.2; font-style: italic; font-weight: 500; color: rgba(0, 0, 0, 0.7); }
 .pulse-layers { top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; }
-.pulse-layers span, .pulse-layers button { font: inherit; font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #F9F9F7; background: none; border: 0; padding: 0; }
-.pulse-layers .sep { color: rgba(249, 249, 247, 0.3); }
+.pulse-layers span, .pulse-layers button { font: inherit; font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #000; background: none; border: 0; padding: 0; }
+.pulse-layers .sep { color: rgba(0, 0, 0, 0.3); }
 .pulse-layers button[disabled] { opacity: 0.4; cursor: default; }
 .pulse-layers button.is-on { border-bottom: 1px solid #C5A059; padding-bottom: 3px; }
 .pulse-pole { bottom: 20px; left: 20px; }
-.pulse-pole button { font: inherit; font-size: 12px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #C5A059; background: rgba(0, 0, 0, 0.35); border: 1px solid #C5A059; padding: 10px 14px; cursor: pointer; }
+.pulse-pole button { font: inherit; font-size: 12px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #C5A059; background: transparent; border: 1px solid #C5A059; padding: 10px 14px; cursor: pointer; }
 .pulse-pole button:hover { background: #C5A059; color: #000; }
 .pulse-pole button:focus-visible, .pulse-layers button:focus-visible { outline: 2px solid #C5A059; outline-offset: 2px; }
-.pulse-attrib { bottom: 12px; right: 12px; font-size: 10px; line-height: 1.3; color: rgba(249, 249, 247, 0.4); text-align: right; }
+.pulse-attrib { bottom: 12px; right: 12px; font-size: 10px; line-height: 1.3; color: rgba(0, 0, 0, 0.4); text-align: right; }
 .pulse-attrib a { color: inherit; text-decoration: none; }
 @media (max-width: 767px) {
   .pulse-title { top: 14px; left: 14px; }
@@ -97,7 +98,7 @@
 .pulse-card .close:focus-visible { outline: 2px solid #C5A059; }
 
 /* Embed overlay */
-.pulse-explore { position: absolute; inset: 0; z-index: 5; display: flex; align-items: flex-end; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0) 40%); cursor: pointer; text-decoration: none; }
+.pulse-explore { position: absolute; inset: 0; z-index: 5; display: flex; align-items: flex-end; padding: 20px; cursor: pointer; text-decoration: none; }
 .pulse-explore span { font-size: 12px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #C5A059; border: 1px solid #C5A059; padding: 10px 14px; }
 .pulse-explore:hover span { background: #C5A059; color: #000; }
 
