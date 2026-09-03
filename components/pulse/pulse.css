@@ -12,6 +12,16 @@
 .pulse-embed { height: 640px; }
 @media (max-width: 767px) { .pulse-embed { height: 480px; } }
 
+.pulse-poster {
+  /* The opening view, rendered once and shipped as a still: on screen from first paint until the live globe fades in over it. */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .pulse-map {
   position: absolute;
   inset: 0;

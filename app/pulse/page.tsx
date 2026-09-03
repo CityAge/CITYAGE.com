@@ -5,6 +5,7 @@ import { PulseLazy } from '@/components/pulse/pulse-lazy'
 export const metadata: Metadata = {
   title: 'Northern Pulse — CityAge',
   description: 'The world from the two poles.',
+  openGraph: { images: ['/pulse/poster.jpg'] },
 }
 
 export default async function PulsePage({ searchParams }: { searchParams: Promise<{ p?: string }> }) {

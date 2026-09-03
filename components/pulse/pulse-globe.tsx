@@ -28,7 +28,7 @@ type Age = 'fresh' | 'recent' | 'old'
 
 const GOLD = '#C5A059'
 
-const NORTH: [number, number] = [-55, 75]
+const NORTH: [number, number] = [-30, 74]
 const SOUTH: [number, number] = [0, -78]
 const OPEN_ZOOM = 2.4
 const DAY = 86_400_000
@@ -341,9 +341,11 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       map.jumpTo({ center: to, zoom: OPEN_ZOOM, pitch: 0, bearing: 0 })
       return
     }
+    stopIdle()
     const c = map.getCenter()
     const path = longWayRound([c.lng, c.lat], to)
     const z0 = map.getZoom()
+    const b0 = map.getBearing()
     const t0 = performance.now()
     const D = 1600
     const tick = (now: number) => {
@@ -353,17 +355,66 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       // dip to zoom 1.5 mid-flight, back to the opening zoom at the end
       const dip = Math.sin(Math.PI * e)
       const zoom = z0 + (OPEN_ZOOM - z0) * e - (z0 - 1.5) * dip * 0.9
-      map.jumpTo({ center: [lng, Math.max(-89.5, Math.min(89.5, lat))], zoom, pitch: 0, bearing: 0 })
+      map.jumpTo({ center: [lng, Math.max(-89.5, Math.min(89.5, lat))], zoom, pitch: 0, bearing: b0 * (1 - e) })
       if (u < 1) flightRef.current = requestAnimationFrame(tick)
       else map.jumpTo({ center: to, zoom: OPEN_ZOOM, pitch: 0, bearing: 0 })
     }
     flightRef.current = requestAnimationFrame(tick)
   }
 
+  // ---- idle rotation: 2° per second (a turn in three minutes), easing in over
+  // 2s once the globe has faded in. Stops for good on the first pointer, touch,
+  // wheel or key, and whenever a card is open. Off for reduced motion and embeds.
+  const idleRef = useRef<number | null>(null)
+  const idleStopped = useRef(false)
+  function stopIdle() {
+    idleStopped.current = true
+    if (idleRef.current) cancelAnimationFrame(idleRef.current)
+    idleRef.current = null
+  }
+  useEffect(() => {
+    if (!ready || mode === 'embed' || reduced || idleStopped.current) return
+    const map = mapRef.current
+    const el = containerRef.current
+    if (!map || !el) return
+    const t0 = performance.now()
+    let last = t0
+    const tick = (now: number) => {
+      if (idleStopped.current) return
+      const dt = (now - last) / 1000
+      last = now
+      const ramp = Math.min((now - t0) / 2000, 1)
+      const ease = ramp * ramp * (3 - 2 * ramp)
+      map.setBearing(map.getBearing() + 2 * dt * ease)
+      idleRef.current = requestAnimationFrame(tick)
+    }
+    idleRef.current = requestAnimationFrame(tick)
+    const opts = { passive: true } as AddEventListenerOptions
+    el.addEventListener('pointerdown', stopIdle, opts)
+    el.addEventListener('touchstart', stopIdle, opts)
+    el.addEventListener('wheel', stopIdle, opts)
+    window.addEventListener('keydown', stopIdle)
+    return () => {
+      if (idleRef.current) cancelAnimationFrame(idleRef.current)
+      el.removeEventListener('pointerdown', stopIdle)
+      el.removeEventListener('touchstart', stopIdle)
+      el.removeEventListener('wheel', stopIdle)
+      window.removeEventListener('keydown', stopIdle)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, mode])
+  useEffect(() => {
+    if (active) stopIdle()
+  }, [active])
+
   const embed = mode === 'embed'
 
   return (
     <div className={`pulse ${embed ? 'pulse-embed' : 'pulse-page'}`}>
+      {!embed ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src="/pulse/poster.jpg" alt="" className="pulse-poster" decoding="async" fetchPriority="high" />
+      ) : null}
       <div ref={containerRef} className={`pulse-map${ready ? ' is-ready' : ''}`} aria-label="Northern Pulse globe" />
 
       <div className="pulse-chrome pulse-title">
