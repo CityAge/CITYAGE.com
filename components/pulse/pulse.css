@@ -48,7 +48,7 @@
 /* Chrome */
 .pulse-chrome { position: absolute; z-index: 4; pointer-events: none; }
 .pulse-chrome > * { pointer-events: auto; }
-.pulse-left { top: 20px; left: 20px; bottom: 72px; width: 240px; display: flex; flex-direction: column; gap: 22px; }
+.pulse-left { top: 20px; left: 20px; bottom: 72px; width: 300px; display: flex; flex-direction: column; gap: 22px; }
 .pulse-title { display: flex; flex-direction: column; gap: 6px; }
 .pulse-title .name { font-size: 14px; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: #F9F9F7; }
 .pulse-title .line { font-size: 15px; line-height: 1.2; font-style: italic; font-weight: 500; color: rgba(249, 249, 247, 0.7); }
@@ -66,7 +66,7 @@
 @media (max-width: 767px) {
   .pulse-title { top: 14px; left: 14px; }
   .pulse-layers { top: 14px; right: 14px; gap: 8px; }
-  .pulse-layers button:not(.is-on) { display: none; }
+  .pulse-layers button[disabled] { display: none; }
   .pulse-layers .sep { display: none; }
   .pulse-pole { bottom: 14px; left: 14px; }
   .pulse-attrib { bottom: 8px; right: 10px; font-size: 9px; max-width: 48%; }
@@ -84,7 +84,7 @@
 
 /* Capital committed: two numbers and a line between them */
 .pulse-capital { position: relative; display: flex; flex-direction: column; gap: 8px; }
-.pulse-capital .label { font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #9A9A9A; }
+.pulse-capital .label { font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #9A9A9A; white-space: nowrap; }
 .pulse-capital .figure { font: inherit; font-size: 32px; line-height: 1.05; font-weight: 500; color: #F9F9F7; background: none; border: 0; padding: 0; text-align: left; cursor: default; font-variant-numeric: tabular-nums; }
 .pulse-capital .figure:focus-visible { outline: 2px solid #C5A059; outline-offset: 3px; }
 .pulse-capital .of { font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(249, 249, 247, 0.6); margin-top: 2px; }
@@ -97,6 +97,15 @@
 .pulse-capital .row .values { color: rgba(249, 249, 247, 0.75); }
 .pulse-capital .row .pct { color: #C5A059; }
 .pulse-capital .row .muted { color: rgba(249, 249, 247, 0.45); }
+
+/* The pulse glyph: a project within 30 days. --star is its height (14px at the opening zoom, 22px by zoom 6); width is 1/1.4 of that. */
+.pulse-star { --star: 14px; position: relative; display: block; width: calc(var(--star) / 1.4); height: var(--star); padding: 0; margin: 0; border: 0; background: none; cursor: pointer; }
+.pulse-star .glyph { display: block; width: 100%; height: 100%; overflow: visible; }
+.pulse-star:focus-visible { outline: 2px solid #C5A059; outline-offset: 4px; }
+/* Breaking (under 7 days, the newest only): a ring expanding to 60px every 2s, ease-out, 0.7 → 0. */
+.pulse-star .ring { display: none; position: absolute; left: 50%; top: 50%; width: 60px; height: 60px; margin: -30px 0 0 -30px; border: 1px solid #D4AF5A; border-radius: 50%; pointer-events: none; }
+.pulse-star.is-breaking .ring { display: block; animation: pulse-ring 2s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+@keyframes pulse-ring { from { transform: scale(0); opacity: 0.7; } to { transform: scale(1); opacity: 0; } }
 
 /* Labels: sparse, Newsreader, only above zoom 5 */
 .pulse-label { font-family: var(--font-serif), Georgia, serif; font-size: 11px; line-height: 1; color: rgba(249, 249, 247, 0.6); white-space: nowrap; pointer-events: none; text-shadow: 0 0 4px #000; }
@@ -127,6 +136,7 @@
 }
 .pulse-card .kicker { font-size: 12px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #C5A059; font-weight: 500; }
 .pulse-card .name { font-size: 24px; line-height: 1.2; font-weight: 500; margin: 0; color: #fff; }
+.pulse-card .pulse-line { font-size: 12px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #C5A059; }
 .pulse-card .place { font-size: 12px; line-height: 1.3; letter-spacing: 0.08em; text-transform: uppercase; color: #9A9A9A; }
 .pulse-card .summary { font-size: 17px; line-height: 1.6; margin: 0; color: rgba(249, 249, 247, 0.9); }
 .pulse-card .status { font-size: 12px; line-height: 1; letter-spacing: 0.08em; text-transform: uppercase; color: #F9F9F7; }
@@ -148,4 +158,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .pulse-map, .pulse-card { transition: none; }
+  .pulse-star .ring { display: none; animation: none; }
 }
