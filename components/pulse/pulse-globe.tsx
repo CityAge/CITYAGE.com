@@ -119,17 +119,20 @@ function buildStyle(): StyleSpecification {
         type: 'circle',
         source: 'projects',
         paint: {
-          // 7px at zoom 2.4 → 11px at zoom 6; hover is 130% of either. Zoom must sit at the top level.
+          // 5px at zoom 3 and below → 11px by zoom 6; hover is 130% of either. Zoom must sit at the top level.
           'circle-radius': [
             'interpolate', ['linear'], ['zoom'],
-            2.4, ['case', ['boolean', ['feature-state', 'hover'], false], 9.1, 7],
+            3, ['case', ['boolean', ['feature-state', 'hover'], false], 6.5, 5],
             6, ['case', ['boolean', ['feature-state', 'hover'], false], 14.3, 11],
           ],
           'circle-color': GOLD,
-          'circle-opacity': ['case', ['==', ['get', 'age'], 'old'], 0.55, 1],
+          // Translucent gold on black: where dots overlap they read brighter, not bigger.
+          // (Circle layers have no additive blend mode; this is the same effect at 500 dots.)
+          'circle-opacity': ['case', ['==', ['get', 'age'], 'old'], 0.4, 0.75],
           'circle-stroke-color': '#000000',
           'circle-stroke-width': 1,
-          'circle-stroke-opacity': ['case', ['==', ['get', 'age'], 'old'], 0.55, 1],
+          // No stroke at globe scale so a dot never cuts a line through its neighbour; 1px black by zoom 6.
+          'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 3, 0, 6, ['case', ['==', ['get', 'age'], 'old'], 0.55, 1]],
         },
       },
     ],
