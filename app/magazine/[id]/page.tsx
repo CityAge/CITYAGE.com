@@ -36,12 +36,15 @@ function renderMarkdown(md: string): string {
       line = `<h2 class="font-serif font-bold text-[26px] md:text-[30px] text-black mt-14 mb-5 leading-snug">${applyInline(line.slice(3))}</h2>`
     } else if (line.startsWith('# ')) {
       line = `<h1 class="font-serif font-black text-[30px] md:text-[36px] text-black mt-10 mb-5 leading-tight">${applyInline(line.slice(2))}</h1>`
+    // Pull quote: one bold move. 24px under a heavy rule, short gold bar.
+    } else if (line.startsWith('> ')) {
+      line = `<figure class="my-10 pt-5 border-t-2 border-black"><p class="font-serif text-[24px] leading-[1.25] font-medium text-black m-0">${applyInline(line.slice(2))}</p><span class="block w-12 h-[2px] bg-[#C5A059] mt-5" aria-hidden="true"></span></figure>`
     // Horizontal rule
     } else if (line.trim() === '---') {
       line = '<hr class="border-black/10 my-12" />'
-    // Bold-only line = subheading
+    // Bold-only line = a question (interviews) or a subheading: 19px, weight 600
     } else if (/^\*\*[^*]+\*\*$/.test(line.trim())) {
-      line = `<p class="font-serif font-bold text-[18px] md:text-[20px] text-black mt-10 mb-3">${applyInline(line)}</p>`
+      line = `<p class="font-serif font-semibold text-[19px] leading-[1.35] text-black mt-8 mb-2">${applyInline(line)}</p>`
     // Regular paragraph
     } else {
       line = `<p class="type-body text-black/85 mb-6">${applyInline(line)}</p>`
@@ -194,9 +197,10 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
 
             {/* Deck */}
             {article.deck && (
-              <p className="type-deck text-black/60 max-w-[640px] mx-auto mb-6">
-                {article.deck}
-              </p>
+              <p
+                className="type-deck text-black/60 max-w-[640px] mx-auto mb-6 [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-1 hover:[&_a]:decoration-2"
+                dangerouslySetInnerHTML={{ __html: applyInline(article.deck) }}
+              />
             )}
 
             {/* Writer */}
