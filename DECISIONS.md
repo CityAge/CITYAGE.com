@@ -15,3 +15,7 @@
 # Northern Pulse
 
 The product is one motion: a slowly rotating globe opening on Canada and Europe; click a dot, fly down to the real place with satellite imagery, read the card, come back up. Everything else on /pulse is furniture and must never get in the way of that motion.
+
+# Names
+
+CityAge is the house. The Northern Century is the campaign, network, newsletter and rooms. Northern Pulse is the globe and its data; its layers are Projects, People, Rooms, Pulse (news) and, later, Watch (threats). Use each name only for its own thing; never 'the map', never 'The North' as a brand.
