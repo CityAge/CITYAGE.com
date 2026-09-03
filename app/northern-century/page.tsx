@@ -5,6 +5,7 @@ import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
 import { fetchNorthernCenturyFaces } from '@/lib/speakers'
+import { PulseLazy } from '@/components/pulse/pulse-lazy'
 
 export const revalidate = 3600
 
@@ -104,10 +105,8 @@ export default async function NorthernCenturyPage() {
 
         {/* 3. MAP */}
         <Band title="The North, from above.">
-          <div className="min-h-[480px] bg-[#F9F9F7] border border-black/15 flex items-center justify-center">
-            <span className="font-mono text-[11px] tracking-[0.2em] uppercase text-black/40">
-              Circumpolar map — coming.
-            </span>
+          <div className="h-[640px] max-md:h-[480px] bg-black">
+            <PulseLazy mode="embed" />
           </div>
         </Band>
 
