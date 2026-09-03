@@ -29,7 +29,8 @@ export type Project = {
   value_source_url: string | null
 }
 
-type Age = 'fresh' | 'recent' | 'old'
+/** fresh: under 7 days (breaking). recent: 7–30 days. old: over 30. none: no pulse_at. */
+type Age = 'fresh' | 'recent' | 'old' | 'none'
 
 const GOLD = '#D4AF5A'
 const NORTH: [number, number] = [-30, 74]
@@ -38,17 +39,28 @@ const PROJECT_ZOOM = 7
 const FLY_TO_MS = 1800
 const FLY_BACK_MS = 1400
 const DAY = 86_400_000
+/** The pulse glyph: its height in px at the opening zoom, and by zoom 6. */
+const STAR_MIN = 14
+const STAR_MAX = 22
 
 const NASA_TILES =
   'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png'
 const ESRI_TILES = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
 
 function ageOf(pulseAt: string | null, now: number): Age {
-  if (!pulseAt) return 'recent'
-  const days = (now - new Date(pulseAt).getTime()) / DAY
-  if (days <= 7) return 'fresh'
+  if (!pulseAt) return 'none'
+  const t = new Date(pulseAt).getTime()
+  if (!isFinite(t)) return 'none'
+  const days = (now - t) / DAY
+  if (days < 7) return 'fresh'
   if (days <= 30) return 'recent'
   return 'old'
+}
+/** Within 30 days: the star instead of the dot. */
+const isStar = (age: Age) => age === 'fresh' || age === 'recent'
+/** "3 Sept 2026" (the CSS sets it in caps). */
+function pulseDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
@@ -88,14 +100,18 @@ function capitalByCountry(rows: Project[]): { total: { announced: number; commit
   return { total: { announced, committed }, countries: [...by.values()].sort((a, b) => a.country.localeCompare(b.country)) }
 }
 
+/** Target diameter: the whole sphere on the viewport's shorter side, rim visible, never above 90% of the height. */
+function fitDiameter(el: HTMLElement | null): number {
+  const w = el?.clientWidth || 1400
+  const h = el?.clientHeight || 843
+  return 0.9 * Math.min(w, h)
+}
 /**
- * The opening zoom: the sphere fills the viewport height and bleeds off the
- * top and bottom. MapLibre's globe spans roughly 439px × 2^zoom on screen;
+ * The opening zoom. MapLibre's globe spans roughly 439px × 2^zoom on screen;
  * measureSphere() then corrects the guess against the real silhouette.
  */
 function fillZoom(el: HTMLElement | null): number {
-  const h = el?.clientHeight || 843
-  return Math.max(-1, Math.min(3, Math.log2((1.15 * h) / 439)))
+  return Math.max(-1.5, Math.min(3, Math.log2(fitDiameter(el) / 439)))
 }
 
 const toVec = ([lng, lat]: [number, number]) => {
@@ -169,16 +185,11 @@ function buildStyle(): StyleSpecification {
       },
       { id: 'coast', type: 'line', source: 'coast', paint: { 'line-color': '#F9F9F7', 'line-opacity': 0.22, 'line-width': 0.6 } },
       {
-        id: 'pulse-ring',
-        type: 'circle',
-        source: 'projects',
-        filter: ['==', ['get', 'age'], 'fresh'],
-        paint: { 'circle-radius': 0, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-color': GOLD, 'circle-stroke-width': 1.5, 'circle-stroke-opacity': 0 },
-      },
-      {
         id: 'dots',
         type: 'circle',
         source: 'projects',
+        // A project within 30 days renders as the star (a DOM marker) instead of a dot.
+        filter: ['!', ['to-boolean', ['get', 'star']]],
         paint: {
           // 3.5px at zoom 3 and below → 11px by zoom 6; hover is 130% of either. Zoom must sit at the top level.
           'circle-radius': [
@@ -211,17 +222,33 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   const [active, setActive] = useState<Project | null>(null)
   const [projects, setProjects] = useState<Project[]>([])
   const [armed, setArmed] = useState(mode === 'page')
+  /** The Pulse layer: on, projects within 30 days show the star; off, everything is a dot. */
+  const [pulseOn, setPulseOn] = useState(true)
+  const pulseOnRef = useRef(true)
   const embed = mode === 'embed'
   const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   // ---- idle spin state (declared early so handlers below can use it)
   const idleRef = useRef<number | null>(null)
   const idleStopped = useRef(false)
+  const resumeTimer = useRef<number | null>(null)
+  const activeRef = useRef<Project | null>(null)
   const stopIdle = useCallback(() => {
     idleStopped.current = true
     if (idleRef.current) cancelAnimationFrame(idleRef.current)
     idleRef.current = null
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current)
+    resumeTimer.current = null
   }, [])
+  /** An interaction: stop, then come back 12s after the last one unless a card is open. */
+  const startIdleRef = useRef<(() => void) | null>(null)
+  const onInteract = useCallback(() => {
+    stopIdle()
+    resumeTimer.current = window.setTimeout(() => {
+      resumeTimer.current = null
+      if (!activeRef.current) startIdleRef.current?.()
+    }, 12000)
+  }, [stopIdle])
   const startIdle = useCallback(() => {
     const map = mapRef.current
     if (!map || embed || reduced) return
@@ -240,6 +267,18 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     }
     idleRef.current = requestAnimationFrame(tick)
   }, [embed, reduced])
+  startIdleRef.current = startIdle
+
+  // ---- the stars' size: 14px at the opening zoom, 22px by zoom 6
+  const starMarkers = useRef<MLMarker[]>([])
+  const sizeStars = useCallback(() => {
+    const map = mapRef.current
+    if (!map || starMarkers.current.length === 0) return
+    const z0 = homeZoom.current ?? fillZoom(containerRef.current)
+    const t = Math.max(0, Math.min(1, (map.getZoom() - z0) / (6 - z0)))
+    const px = (STAR_MIN + (STAR_MAX - STAR_MIN) * t).toFixed(1)
+    for (const m of starMarkers.current) m.getElement().style.setProperty('--star', `${px}px`)
+  }, [])
 
   // ---- the limb: an overlay sized to the sphere's real silhouette
   const measureSphere = useCallback((map: MLMap) => {
@@ -289,7 +328,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       style: buildStyle(),
       center: NORTH,
       zoom: fillZoom(containerRef.current),
-      minZoom: -1,
+      minZoom: -1.5,
       pitch: 0,
       bearing: 0,
       attributionControl: false,
@@ -320,12 +359,14 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       const el = containerRef.current
       if (!el) return
       const { radiusPx } = measureSphere(map)
-      const target = (1.15 * el.clientHeight) / 2
+      const target = fitDiameter(el) / 2
       if (radiusPx > 0) map.jumpTo({ zoom: map.getZoom() + Math.log2(target / radiusPx) })
       homeZoom.current = map.getZoom()
       updateLimb()
+      sizeStars()
     })
     map.on('move', updateLimb)
+    map.on('zoom', sizeStars)
     map.on('resize', updateLimb)
 
     map.once('idle', () => {
@@ -408,6 +449,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     const map = mapRef.current
     if (!map) return
     const onClick = (e: maplibregl.MapMouseEvent) => {
+      if ((e.originalEvent?.target as Element | null)?.closest?.('.pulse-star')) return
       const hits = map.queryRenderedFeatures(e.point, { layers: ['dots'] })
       const slug = hits[0]?.properties?.slug as string | undefined
       const p = slug ? projectsRef.current.find((x) => x.slug === slug) : undefined
@@ -437,37 +479,27 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
           announced_cad: r.announced_cad == null ? null : Number(r.announced_cad),
           committed_cad: r.committed_cad == null ? null : Number(r.committed_cad),
         })) as Project[]
+        // Local test hook: rows merged by slug from window.__pulseFixture, set by the test harness before load. Never the database.
+        const fixture = (window as unknown as { __pulseFixture?: Array<Partial<Project> & { slug: string }> }).__pulseFixture
+        if (Array.isArray(fixture)) {
+          for (const f of fixture) {
+            const i = rows.findIndex((r) => r.slug === f.slug)
+            if (i >= 0) rows[i] = { ...rows[i], ...f }
+          }
+        }
         projectsRef.current = rows
         setProjects(rows)
-        const fc: GeoJSON.FeatureCollection = {
-          type: 'FeatureCollection',
-          features: rows.map((p) => ({
-            type: 'Feature',
-            id: p.slug,
-            properties: { slug: p.slug, age: ageOf(p.pulse_at, now) },
-            geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
-          })),
-        }
-        const map = mapRef.current
-        const apply = () => {
-          if (!map) return
-          const src = map.getSource('projects') as GeoJSONSource | undefined
-          if (!src) {
-            map.once('styledata', apply)
-            return
-          }
-          src.setData(fc)
-          if (initialSlug) {
-            const p = rows.find((x) => x.slug === initialSlug)
-            if (p) {
-              stopIdle()
-              setActive(p)
-              map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM })
-            }
+        syncSource()
+        if (initialSlug) {
+          const p = rows.find((x) => x.slug === initialSlug)
+          const map = mapRef.current
+          if (p && map) {
+            stopIdle()
+            setActive(p)
+            map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM })
           }
         }
-        apply()
-        startPulse(fc.features.some((f) => f.properties?.age === 'fresh'))
+        void now
       })
     return () => {
       cancelled = true
@@ -475,23 +507,63 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialSlug])
 
-  // ---- pulse rings: 0→28px over 2.4s ease-out, opacity 0.6→0, every 3s
-  const rafRef = useRef<number | null>(null)
-  function startPulse(any: boolean) {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    if (!any || reduced) return
-    const t0 = performance.now()
-    const tick = (now: number) => {
-      const map = mapRef.current
-      if (!map || !map.getLayer('pulse-ring')) return
-      const t = Math.min(((now - t0) % 3000) / 2400, 1)
-      map.setPaintProperty('pulse-ring', 'circle-radius', 28 * easeOut(t))
-      map.setPaintProperty('pulse-ring', 'circle-stroke-opacity', t >= 1 ? 0 : 0.6 * (1 - t))
-      rafRef.current = requestAnimationFrame(tick)
+  // ---- the source: every project a feature; `star` marks the ones the glyph replaces
+  function syncSource() {
+    const map = mapRef.current
+    if (!map) return
+    const src = map.getSource('projects') as GeoJSONSource | undefined
+    if (!src) {
+      map.once('styledata', syncSource)
+      return
     }
-    rafRef.current = requestAnimationFrame(tick)
+    const now = Date.now()
+    src.setData({
+      type: 'FeatureCollection',
+      features: projectsRef.current.map((p) => {
+        const age = ageOf(p.pulse_at, now)
+        return {
+          type: 'Feature',
+          id: p.slug,
+          properties: { slug: p.slug, age, star: pulseOnRef.current && isStar(age) },
+          geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
+        }
+      }),
+    })
   }
-  useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }, [])
+  useEffect(() => {
+    pulseOnRef.current = pulseOn
+    syncSource()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pulseOn])
+
+  // ---- the stars: a DOM marker per project within 30 days; the newest under 7 days rings
+  useEffect(() => {
+    const map = mapRef.current
+    starMarkers.current.forEach((m) => m.remove())
+    starMarkers.current = []
+    if (!map || !pulseOn) return
+    const now = Date.now()
+    const stars = projects.filter((p) => isStar(ageOf(p.pulse_at, now)))
+    if (stars.length === 0) return
+    const ringing = stars
+      .filter((p) => ageOf(p.pulse_at, now) === 'fresh')
+      .sort((a, b) => new Date(b.pulse_at!).getTime() - new Date(a.pulse_at!).getTime())[0]
+    for (const p of stars) {
+      const el = document.createElement('button')
+      el.type = 'button'
+      el.className = `pulse-star${p === ringing && !reduced ? ' is-breaking' : ''}`
+      el.setAttribute('aria-label', p.name)
+      el.innerHTML = '<span class="ring" aria-hidden="true"></span><svg class="glyph" viewBox="-10 -14 20 28" aria-hidden="true"><use href="#pulse-star"></use></svg>'
+      el.addEventListener('click', (e) => {
+        e.stopPropagation()
+        flyToProject(p)
+      })
+      starMarkers.current.push(
+        new maplibregl.Marker({ element: el, anchor: 'center', opacityWhenCovered: '0' }).setLngLat([p.lng, p.lat]).addTo(map),
+      )
+    }
+    sizeStars()
+  }, [projects, pulseOn, reduced, flyToProject, sizeStars])
 
   // ---- idle spin: after the fade, unless something already stopped it
   useEffect(() => {
@@ -500,19 +572,20 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     const el = containerRef.current
     if (!el) return
     const opts = { passive: true } as AddEventListenerOptions
-    el.addEventListener('pointerdown', stopIdle, opts)
-    el.addEventListener('touchstart', stopIdle, opts)
-    el.addEventListener('wheel', stopIdle, opts)
-    window.addEventListener('keydown', stopIdle)
+    el.addEventListener('pointerdown', onInteract, opts)
+    el.addEventListener('touchstart', onInteract, opts)
+    el.addEventListener('wheel', onInteract, opts)
+    window.addEventListener('keydown', onInteract)
     return () => {
-      el.removeEventListener('pointerdown', stopIdle)
-      el.removeEventListener('touchstart', stopIdle)
-      el.removeEventListener('wheel', stopIdle)
-      window.removeEventListener('keydown', stopIdle)
+      el.removeEventListener('pointerdown', onInteract)
+      el.removeEventListener('touchstart', onInteract)
+      el.removeEventListener('wheel', onInteract)
+      window.removeEventListener('keydown', onInteract)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready])
   useEffect(() => {
+    activeRef.current = active
     if (active) stopIdle()
   }, [active, stopIdle])
 
@@ -541,7 +614,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     setActive(null)
     const to = next === 'south' ? SOUTH : NORTH
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
-    stopIdle()
+    onInteract()
     const z1 = homeZoom.current ?? fillZoom(containerRef.current)
     if (reduced) {
       map.jumpTo({ center: to, zoom: z1, pitch: 0, bearing: 0 })
@@ -608,6 +681,20 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       ) : null}
       <div ref={containerRef} className={`pulse-map${ready ? ' is-ready' : ''}`} aria-label="Northern Pulse globe" />
       <div ref={limbRef} className="pulse-limb" aria-hidden="true" />
+      {/* The pulse glyph: a thin four-pointed compass star, vertical points 1.4× the horizontal, hairline gold. */}
+      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true" focusable="false">
+        <symbol id="pulse-star" viewBox="-10 -14 20 28">
+          <path
+            d="M0,-14 L1.6,-1.6 L10,0 L1.6,1.6 L0,14 L-1.6,1.6 L-10,0 L-1.6,-1.6 Z"
+            fill={GOLD}
+            fillOpacity="0.28"
+            stroke={GOLD}
+            strokeWidth="0.75"
+            strokeLinejoin="miter"
+            vectorEffect="non-scaling-stroke"
+          />
+        </symbol>
+      </svg>
 
       <div className="pulse-chrome pulse-left">
         <div className="pulse-title">
@@ -684,7 +771,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
         <span className="sep">·</span>
         <button type="button" disabled title="Coming">Rooms</button>
         <span className="sep">·</span>
-        <button type="button" disabled title="Coming">Pulse</button>
+        <button type="button" className={pulseOn ? 'is-on' : undefined} aria-pressed={pulseOn} onClick={() => setPulseOn((o) => !o)}>Pulse</button>
       </div>
 
       {!embed || armed ? (
@@ -703,6 +790,9 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
             <button type="button" className="close" onClick={closeCard} aria-label="Close">×</button>
             <span className="kicker">{active.type}</span>
             <h2 className="name">{active.name}</h2>
+            {active.pulse_at && isStar(ageOf(active.pulse_at, Date.now())) ? (
+              <span className="pulse-line">Pulse · {pulseDate(active.pulse_at)}</span>
+            ) : null}
             <span className="place">{[active.place?.trim(), active.country].filter(Boolean).join(' · ')}</span>
             {active.summary ? <p className="summary">{active.summary}</p> : null}
             {active.status ? <span className="status">{active.status.replace(/_/g, ' ')}</span> : null}
