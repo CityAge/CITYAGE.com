@@ -263,19 +263,25 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
           })),
         }
         const map = mapRef.current
+        // The source exists as soon as the style JSON is parsed; tiles may still be
+        // loading, so do not gate on isStyleLoaded() or a load event that may have passed.
         const apply = () => {
-          const src = map?.getSource('projects') as GeoJSONSource | undefined
-          src?.setData(fc)
+          if (!map) return
+          const src = map.getSource('projects') as GeoJSONSource | undefined
+          if (!src) {
+            map.once('styledata', apply)
+            return
+          }
+          src.setData(fc)
           if (initialSlug) {
             const p = rows.find((x) => x.slug === initialSlug)
             if (p) {
               setActive(p)
-              map?.jumpTo({ center: [p.lng, p.lat], zoom: 4 })
+              map.jumpTo({ center: [p.lng, p.lat], zoom: 4 })
             }
           }
         }
-        if (map?.isStyleLoaded()) apply()
-        else map?.once('load', apply)
+        apply()
         startPulse(fc.features.some((f) => f.properties?.age === 'fresh'))
       })
     return () => {
