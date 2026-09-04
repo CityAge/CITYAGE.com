@@ -36,10 +36,26 @@ const GOLD = '#D4AF5A'
 /** The water fill: deep navy, not black, so the sea reads as sea against space. */
 const OCEAN = '#0A1424'
 const NORTH: [number, number] = [-30, 74]
-/** The poles: 90° N and 90° S at the opening zoom, so the whole sphere is seen from above the pole; 1.4s. */
-const POLE_N: [number, number] = [0, 90]
-const POLE_S: [number, number] = [0, -90]
 const POLE_MS = 1400
+/** MapLibre clamps the centre latitude here (the Mercator limit). */
+const MAX_LAT = 85.051129
+const rad = (d: number) => (d * Math.PI) / 180
+/**
+ * Where a pole flight lands: the whole sphere seen from above the pole, at the
+ * opening diameter. MapLibre's globe zoom is defined against the Mercator scale
+ * at the centre latitude, so the opening size over the pole needs
+ * home + log2(cos(85.05°) / cos(74°)) ≈ home − 1.68. Where that falls below the
+ * floor of −2 (phones), the centre comes a little further from the pole instead.
+ */
+function poleView(sign: 1 | -1, home: number): { center: [number, number]; zoom: number } {
+  let zoom = home + Math.log2(Math.cos(rad(MAX_LAT)) / Math.cos(rad(NORTH[1])))
+  let lat = MAX_LAT
+  if (zoom < -2) {
+    zoom = -2
+    lat = (Math.acos(Math.cos(rad(NORTH[1])) * Math.pow(2, -2 - home)) * 180) / Math.PI
+  }
+  return { center: [0, sign * lat], zoom }
+}
 const PROJECT_ZOOM = 7
 const FLY_TO_MS = 1800
 const FLY_BACK_MS = 1400
@@ -384,7 +400,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       style: buildStyle(),
       center: NORTH,
       zoom: fillZoom(containerRef.current),
-      minZoom: -1.5,
+      minZoom: -2,
       pitch: 0,
       bearing: 0,
       attributionControl: false,
@@ -677,12 +693,12 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     setActive(null)
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
     onInteract()
-    const zoom = homeZoom.current ?? fillZoom(containerRef.current)
+    const { center, zoom } = poleView(1, homeZoom.current ?? fillZoom(containerRef.current))
     if (reduced) {
-      map.jumpTo({ center: POLE_N, zoom, pitch: 0, bearing: 0 })
+      map.jumpTo({ center, zoom, pitch: 0, bearing: 0 })
       return
     }
-    map.flyTo({ center: POLE_N, zoom, bearing: 0, pitch: 0, duration: POLE_MS, easing: easeInOut, essential: true })
+    map.flyTo({ center, zoom, bearing: 0, pitch: 0, duration: POLE_MS, easing: easeInOut, essential: true })
   }
   function toSouthPole() {
     const map = mapRef.current
@@ -691,8 +707,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
     onInteract()
     map.stop()
-    const to = POLE_S
-    const z1 = homeZoom.current ?? fillZoom(containerRef.current)
+    const { center: to, zoom: z1 } = poleView(-1, homeZoom.current ?? fillZoom(containerRef.current))
     if (reduced) {
       map.jumpTo({ center: to, zoom: z1, pitch: 0, bearing: 0 })
       return
