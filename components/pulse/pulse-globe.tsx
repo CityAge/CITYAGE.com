@@ -36,7 +36,11 @@ const GOLD = '#D4AF5A'
 /** The water fill: deep navy, not black, so the sea reads as sea against space. */
 const OCEAN = '#0A1424'
 const NORTH: [number, number] = [-30, 74]
-const SOUTH: [number, number] = [0, -78]
+/** The poles: 90° N and 90° S at zoom 2.2, 1.4s. */
+const POLE_N: [number, number] = [0, 90]
+const POLE_S: [number, number] = [0, -90]
+const POLE_ZOOM = 2.2
+const POLE_MS = 1400
 const PROJECT_ZOOM = 7
 const FLY_TO_MS = 1800
 const FLY_BACK_MS = 1400
@@ -117,9 +121,14 @@ function capitalByCountry(rows: Project[]): { total: { announced: number; commit
   return { total: { announced, committed }, countries: [...by.values()].sort((a, b) => a.country.localeCompare(b.country)) }
 }
 
-/** Target diameter: the whole sphere on the viewport's shorter side, rim visible, never above 90% of the height. */
+const desktop = () => typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches
+/** The sphere's centre: 62% of the width on desktop, 50% on phones, done as map padding so every flight keeps it. */
+function centrePadding(el: HTMLElement | null): number {
+  return desktop() ? Math.round(0.24 * (el?.clientWidth || 1400)) : 0
+}
+/** Target diameter: the whole sphere on the viewport's shorter side, rim visible, never above 90% of the height. With the centre at 62%, the width the sphere can use is 76%. */
 function fitDiameter(el: HTMLElement | null): number {
-  const w = el?.clientWidth || 1400
+  const w = (el?.clientWidth || 1400) * (desktop() ? 0.76 : 1)
   const h = el?.clientHeight || 843
   return 0.9 * Math.min(w, h)
 }
@@ -243,7 +252,6 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   const homeZoom = useRef<number | null>(null)
   const labelMarkers = useRef<MLMarker[]>([])
   const [ready, setReady] = useState(false)
-  const [pole, setPole] = useState<'north' | 'south'>('north')
   const [active, setActive] = useState<Project | null>(null)
   const [projects, setProjects] = useState<Project[]>([])
   const [armed, setArmed] = useState(mode === 'page')
@@ -390,6 +398,9 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     })
     mapRef.current = map
     map.touchZoomRotate.disableRotation()
+    const pad = () => map.setPadding({ left: centrePadding(containerRef.current), top: 0, right: 0, bottom: 0 })
+    pad()
+    map.on('resize', pad)
     ;(window as unknown as { __pulseMap?: MLMap }).__pulseMap = map
     map.on('error', (e) => console.error('[pulse] map error', e.error))
 
@@ -481,19 +492,21 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     },
     [reduced, stopIdle],
   )
+  /** Home: the opening view. Closing a card, or the title, comes back here. */
   const closeCard = useCallback(() => {
     const map = mapRef.current
     setActive(null)
     if (!map) return
-    const home = pole === 'south' ? SOUTH : NORTH
+    if (flightRef.current) cancelAnimationFrame(flightRef.current)
+    stopIdle()
     const zoom = homeZoom.current ?? fillZoom(containerRef.current)
     if (reduced) {
-      map.jumpTo({ center: home, zoom, bearing: 0, pitch: 0 })
+      map.jumpTo({ center: NORTH, zoom, bearing: 0, pitch: 0 })
       return
     }
     map.once('moveend', () => startIdle())
-    map.flyTo({ center: home, zoom, bearing: 0, pitch: 0, duration: FLY_BACK_MS, easing: easeInOut, essential: true })
-  }, [pole, reduced, startIdle])
+    map.flyTo({ center: NORTH, zoom, bearing: 0, pitch: 0, duration: FLY_BACK_MS, easing: easeInOut, essential: true })
+  }, [reduced, startIdle, stopIdle])
 
   // click: a dot flies there; anywhere else closes
   useEffect(() => {
@@ -658,17 +671,28 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     return () => window.removeEventListener('keydown', onKey)
   }, [active, closeCard])
 
-  // ---- the other pole: the long way round the great circle, over the top
-  function flip() {
+  // ---- the poles. 90° N: straight down. 90° S: the long way round the great circle, over the top.
+  function toNorthPole() {
     const map = mapRef.current
     if (!map) return
-    const next = pole === 'north' ? 'south' : 'north'
-    setPole(next)
     setActive(null)
-    const to = next === 'south' ? SOUTH : NORTH
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
     onInteract()
-    const z1 = homeZoom.current ?? fillZoom(containerRef.current)
+    if (reduced) {
+      map.jumpTo({ center: POLE_N, zoom: POLE_ZOOM, pitch: 0, bearing: 0 })
+      return
+    }
+    map.flyTo({ center: POLE_N, zoom: POLE_ZOOM, bearing: 0, pitch: 0, duration: POLE_MS, easing: easeInOut, essential: true })
+  }
+  function toSouthPole() {
+    const map = mapRef.current
+    if (!map) return
+    setActive(null)
+    if (flightRef.current) cancelAnimationFrame(flightRef.current)
+    onInteract()
+    map.stop()
+    const to = POLE_S
+    const z1 = POLE_ZOOM
     if (reduced) {
       map.jumpTo({ center: to, zoom: z1, pitch: 0, bearing: 0 })
       return
@@ -678,9 +702,8 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     const z0 = map.getZoom()
     const b0 = map.getBearing()
     const t0 = performance.now()
-    const D = 1600
     const tick = (now: number) => {
-      const u = Math.min((now - t0) / D, 1)
+      const u = Math.min((now - t0) / POLE_MS, 1)
       const e = easeInOut(u)
       const [lng, lat] = path(e)
       const dip = Math.sin(Math.PI * e)
@@ -751,7 +774,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
 
       <div className="pulse-chrome pulse-left">
         <div className="pulse-title">
-          <span className="name">Northern Pulse</span>
+          <button type="button" className="name" onClick={closeCard}>Northern Pulse</button>
           <span className="line">The world from the two poles.</span>
         </div>
 
@@ -782,7 +805,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
             <span className="rule" aria-hidden="true">
               <span className="gold" style={{ width: `${Math.max(0, Math.min(1, share)) * 100}%` }} />
             </span>
-            <span className="note">The CityAge estimate · Sourced per project</span>
+            <span className="note">The CityAge estimate</span>
             {live === 'usd' && fx ? <span className="note">At 1 C$ = {fx.rate} US$, {rateDate(fx.asOf)}</span> : null}
             {panelOpen ? (
               <div className="panel" role="tooltip">
@@ -837,7 +860,8 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
 
       {!embed || armed ? (
         <div className="pulse-chrome pulse-pole">
-          <button type="button" onClick={flip}>{pole === 'north' ? 'The other pole' : 'The North'}</button>
+          <button type="button" onClick={toNorthPole}>90° N</button>
+          <button type="button" onClick={toSouthPole}>90° S</button>
         </div>
       ) : null}
 
