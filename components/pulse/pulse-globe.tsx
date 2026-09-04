@@ -36,10 +36,9 @@ const GOLD = '#D4AF5A'
 /** The water fill: deep navy, not black, so the sea reads as sea against space. */
 const OCEAN = '#0A1424'
 const NORTH: [number, number] = [-30, 74]
-/** The poles: 90° N and 90° S at zoom 2.2, 1.4s. */
+/** The poles: 90° N and 90° S at the opening zoom, so the whole sphere is seen from above the pole; 1.4s. */
 const POLE_N: [number, number] = [0, 90]
 const POLE_S: [number, number] = [0, -90]
-const POLE_ZOOM = 2.2
 const POLE_MS = 1400
 const PROJECT_ZOOM = 7
 const FLY_TO_MS = 1800
@@ -678,11 +677,12 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     setActive(null)
     if (flightRef.current) cancelAnimationFrame(flightRef.current)
     onInteract()
+    const zoom = homeZoom.current ?? fillZoom(containerRef.current)
     if (reduced) {
-      map.jumpTo({ center: POLE_N, zoom: POLE_ZOOM, pitch: 0, bearing: 0 })
+      map.jumpTo({ center: POLE_N, zoom, pitch: 0, bearing: 0 })
       return
     }
-    map.flyTo({ center: POLE_N, zoom: POLE_ZOOM, bearing: 0, pitch: 0, duration: POLE_MS, easing: easeInOut, essential: true })
+    map.flyTo({ center: POLE_N, zoom, bearing: 0, pitch: 0, duration: POLE_MS, easing: easeInOut, essential: true })
   }
   function toSouthPole() {
     const map = mapRef.current
@@ -692,7 +692,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     onInteract()
     map.stop()
     const to = POLE_S
-    const z1 = POLE_ZOOM
+    const z1 = homeZoom.current ?? fillZoom(containerRef.current)
     if (reduced) {
       map.jumpTo({ center: to, zoom: z1, pitch: 0, bearing: 0 })
       return
