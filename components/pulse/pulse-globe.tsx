@@ -33,6 +33,8 @@ export type Project = {
 type Age = 'fresh' | 'recent' | 'old' | 'none'
 
 const GOLD = '#D4AF5A'
+/** The water fill: deep navy, not black, so the sea reads as sea against space. */
+const OCEAN = '#0A1424'
 const NORTH: [number, number] = [-30, 74]
 const SOUTH: [number, number] = [0, -78]
 const PROJECT_ZOOM = 7
@@ -179,10 +181,11 @@ function buildStyle(): StyleSpecification {
       marble: { type: 'raster', tiles: [NASA_TILES], tileSize: 512, maxzoom: 8, attribution: 'NASA GIBS' },
       esri: { type: 'raster', tiles: [ESRI_TILES], tileSize: 256, maxzoom: 18, attribution: 'Esri, Maxar, Earthstar Geographics, and the GIS User Community' },
       coast: { type: 'geojson', data: '/pulse/coastline-110m.json' },
+      ocean: { type: 'geojson', data: '/pulse/ocean-110m.json' },
       projects: { type: 'geojson', data: { type: 'FeatureCollection', features: [] }, promoteId: 'slug' },
     },
     layers: [
-      { id: 'bg', type: 'background', paint: { 'background-color': '#000000' } },
+      { id: 'bg', type: 'background', paint: { 'background-color': OCEAN } },
       {
         id: 'marble',
         type: 'raster',
@@ -190,6 +193,13 @@ function buildStyle(): StyleSpecification {
         // 90%, contrast lifted so towns read as points of light
         // desaturated so the lights are warm points on black, not the source's blue haze
         paint: { 'raster-opacity': 0.9, 'raster-contrast': 0.3, 'raster-saturation': -0.7, 'raster-brightness-min': 0, 'raster-fade-duration': 300 },
+      },
+      {
+        // The sea: deep navy over the marble's black water, so it reads as sea against true black space. Land stays as it is.
+        id: 'ocean',
+        type: 'fill',
+        source: 'ocean',
+        paint: { 'fill-color': OCEAN, 'fill-antialias': false },
       },
       {
         id: 'esri',
@@ -413,6 +423,8 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       updateLimb()
       const src = map.getSource('coast') as GeoJSONSource | undefined
       src?.setData('/pulse/coastline-50m.json')
+      const sea = map.getSource('ocean') as GeoJSONSource | undefined
+      sea?.setData('/pulse/ocean-50m.json')
     })
 
     // Labels above zoom 5, sparse, in Newsreader (DOM markers).
