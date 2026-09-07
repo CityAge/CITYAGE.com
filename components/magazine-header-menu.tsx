@@ -17,12 +17,9 @@ const EVENTS = [
   { href: '/next-vancouver', label: 'Next Vancouver' },
 ] as const
 
-/** Older pages, reachable from the hamburger only. */
+/** Older pages, reachable from the hamburger only. The event franchises sit under Events. */
 const MORE_LINKS = [
   { href: '/dispatches', label: 'Dispatches' },
-  { href: '/the-next-west', label: 'The Next West' },
-  { href: '/northern-century', label: 'Northern Century' },
-  { href: '/next-vancouver', label: 'Next Vancouver' },
   { href: '/advisory', label: 'Advisory' },
   { href: '/contact', label: 'Contact' },
 ] as const
@@ -159,7 +156,19 @@ export function MagazineUtilityBar() {
       </div>
       {menuOpen && (
         <div className="max-w-[1400px] mx-auto flex flex-col gap-3 pt-3 pb-1">
-          {HOUSE_LINKS.map((link) => (
+          <Link href="/purpose" className={HOUSE_LINK_CLASS}>
+            Purpose
+          </Link>
+          {/* Events: one entry, the franchises nested beneath it */}
+          <div className="flex flex-col gap-3">
+            <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-black">Events</span>
+            {EVENTS.map((ev) => (
+              <Link key={ev.href} href={ev.href} className={`${HOUSE_LINK_CLASS} pl-6`}>
+                {ev.label}
+              </Link>
+            ))}
+          </div>
+          {HOUSE_LINKS.filter((l) => l.href !== '/purpose').map((link) => (
             <Link key={link.href} href={link.href} className={HOUSE_LINK_CLASS}>
               {link.label}
             </Link>
