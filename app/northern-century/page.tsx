@@ -6,6 +6,7 @@ import { MagazineFooter } from '@/components/magazine-footer'
 import { DoorSpeakersStrip } from '@/components/door-speakers-strip'
 import { fetchNorthernCenturyFaces } from '@/lib/speakers'
 import { PulseLazy } from '@/components/pulse/pulse-lazy'
+import { NoteForm } from '@/components/note-form'
 
 export const revalidate = 3600
 
@@ -18,8 +19,8 @@ const THESIS = [
 ] as const
 
 const ROOMS = [
-  { city: 'Ottawa', when: 'Spring 2027', note: 'Invitation only', href: '/northern-century' },
-  { city: 'Washington', when: 'To follow', note: null, href: '/northern-century' },
+  { city: 'Ottawa', when: 'Spring 2027', note: 'Invitation only', href: '#invite' },
+  { city: 'Washington', when: 'To follow', note: null, href: '#invite' },
 ] as const
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -168,6 +169,18 @@ export default async function NorthernCenturyPage() {
               </Link>
             ))}
           </div>
+        </Band>
+
+        {/* 7b. THE INVITATION */}
+        <Band title="Apply for an invitation.">
+          <section id="invite">
+            <p className="type-body text-black mb-6 max-w-[640px]">
+              Seats are limited and the room is curated. Tell us who you are and which room you belong in.
+            </p>
+            <div className="border border-black/20 bg-[#F9F9F7] px-5 py-8 md:px-8 md:py-10 max-w-[720px]">
+              <NoteForm source="northern-century" subject="The Northern Century" tone="light" />
+            </div>
+          </section>
         </Band>
 
         {/* 8. CONVENERS */}

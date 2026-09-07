@@ -2,6 +2,7 @@ import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
 import Image from 'next/image'
+import { NoteForm } from '@/components/note-form'
 
 export const metadata = {
   title: 'TheHumanTouch.AI — Our Editorial Philosophy | CityAge',
@@ -100,89 +101,9 @@ export default function AIPolicy() {
               CityAge welcomes contributors from both our networks and beyond. If you have something you&apos;d like to write, or you&apos;d like CityAge to cover a special report, please let us know.
             </p>
 
-            <form action="https://formsubmit.co/info@cityage.com" method="POST" className="space-y-5">
-              {/* FormSubmit config */}
-              <input type="hidden" name="_subject" value="CityAge Contributor Inquiry" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_next" value="https://cityage.com/ai-policy?submitted=true" />
-              <input type="text" name="_honey" style={{ display: 'none' }} />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">First Name</label>
-                  <input
-                    type="text"
-                    name="first_name"
-                    required
-                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    name="last_name"
-                    required
-                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <div>
-                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">City</label>
-                  <input
-                    type="text"
-                    name="city"
-                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Title</label>
-                  <input
-                    type="text"
-                    name="title"
-                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Company</label>
-                  <input
-                    type="text"
-                    name="company"
-                    className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono text-[9px] tracking-[0.2em] uppercase text-black/40 block mb-2">Your Message</label>
-                <textarea
-                  name="message"
-                  rows={5}
-                  required
-                  placeholder="Tell us what you'd like to write about or what you'd like us to cover…"
-                  className="w-full border border-black/15 bg-white px-4 py-3 font-serif text-[15px] text-black outline-none focus:border-[#C5A059] transition-colors resize-none placeholder-black/25"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="bg-black text-white px-8 py-3 font-mono text-[10px] font-black tracking-[0.2em] uppercase hover:bg-[#C5A059] hover:text-black transition-all"
-              >
-                Submit
-              </button>
-            </form>
+            <div className="border border-black/20 bg-[#F9F9F7] px-5 py-8 md:px-8 md:py-10">
+              <NoteForm source="ai-policy" subject="something else" tone="light" />
+            </div>
           </div>
 
           <div className="mt-12 pt-8 border-t border-black/10 text-center">
