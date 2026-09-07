@@ -8,7 +8,7 @@ import { NextResponse, type NextRequest } from 'next/server'
  * search engines included, gets the site's 404. With no PREVIEW_KEY set
  * in the environment, nobody sees them.
  */
-const PRIVATE = ['/northern-century']
+const PRIVATE = ['/northern-century', '/dispatches']
 const COOKIE = 'ca_preview'
 
 export function proxy(req: NextRequest) {
@@ -35,4 +35,4 @@ export function proxy(req: NextRequest) {
   return res
 }
 
-export const config = { matcher: ['/northern-century/:path*'] }
+export const config = { matcher: ['/northern-century/:path*', '/dispatches/:path*'] }
