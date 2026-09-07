@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { InviteForm } from './invite-form'
+import { NoteForm } from '@/components/note-form'
 
 export const metadata: Metadata = {
   title: 'The Next West — CityAge',
@@ -131,7 +131,7 @@ export default function TheNextWestPage() {
                 belong in.
               </p>
               <div className="border border-black/20 bg-[#F9F9F7] px-5 py-8 md:px-8 md:py-10">
-                <InviteForm />
+                <NoteForm source="the-next-west" subject="The Next West" tone="light" />
               </div>
             </section>
           </div>
