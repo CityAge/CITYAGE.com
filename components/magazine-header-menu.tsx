@@ -35,6 +35,7 @@ export function MagazineUtilityBar() {
   const eventsRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const closeTimer = useRef<number | null>(null)
+  const openedByHover = useRef(false)
 
   // Escape closes the dropdown (focus back on Events); a click anywhere outside closes it too.
   useEffect(() => {
@@ -58,15 +59,26 @@ export function MagazineUtilityBar() {
 
   const hoverOpen = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
-    if (isDesktop()) setEventsOpen(true)
+    if (isDesktop() && !eventsOpen) {
+      openedByHover.current = true
+      setEventsOpen(true)
+    }
   }
   const hoverClose = () => {
     closeTimer.current = window.setTimeout(() => setEventsOpen(false), 120)
   }
-  /** Desktop: toggle the dropdown. Phones: Events simply opens the hamburger. */
+  /** Desktop: a click opens, or pins open a menu the hover already opened; a second click closes. Phones: Events simply opens the hamburger. */
   const onEventsClick = () => {
-    if (isDesktop()) setEventsOpen((o) => !o)
-    else setMenuOpen((o) => !o)
+    if (!isDesktop()) {
+      setMenuOpen((o) => !o)
+      return
+    }
+    if (eventsOpen && openedByHover.current) {
+      openedByHover.current = false
+      return
+    }
+    openedByHover.current = false
+    setEventsOpen((o) => !o)
   }
   const onTriggerKey = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
