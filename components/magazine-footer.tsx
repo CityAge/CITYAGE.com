@@ -53,11 +53,9 @@ export function MagazineFooter() {
         <div className="md:col-span-2 space-y-4">
           <h3 className="text-[13px] font-bold tracking-[0.18em] uppercase text-white">Discover</h3>
           <ul className="text-[15px] space-y-3 text-white/70">
-            <li><a href="/dispatches" className="hover:text-white transition-colors">Dispatches</a></li>
             <li><a href="/the-next-west" className="hover:text-white transition-colors">The Next West</a></li>
             <li><a href="/northern-century" className="hover:text-white transition-colors">Northern Century</a></li>
             <li><a href="/next-vancouver" className="hover:text-white transition-colors">Next Vancouver</a></li>
-            <li><a href="/advisory" className="hover:text-white transition-colors">Advisory</a></li>
             <li><a href="/contact" className="hover:text-white transition-colors">Contact</a></li>
           </ul>
         </div>

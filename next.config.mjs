@@ -21,7 +21,6 @@ const nextConfig = {
       afterFiles: [
         // Legacy static pages in public/ served at clean URLs
         { source: '/next-vancouver', destination: '/next-vancouver.html' },
-        { source: '/advisory', destination: '/advisory.html' },
       ],
     }
   },
@@ -31,7 +30,6 @@ const nextConfig = {
       { source: '/home', destination: '/', permanent: false },
       { source: '/the-next-vancouver', destination: '/next-vancouver', permanent: false },
       { source: '/contributors', destination: '/people', permanent: false },
-      { source: '/private-advisory', destination: '/advisory', permanent: false },
     ]
   },
 }

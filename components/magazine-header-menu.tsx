@@ -10,17 +10,14 @@ const HOUSE_LINKS = [
   { href: '/partners', label: 'Partners' },
 ] as const
 
-/** Event franchises that already have a page. Nothing here is a new page. */
+/** The event franchises in the Events menu. Next Vancouver keeps its page but is not listed; old events come over from WordPress later. */
 const EVENTS = [
   { href: '/the-next-west', label: 'The Next West' },
   { href: '/northern-century', label: 'The Northern Century' },
-  { href: '/next-vancouver', label: 'Next Vancouver' },
 ] as const
 
 /** Older pages, reachable from the hamburger only. The event franchises sit under Events. */
 const MORE_LINKS = [
-  { href: '/dispatches', label: 'Dispatches' },
-  { href: '/advisory', label: 'Advisory' },
   { href: '/contact', label: 'Contact' },
 ] as const
 
