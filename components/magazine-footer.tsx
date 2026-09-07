@@ -95,7 +95,7 @@ export function MagazineFooter() {
 
         {/* Utilities */}
         <nav className="md:col-span-2 space-y-4" aria-label="Utilities">
-          <h3 className={HEAD}>CityAge Media</h3>
+          <h3 className={HEAD}>Contact</h3>
           <ul className="space-y-3">
             {UTILITIES.map((l) => (
               <li key={l.href}><a href={l.href} className={LINK}>{l.label}</a></li>
