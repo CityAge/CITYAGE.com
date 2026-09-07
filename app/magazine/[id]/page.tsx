@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { readMinutes } from '@/lib/magazine'
+import { SITE_URL } from '@/lib/site'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { MagazineHeader } from '@/components/magazine-header'
@@ -10,7 +11,6 @@ import { ShareRow } from '@/components/share-row'
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
-const SITE_URL = 'https://cityage.com'
 
 /** /magazine/[id] takes either the row uuid or its optional slug. */
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
