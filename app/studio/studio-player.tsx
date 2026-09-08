@@ -72,6 +72,17 @@ const FILMS: Film[] = [
     cardDescription: 'A film with Douglas Coupland',
   },
   {
+    id: 'giltrudes-dwelling',
+    title: "Giltrude's Dwelling",
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: '1197480982',
+    stillImage: null,
+    thumb: '/giltrudes-dwelling-thumb.jpg',
+    credit: 'Directed by Jeremy Lutter',
+  },
+  {
     id: 'facing-saddam',
     title: 'Facing Saddam',
     type: 'Documentary Feature',
@@ -239,17 +250,7 @@ const FILMS: Film[] = [
     watchUrl: 'https://www.youtube.com/watch?v=xMhFP2oM3CY',
     thumb: '/new-american-city-thumb.jpg',
     credit: 'Directed by Miro Cernetig',
-  },
-  {
-    id: 'giltrudes-dwelling',
-    title: "Giltrude's Dwelling",
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: '1197480982',
-    stillImage: null,
-    thumb: '/giltrudes-dwelling-thumb.jpg',
-    credit: 'Directed by Jeremy Lutter',
+    cardDescription: 'CityAge’s inaugural event in the USA',
   },
 ]
 
