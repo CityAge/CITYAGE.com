@@ -37,7 +37,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
         {readTime ? <span className="type-meta block mb-3 lg:mb-4">{readTime}</span> : null}
         {image ? (
           <div
-            className="ca-photo ca-photo-lead w-full relative overflow-hidden bg-gray-100 aspect-[4/3] lg:aspect-[3/4] mt-4 lg:mt-6"
+            className="ca-photo ca-photo-lead w-full relative overflow-hidden bg-gray-100 aspect-[4/3] mt-4 lg:mt-6"
             style={{ position: 'relative', overflow: 'hidden' }}
           >
             <Image
