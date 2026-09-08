@@ -14,7 +14,9 @@ export default async function ContactPage({
   searchParams: Promise<{ subject?: string | string[] }>
 }) {
   const { subject } = await searchParams
-  const contributing = subject === 'contribute'
+  const selectedSubject = subject === 'contribute'
+    ? 'contributing a story or idea'
+    : subject === 'studio' ? 'the Studio' : undefined
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
@@ -28,7 +30,7 @@ export default async function ContactPage({
             Every note is read by Miro Cernetig.
           </p>
 
-          <NoteForm source="contact" subject={contributing ? 'contributing a story or idea' : undefined} tone="dark" />
+          <NoteForm source="contact" subject={selectedSubject} tone="dark" />
         </div>
       </main>
 
