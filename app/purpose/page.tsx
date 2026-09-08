@@ -102,17 +102,18 @@ export default function PurposePage() {
               CityAge puts ideas in motion.
             </p>
             <p className="type-body text-black mb-6">
-              We find the ideas worth moving. We put each one in a small room of enormous
-              influence. Then we make the films, brands and campaigns that forge the
-              connections to make it real.
+              We help leaders turn ideas into action. We work with business and political
+              leaders, researchers, innovators, philanthropists and others who build the
+              Urban Planet.
             </p>
             <p className="type-body text-black mb-6">
-              Our knowledge partners have built companies, changed policy, raised capital, seen
-              their valuations climb, been featured in major media — and, most important of
-              all, formed friendships and partnerships that endure.
+              We amplify promising public policy ideas and bring people together to help
+              shape and implement them. We help build brands, raise awareness, attract
+              capital and form partnerships.
             </p>
             <p className="type-body text-black">
-              We don&apos;t take on every idea. Only the ones that add something to the world.
+              Through our publication, events, films and campaigns, we connect ideas with
+              the people who can make them happen.
             </p>
 
             <p className="font-serif text-[1.85rem] md:text-[2.6rem] leading-[1.2] tracking-tight text-black mt-20 md:mt-28 mb-8">
