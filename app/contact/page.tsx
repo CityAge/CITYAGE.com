@@ -8,7 +8,13 @@ export const metadata: Metadata = {
   description: 'Every note is read by Miro Cernetig.',
 }
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ subject?: string | string[] }>
+}) {
+  const { subject } = await searchParams
+  const contributing = subject === 'contribute'
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
@@ -22,7 +28,7 @@ export default function ContactPage() {
             Every note is read by Miro Cernetig.
           </p>
 
-          <NoteForm source="contact" tone="dark" />
+          <NoteForm source="contact" subject={contributing ? 'contributing a story or idea' : undefined} tone="dark" />
         </div>
       </main>
 
