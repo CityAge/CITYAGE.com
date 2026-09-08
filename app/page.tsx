@@ -115,7 +115,9 @@ export default async function Home() {
         image="/northern-century-earth.jpg"
         crop="object-top"
         heading="The Northern Century."
-        italic="Washington and Ottawa. Alternating editions."
+        italic="The ice is melting. The contest for the North is heating up."
+        description="Convening leaders in finance, government and northern communities. Coming soon."
+        ctaLabel="Register your interest"
         href="/northern-century"
         priority={false}
       />
