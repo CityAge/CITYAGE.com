@@ -144,7 +144,7 @@ const FILMS: Film[] = [
   },
   {
     id: 'digging-up-a-ship',
-    title: 'Digging Up A Ship',
+    title: 'Digging For A Ship',
     type: 'Documentary',
     desc: 'The extraordinary story of an archaeological excavation — and what an ancient vessel reveals about the city built above it.',
     awards: ['CityAge Studio'],
