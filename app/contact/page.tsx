@@ -5,7 +5,7 @@ import { NoteForm } from '@/components/note-form'
 
 export const metadata: Metadata = {
   title: 'Contact — CityAge',
-  description: 'Every note is read by Miro Cernetig. Most get an answer within two working days.',
+  description: 'Every note is read by Miro Cernetig.',
 }
 
 export default function ContactPage() {
@@ -19,7 +19,7 @@ export default function ContactPage() {
           <h1 className="type-lead-h text-white mb-4">Write to us.</h1>
           <p className="type-deck text-[#F9F9F7]/85 mb-3">Vancouver · Ottawa · Washington.</p>
           <p className="type-body text-[#F9F9F7] mb-12">
-            Every note is read by Miro Cernetig. Most get an answer within two working days.
+            Every note is read by Miro Cernetig.
           </p>
 
           <NoteForm source="contact" tone="dark" />
