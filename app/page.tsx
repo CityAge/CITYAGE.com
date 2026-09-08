@@ -24,13 +24,6 @@ const HOUSE_ENTRIES: HouseEntry[] = [
     href: '/the-next-west',
   },
   {
-    image: '/northern-century-earth.jpg',
-    headline: 'The Northern Century.',
-    body: 'A network of the leaders shaping the North.',
-    cta: 'Join',
-    href: '/northern-century',
-  },
-  {
     // No /studio-still.jpg in public/; the first film's thumbnail stands in.
     image: '/best-day-ever-thumb.jpg',
     headline: 'CityAge Studio.',
