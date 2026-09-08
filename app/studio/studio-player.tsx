@@ -630,6 +630,7 @@ export function StudioPlayer() {
             )
           })}
         </div>
+        <a className="sv-project-link" href="/contact?subject=studio">Discuss a project</a>
       </div>
     </div>
   )
