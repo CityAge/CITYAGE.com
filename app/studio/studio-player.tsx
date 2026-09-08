@@ -265,7 +265,6 @@ export function StudioPlayer() {
     setStillOn(false)
     setActiveId(null)
     setInfo(null)
-    setMuted(false)
     setBuffering(false)
     setPlatoOn(true)
   }
@@ -307,6 +306,7 @@ export function StudioPlayer() {
 
   useEffect(() => {
     function onMessage(event: MessageEvent) {
+      if (event.origin !== 'https://player.vimeo.com' || event.source !== iframeRef.current?.contentWindow) return
       if (typeof event.data !== 'string') return
       try {
         const data = JSON.parse(event.data) as { event?: string }
@@ -343,7 +343,7 @@ export function StudioPlayer() {
   function postVimeo(method: string, value?: number | boolean | string) {
     const win = iframeRef.current?.contentWindow
     if (!win) return
-    win.postMessage(JSON.stringify(value === undefined ? { method } : { method, value }), '*')
+    win.postMessage(JSON.stringify(value === undefined ? { method } : { method, value }), 'https://player.vimeo.com')
   }
 
   function onHeroIframeLoad() {
@@ -354,14 +354,18 @@ export function StudioPlayer() {
   }
 
   function toggleMute() {
-    if (!iframeSrc) {
-      playHeroReel(false)
-      return
-    }
     const next = !muted
     setMuted(next)
     postVimeo('setVolume', next ? 0 : 1)
     postVimeo('setMuted', next)
+  }
+
+  function replayVideo() {
+    if (info?.vimeoId) {
+      playVimeo(info.vimeoId, false, info.thumb || info.stillImage, muted)
+    } else {
+      playHeroReel(muted)
+    }
   }
 
   function stopHero() {
@@ -448,7 +452,6 @@ export function StudioPlayer() {
         <p className="sv-cta-text">
           CityAge’s strategy and creative arm. We build brands, develop campaigns and take on special projects—bringing strategy, storytelling and people together to make things happen.
         </p>
-        <p className="sv-cta-approach">Our films are made by seasoned filmmakers whose work has been seen by millions in cinemas and on television. We’re bringing AI into our creative process to work faster and explore new possibilities—with human judgement and craft guiding every brand, film or campaign. The final cut is always ours and yours.</p>
         <a className="sv-project-link" href="/contact?subject=studio">Discuss a project</a>
       </section>
 
@@ -482,8 +485,12 @@ export function StudioPlayer() {
           <span className="sv-p-l3">rule the world.</span>
         </div>
 
-        <div className="sv-player-btns">
-          <button type="button" className="sv-mute-btn" onClick={toggleMute} title="Toggle sound">
+        <div className="sv-player-btns" role="group" aria-label="Video controls">
+          <button type="button" className="sv-play-btn" onClick={replayVideo}>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+            <span>{iframeSrc ? 'Replay' : 'Play'}</span>
+          </button>
+          <button type="button" className="sv-mute-btn" onClick={toggleMute} aria-label={muted ? 'Turn sound on' : 'Turn sound off'}>
             {muted ? (
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
@@ -497,7 +504,7 @@ export function StudioPlayer() {
                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
               </svg>
             )}
-            <span>{muted ? 'Sound Off' : 'Sound On'}</span>
+            <span>{muted ? 'Sound on' : 'Sound off'}</span>
           </button>
           <button type="button" className="sv-stop-btn" onClick={stopHero} title="Stop video">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -544,6 +551,7 @@ export function StudioPlayer() {
       </div>
 
       <div className="sv-shelf">
+        <p className="sv-cta-approach">Our films are made by seasoned filmmakers whose work has been seen by millions in cinemas and on television. We’re bringing AI into our creative process to work faster and explore new possibilities—with human judgement and craft guiding every brand, film or campaign. The final cut is always ours and yours.</p>
         <span className="sv-shelf-label">Select a film</span>
         <div className="sv-row">
           {FILMS.map((film) => {
