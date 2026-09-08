@@ -201,6 +201,7 @@ const FILMS: Film[] = [
     watchUrl: 'https://www.youtube.com/watch?v=MLRBDD7x77M',
     thumb: '/carbon-hunters-thumb.jpg',
     credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch the trailer',
   },
   {
     id: 'juggling-dreams',
