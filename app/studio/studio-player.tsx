@@ -448,7 +448,7 @@ export function StudioPlayer() {
         <p className="sv-cta-text">
           CityAge’s strategy and creative arm. We build brands, develop campaigns and take on special projects—bringing strategy, storytelling and people together to make things happen.
         </p>
-        <p className="sv-cta-approach">AI-enabled. Led by seasoned filmmakers.</p>
+        <p className="sv-cta-approach">Our films are made by seasoned filmmakers whose work has been seen by millions in cinemas and on television. We’re bringing AI into our creative process to work faster and explore new possibilities—with human judgement and craft guiding every brand, film or campaign. The final cut is always ours and yours.</p>
         <a className="sv-project-link" href="/contact?subject=studio">Discuss a project</a>
       </section>
 
