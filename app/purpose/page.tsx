@@ -72,12 +72,23 @@ export default function PurposePage() {
             <h2 className="type-section tracking-tight text-black mb-6">
               What we do.
             </h2>
+            <p className="type-body text-black mb-6">
+              CityAge.com is an open platform for ideas and stories about the people shaping
+              the Urban Planet. We welcome contributors who help us understand what is
+              happening—and what comes next.
+            </p>
+            <p className="type-body text-black mb-6">
+              Our focus is the two per cent of the Earth where most of us live. Where human
+              and financial capital converge, decisions are made and innovation takes shape.
+            </p>
+            <p className="type-body text-black mb-6">
+              Through our publication, events, films and campaigns, we bring people and
+              ideas together.
+            </p>
             <p className="type-body text-black mb-14 md:mb-16">
-              We connect the leaders who build the Urban Planet. 25,000 of them,
-              across fifty cities and fifteen years — founders, government leaders, investors,
-              architects, engineers, mayors, Fortune 1000 executives and more. We bring them
-              together through campaigns, brands, films and curated rooms where decisions and
-              investments follow.
+              CityAge is non-partisan. We believe in a vigorous marketplace of ideas and
+              welcome informed debate, fresh perspectives and strong disagreement. We have
+              no interest in diatribes, conspiracy theories or polarization for its own sake.
             </p>
 
             <p className="font-serif italic text-[1.15rem] md:text-[1.3rem] leading-snug text-black border-t border-[#C5A059] pt-6 mb-8">
@@ -108,6 +119,12 @@ export default function PurposePage() {
               What ideas do you want to put in motion?
             </p>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+              <a
+                href="/contact?subject=contribute"
+                className="inline-block bg-[#C5A059] text-black px-8 py-3 text-[11px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-colors"
+              >
+                Contribute a story or idea
+              </a>
               <a
                 href="mailto:info@cityage.com"
                 className="font-serif text-[18px] md:text-[20px] text-black underline underline-offset-4 decoration-black/20 hover:text-[#C5A059] hover:decoration-[#C5A059] transition-colors"
