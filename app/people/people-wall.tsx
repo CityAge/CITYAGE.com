@@ -296,6 +296,8 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
       data-catalog-size={speakers.length}
     >
       <section className="people-search">
+        <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 28, fontWeight: 400, margin: "0 0 12px" }}>The CityAge Stage</h1>
+        <p style={{ fontFamily: "var(--font-serif), Georgia, serif", fontSize: 17, lineHeight: 1.6, margin: "0 0 32px" }}>Meet the leaders who have joined CityAge to share ideas and help shape the urban planet.</p>
         <span className="people-search-label">Find a leader</span>
         <div className="people-search-wrap">
           <input
