@@ -313,7 +313,7 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
       </div>
 
       <section className="people-search">
-        <span className="people-search-label">Search the network.</span>
+        <span className="people-search-label">Find a leader</span>
         <div className="people-search-wrap">
           <input
             className="people-search-input"
