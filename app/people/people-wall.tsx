@@ -295,24 +295,6 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
       className={searching ? 'is-searching' : undefined}
       data-catalog-size={speakers.length}
     >
-      <div className="reel-stack" aria-label="The CityAge Contributors">
-        {speakers.length === 0 ? (
-          <div className="people-loading">Unable to load speakers</div>
-        ) : (
-          REVERSE.map((_, i) => (
-            <div key={i} className={`reel-section reel-${i + 1}`}>
-              <VirtualPeopleRow
-                faces={speakers}
-                startOffset={Math.floor((speakers.length * i) / 4)}
-                reverse={REVERSE[i]}
-                pxPerSec={SPEEDS[i]}
-                paused={searching}
-              />
-            </div>
-          ))
-        )}
-      </div>
-
       <section className="people-search">
         <span className="people-search-label">Find a leader</span>
         <div className="people-search-wrap">
@@ -331,6 +313,24 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
           )}
         </div>
       </section>
+
+      <div className="reel-stack" aria-label="The CityAge Contributors">
+        {speakers.length === 0 ? (
+          <div className="people-loading">Unable to load speakers</div>
+        ) : (
+          REVERSE.map((_, i) => (
+            <div key={i} className={`reel-section reel-${i + 1}`}>
+              <VirtualPeopleRow
+                faces={speakers}
+                startOffset={Math.floor((speakers.length * i) / 4)}
+                reverse={REVERSE[i]}
+                pxPerSec={SPEEDS[i]}
+                paused={searching}
+              />
+            </div>
+          ))
+        )}
+      </div>
 
       <section className="people-results" hidden={!searching} aria-hidden={!searching}>
         <div className="people-results-count">
