@@ -54,6 +54,8 @@ type Film = {
   watchUrl?: string
   thumb: string | null
   credit?: string
+  cardDescription?: string
+  watchLabel?: string
 }
 
 const FILMS: Film[] = [
@@ -66,154 +68,8 @@ const FILMS: Film[] = [
     vimeoId: '393076418',
     stillImage: null,
     thumb: '/best-day-ever-thumb.jpg',
-  },
-  {
-    id: 'facing-saddam',
-    title: 'Facing Saddam',
-    type: 'Documentary Feature',
-    desc: 'The definitive portrait of Saddam Hussein — told through the eyes of those who faced him in his palaces, his prisons, and his final hours.',
-    awards: ['National Geographic Channel', 'Directed by Miro Cernetig'],
-    vimeoId: null,
-    stillImage: '/facing-saddam-still.png',
-    watchUrl: 'https://tv.apple.com/ca/episode/facing-saddam/umc.cmc.71rhkd7ko45ypb6z2h4ywr4gs?showId=umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
-    thumb: '/facing-saddam-still.png',
-  },
-  {
-    id: 'facing-trump',
-    title: 'Facing Trump',
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: null,
-    stillImage: '/facing-trump-thumb.jpg',
-    watchUrl: 'https://tv.apple.com/ca/show/facing/umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
-    thumb: '/facing-trump-thumb.jpg',
-  },
-  {
-    id: 'sketch-in-the-city',
-    title: 'Sketch In The City',
-    type: 'Short Film',
-    desc: 'An urban portrait through drawing — capturing the texture, rhythm, and character of city life one sketch at a time.',
-    awards: ['CityAge Studio'],
-    vimeoId: '241956203',
-    stillImage: null,
-    thumb: '/sketch-in-the-city-thumb.jpg',
-  },
-  {
-    id: 'west-coast-modernism',
-    title: 'West Coast Modernism',
-    type: 'Documentary Short',
-    desc: "Architect James Cheng and the design philosophy that shaped Vancouver — a portrait of the city's most influential urban mind and the buildings he left behind.",
-    awards: ['CityAge Studio'],
-    vimeoId: '287190902',
-    stillImage: null,
-    thumb: '/grosvenor-thumb.jpg',
-  },
-  {
-    id: 'grosvenor-history',
-    title: 'Grosvenor: A Century of Cities',
-    type: 'Corporate Film',
-    desc: "One of the world's great property families has been creating places for people to live and work for over 300 years. A brand film for Grosvenor Pacific.",
-    awards: ['CityAge Studio'],
-    vimeoId: '266034155',
-    stillImage: null,
-    thumb: '/grosvenor-history-thumb.jpg',
-  },
-  {
-    id: 'harbour-air',
-    title: 'Harbour Air',
-    type: 'Documentary Short',
-    desc: "Forty years flying the coast of British Columbia — a portrait of North America's largest seaplane airline and the wild, beautiful geography it connects.",
-    awards: ['CityAge Studio'],
-    vimeoId: '141440365',
-    stillImage: null,
-    thumb: '/harbour-air-thumb.jpg',
-  },
-  {
-    id: 'digging-up-a-ship',
-    title: 'Digging Up A Ship',
-    type: 'Documentary',
-    desc: 'The extraordinary story of an archaeological excavation — and what an ancient vessel reveals about the city built above it.',
-    awards: ['CityAge Studio'],
-    vimeoId: '199052432',
-    stillImage: null,
-    thumb: '/digging-up-a-ship-thumb.jpg',
-  },
-  {
-    id: 'deep-sea-mining',
-    title: 'Deep Sea Mining',
-    type: 'Documentary',
-    desc: 'From the ocean floor to the cities of the future — the race to extract the metals powering the energy transition.',
-    awards: ['CityAge Studio'],
-    vimeoId: '286643094',
-    stillImage: null,
-    thumb: '/deep-sea-mining-thumb.jpg',
-  },
-  {
-    id: 'chinas-sexual-revolution',
-    title: 'China’s Sexual Revolution',
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: null,
-    stillImage: null,
-    watchUrl: 'https://tubitv.com/movies/608855/china-s-sexual-revolution',
-    thumb: '/chinas-sexual-revolution-thumb.jpg',
-  },
-  {
-    id: 'polar-bear-safari',
-    title: 'Polar Bear Safari',
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: null,
-    stillImage: null,
-    watchUrl: 'https://www.primevideo.com/detail/0SY3XAQ5LEZDYLQ9F41FDWZ84L',
-    thumb: '/polar-bear-safari-thumb.jpg',
-  },
-  {
-    id: 'carbon-hunters',
-    title: 'Carbon Hunters',
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: null,
-    stillImage: null,
-    watchUrl: 'https://www.youtube.com/watch?v=MLRBDD7x77M',
-    thumb: '/carbon-hunters-thumb.jpg',
-  },
-  {
-    id: 'juggling-dreams',
-    title: 'Juggling Dreams',
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: null,
-    stillImage: null,
-    watchUrl: 'https://www.primevideo.com/detail/0HBUUQSC8OYN1W79EVX02W0FFS',
-    thumb: '/juggling-dreams-thumb.jpg',
-  },
-  {
-    id: 'castros-gold',
-    title: 'Castro’s Gold',
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: null,
-    stillImage: null,
-    watchUrl: 'https://www.youtube.com/watch?v=sw2qF83VMTc',
-    thumb: '/castros-gold-thumb.jpg',
-  },
-  {
-    id: 'the-new-american-city',
-    title: 'The New American City',
-    type: '',
-    desc: '',
-    awards: [],
-    vimeoId: null,
-    stillImage: null,
-    watchUrl: 'https://www.youtube.com/watch?v=xMhFP2oM3CY',
-    thumb: '/new-american-city-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    cardDescription: 'A film with Douglas Coupland',
   },
   {
     id: 'giltrudes-dwelling',
@@ -225,6 +81,176 @@ const FILMS: Film[] = [
     stillImage: null,
     thumb: '/giltrudes-dwelling-thumb.jpg',
     credit: 'Directed by Jeremy Lutter',
+  },
+  {
+    id: 'facing-saddam',
+    title: 'Facing Saddam',
+    type: 'Documentary Feature',
+    desc: 'The definitive portrait of Saddam Hussein — told through the eyes of those who faced him in his palaces, his prisons, and his final hours.',
+    awards: ['National Geographic Channel', 'Directed by Miro Cernetig'],
+    vimeoId: null,
+    stillImage: '/facing-saddam-still.png',
+    watchUrl: 'https://tv.apple.com/ca/episode/facing-saddam/umc.cmc.71rhkd7ko45ypb6z2h4ywr4gs?showId=umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
+    thumb: '/facing-saddam-still.png',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Apple TV',
+  },
+  {
+    id: 'facing-trump',
+    title: 'Facing Trump',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: '/facing-trump-thumb.jpg',
+    watchUrl: 'https://tv.apple.com/ca/show/facing/umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
+    thumb: '/facing-trump-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'View the series on Apple TV',
+  },
+  {
+    id: 'sketch-in-the-city',
+    title: 'Sketch In The City',
+    type: 'Short Film',
+    desc: 'Maxime Frappier discusses creativity through sketching.',
+    awards: ['CityAge Studio'],
+    vimeoId: '241956203',
+    stillImage: null,
+    thumb: '/sketch-in-the-city-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    cardDescription: 'Maxime Frappier on creativity through sketching.',
+  },
+  {
+    id: 'west-coast-modernism',
+    title: 'West Coast Modernism',
+    type: 'Documentary Short',
+    desc: "Architect James Cheng and the design philosophy that shaped Vancouver — a portrait of the city's most influential urban mind and the buildings he left behind.",
+    awards: ['CityAge Studio'],
+    vimeoId: '125818228',
+    stillImage: null,
+    thumb: '/west-coast-modernism-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+  },
+  {
+    id: 'grosvenor-history',
+    title: 'Grosvenor: A Century of Cities',
+    type: 'Corporate Film',
+    desc: "One of the world's great property families has been creating places for people to live and work for over 300 years. A brand film for Grosvenor Americas.",
+    awards: ['CityAge Studio'],
+    vimeoId: '266034155',
+    stillImage: null,
+    thumb: '/grosvenor-history-thumb.jpg',
+    credit: 'Directed by Miro Cernetig for Grosvenor Americas',
+  },
+  {
+    id: 'harbour-air',
+    title: 'Harbour Air',
+    type: 'Documentary Short',
+    desc: "Forty years flying the coast of British Columbia — a portrait of North America's largest seaplane airline and the wild, beautiful geography it connects.",
+    awards: ['CityAge Studio'],
+    vimeoId: '141440365',
+    stillImage: null,
+    thumb: '/harbour-air-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+  },
+  {
+    id: 'digging-up-a-ship',
+    title: 'Digging For A Ship',
+    type: 'Documentary',
+    desc: 'The extraordinary story of an archaeological excavation — and what an ancient vessel reveals about the city built above it.',
+    awards: ['CityAge Studio'],
+    vimeoId: '199052432',
+    stillImage: null,
+    thumb: '/digging-up-a-ship-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+  },
+  {
+    id: 'deep-sea-mining',
+    title: 'Deep Sea Mining',
+    type: 'Documentary',
+    desc: 'From the ocean floor to the cities of the future — the race to extract the metals powering the energy transition.',
+    awards: ['CityAge Studio'],
+    vimeoId: '286643094',
+    stillImage: null,
+    thumb: '/deep-sea-mining-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+  },
+  {
+    id: 'chinas-sexual-revolution',
+    title: 'China’s Sexual Revolution',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://tubitv.com/movies/608855/china-s-sexual-revolution',
+    thumb: '/chinas-sexual-revolution-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Tubi · Takes a few seconds to load',
+  },
+  {
+    id: 'polar-bear-safari',
+    title: 'Polar Bear Safari',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.primevideo.com/detail/0SY3XAQ5LEZDYLQ9F41FDWZ84L',
+    thumb: '/polar-bear-safari-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Prime Video · Takes a few seconds to load',
+  },
+  {
+    id: 'carbon-hunters',
+    title: 'Carbon Hunters',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.youtube.com/watch?v=MLRBDD7x77M',
+    thumb: '/carbon-hunters-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch the trailer',
+  },
+  {
+    id: 'juggling-dreams',
+    title: 'Juggling Dreams',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.primevideo.com/detail/0HBUUQSC8OYN1W79EVX02W0FFS',
+    thumb: '/juggling-dreams-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Prime Video · Takes a few seconds to load',
+  },
+  {
+    id: 'castros-gold',
+    title: 'Castro’s Gold',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.youtube.com/watch?v=sw2qF83VMTc',
+    thumb: '/castros-gold-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+  },
+  {
+    id: 'the-new-american-city',
+    title: 'The New American City',
+    type: '',
+    desc: '',
+    awards: [],
+    vimeoId: null,
+    stillImage: null,
+    watchUrl: 'https://www.youtube.com/watch?v=xMhFP2oM3CY',
+    thumb: '/new-american-city-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    cardDescription: 'CityAge’s inaugural event in the USA',
   },
 ]
 
@@ -265,7 +291,6 @@ export function StudioPlayer() {
     setStillOn(false)
     setActiveId(null)
     setInfo(null)
-    setMuted(false)
     setBuffering(false)
     setPlatoOn(true)
   }
@@ -307,6 +332,7 @@ export function StudioPlayer() {
 
   useEffect(() => {
     function onMessage(event: MessageEvent) {
+      if (event.origin !== 'https://player.vimeo.com' || event.source !== iframeRef.current?.contentWindow) return
       if (typeof event.data !== 'string') return
       try {
         const data = JSON.parse(event.data) as { event?: string }
@@ -343,7 +369,7 @@ export function StudioPlayer() {
   function postVimeo(method: string, value?: number | boolean | string) {
     const win = iframeRef.current?.contentWindow
     if (!win) return
-    win.postMessage(JSON.stringify(value === undefined ? { method } : { method, value }), '*')
+    win.postMessage(JSON.stringify(value === undefined ? { method } : { method, value }), 'https://player.vimeo.com')
   }
 
   function onHeroIframeLoad() {
@@ -354,14 +380,18 @@ export function StudioPlayer() {
   }
 
   function toggleMute() {
-    if (!iframeSrc) {
-      playHeroReel(false)
-      return
-    }
     const next = !muted
     setMuted(next)
     postVimeo('setVolume', next ? 0 : 1)
     postVimeo('setMuted', next)
+  }
+
+  function replayVideo() {
+    if (info?.vimeoId) {
+      playVimeo(info.vimeoId, false, info.thumb || info.stillImage, muted)
+    } else {
+      playHeroReel(muted)
+    }
   }
 
   function stopHero() {
@@ -404,8 +434,7 @@ export function StudioPlayer() {
       {VIMEO_ORIGINS.map((origin) => (
         <link key={origin} rel="preconnect" href={origin} crossOrigin="" />
       ))}
-      <div className="sv-hero" ref={heroRef}>
-        <nav className="sv-nav">
+      <nav className="sv-nav">
           <div className="sv-house-left">
             <button
               type="button"
@@ -441,8 +470,18 @@ export function StudioPlayer() {
               Subscribe
             </a>
           </div>
-        </nav>
+      </nav>
 
+      <section className="sv-cta" aria-labelledby="studio-heading">
+        <div className="sv-cta-name">CityAge Studio</div>
+        <h1 id="studio-heading" className="sv-cta-lead">We put ideas in motion.</h1>
+        <p className="sv-cta-text">
+          CityAge’s strategy and creative arm. We build brands, develop campaigns and take on special projects—bringing strategy, storytelling and people together to make things happen.
+        </p>
+        <a className="sv-project-link" href="/contact?subject=studio">Discuss a project</a>
+      </section>
+
+      <div className="sv-hero" ref={heroRef}>
         {stillOn && stillSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="sv-still" src={stillSrc} alt="" />
@@ -472,8 +511,12 @@ export function StudioPlayer() {
           <span className="sv-p-l3">rule the world.</span>
         </div>
 
-        <div className="sv-player-btns">
-          <button type="button" className="sv-mute-btn" onClick={toggleMute} title="Toggle sound">
+        <div className="sv-player-btns" role="group" aria-label="Video controls">
+          <button type="button" className="sv-play-btn" onClick={replayVideo}>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+            <span>{iframeSrc ? 'Replay' : 'Play'}</span>
+          </button>
+          <button type="button" className="sv-mute-btn" onClick={toggleMute} aria-label={muted ? 'Turn sound on' : 'Turn sound off'}>
             {muted ? (
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
@@ -487,7 +530,7 @@ export function StudioPlayer() {
                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
               </svg>
             )}
-            <span>{muted ? 'Sound Off' : 'Sound On'}</span>
+            <span>{muted ? 'Sound on' : 'Sound off'}</span>
           </button>
           <button type="button" className="sv-stop-btn" onClick={stopHero} title="Stop video">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -517,16 +560,10 @@ export function StudioPlayer() {
         </div>
       </div>
 
-      <div className="sv-cta">
-        <div className="sv-cta-name">CityAge Studio</div>
-        <div className="sv-cta-lead">We put ideas in motion.</div>
-        <p className="sv-cta-text">
-          Our documentaries and films have been seen by millions of people. We make films and brands. We take on a few projects a year, by choice.
-        </p>
-      </div>
+      <p className="sv-reel-caption">Our films.</p>
 
       <div className="sv-logos">
-        <span className="sv-logos-label">Where Our Work Appears</span>
+        <span className="sv-logos-label">Where our work has appeared</span>
         {APPEARS.map((logo) => (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -540,6 +577,7 @@ export function StudioPlayer() {
       </div>
 
       <div className="sv-shelf">
+        <p className="sv-cta-approach">Filmmakers Miro Cernetig and Jeremy Lutter collaborate at CityAge Studio. Their work has been seen by millions in cinemas and on television. We’re bringing AI into our creative process to work faster and explore new possibilities—with human judgement and craft guiding every brand, film or campaign. The final cut is always ours and yours.</p>
         <span className="sv-shelf-label">Select a film</span>
         <div className="sv-row">
           {FILMS.map((film) => {
@@ -559,6 +597,8 @@ export function StudioPlayer() {
                 </div>
                 <div className="sv-card-name">{film.title}</div>
                 {film.credit ? <div className="sv-card-credit">{film.credit}</div> : null}
+                {film.cardDescription ? <div className="sv-card-credit">{film.cardDescription}</div> : null}
+                {film.watchLabel ? <div className="sv-card-credit">{film.watchLabel}</div> : null}
               </>
             )
 
@@ -590,6 +630,7 @@ export function StudioPlayer() {
             )
           })}
         </div>
+        <a className="sv-project-link" href="/contact?subject=studio">Discuss a project</a>
       </div>
     </div>
   )

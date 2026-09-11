@@ -158,6 +158,9 @@ export function MagazineUtilityBar() {
               <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
+          <Link href="/contact?subject=contribute" className={`${HOUSE_LINK_CLASS} hidden md:block`}>
+            Contribute
+          </Link>
           <Link href="/subscribe" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
             Subscribe
           </Link>
@@ -183,6 +186,9 @@ export function MagazineUtilityBar() {
             </Link>
           ))}
           <div className="border-t border-black/15 pt-3 mt-1 flex flex-col gap-3">
+            <Link href="/contact?subject=contribute" className={`${HOUSE_LINK_CLASS} md:hidden`}>
+              Contribute
+            </Link>
             {MORE_LINKS.map((link) => (
               <Link key={link.href} href={link.href} className={HOUSE_LINK_CLASS}>
                 {link.label}

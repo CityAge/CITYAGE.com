@@ -6,6 +6,8 @@ type CampaignBannerProps = {
   crop?: string
   heading?: string
   italic?: string
+  description?: string
+  ctaLabel?: string
   href?: string
   priority?: boolean
   /** Small mono line above the heading. Off by default. */
@@ -22,6 +24,8 @@ export function CampaignBanner({
   crop = 'object-[center_40%]',
   heading = 'The Next West.',
   italic = 'Coming to Vancouver, Winter 2026.',
+  description,
+  ctaLabel = 'Apply for an invitation',
   href = '/the-next-west',
   priority = true,
   kicker,
@@ -33,7 +37,7 @@ export function CampaignBanner({
     <div className="bg-[#F9F9F7] pt-2 pb-2 md:pt-5 md:pb-4">
       <div
         className="ca-photo ca-photo-banner relative mx-auto w-[min(1000px,calc(100%-3rem))] h-[128px] md:h-[240px] overflow-hidden"
-        style={{ position: 'relative', overflow: 'hidden' }}
+        style={{ position: 'relative', overflow: 'hidden', minHeight: description ? 220 : undefined }}
       >
         <Image
           src={image}
@@ -56,12 +60,17 @@ export function CampaignBanner({
           <span className="font-serif italic text-[12px] md:text-[17px] text-white/85 mt-1 md:mt-2 leading-snug">
             {italic}
           </span>
+          {description ? (
+            <span className="font-serif text-[12px] md:text-[15px] text-white/85 mt-2 leading-snug max-w-[620px]">
+              {description}
+            </span>
+          ) : null}
           {cta ? (
             <a
               href={href}
               className="mt-2 md:mt-3 inline-block border border-white/90 text-white px-3 py-1 md:px-4 md:py-1.5 text-[9px] md:text-[11px] font-black tracking-[0.14em] uppercase hover:bg-white hover:text-black transition-colors"
             >
-              Apply for an invitation
+              {ctaLabel}
             </a>
           ) : null}
         </div>

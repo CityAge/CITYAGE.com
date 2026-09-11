@@ -14,14 +14,52 @@ export const runtime = 'nodejs'
  *    reader sees the success state either way.
  */
 const TO = 'info@cityage.com'
-const SUBJECTS = new Set(['sponsoring', 'speaking', 'The Northern Century', 'The Next West', 'the Studio', 'press', 'something else'])
+const SUBJECTS = new Set(['sponsoring', 'speaking', 'The Northern Century', 'The Next West', 'the Studio', 'press', 'contributing a story or idea', 'something else'])
 
 const text = (v: unknown, max = 2000) => String(v ?? '').trim().slice(0, max)
 
 export async function POST(req: Request) {
+  // Reject cross-site browser submissions before any storage or email work.
+  if (req.headers.get('sec-fetch-site') === 'cross-site') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+  const origin = req.headers.get('origin')
+  if (origin && origin !== new URL(req.url).origin) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+  if (req.headers.get('content-type')?.split(';')[0].trim().toLowerCase() !== 'application/json') {
+    return NextResponse.json({ error: 'Expected JSON' }, { status: 415 })
+  }
+  // Bound the actual streamed body, including requests without Content-Length.
+  const reader = req.body?.getReader()
+  if (!reader) return NextResponse.json({ error: 'Bad request' }, { status: 400 })
+  const decoder = new TextDecoder()
+  let raw = ''
+  let bytes = 0
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      bytes += value.byteLength
+      if (bytes > 131072) {
+        await reader.cancel()
+        return NextResponse.json({ error: 'Note too large' }, { status: 413 })
+      }
+      raw += decoder.decode(value, { stream: true })
+    }
+    raw += decoder.decode()
+  } catch {
+    return NextResponse.json({ error: 'Bad request' }, { status: 400 })
+  } finally {
+    reader.releaseLock()
+  }
   let body: Record<string, unknown>
   try {
-    body = await req.json()
+    const parsed: unknown = JSON.parse(raw)
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return NextResponse.json({ error: 'Bad request' }, { status: 400 })
+    }
+    body = parsed as Record<string, unknown>
   } catch {
     return NextResponse.json({ error: 'Bad request' }, { status: 400 })
   }
@@ -31,6 +69,7 @@ export async function POST(req: Request) {
 
   const name = text(body.name, 200)
   const organisation = text(body.organisation, 200)
+  const city = text(body.city, 200)
   const email = text(body.email, 320)
   const subject = text(body.subject, 100)
   const message = text(body.message, 20000)
@@ -39,6 +78,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
+  // Keep optional city with the note using the existing storage schema.
+  const storedMessage = city ? `City: ${city}\n\n${message}` : message
   const supabase = supabaseEnv()
   if (!supabase) {
     console.error('[contact] no Supabase environment; note not stored')
@@ -56,7 +97,7 @@ export async function POST(req: Request) {
         Authorization: `Bearer ${supabase.key}`,
         Prefer: 'return=minimal',
       },
-      body: JSON.stringify({ id: rowId, name, organisation: organisation || null, email, enquiry: subject, message, source, email_sent: false }),
+      body: JSON.stringify({ id: rowId, name, organisation: organisation || null, email, enquiry: subject, message: storedMessage, source, email_sent: false }),
     })
     if (!res.ok) throw new Error(`insert ${res.status}: ${(await res.text()).slice(0, 200)}`)
   } catch (err) {
@@ -86,7 +127,7 @@ export async function POST(req: Request) {
           `About: ${subject}`,
           `From the page: /${source}`,
           '',
-          message,
+          storedMessage,
           '',
           `Row ${rowId}: ${rowLink}`,
         ].join('\n'),

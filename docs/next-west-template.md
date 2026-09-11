@@ -1,0 +1,27 @@
+# Next West event template — preview checkpoint
+
+Approved direction: concept A, monochrome imagery with fewer warm lights, gold rules and a cream agenda. Preserve the site's existing header/footer. Speakers appear before the agenda; attendees appear after it. Each independently populated reel accepts name, role, organisation and optional portrait. Empty rosters use explicitly labelled illustrative text cards, never imply attendance.
+
+The page /the-next-west uses components/events/event-template.tsx and its scoped stylesheet. Event copy and rosters live in the page's event object for straightforward manual editing. No new database or CMS is required.
+
+Motion: a few image-relative light points shimmer; the image itself is still. Reels pause on hover, keyboard focus and their own Pause button. Reduced-motion preferences disable automatic movement. Preview-only Day look switches the page palette and brightens the same illustration; it is not a separate daylight photograph. A future dayImage can supply that. A real cinemagraph/video asset can replace the light treatment later.
+
+The event route returns 404 in Vercel production and is noindex. Preview is not equivalent to password protection. No production promotion or domain change is authorized. Date, venue, agenda and participants remain illustrative/unconfirmed. The enquiry form retains the existing Next West subject and source. It records an enquiry, not a ticket or confirmed registration. Delivery issues from the shared contact workflow remain open; do not claim this template fixes them.
+
+Next review: opening image and typography; then themes, speaker reel, agenda, attendee reel and enquiry. Confirm actual people and agenda before release. The generated city scene is an approved illustration, not an accurate documentary photograph. Day treatment is a comparison control, not intended as public navigation.
+
+## Lighting and tugboat revision
+
+White pearly bridge-light twinkles replace the gold light overlay. Sparse building windows remain warm. The updated illustration adds a small red-orange and cream tugboat heading toward the bridge. Boat, wake and water remain still. Original illustration retained for rollback. Preview only.
+
+## Corrected geographic base
+
+Replaced the invented skyline with an edited image based on the site's existing /vancouver-banner.jpg photograph. Stanley Park and downtown remain beyond the foreground bridge. The small tug approaches the main span diagonally, wake behind. White twinkle coordinates now follow this bridge. Day look uses the original site photograph. Cinemagraph direction discussed: locked camera, slow tug with matching wake/reflection passing under bridge, seamless loop; moving boat video not yet produced. Supabase storage was read only; matching source there not verified.
+
+## Layered cinemagraph motion preview
+
+Harbour is now monochrome, using a clean plate without the baked-in tug. Separate alpha tug/wake/reflection asset moves toward and behind a clipped foreground bridge-deck layer on a 42-second loop, fading at endpoints. One warm light by the white sails, white cable lights and a quiet white beacon. Pause scene and reduced-motion stop all scene animation. This is a layered web motion study, not a rendered film or simulated water; wake/reflection travel with the sprite and require visual approval. Original daytime photo retained. User requested this treatment before release.
+
+## Dawn accent
+
+Approved: retain motion study and add a gentle gold dawn at the upper-left horizon. Otherwise keep harbour monochrome; one warm sails light, white pearl cable lights, beacon, red tug. Dawn clean plate replaces night clean plate; original assets retained.

@@ -15,6 +15,9 @@ export function MagazineHeader({ hideRailOnPhone = false }: { hideRailOnPhone?: 
           <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
             <div className="flex flex-col items-center">
               <CityAgeMark id="cityage-masthead" tone="cream" size="large" />
+              <p className="mt-4 text-center font-serif text-[13px] md:text-[15px] font-normal leading-snug tracking-[0.04em] text-black/65">
+                Intelligence for the urban planet
+              </p>
             </div>
           </div>
         </div>

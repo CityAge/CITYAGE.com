@@ -5,8 +5,9 @@ const HOUSE = [
   { href: '/purpose', label: 'Purpose' },
   { href: '/studio', label: 'Studio' },
   { href: '/partners', label: 'Partners' },
+  { href: '/people', label: 'People' },
 ] as const
-/** Events has no page of its own; in the footer it heads the franchises. */
+/** Campaigns link directly to their existing pages. */
 const EVENTS = [
   { href: '/the-next-west', label: 'The Next West' },
   { href: '/northern-century', label: 'The Northern Century' },
@@ -45,9 +46,8 @@ export function MagazineFooter() {
               decoding="async"
             />
           </h2>
-          <p className="text-white text-[18px] md:text-[20px] leading-snug">Intelligence for The Urban Planet</p>
-          <p className="text-[12px] leading-none uppercase tracking-[0.08em] text-white/60">Vancouver · Ottawa · Washington</p>
-          <p className="text-white/80 text-[16px] md:text-[17px] leading-relaxed">Earth’s two per cent. Where everything happens.</p>
+          <p className="w-[min(64vw,18rem)] text-center text-white/85 text-[15px] md:text-[16px] leading-snug">Intelligence for the urban planet</p>
+          <p className="text-white/80 text-[16px] md:text-[17px] leading-relaxed max-w-[360px]">Earth’s two per cent. Where human and financial capital meet.</p>
           <a
             href="/subscribe"
             className="inline-block bg-[#C5A059] text-black px-8 py-2.5 text-[11px] font-black tracking-[0.15em] uppercase hover:bg-white transition-colors"
@@ -70,7 +70,7 @@ export function MagazineFooter() {
               <li key={l.href}><a href={l.href} className={LINK}>{l.label}</a></li>
             ))}
             <li>
-              <span className={LINK.replace('text-white/70 hover:text-white transition-colors', 'text-white/70')}>Events</span>
+              <span className={LINK.replace('text-white/70 hover:text-white transition-colors', 'text-white/70')}>Campaigns &amp; events</span>
               <ul className="mt-3 space-y-3 pl-5 border-l border-white/15">
                 {EVENTS.map((l) => (
                   <li key={l.href}><a href={l.href} className={LINK}>{l.label}</a></li>
@@ -94,8 +94,8 @@ export function MagazineFooter() {
         </nav>
 
         {/* Utilities */}
-        <nav className="md:col-span-2 space-y-4" aria-label="Utilities">
-          <h3 className={HEAD}>Contact</h3>
+        <nav className="md:col-span-2 space-y-4" aria-label="Connect">
+          <h3 className={HEAD}>Connect</h3>
           <ul className="space-y-3">
             {UTILITIES.map((l) => (
               <li key={l.href}><a href={l.href} className={LINK}>{l.label}</a></li>
