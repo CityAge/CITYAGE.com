@@ -6,7 +6,7 @@ import './event-template.css'
 export type EventPerson = { name: string; role: string; organisation?: string; image?: string }
 export type EventContent = {
   title: string; tagline: string; location: string; timing: string; thesis: string;
-  image: string; imageAlt: string; dayImage?: string;
+  image: string; imageAlt: string; dayImage?: string; tugImage?: string;
   themes: { title: string; description: string }[];
   speakers: EventPerson[]; attendees: EventPerson[];
   agenda: { time: string; title: string; description?: string }[];
@@ -35,15 +35,17 @@ function PeopleReel({ title, people, kind }: { title: string; people: EventPerso
 }
 
 // Image-relative light positions. Only these small points shimmer; the photograph stays still.
-const LIGHTS = [[21.1,60.8],[36.4,64.7],[52,67.5],[70,59],[84.8,41.3]]
+const LIGHTS = [[21.1,60.8],[36.4,64.7],[52,67.5],[70,59],[80,48]]
 export function EventTemplate({ event, enquiry, preview = false }: { event: EventContent; enquiry: ReactNode; preview?: boolean }) {
   const [day, setDay] = useState(false)
   const [still, setStill] = useState(false)
   return <main className={`nw-event ${day ? 'nw-day' : ''}`}>
-    {preview && <div className="nw-preview"><span>Event preview · Details and participants to be confirmed</span><div><button className="nw-control" onClick={() => setDay(!day)} type="button" aria-pressed={day}>{day ? 'Night look' : 'Day look'}</button><button className="nw-control nw-motion-control" onClick={() => setStill(!still)} type="button" aria-pressed={still}>{still ? 'Animate lights' : 'Still image'}</button></div></div>}
+    {preview && <div className="nw-preview"><span>Event preview · Details and participants to be confirmed</span><div><button className="nw-control" onClick={() => setDay(!day)} type="button" aria-pressed={day}>{day ? 'Night look' : 'Day look'}</button><button className="nw-control nw-motion-control" onClick={() => setStill(!still)} type="button" aria-pressed={still}>{still ? 'Play scene' : 'Pause scene'}</button></div></div>}
     <header className="nw-opening">
       <div className="nw-heading"><p className="nw-kicker">A CityAge event</p><h1>{event.title}</h1><p className="nw-tagline">{event.tagline}</p><p className="nw-location">{event.location} <span>·</span> {event.timing}</p></div>
       <figure className="nw-image" data-still={still}><img src={day && event.dayImage ? event.dayImage : event.image} alt={event.imageAlt} width={1536} height={768} fetchPriority="high" />
+        {!day && event.tugImage && <><div className="nw-tug-voyage" aria-hidden="true"><img className="nw-tug" src={event.tugImage} alt="" width={1536} height={1024} /></div><img className="nw-bridge-foreground" src={event.image} alt="" aria-hidden="true" width={1774} height={887} /></>}
+        {!day && <><span className="nw-sails-light" aria-hidden="true" /><span className="nw-beacon" aria-hidden="true" /></>}
         {!day && <div className="nw-lights" aria-hidden="true">{LIGHTS.map(([x,y], i) => <i key={i} style={{left:`${x}%`, top:`${y}%`, '--delay':`${i * -1.7}s`} as CSSProperties} />)}</div>}
       </figure>
       <div className="nw-thesis"><p>{event.thesis}</p><a href="#invite" className="nw-button">Register your interest</a></div>
