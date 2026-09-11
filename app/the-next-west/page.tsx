@@ -15,7 +15,7 @@ const event: EventContent = {
   title: 'The Next West', tagline: 'Ideas. Investment. Action.',
   location: 'Vancouver', timing: 'Date and venue to be confirmed',
   thesis: 'What will shape the next chapter of the West? CityAge brings leaders together to explore the ideas, investment and partnerships that can move it forward.',
-  image: '/next-west-night.jpg', imageAlt: 'Illustrative Vancouver harbour and bridge scene with sparse warm lights against a monochrome skyline.',
+  image: '/next-west-night-tug.jpg', imageAlt: 'Illustrative monochrome Vancouver harbour, white bridge lights, sparse warm windows and a small red-orange tugboat heading toward the bridge.',
   themes: [
     { title: 'Capital', description: 'Connecting investment with the ideas and people building the West.' },
     { title: 'Infrastructure', description: 'The ports, airports, hospitals and networks shaping what comes next.' },
