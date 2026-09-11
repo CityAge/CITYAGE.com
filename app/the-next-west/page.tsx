@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 }
 
 const event: EventContent = {
+  heroVideo: '/next-west-harbour-loop-v1.mp4',
   title: 'The Next West', tagline: 'Ideas. Investment. Action.',
   location: 'Vancouver', timing: 'Date and venue to be confirmed',
   thesis: 'What will shape the next chapter of the West? CityAge brings leaders together to explore the ideas, investment and partnerships that can move it forward.',
