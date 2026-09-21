@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, type ReactNode } from 'react'
-import Image from 'next/image'
+import Image from '@/components/site-image'
 
 const PASSCODE = 'CEC2026'
 

@@ -1,4 +1,4 @@
-import type { SpeakerFace } from '@/lib/speakers'
+import { speakerThumbUrl, stableSpeakerShuffle, type SpeakerFace } from '@/lib/speakers'
 
 function initials(name: string) {
   return name
@@ -25,7 +25,7 @@ export function ReelFace({
       {speaker.headshot_url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={speaker.headshot_url}
+          src={speakerThumbUrl(speaker.headshot_url, 220, 264) ?? undefined}
           alt={speaker.name}
           decoding="async"
           loading={eager ? 'eager' : 'lazy'}
@@ -72,7 +72,8 @@ export function ReelStrip({
   faceHref?: string
 }) {
   if (faces.length === 0) return null
-  const loop = [...faces, ...faces]
+  const ordered = stableSpeakerShuffle(faces)
+  const loop = [...ordered, ...ordered]
 
   return (
     <div className={`speakers-reel-section speakers-reel-${direction}`}>

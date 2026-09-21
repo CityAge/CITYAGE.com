@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import Image from '@/components/site-image'
 import { CityAgeMark } from '@/components/magazine-header-chrome'
 import { useEffect, useRef, useState } from 'react'
 import './studio.css'
