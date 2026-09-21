@@ -110,10 +110,6 @@
   height: 132px;
 }
 
-#people-wall .people-thumb-pending {
-  opacity: 0;
-}
-
 #people-wall .speakers-reel-face {
   flex-shrink: 0;
   width: 110px;
@@ -136,6 +132,10 @@
 }
 
 #people-wall .speakers-reel-face img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
   filter: grayscale(100%) brightness(0.85) contrast(1.1);
@@ -309,6 +309,10 @@
 }
 
 #people-wall .people-result-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
 }

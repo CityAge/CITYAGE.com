@@ -7,7 +7,7 @@ import { HeroGrid } from '@/components/hero-grid'
 import { StoryBox } from '@/components/story-box'
 import { HouseTile, type HouseEntry } from '@/components/house-tile'
 import { fetchWellStories, type SectionStory } from '@/lib/magazine'
-import { fetchDoorSpeakerFaces, shuffle } from '@/lib/speakers'
+import { fetchDoorSpeakerFaces, stableSpeakerShuffle } from '@/lib/speakers'
 
 export const revalidate = 60
 
@@ -60,7 +60,7 @@ export default async function Home() {
     fetchWellStories(9),
     fetchDoorSpeakerFaces(),
   ])
-  const readyDoor = shuffle(doorFaces).slice(0, 48)
+  const readyDoor = stableSpeakerShuffle(doorFaces).slice(0, 48)
   const doorMid = Math.ceil(readyDoor.length / 2)
   const doorTop = readyDoor.slice(0, doorMid)
   const doorBottom = readyDoor.slice(doorMid)
