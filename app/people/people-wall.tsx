@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { hasSpeakerShot, type SpeakerFace } from '@/lib/speakers'
 import './people.css'
@@ -8,9 +7,7 @@ import './people.css'
 const FACE_W = 116
 const SPEEDS = [48, 40, 44, 36] as const
 const REVERSE = [false, true, false, true] as const
-const PREFETCH_AHEAD = 12
 const SSR_SLOT_COUNT = 16
-const heldThumbs = new Set<string>()
 
 type Slot = { id: number; index: number }
 
@@ -32,54 +29,11 @@ function initials(name: string) {
     .toUpperCase()
 }
 
-function optimizerThumb(src: string, width = 128) {
-  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=75`
-}
-
-function holdThumb(src: string | null | undefined) {
-  if (!src || heldThumbs.has(src) || typeof window === 'undefined') return
-  heldThumbs.add(src)
-  const img = new window.Image()
-  img.decoding = 'async'
-  img.src = optimizerThumb(src)
-}
-
 function HeldThumb({ src }: { src: string }) {
-  const [shown, setShown] = useState(src)
-  const [pending, setPending] = useState<string | null>(null)
-
-  useEffect(() => {
-    holdThumb(src)
-    if (src === shown) {
-      setPending(null)
-      return
-    }
-    setPending(src)
-  }, [src, shown])
-
+  // Supabase already supplies the 220×264 thumbnail. Never optimize it twice.
   return (
-    <>
-      <Image
-        src={shown}
-        alt=""
-        fill
-        sizes="110px"
-        loading="eager"
-        draggable={false}
-      />
-      {pending && pending !== shown ? (
-        <Image
-          src={pending}
-          alt=""
-          fill
-          sizes="110px"
-          loading="eager"
-          draggable={false}
-          className="people-thumb-pending"
-          onLoad={() => setShown(pending)}
-        />
-      ) : null}
-    </>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt="" width={110} height={132} loading="lazy" decoding="async" draggable={false} />
   )
 }
 
@@ -165,10 +119,6 @@ function VirtualPeopleRow({
     }))
     slotsRef.current = next
     setSlots(next)
-    for (const slot of next) holdThumb(faces[slot.index]?.headshot_url)
-    for (let n = 1; n <= PREFETCH_AHEAD; n++) {
-      holdThumb(faces[(origin + slotCount + n - 1) % faces.length]?.headshot_url)
-    }
   }, [faces, slotCount, startOffset])
 
   useLayoutEffect(() => {
@@ -199,19 +149,11 @@ function VirtualPeopleRow({
         const first = next[0]
         recycled.index = (first.index - 1 + pool.length) % pool.length
         next.unshift(recycled)
-        holdThumb(pool[recycled.index]?.headshot_url)
-        for (let n = 1; n <= PREFETCH_AHEAD; n++) {
-          holdThumb(pool[(recycled.index - n + pool.length) % pool.length]?.headshot_url)
-        }
       } else {
         const recycled = { ...next.shift()! }
         const lastSlot = next[next.length - 1]
         recycled.index = (lastSlot.index + 1) % pool.length
         next.push(recycled)
-        holdThumb(pool[recycled.index]?.headshot_url)
-        for (let n = 1; n <= PREFETCH_AHEAD; n++) {
-          holdThumb(pool[(recycled.index + n) % pool.length]?.headshot_url)
-        }
       }
       skipTransformRef.current = true
       slotsRef.current = next
@@ -349,7 +291,7 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
               >
                 <div className="people-result-thumb">
                   {hasSpeakerShot(s.headshot_url) ? (
-                    <Image src={s.headshot_url} alt="" fill sizes="44px" loading="lazy" />
+                    <img src={s.headshot_url} alt="" width={44} height={52} loading="lazy" decoding="async" />
                   ) : (
                     <span className="people-result-initials">{initials(s.name)}</span>
                   )}

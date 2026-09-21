@@ -1,7 +1,7 @@
 import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
-import Image from 'next/image'
+import Image from '@/components/site-image'
 import { NoteForm } from '@/components/note-form'
 
 export const metadata = {

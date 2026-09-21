@@ -56,7 +56,7 @@ function DoorRow({
                   alt=""
                   width={48}
                   height={58}
-                  loading="eager"
+                  loading="lazy"
                   decoding="async"
                   draggable={false}
                 />

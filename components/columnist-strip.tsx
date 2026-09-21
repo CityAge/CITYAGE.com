@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import Image from '@/components/site-image'
 
 const columnists = [
   { name: 'Miro Cernetig', role: 'Editor & Publisher', image: '/editor-portrait.jpg' },

@@ -39,13 +39,18 @@ export function uniqueByName(faces: SpeakerFace[]): SpeakerFace[] {
   })
 }
 
-export function shuffle<T>(items: T[]): T[] {
-  const a = [...items]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
+/** Fixed seeded shuffle: varied presentation, identical on every render/reload. */
+export function stableSpeakerShuffle(items: SpeakerFace[]): SpeakerFace[] {
+  const rank = (speaker: SpeakerFace) => {
+    let hash = 2166136261
+    for (const char of `cityage-stage-v1:${speaker.id}:${speaker.name}`) {
+      hash = Math.imul(hash ^ char.charCodeAt(0), 16777619)
+    }
+    return hash >>> 0
   }
-  return a
+  return [...items].sort((a, b) =>
+    rank(a) - rank(b) || a.id.localeCompare(b.id, 'en'),
+  )
 }
 
 export function hasSpeakerShot(url: string | null | undefined): url is string {
@@ -61,10 +66,16 @@ export function speakerThumbUrl(
   height = 116,
 ): string | null {
   if (!hasSpeakerShot(url)) return null
-  const rendered = url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/')
-  if (rendered === url) return url
-  const join = rendered.includes('?') ? '&' : '?'
-  return `${rendered}${join}width=${width}&height=${height}&resize=cover&quality=55`
+  let parsed: URL
+  try { parsed = new URL(url) } catch { return null }
+  if (!parsed.hostname.endsWith('.supabase.co')) return url
+  parsed.pathname = parsed.pathname.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/')
+  if (!parsed.pathname.startsWith('/storage/v1/render/image/public/')) return url
+  parsed.searchParams.set('width', String(width))
+  parsed.searchParams.set('height', String(height))
+  parsed.searchParams.set('resize', 'cover')
+  parsed.searchParams.set('quality', '55')
+  return parsed.toString()
 }
 
 /** Door only: one small page of faces with shots. Not the full catalog. */
@@ -73,7 +84,7 @@ export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> 
   if (!env) return []
   const { url, key } = env
   const res = await fetch(
-    `${url}/rest/v1/speakers?select=id,name,headshot_url&headshot_url=not.is.null&limit=${limit}`,
+    `${url}/rest/v1/speakers?select=id,name,headshot_url&headshot_url=not.is.null&order=name.asc,id.asc&limit=${limit}`,
     {
       headers: {
         apikey: key,
@@ -85,7 +96,7 @@ export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> 
   if (!res.ok) return []
   const batch = (await res.json()) as SpeakerRow[]
   if (!Array.isArray(batch)) return []
-  return uniqueByName(batch.map(toFace))
+  return stableSpeakerShuffle(uniqueByName(batch.map(toFace)))
     .map((face) => ({
       ...face,
       headshot_url: speakerThumbUrl(face.headshot_url),
@@ -121,7 +132,7 @@ export async function fetchNorthernCenturyFaces(): Promise<SpeakerFace[]> {
     }
     const batch = (await res.json()) as SpeakerRow[]
     if (!Array.isArray(batch)) return []
-    return uniqueByName(batch.map(toFace))
+    return stableSpeakerShuffle(uniqueByName(batch.map(toFace)))
       .map((face) => ({
         ...face,
         headshot_url: speakerThumbUrl(face.headshot_url),
@@ -162,7 +173,7 @@ export async function fetchSpeakerFaces(): Promise<SpeakerFace[]> {
     from += page
   }
 
-  return uniqueByName(rows.map(toFace))
+  return stableSpeakerShuffle(uniqueByName(rows.map(toFace)))
 }
 
 /** Full network for /people. Render thumbs only — never the original portraits. */
