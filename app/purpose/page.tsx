@@ -66,7 +66,7 @@ export default function PurposePage() {
             </p>
 
             <p className="font-serif italic text-[1.35rem] md:text-[1.7rem] leading-[1.4] text-black mb-14 md:mb-16">
-              Iqaluit is as connected to the Urban Planet as New York, Beijing or Brussels.
+              Iqaluit can be as consequential as New York.
             </p>
 
             <h2 className="type-section tracking-tight text-black mb-6">
