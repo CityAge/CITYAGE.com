@@ -13,6 +13,7 @@ const HOUSE_LINKS = [
 /** The event franchises in the Events menu. Next Vancouver keeps its page but is not listed; old events come over from WordPress later. */
 const EVENTS = [
   { href: '/the-next-west', label: 'The Next West' },
+  { href: '/northern-century', label: 'The Northern Century' },
 ] as const
 
 /** Older pages, reachable from the hamburger only. The event franchises sit under Events. */

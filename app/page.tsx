@@ -23,6 +23,13 @@ const HOUSE_ENTRIES: HouseEntry[] = [
     href: '/the-next-west',
   },
   {
+    image: '/northern-century-earth.jpg',
+    headline: 'The Northern Century.',
+    body: 'A network of the leaders shaping the North.',
+    cta: 'Join',
+    href: '/northern-century',
+  },
+  {
     // No /studio-still.jpg in public/; the first film's thumbnail stands in.
     image: '/best-day-ever-thumb.jpg',
     headline: 'CityAge Studio.',
@@ -94,6 +101,15 @@ export default async function Home() {
           sidebarColumn={<WellColumn stories={columnThree} head={<HouseTile entries={HOUSE_ENTRIES} />} />}
         />
       </main>
+
+      <CampaignBanner
+        image="/northern-century-earth.jpg"
+        crop="object-top"
+        heading="The Northern Century."
+        italic="Washington and Ottawa. Alternating editions."
+        href="/northern-century"
+        priority={false}
+      />
 
       <StageBand top={doorTop} bottom={doorBottom} />
       <MagazineFooter />
