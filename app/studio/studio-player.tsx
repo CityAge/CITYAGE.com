@@ -66,6 +66,7 @@ const FILMS: Film[] = [
     vimeoId: '393076418',
     stillImage: null,
     thumb: '/best-day-ever-thumb.jpg',
+    credit: 'A film with Douglas Coupland',
   },
   {
     id: 'facing-saddam',
