@@ -68,7 +68,8 @@ const FILMS: Film[] = [
     vimeoId: '393076418',
     stillImage: null,
     thumb: '/best-day-ever-thumb.jpg',
-    credit: 'A film with Douglas Coupland',
+    credit: 'Directed by Miro Cernetig',
+    cardDescription: 'A film with Douglas Coupland',
   },
   {
     id: 'facing-saddam',
@@ -117,6 +118,7 @@ const FILMS: Film[] = [
     vimeoId: '287190902',
     stillImage: null,
     thumb: '/grosvenor-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'grosvenor-history',
@@ -127,6 +129,7 @@ const FILMS: Film[] = [
     vimeoId: '266034155',
     stillImage: null,
     thumb: '/grosvenor-history-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'harbour-air',
@@ -137,6 +140,7 @@ const FILMS: Film[] = [
     vimeoId: '141440365',
     stillImage: null,
     thumb: '/harbour-air-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'digging-up-a-ship',
@@ -147,6 +151,7 @@ const FILMS: Film[] = [
     vimeoId: '199052432',
     stillImage: null,
     thumb: '/digging-up-a-ship-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'deep-sea-mining',
@@ -157,6 +162,7 @@ const FILMS: Film[] = [
     vimeoId: '286643094',
     stillImage: null,
     thumb: '/deep-sea-mining-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'chinas-sexual-revolution',
@@ -168,6 +174,7 @@ const FILMS: Film[] = [
     stillImage: null,
     watchUrl: 'https://tubitv.com/movies/608855/china-s-sexual-revolution',
     thumb: '/chinas-sexual-revolution-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'polar-bear-safari',
@@ -179,6 +186,7 @@ const FILMS: Film[] = [
     stillImage: null,
     watchUrl: 'https://www.primevideo.com/detail/0SY3XAQ5LEZDYLQ9F41FDWZ84L',
     thumb: '/polar-bear-safari-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'carbon-hunters',
@@ -190,6 +198,7 @@ const FILMS: Film[] = [
     stillImage: null,
     watchUrl: 'https://www.youtube.com/watch?v=MLRBDD7x77M',
     thumb: '/carbon-hunters-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'juggling-dreams',
@@ -201,6 +210,7 @@ const FILMS: Film[] = [
     stillImage: null,
     watchUrl: 'https://www.primevideo.com/detail/0HBUUQSC8OYN1W79EVX02W0FFS',
     thumb: '/juggling-dreams-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'castros-gold',
@@ -212,6 +222,7 @@ const FILMS: Film[] = [
     stillImage: null,
     watchUrl: 'https://www.youtube.com/watch?v=sw2qF83VMTc',
     thumb: '/castros-gold-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'the-new-american-city',
@@ -223,6 +234,7 @@ const FILMS: Film[] = [
     stillImage: null,
     watchUrl: 'https://www.youtube.com/watch?v=xMhFP2oM3CY',
     thumb: '/new-american-city-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
   },
   {
     id: 'giltrudes-dwelling',
