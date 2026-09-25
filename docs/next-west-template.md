@@ -9,3 +9,7 @@ Motion: a few image-relative light points shimmer; the image itself is still. Re
 The event route returns 404 in Vercel production and is noindex. Preview is not equivalent to password protection. No production promotion or domain change is authorized. Date, venue, agenda and participants remain illustrative/unconfirmed. The enquiry form retains the existing Next West subject and source. It records an enquiry, not a ticket or confirmed registration. Delivery issues from the shared contact workflow remain open; do not claim this template fixes them.
 
 Next review: opening image and typography; then themes, speaker reel, agenda, attendee reel and enquiry. Confirm actual people and agenda before release. The generated city scene is an approved illustration, not an accurate documentary photograph. Day treatment is a comparison control, not intended as public navigation.
+
+## Lighting and tugboat revision
+
+White pearly bridge-light twinkles replace the gold light overlay. Sparse building windows remain warm. The updated illustration adds a small red-orange and cream tugboat heading toward the bridge. Boat, wake and water remain still. Original illustration retained for rollback. Preview only.
