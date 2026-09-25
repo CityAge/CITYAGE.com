@@ -537,7 +537,7 @@ export function StudioPlayer() {
       <p className="sv-reel-caption">Our films.</p>
 
       <div className="sv-logos">
-        <span className="sv-logos-label">Where Our Work Appears</span>
+        <span className="sv-logos-label">Where our work has appeared</span>
         {APPEARS.map((logo) => (
           // eslint-disable-next-line @next/next/no-img-element
           <img
