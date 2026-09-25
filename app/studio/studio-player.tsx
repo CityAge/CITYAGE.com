@@ -92,6 +92,8 @@ const FILMS: Film[] = [
     stillImage: '/facing-trump-thumb.jpg',
     watchUrl: 'https://tv.apple.com/ca/show/facing/umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
     thumb: '/facing-trump-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'View the series on Apple TV',
   },
   {
     id: 'sketch-in-the-city',
