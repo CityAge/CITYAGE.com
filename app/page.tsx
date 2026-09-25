@@ -18,7 +18,7 @@ const HOUSE_ENTRIES: HouseEntry[] = [
   {
     image: '/vancouver-banner.jpg',
     headline: 'The Next West.',
-    body: 'Vancouver, winter 2026. A half-day. Four rooms in one.',
+    body: 'Vancouver, January 2027. A half-day. Four rooms in one.',
     cta: 'Apply for an invitation',
     href: '/the-next-west',
   },
