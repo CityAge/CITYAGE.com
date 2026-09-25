@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
@@ -64,9 +65,10 @@ export default async function Home() {
   const doorMid = Math.ceil(readyDoor.length / 2)
   const doorTop = readyDoor.slice(0, doorMid)
   const doorBottom = readyDoor.slice(doorMid)
-  // Nine beside the lead, alternating between the two side columns.
-  const columnTwo = stories.filter((_, i) => i % 2 === 0)
-  const columnThree = stories.filter((_, i) => i % 2 === 1)
+  // One supporting story below the lead; the rest alternate between side columns.
+  const [belowLead, ...sideStories] = stories
+  const columnTwo = sideStories.filter((_, i) => i % 2 === 0)
+  const columnThree = sideStories.filter((_, i) => i % 2 === 1)
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
@@ -83,6 +85,7 @@ export default async function Home() {
 
         <HeroGrid
           leadColumn={
+            <>
             <ArticleCard
               id="miller"
               title="Space: commercialization is rocketing ahead under U.S. President Donald Trump"
@@ -96,6 +99,19 @@ export default async function Home() {
               variant="hero-lead"
               href={MILLER_HREF}
             />
+            {belowLead ? (
+              <article className="mt-7 pt-7 border-t border-[#D9D7D0]">
+                <span className="type-kicker">{belowLead.vertical}</span>
+                <h3 className="type-rail-h mt-2">
+                  <Link href={`/magazine/${belowLead.id}`} className="story-link">
+                    {belowLead.headline}
+                  </Link>
+                </h3>
+                {belowLead.deck ? <p className="type-deck text-black/60 mt-3">{belowLead.deck}</p> : null}
+                <span className="type-meta block mt-3">{belowLead.readMin} min read</span>
+              </article>
+            ) : null}
+            </>
           }
           middleColumn={<WellColumn stories={columnTwo} />}
           sidebarColumn={<WellColumn stories={columnThree} head={<HouseTile entries={HOUSE_ENTRIES} />} />}
