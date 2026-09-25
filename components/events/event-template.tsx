@@ -35,7 +35,7 @@ function PeopleReel({ title, people, kind }: { title: string; people: EventPerso
 }
 
 // Image-relative light positions. Only these small points shimmer; the photograph stays still.
-const LIGHTS = [[6.6,33.5],[11.3,30],[18,45],[27,52],[35,45]]
+const LIGHTS = [[21.1,60.8],[36.4,64.7],[52,67.5],[70,59],[84.8,41.3]]
 export function EventTemplate({ event, enquiry, preview = false }: { event: EventContent; enquiry: ReactNode; preview?: boolean }) {
   const [day, setDay] = useState(false)
   const [still, setStill] = useState(false)

@@ -13,3 +13,7 @@ Next review: opening image and typography; then themes, speaker reel, agenda, at
 ## Lighting and tugboat revision
 
 White pearly bridge-light twinkles replace the gold light overlay. Sparse building windows remain warm. The updated illustration adds a small red-orange and cream tugboat heading toward the bridge. Boat, wake and water remain still. Original illustration retained for rollback. Preview only.
+
+## Corrected geographic base
+
+Replaced the invented skyline with an edited image based on the site's existing /vancouver-banner.jpg photograph. Stanley Park and downtown remain beyond the foreground bridge. The small tug approaches the main span diagonally, wake behind. White twinkle coordinates now follow this bridge. Day look uses the original site photograph. Cinemagraph direction discussed: locked camera, slow tug with matching wake/reflection passing under bridge, seamless loop; moving boat video not yet produced. Supabase storage was read only; matching source there not verified.
