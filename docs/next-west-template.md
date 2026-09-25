@@ -17,3 +17,7 @@ White pearly bridge-light twinkles replace the gold light overlay. Sparse buildi
 ## Corrected geographic base
 
 Replaced the invented skyline with an edited image based on the site's existing /vancouver-banner.jpg photograph. Stanley Park and downtown remain beyond the foreground bridge. The small tug approaches the main span diagonally, wake behind. White twinkle coordinates now follow this bridge. Day look uses the original site photograph. Cinemagraph direction discussed: locked camera, slow tug with matching wake/reflection passing under bridge, seamless loop; moving boat video not yet produced. Supabase storage was read only; matching source there not verified.
+
+## Layered cinemagraph motion preview
+
+Harbour is now monochrome, using a clean plate without the baked-in tug. Separate alpha tug/wake/reflection asset moves toward and behind a clipped foreground bridge-deck layer on a 42-second loop, fading at endpoints. One warm light by the white sails, white cable lights and a quiet white beacon. Pause scene and reduced-motion stop all scene animation. This is a layered web motion study, not a rendered film or simulated water; wake/reflection travel with the sprite and require visual approval. Original daytime photo retained. User requested this treatment before release.
