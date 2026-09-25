@@ -175,6 +175,7 @@ const FILMS: Film[] = [
     watchUrl: 'https://tubitv.com/movies/608855/china-s-sexual-revolution',
     thumb: '/chinas-sexual-revolution-thumb.jpg',
     credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Tubi · Takes a few seconds to load',
   },
   {
     id: 'polar-bear-safari',
