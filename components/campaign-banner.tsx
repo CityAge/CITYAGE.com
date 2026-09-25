@@ -21,7 +21,7 @@ export function CampaignBanner({
   image = '/vancouver-banner.jpg',
   crop = 'object-[center_40%]',
   heading = 'The Next West.',
-  italic = 'Coming to Vancouver, Winter 2026.',
+  italic = 'Coming to Vancouver, January 2027.',
   href = '/the-next-west',
   priority = true,
   kicker,
