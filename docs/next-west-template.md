@@ -21,3 +21,7 @@ Replaced the invented skyline with an edited image based on the site's existing 
 ## Layered cinemagraph motion preview
 
 Harbour is now monochrome, using a clean plate without the baked-in tug. Separate alpha tug/wake/reflection asset moves toward and behind a clipped foreground bridge-deck layer on a 42-second loop, fading at endpoints. One warm light by the white sails, white cable lights and a quiet white beacon. Pause scene and reduced-motion stop all scene animation. This is a layered web motion study, not a rendered film or simulated water; wake/reflection travel with the sprite and require visual approval. Original daytime photo retained. User requested this treatment before release.
+
+## Dawn accent
+
+Approved: retain motion study and add a gentle gold dawn at the upper-left horizon. Otherwise keep harbour monochrome; one warm sails light, white pearl cable lights, beacon, red tug. Dawn clean plate replaces night clean plate; original assets retained.
