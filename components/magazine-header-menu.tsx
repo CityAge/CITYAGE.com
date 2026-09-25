@@ -13,7 +13,6 @@ const HOUSE_LINKS = [
 /** The event franchises in the Events menu. Next Vancouver keeps its page but is not listed; old events come over from WordPress later. */
 const EVENTS = [
   { href: '/the-next-west', label: 'The Next West' },
-  { href: '/northern-century', label: 'The Northern Century' },
 ] as const
 
 /** Older pages, reachable from the hamburger only. The event franchises sit under Events. */
@@ -153,11 +152,11 @@ export function MagazineUtilityBar() {
           ))}
         </div>
         <div className="flex items-center gap-5 md:gap-7">
-          <button className="hover:opacity-60 transition-opacity text-black" aria-label="Search">
+          <Link href="/search" className="hover:opacity-60 transition-opacity text-black" aria-label="Search">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
               <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-          </button>
+          </Link>
           <Link href="/subscribe" className="bg-[#C5A059] text-black px-5 md:px-8 py-1.5 md:py-2 text-[10px] font-black tracking-[0.15em] uppercase hover:bg-black hover:text-[#C5A059] transition-all">
             Subscribe
           </Link>
