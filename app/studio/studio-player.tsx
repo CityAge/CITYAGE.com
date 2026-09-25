@@ -54,6 +54,7 @@ type Film = {
   watchUrl?: string
   thumb: string | null
   credit?: string
+  cardDescription?: string
   watchLabel?: string
 }
 
@@ -99,11 +100,13 @@ const FILMS: Film[] = [
     id: 'sketch-in-the-city',
     title: 'Sketch In The City',
     type: 'Short Film',
-    desc: 'An urban portrait through drawing — capturing the texture, rhythm, and character of city life one sketch at a time.',
+    desc: 'Maxime Frappier discusses creativity through sketching.',
     awards: ['CityAge Studio'],
     vimeoId: '241956203',
     stillImage: null,
     thumb: '/sketch-in-the-city-thumb.jpg',
+    credit: 'Directed by Miro Cernetig',
+    cardDescription: 'Maxime Frappier on creativity through sketching.',
   },
   {
     id: 'west-coast-modernism',
@@ -577,6 +580,7 @@ export function StudioPlayer() {
                 </div>
                 <div className="sv-card-name">{film.title}</div>
                 {film.credit ? <div className="sv-card-credit">{film.credit}</div> : null}
+                {film.cardDescription ? <div className="sv-card-credit">{film.cardDescription}</div> : null}
                 {film.watchLabel ? <div className="sv-card-credit">{film.watchLabel}</div> : null}
               </>
             )
