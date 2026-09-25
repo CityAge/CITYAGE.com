@@ -214,6 +214,7 @@ const FILMS: Film[] = [
     watchUrl: 'https://www.primevideo.com/detail/0HBUUQSC8OYN1W79EVX02W0FFS',
     thumb: '/juggling-dreams-thumb.jpg',
     credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Prime Video · Takes a few seconds to load',
   },
   {
     id: 'castros-gold',
