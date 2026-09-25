@@ -117,7 +117,7 @@ const FILMS: Film[] = [
     awards: ['CityAge Studio'],
     vimeoId: '125818228',
     stillImage: null,
-    thumb: '/grosvenor-thumb.jpg',
+    thumb: '/west-coast-modernism-thumb.jpg',
     credit: 'Directed by Miro Cernetig',
   },
   {
