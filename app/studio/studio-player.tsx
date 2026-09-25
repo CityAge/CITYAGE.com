@@ -188,6 +188,7 @@ const FILMS: Film[] = [
     watchUrl: 'https://www.primevideo.com/detail/0SY3XAQ5LEZDYLQ9F41FDWZ84L',
     thumb: '/polar-bear-safari-thumb.jpg',
     credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Prime Video · Takes a few seconds to load',
   },
   {
     id: 'carbon-hunters',
