@@ -10,6 +10,7 @@ export const SUBJECTS = [
   'The Next West',
   'the Studio',
   'press',
+  'contributing a story or idea',
   'something else',
 ] as const
 export type Subject = (typeof SUBJECTS)[number]
