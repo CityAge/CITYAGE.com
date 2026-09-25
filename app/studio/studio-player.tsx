@@ -551,7 +551,7 @@ export function StudioPlayer() {
       </div>
 
       <div className="sv-shelf">
-        <p className="sv-cta-approach">Our films are made by seasoned filmmakers whose work has been seen by millions in cinemas and on television. We’re bringing AI into our creative process to work faster and explore new possibilities—with human judgement and craft guiding every brand, film or campaign. The final cut is always ours and yours.</p>
+        <p className="sv-cta-approach">Filmmakers Miro Cernetig and Jeremy Lutter collaborate at CityAge Studio. Their work has been seen by millions in cinemas and on television. We’re bringing AI into our creative process to work faster and explore new possibilities—with human judgement and craft guiding every brand, film or campaign. The final cut is always ours and yours.</p>
         <span className="sv-shelf-label">Select a film</span>
         <div className="sv-row">
           {FILMS.map((film) => {
