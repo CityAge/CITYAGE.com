@@ -46,7 +46,7 @@ export function MagazineFooter() {
               decoding="async"
             />
           </h2>
-          <p className="text-white/85 text-[15px] md:text-[16px] leading-snug">Intelligence for the urban planet</p>
+          <p className="w-[min(64vw,18rem)] text-center text-white/85 text-[15px] md:text-[16px] leading-snug">Intelligence for the urban planet</p>
           <p className="text-white/80 text-[16px] md:text-[17px] leading-relaxed max-w-[360px]">Earth’s two per cent. Where human and financial capital meet.</p>
           <a
             href="/subscribe"
