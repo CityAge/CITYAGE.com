@@ -14,13 +14,13 @@ export default function SubscribePage() {
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
 
-      <main className="flex-grow">
+      <main className="flex-grow bg-[#111111] text-[#F9F9F7]">
         <article className="pt-16 md:pt-24 pb-24 md:pb-36">
-          <div className="max-w-[720px] mx-auto px-6 md:px-12">
-            <h1 className="type-title tracking-tight text-black mb-6">
+          <div className="max-w-[640px] mx-auto px-6">
+            <h1 className="type-title tracking-tight text-[#F9F9F7] mb-6">
               The letter.
             </h1>
-            <p className="type-body text-black mb-12">
+            <p className="type-body text-[#F9F9F7] mb-12">
               Intelligence for the Urban Planet.
             </p>
 
@@ -29,7 +29,7 @@ export default function SubscribePage() {
             <p className="mt-10">
               <Link
                 href="/privacy"
-                className="font-serif text-[16px] text-black/55 underline underline-offset-4 decoration-black/20 hover:text-[#C5A059] hover:decoration-[#C5A059] transition-colors"
+                className="font-serif text-[16px] text-[#F9F9F7]/70 underline underline-offset-4 decoration-[#F9F9F7]/45 hover:text-[#C5A059] hover:decoration-[#C5A059] transition-colors"
               >
                 Privacy
               </Link>
