@@ -44,7 +44,7 @@ export async function POST(req: Request) {
           }),
         },
       )
-      if (res.ok || res.status === 409) return NextResponse.json({ ok: true })
+      if (res.ok || res.status === 409) return NextResponse.json({ ok: true, destination: 'beehiiv' })
     } catch {
       /* fall through to the local record */
     }
@@ -52,17 +52,22 @@ export async function POST(req: Request) {
 
   const supabase = supabaseEnv()
   if (supabase) {
-    await fetch(`${supabase.url}/rest/v1/contact_submissions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: supabase.key,
-        Authorization: `Bearer ${supabase.key}`,
-        Prefer: 'return-minimal',
-      },
-      body: JSON.stringify({ name: 'Subscribe', email, enquiry: 'Subscribe', message: 'Signed up on /subscribe' }),
-    }).catch(() => undefined)
+    try {
+      const response = await fetch(`${supabase.url}/rest/v1/contact_submissions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabase.key,
+          Authorization: `Bearer ${supabase.key}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({ name: 'Subscribe', email, enquiry: 'Subscribe', message: 'Subscription request from /subscribe', source: 'subscribe' }),
+      })
+      if (response.ok) return NextResponse.json({ ok: true, destination: 'pending' })
+      console.error('[subscribe] fallback save failed', response.status)
+    } catch (error) {
+      console.error('[subscribe] fallback save failed', error)
+    }
   }
-
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ error: 'Subscription is unavailable. Please try again later.' }, { status: 503 })
 }
