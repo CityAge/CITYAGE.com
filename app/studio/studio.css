@@ -195,15 +195,18 @@
 }
 
 #page-studio .sv-player-btns {
-  /* Bottom centre, so sound and stop are one reach away. */
+  /* Keep the image centre and native Vimeo timeline clear. */
   position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 72px;
+  right: 24px;
   z-index: 30;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0;
+  padding: 4px;
+  background: rgba(5, 4, 3, 0.88);
+  border-left: 2px solid #b8956a;
+  backdrop-filter: blur(6px);
 }
 
 /* Buffering wheel: sits over the player until Vimeo reports the first frame. */
@@ -250,29 +253,33 @@
   #page-studio .sv-buffer-ring { animation: none; }
 }
 
+#page-studio .sv-play-btn,
 #page-studio .sv-mute-btn,
 #page-studio .sv-stop-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(10, 9, 8, 0.55);
-  border: 1px solid rgba(250, 246, 238, 0.35);
+  background: transparent;
+  border: 1px solid transparent;
+  min-height: 44px;
   color: #faf6ee;
   padding: 10px 18px;
   cursor: pointer;
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 9px;
-  letter-spacing: 0.22em;
+  font-size: 11px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   backdrop-filter: blur(6px);
 }
 
+#page-studio .sv-play-btn:hover,
 #page-studio .sv-mute-btn:hover,
 #page-studio .sv-stop-btn:hover {
   border-color: rgba(250, 246, 238, 0.7);
   color: #faf6ee;
 }
 
+#page-studio .sv-play-btn svg,
 #page-studio .sv-mute-btn svg,
 #page-studio .sv-stop-btn svg {
   width: 16px;
@@ -585,4 +592,21 @@
   font-family: var(--font-serif), Georgia, serif;
   font-size: 14px;
   color: rgba(250, 246, 238, 0.65);
+}
+
+#page-studio .sv-player-btns button:focus-visible {
+  outline: 2px solid #b8956a;
+  outline-offset: 2px;
+}
+#page-studio .sv-play-btn { color: #d6b47b; }
+#page-studio .sv-shelf .sv-cta-approach {
+  max-width: 740px;
+  margin: 0 0 32px;
+}
+#page-studio .sv-project-link { margin-top: 20px; }
+#page-studio .sv-info { bottom: 72px; max-width: calc(100% - 410px); }
+@media (max-width: 900px) {
+  #page-studio .sv-player-btns { right: 16px; }
+  #page-studio .sv-player-btns button { padding: 10px; gap: 6px; }
+  #page-studio .sv-info { bottom: 140px; max-width: 580px; }
 }
