@@ -54,6 +54,7 @@ type Film = {
   watchUrl?: string
   thumb: string | null
   credit?: string
+  watchLabel?: string
 }
 
 const FILMS: Film[] = [
@@ -78,6 +79,8 @@ const FILMS: Film[] = [
     stillImage: '/facing-saddam-still.png',
     watchUrl: 'https://tv.apple.com/ca/episode/facing-saddam/umc.cmc.71rhkd7ko45ypb6z2h4ywr4gs?showId=umc.cmc.3wiwjhiezu1c36dfaz8cnk21b',
     thumb: '/facing-saddam-still.png',
+    credit: 'Directed by Miro Cernetig',
+    watchLabel: 'Watch on Apple TV',
   },
   {
     id: 'facing-trump',
@@ -572,6 +575,7 @@ export function StudioPlayer() {
                 </div>
                 <div className="sv-card-name">{film.title}</div>
                 {film.credit ? <div className="sv-card-credit">{film.credit}</div> : null}
+                {film.watchLabel ? <div className="sv-card-credit">{film.watchLabel}</div> : null}
               </>
             )
 
