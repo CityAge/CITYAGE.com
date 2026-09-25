@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
+import { SITE_URL } from '@/lib/site'
 import './globals.css'
 
 // Newsreader (all text) is registered with @font-face in globals.css and
@@ -15,6 +16,7 @@ const jetbrains = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'CityAge | Intelligence for The Urban Planet',
   description: 'The primary intelligence source for global urban leadership. 25,000 decision-makers across infrastructure, space, energy, defence, and food systems.',
   icons: {
