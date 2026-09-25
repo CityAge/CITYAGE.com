@@ -1,0 +1,12 @@
+{
+  "duration_seconds": 12,
+  "fps": 24,
+  "width": 1600,
+  "height": 800,
+  "exact_periodic_endpoints": true,
+  "seam_mean_pixel_delta": 0.018973177083333334,
+  "ordinary_frame_mean_pixel_delta": 0.018983072916666666,
+  "source": "next-west-dawn-with-tug.jpg",
+  "motion": "Masked water displacement, existing wake shimmer and faint procedural exhaust. Tug remains stationary.",
+  "bytes": 616831
+}
