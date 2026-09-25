@@ -50,6 +50,7 @@ function FaceTile({ speaker }: { speaker: SpeakerFace }) {
       )}
       <div className="speakers-reel-overlay">
         <div className="speakers-reel-name">{speaker.name}</div>
+        {speaker.title && <div className="speakers-reel-org">{speaker.title}</div>}
         {speaker.organisation && <div className="speakers-reel-org">{speaker.organisation}</div>}
       </div>
     </>
@@ -281,8 +282,10 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
           <div className="people-empty">No matches found.</div>
         ) : (
           <div className="people-results-grid">
-            {matches.map((s) => (
-              <a
+            {matches.map((s) => {
+              const Card = s.linkedin_url ? 'a' : 'div'
+              return (
+              <Card
                 key={s.id}
                 className="people-result"
                 href={s.linkedin_url || undefined}
@@ -301,8 +304,9 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
                   {s.title && <div className="people-result-title">{s.title}</div>}
                   {s.organisation && <div className="people-result-org">{s.organisation}</div>}
                 </div>
-              </a>
-            ))}
+              </Card>
+              )
+            })}
           </div>
         )}
       </section>
