@@ -14,7 +14,7 @@ export const runtime = 'nodejs'
  *    reader sees the success state either way.
  */
 const TO = 'info@cityage.com'
-const SUBJECTS = new Set(['sponsoring', 'speaking', 'The Northern Century', 'The Next West', 'the Studio', 'press', 'something else'])
+const SUBJECTS = new Set(['sponsoring', 'speaking', 'The Northern Century', 'The Next West', 'the Studio', 'press', 'contributing a story or idea', 'something else'])
 
 const text = (v: unknown, max = 2000) => String(v ?? '').trim().slice(0, max)
 
