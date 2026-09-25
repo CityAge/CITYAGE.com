@@ -9,7 +9,6 @@ const HOUSE = [
 /** Events has no page of its own; in the footer it heads the franchises. */
 const EVENTS = [
   { href: '/the-next-west', label: 'The Next West' },
-  { href: '/northern-century', label: 'The Northern Century' },
 ] as const
 const SECTIONS = [
   { href: '/power', label: 'Power' },
