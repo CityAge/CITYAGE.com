@@ -4,11 +4,11 @@ import { notFound } from 'next/navigation'
 import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
+import { SITE_URL } from '@/lib/site'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
-const SITE_URL = 'https://cityage.com'
 
 function renderMarkdown(md: string): string {
   return md

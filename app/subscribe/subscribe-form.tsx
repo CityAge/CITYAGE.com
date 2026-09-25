@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 
-type Status = 'idle' | 'submitting' | 'done' | 'error'
+type Status = 'idle' | 'submitting' | 'done' | 'pending' | 'error'
 
 export function SubscribeForm() {
   const [email, setEmail] = useState('')
@@ -17,16 +17,17 @@ export function SubscribeForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
-      setStatus(res.ok ? 'done' : 'error')
+      const body = await res.json()
+      setStatus(res.ok ? (body.destination === 'beehiiv' ? 'done' : 'pending') : 'error')
     } catch {
       setStatus('error')
     }
   }
 
-  if (status === 'done') {
+  if (status === 'done' || status === 'pending') {
     return (
       <p className="font-serif text-[18px] md:text-[21px] leading-[1.75] text-black">
-        You have been added to the CityAge list.
+        {status === 'done' ? 'You have been added to the CityAge list.' : 'We received your subscription request.'}
       </p>
     )
   }

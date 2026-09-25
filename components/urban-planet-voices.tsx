@@ -58,7 +58,7 @@ export async function UrbanPlanetVoices() {
                   ) : (
                     <div className="w-full h-full bg-black flex items-center justify-center">
                       <span className="font-serif font-black text-2xl text-[#F2D024]">
-                        {voice.name.split(' ').slice(0,2).map((n) => n[0]).join('')}
+                        {voice.name.split(' ').slice(0,2).map((n: string) => n[0]).join('')}
                       </span>
                     </div>
                   )}
