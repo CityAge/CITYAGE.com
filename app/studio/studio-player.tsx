@@ -404,8 +404,7 @@ export function StudioPlayer() {
       {VIMEO_ORIGINS.map((origin) => (
         <link key={origin} rel="preconnect" href={origin} crossOrigin="" />
       ))}
-      <div className="sv-hero" ref={heroRef}>
-        <nav className="sv-nav">
+      <nav className="sv-nav">
           <div className="sv-house-left">
             <button
               type="button"
@@ -441,8 +440,19 @@ export function StudioPlayer() {
               Subscribe
             </a>
           </div>
-        </nav>
+      </nav>
 
+      <section className="sv-cta" aria-labelledby="studio-heading">
+        <div className="sv-cta-name">CityAge Studio</div>
+        <h1 id="studio-heading" className="sv-cta-lead">We put ideas in motion.</h1>
+        <p className="sv-cta-text">
+          CityAge’s strategy and creative arm. We build brands, develop campaigns and take on special projects—bringing strategy, storytelling and people together to make things happen.
+        </p>
+        <p className="sv-cta-approach">AI-enabled. Led by seasoned filmmakers.</p>
+        <a className="sv-project-link" href="/contact?subject=studio">Discuss a project</a>
+      </section>
+
+      <div className="sv-hero" ref={heroRef}>
         {stillOn && stillSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="sv-still" src={stillSrc} alt="" />
@@ -517,13 +527,7 @@ export function StudioPlayer() {
         </div>
       </div>
 
-      <div className="sv-cta">
-        <div className="sv-cta-name">CityAge Studio</div>
-        <div className="sv-cta-lead">We put ideas in motion.</div>
-        <p className="sv-cta-text">
-          Our documentaries and films have been seen by millions of people. We make films and brands. We take on a few projects a year, by choice.
-        </p>
-      </div>
+      <p className="sv-reel-caption">Our films.</p>
 
       <div className="sv-logos">
         <span className="sv-logos-label">Where Our Work Appears</span>
