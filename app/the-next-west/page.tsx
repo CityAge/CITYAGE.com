@@ -6,7 +6,7 @@ import { NoteForm } from '@/components/note-form'
 
 export const metadata: Metadata = {
   title: 'The Next West — CityAge',
-  description: 'A CityAge room. Coming to Vancouver, Winter 2026.',
+  description: 'A CityAge room. Coming to Vancouver, January 2027.',
 }
 
 const ROOM = [
@@ -57,7 +57,7 @@ export default function TheNextWestPage() {
               The Next West.
             </h1>
             <p className="type-deck text-black">
-              Vancouver · Winter 2026 · Invitation only.
+              Vancouver · January 2027 · Invitation only.
             </p>
             <p className="type-deck text-black/75 mt-2">
               A half-day. 8:30 to 12:00. Four rooms in one.
