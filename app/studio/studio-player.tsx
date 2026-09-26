@@ -518,7 +518,7 @@ export function StudioPlayer() {
       </div>
 
       <div className="sv-cta">
-        <div className="sv-cta-name">CityAge Studio</div>
+        <h1 className="sv-cta-name">CityAge Studio</h1>
         <div className="sv-cta-lead">We put ideas in motion.</div>
         <p className="sv-cta-text">
           Our documentaries and films have been seen by millions of people. We make films and brands. We take on a few projects a year, by choice.
