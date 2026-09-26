@@ -13,7 +13,7 @@ export const runtime = 'nodejs'
  *    recorded on the row (email_sent, email_error) with the service key, and the
  *    reader sees the success state either way.
  */
-const TO = 'info@cityage.com'
+const TO = ['info@cityage.com', 'Adair@CityAge.com']
 const SUBJECTS = new Set(['sponsoring', 'speaking', 'The Northern Century', 'The Next West', 'the Studio', 'press', 'something else'])
 
 const text = (v: unknown, max = 2000) => String(v ?? '').trim().slice(0, max)
