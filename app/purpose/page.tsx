@@ -88,6 +88,9 @@ export default function PurposePage() {
               Why we do it.
             </h2>
             <p className="type-body text-black mb-6">
+              We brand big ideas and build the networks that put them in motion.
+            </p>
+            <p className="type-body text-black mb-6">
               CityAge puts ideas in motion.
             </p>
             <p className="type-body text-black mb-6">
