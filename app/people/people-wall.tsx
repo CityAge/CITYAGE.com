@@ -50,6 +50,7 @@ function FaceTile({ speaker }: { speaker: SpeakerFace }) {
       )}
       <div className="speakers-reel-overlay">
         <div className="speakers-reel-name">{speaker.name}</div>
+        {speaker.title && <div className="speakers-reel-org">{speaker.title}</div>}
         {speaker.organisation && <div className="speakers-reel-org">{speaker.organisation}</div>}
       </div>
     </>
@@ -236,6 +237,27 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
       className={searching ? 'is-searching' : undefined}
       data-catalog-size={speakers.length}
     >
+      <section className="people-search">
+        <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 28, fontWeight: 400, margin: "0 0 12px" }}>The CityAge Stage</h1>
+        <p style={{ fontFamily: "var(--font-serif), Georgia, serif", fontSize: 17, lineHeight: 1.6, margin: "0 0 32px" }}>Meet the leaders who have joined CityAge to share ideas and help shape the urban planet.</p>
+        <span className="people-search-label">Find a leader</span>
+        <div className="people-search-wrap">
+          <input
+            className="people-search-input"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Name, title, or organisation…"
+            autoComplete="off"
+          />
+          {searching && (
+            <button type="button" className="people-search-clear" onClick={() => setQuery('')}>
+              Clear ×
+            </button>
+          )}
+        </div>
+      </section>
+
       <div className="reel-stack" aria-label="The CityAge Contributors">
         {speakers.length === 0 ? (
           <div className="people-loading">Unable to load speakers</div>
@@ -254,25 +276,6 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
         )}
       </div>
 
-      <section className="people-search">
-        <span className="people-search-label">Search the network.</span>
-        <div className="people-search-wrap">
-          <input
-            className="people-search-input"
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Name, title, or organisation…"
-            autoComplete="off"
-          />
-          {searching && (
-            <button type="button" className="people-search-clear" onClick={() => setQuery('')}>
-              Clear ×
-            </button>
-          )}
-        </div>
-      </section>
-
       <section className="people-results" hidden={!searching} aria-hidden={!searching}>
         <div className="people-results-count">
           <span>{matches.length}</span> result{matches.length === 1 ? '' : 's'} for “{query.trim()}”
@@ -281,8 +284,10 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
           <div className="people-empty">No matches found.</div>
         ) : (
           <div className="people-results-grid">
-            {matches.map((s) => (
-              <a
+            {matches.map((s) => {
+              const Card = s.linkedin_url ? 'a' : 'div'
+              return (
+              <Card
                 key={s.id}
                 className="people-result"
                 href={s.linkedin_url || undefined}
@@ -301,8 +306,9 @@ export function PeopleWall({ speakers }: { speakers: SpeakerFace[] }) {
                   {s.title && <div className="people-result-title">{s.title}</div>}
                   {s.organisation && <div className="people-result-org">{s.organisation}</div>}
                 </div>
-              </a>
-            ))}
+              </Card>
+              )
+            })}
           </div>
         )}
       </section>
