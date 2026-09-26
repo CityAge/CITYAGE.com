@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { CITYAGE_PUBLICATION_ID } from '@/lib/beehiiv'
 import { supabaseEnv } from '@/lib/supabase/env'
 
 export async function POST(req: Request) {
@@ -55,7 +56,34 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Please keep interests under 2,000 characters.' }, { status: 400 })
   }
 
-  // Capture launch signups here. Beehiiv import/delivery is a separate launch step.
+  // Beehiiv when configured; otherwise keep the address ourselves so nothing is lost.
+  const key = process.env.BEEHIIV_API_KEY
+  if (key) {
+    try {
+      const res = await fetch(
+        `https://api.beehiiv.com/v2/publications/${CITYAGE_PUBLICATION_ID}/subscriptions`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${key}`,
+          },
+          body: JSON.stringify({
+            email,
+            reactivate_existing: true,
+            send_welcome_email: true,
+            utm_source: 'magazine',
+            referring_site: 'https://cityage.com/subscribe',
+          }),
+        },
+      )
+      if (res.ok || res.status === 409) return NextResponse.json({ ok: true, destination: 'beehiiv' })
+    } catch {
+      /* fall through to the local record */
+    }
+  }
+
   const supabase = supabaseEnv()
   if (!supabase) return NextResponse.json({ error: 'Signup unavailable.' }, { status: 503 })
   try {
@@ -88,5 +116,5 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ error: 'Could not save signup.' }, { status: 503 })
   }
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, destination: 'pending' })
 }

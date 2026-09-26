@@ -473,8 +473,8 @@ export function StudioPlayer() {
       </nav>
 
       <section className="sv-cta" aria-labelledby="studio-heading">
-        <div className="sv-cta-name">CityAge Studio</div>
-        <h1 id="studio-heading" className="sv-cta-lead">We put ideas in motion.</h1>
+        <h1 className="sv-cta-name">CityAge Studio</h1>
+        <div id="studio-heading" className="sv-cta-lead">We put ideas in motion.</div>
         <p className="sv-cta-text">
           CityAge’s strategy and creative arm. We build brands, develop campaigns and take on special projects—bringing strategy, storytelling and people together to make things happen.
         </p>
