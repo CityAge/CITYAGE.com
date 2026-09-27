@@ -21,7 +21,9 @@ export default function SubscribePage() {
               The letter.
             </h1>
             <p className="type-body text-[#F9F9F7] mb-12">
-              Intelligence for the Urban Planet.
+              CityAge: Intelligence for the Urban Planet.
+              The Urban Planet arrives every Sunday morning — the people, money, and ideas moving through the two per cent of the planet where the future gets decided. A five-minute read for 18,000 leaders who build cities.
+              No spam, no selling your address. Unsubscribe anytime.
             </p>
 
             <SubscribeForm />
