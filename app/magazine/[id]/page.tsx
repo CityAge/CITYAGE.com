@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { ShareRow } from '@/components/share-row'
+import Image from '@/components/site-image'
 
 export const revalidate = 60
 export const dynamic = 'force-dynamic'
@@ -225,9 +226,12 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
         {article.image_url && (
           <div className="max-w-[960px] mx-auto px-6 pt-10 pb-2">
             <div className="relative w-full aspect-[16/9] overflow-hidden">
-              <img
+              <Image
                 src={article.image_url}
                 alt={article.headline}
+                fill
+                priority
+                sizes="(max-width: 960px) calc(100vw - 48px), 912px"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -272,7 +276,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                         <div key={a.id}>
                           {a.image_url && (
                             <Link href={`/magazine/${a.id}`} className="block w-full aspect-[16/10] mb-3 overflow-hidden" tabIndex={-1} aria-hidden="true">
-                              <img src={a.image_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                              <Image src={a.image_url} alt="" width={260} height={163} sizes="260px" className="w-full h-full object-cover" loading="lazy" />
                             </Link>
                           )}
                           <h4 className="font-serif font-medium text-[16px] leading-snug mb-2">
