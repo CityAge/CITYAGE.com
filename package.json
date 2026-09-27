@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:images": "node --test scripts/test-image-delivery.cjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.9.0",

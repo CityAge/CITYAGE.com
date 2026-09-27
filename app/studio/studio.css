@@ -443,7 +443,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  /* next/image fills the tile: keep it pinned inside the aspect box. */
+  /* Keep the native image pinned inside the existing aspect box. */
   position: absolute;
   inset: 0;
 }
