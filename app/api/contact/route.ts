@@ -8,12 +8,15 @@ export const runtime = 'nodejs'
  * The one door for every note on the site.
  *
  * 1. A row is written to contact_submissions first, every time. That row is the guarantee.
- * 2. Then the notification goes to info@cityage.com through Google Workspace SMTP
- *    (nodemailer, smtp.gmail.com:465, SMTP_USER / SMTP_PASS). Success or failure is
- *    recorded on the row (email_sent, email_error) with the service key, and the
- *    reader sees the success state either way.
+ * 2. Then the notification goes to info@cityage.com through Resend (RESEND_API_KEY,
+ *    sent from CONTACT_FROM, default notes@cityage.com), falling back to Google
+ *    Workspace SMTP (SMTP_USER / SMTP_PASS) only if no Resend key is set. Success or
+ *    failure is recorded on the row (email_sent, email_error) with the service key,
+ *    and the reader sees the success state either way.
  */
 const TO = ['info@cityage.com', 'Adair@CityAge.com']
+// Sender for site notes. The domain must be verified in Resend.
+const FROM = process.env.CONTACT_FROM || 'CityAge <notes@cityage.com>'
 const SUBJECTS = new Set(['sponsoring', 'speaking', 'The Northern Century', 'The Next West', 'the Studio', 'press', 'contributing a story or idea', 'something else'])
 
 const text = (v: unknown, max = 2000) => String(v ?? '').trim().slice(0, max)
@@ -105,37 +108,49 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 
-  // 2. The notification.
+  // 2. The notification. Resend when RESEND_API_KEY is set (the default); Google SMTP otherwise.
   let emailSent = false
   let emailError: string | null = null
+  const rowLink = `https://supabase.com/dashboard/project/${new URL(supabase.url).hostname.split('.')[0]}/editor?table=contact_submissions`
+  const mail = {
+    subject: `Note from ${name}${organisation ? `, ${organisation}` : ''} — ${subject}`,
+    text: [
+      `${name}${organisation ? `, ${organisation}` : ''}`,
+      `${email}`,
+      `About: ${subject}`,
+      `From the page: /${source}`,
+      '',
+      storedMessage,
+      '',
+      `Row ${rowId}: ${rowLink}`,
+    ].join('\n'),
+  }
+  const resendKey = process.env.RESEND_API_KEY
   const user = process.env.SMTP_USER
   const pass = process.env.SMTP_PASS
-  if (!user || !pass) {
-    emailError = 'SMTP_USER or SMTP_PASS not set'
-  } else {
+  if (resendKey) {
     try {
-      const rowLink = `https://supabase.com/dashboard/project/${new URL(supabase.url).hostname.split('.')[0]}/editor?table=contact_submissions`
-      const transporter = nodemailer.createTransport({ host: 'smtp.gmail.com', port: 465, secure: true, auth: { user, pass } })
-      await transporter.sendMail({
-        from: user,
-        to: TO,
-        replyTo: email,
-        subject: `Note from ${name}${organisation ? `, ${organisation}` : ''} — ${subject}`,
-        text: [
-          `${name}${organisation ? `, ${organisation}` : ''}`,
-          `${email}`,
-          `About: ${subject}`,
-          `From the page: /${source}`,
-          '',
-          storedMessage,
-          '',
-          `Row ${rowId}: ${rowLink}`,
-        ].join('\n'),
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${resendKey}` },
+        body: JSON.stringify({ from: FROM, to: TO, reply_to: email, subject: mail.subject, text: mail.text }),
+        signal: AbortSignal.timeout(15000),
       })
+      if (!res.ok) throw new Error(`Resend ${res.status}: ${(await res.text()).slice(0, 400)}`)
       emailSent = true
     } catch (err) {
       emailError = err instanceof Error ? err.message.slice(0, 500) : String(err).slice(0, 500)
     }
+  } else if (user && pass) {
+    try {
+      const transporter = nodemailer.createTransport({ host: 'smtp.gmail.com', port: 465, secure: true, auth: { user, pass } })
+      await transporter.sendMail({ from: user, to: TO, replyTo: email, subject: mail.subject, text: mail.text })
+      emailSent = true
+    } catch (err) {
+      emailError = err instanceof Error ? err.message.slice(0, 500) : String(err).slice(0, 500)
+    }
+  } else {
+    emailError = 'No email service configured (RESEND_API_KEY, or SMTP_USER and SMTP_PASS)'
   }
   if (!emailSent) console.error('[contact] notification not sent', { rowId, emailError })
 
