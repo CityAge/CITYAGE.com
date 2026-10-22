@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { SITE_BASE_URL } from './robots'
+import { SITE_URL as SITE_BASE_URL } from '@/lib/site'
 import routes from '@/lib/sitemap-routes.generated.json'
 import { SECTIONS } from '@/lib/magazine'
 import { supabaseEnv } from '@/lib/supabase/env'
