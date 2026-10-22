@@ -4,7 +4,7 @@ import config from '../next.config.mjs'
 
 // Access-controlled pages and the redirect into a private partner page.
 // Keep this exclusion policy aligned with new gates; proxy.ts remains unchanged.
-const excluded = ['/northern-century', '/dispatches', '/cec/partners', '/next-vancouver/partners', '/space-to-ice/partners']
+const excluded = ['/northern-century', '/dispatches', '/pulse', '/next-vancouver', '/cec/partners', '/space-to-ice/partners']
 const isPublic = path => !excluded.some(prefix => path === prefix || path.startsWith(`${prefix}/`))
 
 export async function discoverRoutes(directory, segments = []) {

@@ -8,7 +8,7 @@ const routes = require('../lib/sitemap-routes.generated.json')
 function load(fetch) {
   const exports = {}
   const dependencies = {
-    './robots': { SITE_BASE_URL: 'https://cityagemag.vercel.app' },
+    '@/lib/site': { SITE_URL: 'https://cityagemag.vercel.app' },
     '@/lib/sitemap-routes.generated.json': routes,
     '@/lib/magazine': { SECTIONS: ['power', 'money', 'cities', 'frontiers', 'culture'].map(slug => ({ slug })) },
     '@/lib/supabase/env': { supabaseEnv: () => ({ url: 'https://example.supabase.co', key: 'test' }) },
