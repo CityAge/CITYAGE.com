@@ -19,6 +19,21 @@ const TO = ['info@cityage.com', 'Adair@CityAge.com']
 const FROM = process.env.CONTACT_FROM || 'CityAge <notes@cityage.com>'
 const SUBJECTS = new Set(['sponsoring', 'speaking', 'The Northern Century', 'The Next West', 'the Studio', 'press', 'contributing a story or idea', 'something else'])
 
+// The thank-you every sender receives. Wording approved by Miro before going live.
+const ACK = {
+  subject: 'Your note reached CityAge',
+  text: (about: string) => [
+    'Thank you for writing to CityAge.',
+    '',
+    `${about === 'something else' ? 'Your note' : `Your note about ${about}`} has reached us. Miro or Adair will reply within two working days.`,
+    '',
+    'If you need to add anything, reply to this email.',
+    '',
+    'CityAge',
+    'cityage.com',
+  ].join('\n'),
+}
+
 const text = (v: unknown, max = 2000) => String(v ?? '').trim().slice(0, max)
 
 export async function POST(req: Request) {
@@ -153,6 +168,23 @@ export async function POST(req: Request) {
     emailError = 'No email service configured (RESEND_API_KEY, or SMTP_USER and SMTP_PASS)'
   }
   if (!emailSent) console.error('[contact] notification not sent', { rowId, emailError })
+
+  // 2b. A short thank-you to the sender, so no note goes unanswered. Resend only.
+  // It carries none of the sender's own words (only the subject, from the fixed list),
+  // so the form cannot be used to send arbitrary text to someone else.
+  if (resendKey && process.env.CONTACT_ACK !== 'off') {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${resendKey}` },
+        body: JSON.stringify({ from: FROM, to: [email], reply_to: 'info@cityage.com', subject: ACK.subject, text: ACK.text(subject) }),
+        signal: AbortSignal.timeout(15000),
+      })
+      if (!res.ok) console.error('[contact] thank-you not sent', rowId, res.status, (await res.text()).slice(0, 200))
+    } catch (err) {
+      console.error('[contact] thank-you not sent', rowId, err)
+    }
+  }
 
   // 3. Record the outcome on the row. Needs the service key: the public key can insert but not update.
   const service = process.env.SUPABASE_SERVICE_ROLE_KEY
