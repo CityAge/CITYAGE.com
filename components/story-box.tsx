@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from '@/components/site-image'
 import type { SectionStory } from '@/lib/magazine'
 
 /**
@@ -17,8 +18,7 @@ export function StoryBox({ story }: { story: SectionStory }) {
             className="ca-photo relative w-full overflow-hidden bg-[#EFEDE6] aspect-[16/10]"
             style={{ position: 'relative', overflow: 'hidden', aspectRatio: '16 / 10' }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={story.image_url} alt="" className="object-cover" loading="lazy" decoding="async" />
+            <Image src={story.image_url} alt="" fill sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw" className="object-cover" />
           </div>
         ) : (
           <div

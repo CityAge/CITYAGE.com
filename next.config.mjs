@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    // Safety net: even an accidental future next/image import must stay direct.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
