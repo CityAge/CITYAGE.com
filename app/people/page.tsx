@@ -7,6 +7,7 @@ import { PeopleWall } from './people-wall'
 export const metadata: Metadata = {
   title: 'People — CityAge',
   description: 'The CityAge Contributors.',
+  alternates: { canonical: '/people' },
 }
 
 export const revalidate = 3600

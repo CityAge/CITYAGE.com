@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Space: commercialization is rocketing ahead under U.S. President Donald Trump — CityAge',
   description:
     'Charles Miller, who spoke at CityAge Orbit in Washington, on the commercialization of space.',
+  alternates: { canonical: '/frontiers/the-inflection-point-was-real' },
 }
 
 const EXCHANGES = [

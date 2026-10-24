@@ -5,6 +5,8 @@ export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Money — CityAge',
+  description: 'Investment, markets and real estate: where capital meets the urban planet.',
+  alternates: { canonical: '/money' },
 }
 
 export default function MoneyPage() {

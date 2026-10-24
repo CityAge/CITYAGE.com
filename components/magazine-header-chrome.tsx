@@ -23,7 +23,7 @@ export function CityAgeMark({
     <a id={id} href="/" className="inline-flex items-center justify-center">
       <img
         src={src}
-        alt="CITYAGE"
+        alt="CityAge"
         width={517}
         height={119}
         className={size === 'large' ? LOGO_LARGE_CLASS : LOGO_COMPACT_CLASS}

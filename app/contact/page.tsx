@@ -6,6 +6,7 @@ import { NoteForm } from '@/components/note-form'
 export const metadata: Metadata = {
   title: 'Contact — CityAge',
   description: 'Every note is read by Miro Cernetig.',
+  alternates: { canonical: '/contact' },
 }
 
 export default async function ContactPage({

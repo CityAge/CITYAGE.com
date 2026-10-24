@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Purpose — CityAge',
   description:
     'Fifteen years ago, CityAge was founded on an image. The Earth at night. Two per cent of the surface, lit.',
+  alternates: { canonical: '/purpose' },
 }
 
 export default function PurposePage() {
