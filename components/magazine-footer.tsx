@@ -1,4 +1,5 @@
 import { LOGO_WHITE } from '@/components/magazine-header-chrome'
+import { NORTHERN_CENTURY_OPEN } from '@/lib/site'
 
 /** The footer mirrors the masthead: the house line, the five sections, and the utilities. */
 const HOUSE = [
@@ -10,8 +11,8 @@ const HOUSE = [
 /** Campaigns link directly to their existing pages. */
 const EVENTS = [
   { href: '/the-next-west', label: 'The Next West' },
-  { href: '/northern-century', label: 'The Northern Century' },
-] as const
+  ...(NORTHERN_CENTURY_OPEN ? [{ href: '/northern-century', label: 'The Northern Century' }] : []),
+]
 const SECTIONS = [
   { href: '/power', label: 'Power' },
   { href: '/money', label: 'Money' },
@@ -39,7 +40,7 @@ export function MagazineFooter() {
             {/* Drawn mark — same as the masthead, white, smaller. Not a web-font CITYAGE. */}
             <img
               src={LOGO_WHITE}
-              alt="CITYAGE"
+              alt="CityAge"
               width={517}
               height={119}
               className="block h-auto w-[min(64vw,18rem)]"
