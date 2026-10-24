@@ -3,12 +3,14 @@ import Link from 'next/link'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { supabaseEnv } from '@/lib/supabase/env'
+import { storyHref } from '@/lib/magazine'
 
 export const metadata: Metadata = { title: 'Search — CityAge', robots: { index: false } }
 export const dynamic = 'force-dynamic'
 
 type Result = {
   id: string
+  slug: string | null
   headline: string
   deck: string | null
   vertical: string
@@ -21,7 +23,7 @@ async function searchPublished(term: string): Promise<{ results: Result[]; error
   if (!env) return { results: [], error: true }
   try {
     // A bounded published-only read avoids interpreting user text as a PostgREST filter.
-    const select = 'id,headline,deck,vertical,published_at,body'
+    const select = 'id,slug,headline,deck,vertical,published_at,body'
     const response = await fetch(
       `${env.url}/rest/v1/magazine?select=${select}&status=eq.published&order=published_at.desc&limit=500`,
       { headers: { apikey: env.key, Authorization: `Bearer ${env.key}` }, cache: 'no-store' },
@@ -64,7 +66,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 <li key={story.id} className="py-6">
                   <span className="text-[12px] font-bold uppercase tracking-wider text-black/60">{story.vertical}</span>
                   <h3 className="font-serif text-[24px] font-semibold leading-snug mt-1">
-                    <Link href={`/magazine/${story.id}`} className="hover:underline">{story.headline}</Link>
+                    <Link href={storyHref(story)} className="hover:underline">{story.headline}</Link>
                   </h3>
                   {story.deck && <p className="text-[16px] leading-relaxed mt-2">{story.deck}</p>}
                 </li>
