@@ -33,7 +33,7 @@ export function proxy(req: NextRequest) {
     res.headers.set('X-Robots-Tag', 'noindex, nofollow')
     return res
   }
-  const res = NextResponse.rewrite(new URL('/__private', req.url), { status: 404 })
+  const res = NextResponse.rewrite(new URL('/held-back', req.url), { status: 404 })
   res.headers.set('X-Robots-Tag', 'noindex, nofollow')
   return res
 }
