@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { NORTHERN_CENTURY_OPEN } from '@/lib/site'
 
 /** The house line: Purpose · Events · Studio · Partners. Events is a dropdown, not a page. */
 const HOUSE_LINKS = [
@@ -13,8 +14,8 @@ const HOUSE_LINKS = [
 /** The event franchises in the Events menu. Next Vancouver keeps its page but is not listed; old events come over from WordPress later. */
 const EVENTS = [
   { href: '/the-next-west', label: 'The Next West' },
-  { href: '/northern-century', label: 'The Northern Century' },
-] as const
+  ...(NORTHERN_CENTURY_OPEN ? [{ href: '/northern-century', label: 'The Northern Century' }] : []),
+]
 
 /** Older pages, reachable from the hamburger only. The event franchises sit under Events. */
 const MORE_LINKS = [

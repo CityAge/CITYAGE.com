@@ -4,6 +4,8 @@ import { MagazineFooter } from '@/components/magazine-footer'
 
 export const metadata: Metadata = {
   title: 'Knowledge Partners — CityAge',
+  description: 'The firms, cities and institutions CityAge has worked with as knowledge partners.',
+  alternates: { canonical: '/partners' },
 }
 
 const NAMES = [

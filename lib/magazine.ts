@@ -13,6 +13,8 @@ export type SectionName = (typeof SECTIONS)[number]['name']
 
 export type SectionStory = {
   id: string
+  /** Readable address part, set from the headline by the database. */
+  slug: string | null
   headline: string
   deck: string | null
   vertical: string
@@ -24,6 +26,7 @@ export type SectionStory = {
 
 type StoryRow = {
   id: string
+  slug: string | null
   headline: string
   deck: string | null
   vertical: string
@@ -32,8 +35,13 @@ type StoryRow = {
   body: string | null
 }
 
-const STORY_SELECT = 'id,headline,deck,vertical,image_url,published_at,body'
+const STORY_SELECT = 'id,slug,headline,deck,vertical,image_url,published_at,body'
 const WORDS_PER_MINUTE = 220
+
+/** A story's address: the readable slug when it has one, else the row id. */
+export function storyHref(story: { id: string; slug?: string | null }): string {
+  return `/magazine/${story.slug || story.id}`
+}
 
 export function readMinutes(body: string | null | undefined): number {
   const words = (body || '').trim().split(/\s+/).filter(Boolean).length
@@ -43,6 +51,7 @@ export function readMinutes(body: string | null | undefined): number {
 function toStory(row: StoryRow): SectionStory {
   return {
     id: row.id,
+    slug: row.slug,
     headline: row.headline,
     deck: row.deck,
     vertical: row.vertical,

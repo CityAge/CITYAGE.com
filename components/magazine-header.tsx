@@ -5,7 +5,10 @@ import { MagazineStickyHeader } from '@/components/magazine-header-sticky'
 export { HEADER_COMPRESSED_HEIGHT } from '@/components/magazine-header-chrome'
 export { CityAgeMark } from '@/components/magazine-header-chrome'
 
-export function MagazineHeader({ hideRailOnPhone = false }: { hideRailOnPhone?: boolean } = {}) {
+export function MagazineHeader({
+  hideRailOnPhone = false,
+  mastheadIsH1 = false,
+}: { hideRailOnPhone?: boolean; mastheadIsH1?: boolean } = {}) {
   return (
     <>
       <header className="bg-[#F9F9F7]">
@@ -14,7 +17,14 @@ export function MagazineHeader({ hideRailOnPhone = false }: { hideRailOnPhone?: 
         <div className="border-b border-black px-6 md:px-12 py-9 md:py-16">
           <div className="max-w-[1400px] mx-auto relative flex items-center justify-center">
             <div className="flex flex-col items-center">
-              <CityAgeMark id="cityage-masthead" tone="cream" size="large" />
+              {/* On the home page the masthead is the page's main heading, for Google. */}
+              {mastheadIsH1 ? (
+                <h1 className="m-0">
+                  <CityAgeMark id="cityage-masthead" tone="cream" size="large" />
+                </h1>
+              ) : (
+                <CityAgeMark id="cityage-masthead" tone="cream" size="large" />
+              )}
               <p className="mt-4 text-center font-serif text-[13px] md:text-[15px] font-normal leading-snug tracking-[0.04em] text-black/65">
                 Intelligence for the urban planet
               </p>

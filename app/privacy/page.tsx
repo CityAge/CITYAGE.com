@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy — CityAge',
+  description: 'How CityAge collects, uses and protects personal information.',
+  alternates: { canonical: '/privacy' },
+}
 
 export default function PrivacyPolicy() {
   return (

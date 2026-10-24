@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CampaignBanner } from '@/components/campaign-banner'
 import { MagazineHeader } from '@/components/magazine-header'
@@ -7,15 +8,31 @@ import { ArticleCard } from '@/components/article-card'
 import { HeroGrid } from '@/components/hero-grid'
 import { StoryBox } from '@/components/story-box'
 import { HouseTile, type HouseEntry } from '@/components/house-tile'
-import { fetchWellStories, type SectionStory } from '@/lib/magazine'
+import { fetchWellStories, storyHref, type SectionStory } from '@/lib/magazine'
 import { fetchDoorSpeakerFaces, stableSpeakerShuffle } from '@/lib/speakers'
+import { NORTHERN_CENTURY_OPEN, SITE_URL } from '@/lib/site'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
+
+/** Tells Google who CityAge is: name, address, logo and LinkedIn. */
+const ORGANIZATION_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsMediaOrganization',
+  name: 'CityAge',
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo-ca-black.png`,
+  email: 'info@cityage.com',
+  sameAs: ['https://www.linkedin.com/company/cityage/'],
+}
 
 const MILLER_HREF = '/frontiers/the-inflection-point-was-real'
 
 /** House tile, top of column three. One shows per page load, at random. */
-const HOUSE_ENTRIES: HouseEntry[] = [
+const ALL_HOUSE_ENTRIES: HouseEntry[] = [
   {
     image: '/vancouver-banner.jpg',
     headline: 'The Next West.',
@@ -39,6 +56,8 @@ const HOUSE_ENTRIES: HouseEntry[] = [
     href: '/studio',
   },
 ]
+const HOUSE_ENTRIES = ALL_HOUSE_ENTRIES.filter((e) => NORTHERN_CENTURY_OPEN || e.href !== '/northern-century')
+
 /** ceil(words / 220) of the Miller page text; it is a static page, not a magazine row. */
 const MILLER_READ_MIN = 2
 
@@ -72,9 +91,10 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_LD) }} />
       <CampaignBanner />
 
-      <MagazineHeader hideRailOnPhone />
+      <MagazineHeader hideRailOnPhone mastheadIsH1 />
 
       <main className="flex-grow max-w-[1400px] mx-auto w-full bg-[#F9F9F7]">
         <span id="power" className="paper-anchor" />
@@ -103,7 +123,7 @@ export default async function Home() {
               <article className="mt-7 pt-7 border-t border-[#D9D7D0]">
                 <span className="type-kicker">{belowLead.vertical}</span>
                 <h3 className="type-rail-h mt-2">
-                  <Link href={`/magazine/${belowLead.id}`} className="story-link">
+                  <Link href={storyHref(belowLead)} className="story-link">
                     {belowLead.headline}
                   </Link>
                 </h3>
@@ -118,6 +138,7 @@ export default async function Home() {
         />
       </main>
 
+      {NORTHERN_CENTURY_OPEN ? (
       <CampaignBanner
         image="/northern-century-earth.jpg"
         crop="object-top"
@@ -128,6 +149,7 @@ export default async function Home() {
         href="/northern-century"
         priority={false}
       />
+      ) : null}
 
       <StageBand top={doorTop} bottom={doorBottom} />
       <MagazineFooter />

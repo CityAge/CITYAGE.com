@@ -7,6 +7,7 @@ import { SubscribeForm } from './subscribe-form'
 export const metadata: Metadata = {
   title: 'Subscribe — CityAge',
   description: 'The letter. Intelligence for the Urban Planet.',
+  alternates: { canonical: '/subscribe' },
 }
 
 export default function SubscribePage() {

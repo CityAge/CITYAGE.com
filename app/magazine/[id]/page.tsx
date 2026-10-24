@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
-import { readMinutes } from '@/lib/magazine'
+import { readMinutes, storyHref } from '@/lib/magazine'
 import { SITE_URL } from '@/lib/site'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { ShareRow } from '@/components/share-row'
@@ -70,6 +70,8 @@ function applyInline(text: string): string {
 }
 
 type ArticleMeta = {
+  id: string
+  slug: string | null
   headline: string
   deck: string | null
   image_url: string | null
@@ -81,7 +83,7 @@ async function fetchArticleMeta(id: string): Promise<ArticleMeta | null> {
   if (!url || !key) return null
   try {
     const res = await fetch(
-      `${url}/rest/v1/magazine?select=headline,deck,image_url&${lookupColumn(id)}=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
+      `${url}/rest/v1/magazine?select=id,slug,headline,deck,image_url&${lookupColumn(id)}=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
       {
         headers: { apikey: key, Authorization: `Bearer ${key}` },
         next: { revalidate: 60 },
@@ -107,10 +109,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return {
     title,
     description,
+    // One official address per story: the readable one.
+    alternates: { canonical: storyHref(article) },
     openGraph: {
       title: article.headline,
       description,
-      url: `${SITE_URL}/magazine/${id}`,
+      url: `${SITE_URL}${storyHref(article)}`,
       type: 'article',
       siteName: 'CityAge',
       images: article.image_url ? [{ url: article.image_url }] : undefined,
@@ -142,7 +146,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
       if (article) {
         const { data: rel } = await supabase
           .from('magazine')
-          .select('id, headline, vertical, image_url, published_at, body')
+          .select('id, slug, headline, vertical, image_url, published_at, body')
           .eq('status', 'published')
           .eq('vertical', article.vertical)
           .neq('id', article.id)
@@ -156,10 +160,12 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
   }
 
   if (!article) notFound()
+  // Old coded addresses forward permanently to the readable one.
+  if (article.slug && id !== article.slug) permanentRedirect(storyHref(article))
 
   const html = renderMarkdown(article.body)
   // Share URLs: the public site, slug when the row has one, else the uuid path.
-  const shareUrl = `${SITE_URL}/magazine/${article.slug || article.id}`
+  const shareUrl = `${SITE_URL}${storyHref(article)}`
   const readMin = readMinutes(article.body)
   const dateLabel = new Date(article.published_at).toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -168,8 +174,26 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
     timeZone: 'UTC',
   })
 
+  // Tells Google this is a news article, with its date, writer and publisher.
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.headline,
+    description: article.deck || undefined,
+    image: article.image_url ? [article.image_url] : undefined,
+    datePublished: article.published_at,
+    dateModified: article.updated_at || article.published_at,
+    articleSection: article.vertical,
+    author: article.author && !/cityage/i.test(article.author)
+      ? { '@type': 'Person', name: article.author }
+      : { '@type': 'Organization', name: 'CityAge', url: SITE_URL },
+    publisher: { '@type': 'Organization', name: 'CityAge', url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo-ca-black.png` } },
+    mainEntityOfPage: shareUrl,
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
       <MagazineHeader />
 
       <article className="flex-grow">
@@ -188,7 +212,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                 </>
               ) : null}
               <span className="text-black/25">|</span>
-              <span>{dateLabel}</span>
+              <time dateTime={article.published_at}>{dateLabel}</time>
               <span className="text-black/25">|</span>
               <span>{readMin} min read</span>
             </div>
@@ -271,12 +295,12 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                       {related.map((a: any) => (
                         <div key={a.id}>
                           {a.image_url && (
-                            <Link href={`/magazine/${a.id}`} className="block w-full aspect-[16/10] mb-3 overflow-hidden" tabIndex={-1} aria-hidden="true">
+                            <Link href={storyHref(a)} className="block w-full aspect-[16/10] mb-3 overflow-hidden" tabIndex={-1} aria-hidden="true">
                               <img src={a.image_url} alt="" className="w-full h-full object-cover" loading="lazy" />
                             </Link>
                           )}
                           <h4 className="font-serif font-medium text-[16px] leading-snug mb-2">
-                            <Link href={`/magazine/${a.id}`} className="story-link">{a.headline}</Link>
+                            <Link href={storyHref(a)} className="story-link">{a.headline}</Link>
                           </h4>
                           <span className="type-meta block">{readMinutes(a.body)} min read</span>
                         </div>

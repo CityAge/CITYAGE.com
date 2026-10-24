@@ -5,6 +5,7 @@ import { StudioPlayer } from './studio-player'
 export const metadata: Metadata = {
   title: 'Studio — CityAge',
   description: 'We put ideas in motion.',
+  alternates: { canonical: '/studio' },
 }
 
 export default function StudioPage() {

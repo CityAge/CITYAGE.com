@@ -7,6 +7,7 @@ import { NoteForm } from '@/components/note-form'
 export const metadata: Metadata = {
   title: 'The Next West — CityAge',
   description: 'A CityAge room. Coming to Vancouver, January 2027.',
+  alternates: { canonical: '/the-next-west' },
 }
 
 const ROOM = [
