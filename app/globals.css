@@ -99,6 +99,7 @@
 }
 
 @layer components {
+  .type-lead-h, .type-rail-h { overflow-wrap: break-word; hyphens: auto; }
   .type-lead-h { font-family: var(--font-serif); font-size: var(--type-lead-h); line-height: var(--type-lead-h-lh); font-weight: var(--type-lead-h-w); }
   .type-rail-h { font-family: var(--font-serif); font-size: var(--type-rail-h); line-height: var(--type-rail-h-lh); font-weight: var(--type-rail-h-w); }
   .type-deck   { font-family: var(--font-serif); font-size: var(--type-deck);   line-height: var(--type-deck-lh);   font-weight: var(--type-deck-w); font-style: italic; }
