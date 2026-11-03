@@ -39,8 +39,23 @@ const nextConfig = {
       ],
     }
   },
+  // Old pages pass through Vercel; keep a copy at Vercel's edge for a day so Hostinger
+  // is asked once, not on every visit (Hostinger throttles bursts from Vercel).
+  async headers() {
+    return [
+      {
+        source: '/:path+/',
+        headers: [{ key: 'Vercel-CDN-Cache-Control', value: 's-maxage=86400, stale-while-revalidate=604800' }],
+      },
+    ]
+  },
   async redirects() {
     return [
+      // The old pages' images, styles and scripts load straight from the archive, not through
+      // Vercel: one old page needs ~60 files, and Hostinger refuses bursts from Vercel's servers.
+      { source: '/wp-content/:path*', destination: `${ARCHIVE}/wp-content/:path*`, permanent: false },
+      { source: '/wp-includes/:path*', destination: `${ARCHIVE}/wp-includes/:path*`, permanent: false },
+
       // Clean URLs → locked-design pages
       { source: '/home', destination: '/', permanent: false },
       { source: '/the-next-vancouver', destination: '/next-vancouver', permanent: false },
