@@ -34,6 +34,9 @@ const nextConfig = {
       ],
       // Only when nothing on the new site matches: the old page, from the archive.
       fallback: [
+        // First the frozen copy saved on Vercel (public/__archive), so visitors and Google
+        // never wait on Hostinger; only pages missing from the copy are fetched live.
+        { source: '/:path+/', destination: '/__archive/:path+/index.html' },
         { source: '/:path+/', destination: `${ARCHIVE}/:path+/` },
         { source: '/:path+', destination: `${ARCHIVE}/:path+` },
       ],
@@ -43,6 +46,11 @@ const nextConfig = {
   // is asked once, not on every visit (Hostinger throttles bursts from Vercel).
   async headers() {
     return [
+      // The frozen copy is only meant to be seen at the old addresses, never at /__archive.
+      {
+        source: '/__archive/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
+      },
       {
         source: '/:path+/',
         headers: [{ key: 'Vercel-CDN-Cache-Control', value: 's-maxage=86400, stale-while-revalidate=604800' }],
