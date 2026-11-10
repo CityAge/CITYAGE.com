@@ -8,7 +8,7 @@
 const ARCHIVE = 'https://archive.cityage.com'
 
 /** New pages: an old-style address with a trailing slash goes to the clean one. */
-const NEW_PAGES = 'power|money|cities|frontiers|culture|people|the-next-west|studio|partners|purpose|subscribe|contact|privacy|search|ai-policy'
+const NEW_PAGES = 'power|money|cities|frontiers|culture|people|studio|partners|purpose|subscribe|contact|privacy|search|ai-policy'
 
 const nextConfig = {
   // Old addresses end in "/". Keep them exactly as they are, so they reach the archive unchanged.
@@ -75,7 +75,6 @@ const nextConfig = {
       { source: '/cityage-studio/', destination: '/studio', permanent: true },
       { source: '/knowledge-partners/', destination: '/partners', permanent: true },
       { source: '/privacy-policy/', destination: '/privacy', permanent: true },
-      { source: '/events/the-next-vancouver/', destination: '/the-next-west', permanent: true },
       { source: '/forms/speakers/', destination: '/contact', permanent: true },
       { source: '/forms/', destination: '/contact', permanent: true },
       { source: '/do-you-want-to-do-something-knowledge-partner-inquiry/', destination: '/contact', permanent: true },

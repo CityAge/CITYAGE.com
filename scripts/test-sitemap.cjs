@@ -10,6 +10,7 @@ function load(fetch) {
   const dependencies = {
     '@/lib/site': { SITE_URL: 'https://cityagemag.vercel.app' },
     '@/lib/sitemap-routes.generated.json': routes,
+    '@/lib/sitemap-archive.generated.json': [],
     '@/lib/magazine': { SECTIONS: ['power', 'money', 'cities', 'frontiers', 'culture'].map(slug => ({ slug })) },
     '@/lib/supabase/env': { supabaseEnv: () => ({ url: 'https://example.supabase.co', key: 'test' }) },
   }

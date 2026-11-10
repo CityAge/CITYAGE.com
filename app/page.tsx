@@ -10,7 +10,7 @@ import { StoryBox } from '@/components/story-box'
 import { HouseTile, type HouseEntry } from '@/components/house-tile'
 import { fetchWellStories, storyHref, type SectionStory } from '@/lib/magazine'
 import { fetchDoorSpeakerFaces, stableSpeakerShuffle } from '@/lib/speakers'
-import { NORTHERN_CENTURY_OPEN, SITE_URL } from '@/lib/site'
+import { NEXT_WEST_OPEN, NORTHERN_CENTURY_OPEN, SITE_URL } from '@/lib/site'
 
 export const revalidate = 60
 
@@ -56,7 +56,9 @@ const ALL_HOUSE_ENTRIES: HouseEntry[] = [
     href: '/studio',
   },
 ]
-const HOUSE_ENTRIES = ALL_HOUSE_ENTRIES.filter((e) => NORTHERN_CENTURY_OPEN || e.href !== '/northern-century')
+const HOUSE_ENTRIES = ALL_HOUSE_ENTRIES
+  .filter((e) => NORTHERN_CENTURY_OPEN || e.href !== '/northern-century')
+  .filter((e) => NEXT_WEST_OPEN || e.href !== '/the-next-west')
 
 /** ceil(words / 220) of the Miller page text; it is a static page, not a magazine row. */
 const MILLER_READ_MIN = 2
@@ -92,7 +94,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_LD) }} />
-      <CampaignBanner />
+      {NEXT_WEST_OPEN ? <CampaignBanner /> : null}
 
       <MagazineHeader hideRailOnPhone mastheadIsH1 />
 

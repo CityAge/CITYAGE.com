@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL as SITE_BASE_URL } from '@/lib/site'
 import routes from '@/lib/sitemap-routes.generated.json'
+import archive from '@/lib/sitemap-archive.generated.json'
 import { SECTIONS } from '@/lib/magazine'
 import { supabaseEnv } from '@/lib/supabase/env'
 
@@ -51,5 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
     cursor = articles[articles.length - 1].id
   }
+  // The old WordPress pages, still served at their old addresses from the frozen copy.
+  for (const path of archive) result.push({ url: `${SITE_BASE_URL}${path}`, priority: 0.4 })
   return result
 }

@@ -12,6 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         '/northern-century', '/northern-century/*',
         '/dispatches', '/dispatches/*',
         '/pulse', '/pulse/*',
+        '/the-next-west', '/the-next-west/*',
         '/next-vancouver', '/next-vancouver.html',
       ],
     },
