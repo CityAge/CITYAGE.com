@@ -19,6 +19,15 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'CityAge | Intelligence for The Urban Planet',
   description: 'The primary intelligence source for global urban leadership. 25,000 decision-makers across infrastructure, space, energy, defence, and food systems.',
+  // Link previews (LinkedIn, X, messages) for every page that does not set its own.
+  openGraph: {
+    type: 'website',
+    siteName: 'CityAge',
+    title: 'CityAge | Intelligence for The Urban Planet',
+    description: 'Earth\u2019s two per cent. Where human and financial capital meet.',
+    images: [{ url: '/earth-lights.jpg', width: 2560, height: 1288, alt: 'The Earth at night' }],
+  },
+  twitter: { card: 'summary_large_image' },
   icons: {
     icon: [
       { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },

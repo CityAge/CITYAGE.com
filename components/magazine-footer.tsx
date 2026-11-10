@@ -1,5 +1,5 @@
 import { LOGO_WHITE } from '@/components/magazine-header-chrome'
-import { NORTHERN_CENTURY_OPEN } from '@/lib/site'
+import { NEXT_WEST_OPEN, NORTHERN_CENTURY_OPEN } from '@/lib/site'
 
 /** The footer mirrors the masthead: the house line, the five sections, and the utilities. */
 const HOUSE = [
@@ -10,7 +10,7 @@ const HOUSE = [
 ] as const
 /** Campaigns link directly to their existing pages. */
 const EVENTS = [
-  { href: '/the-next-west', label: 'The Next West' },
+  ...(NEXT_WEST_OPEN ? [{ href: '/the-next-west', label: 'The Next West' }] : []),
   ...(NORTHERN_CENTURY_OPEN ? [{ href: '/northern-century', label: 'The Northern Century' }] : []),
 ]
 const SECTIONS = [
@@ -70,6 +70,7 @@ export function MagazineFooter() {
             {HOUSE.slice(0, 1).map((l) => (
               <li key={l.href}><a href={l.href} className={LINK}>{l.label}</a></li>
             ))}
+            {EVENTS.length > 0 ? (
             <li>
               <span className={LINK.replace('text-white/70 hover:text-white transition-colors', 'text-white/70')}>Campaigns &amp; events</span>
               <ul className="mt-3 space-y-3 pl-5 border-l border-white/15">
@@ -78,6 +79,7 @@ export function MagazineFooter() {
                 ))}
               </ul>
             </li>
+            ) : null}
             {HOUSE.slice(1).map((l) => (
               <li key={l.href}><a href={l.href} className={LINK}>{l.label}</a></li>
             ))}

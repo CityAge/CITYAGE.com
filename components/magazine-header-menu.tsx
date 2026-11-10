@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { NORTHERN_CENTURY_OPEN } from '@/lib/site'
+import { NEXT_WEST_OPEN, NORTHERN_CENTURY_OPEN } from '@/lib/site'
 
 /** The house line: Purpose · Events · Studio · Partners. Events is a dropdown, not a page. */
 const HOUSE_LINKS = [
@@ -13,7 +13,7 @@ const HOUSE_LINKS = [
 
 /** The event franchises in the Events menu. Next Vancouver keeps its page but is not listed; old events come over from WordPress later. */
 const EVENTS = [
-  { href: '/the-next-west', label: 'The Next West' },
+  ...(NEXT_WEST_OPEN ? [{ href: '/the-next-west', label: 'The Next West' }] : []),
   ...(NORTHERN_CENTURY_OPEN ? [{ href: '/northern-century', label: 'The Northern Century' }] : []),
 ]
 
@@ -112,6 +112,8 @@ export function MagazineUtilityBar() {
           <Link href="/purpose" className={`${HOUSE_LINK_CLASS} hidden md:block`}>
             Purpose
           </Link>
+          {/* With no event open to the public, Events is left off the house line. */}
+          {EVENTS.length > 0 ? (
           <div ref={eventsRef} className="relative" onMouseEnter={hoverOpen} onMouseLeave={hoverClose}>
             <button
               ref={triggerRef}
@@ -147,6 +149,7 @@ export function MagazineUtilityBar() {
               </div>
             ) : null}
           </div>
+          ) : null}
           {HOUSE_LINKS.filter((l) => l.href !== '/purpose').map((link) => (
             <Link key={link.href} href={link.href} className={`${HOUSE_LINK_CLASS} hidden md:block`}>
               {link.label}
@@ -173,6 +176,7 @@ export function MagazineUtilityBar() {
             Purpose
           </Link>
           {/* Events: one entry, the franchises nested beneath it */}
+          {EVENTS.length > 0 ? (
           <div className="flex flex-col gap-3">
             <span className="text-[11px] font-bold tracking-[0.12em] uppercase text-black">Events</span>
             {EVENTS.map((ev) => (
@@ -181,6 +185,7 @@ export function MagazineUtilityBar() {
               </Link>
             ))}
           </div>
+          ) : null}
           {HOUSE_LINKS.filter((l) => l.href !== '/purpose').map((link) => (
             <Link key={link.href} href={link.href} className={HOUSE_LINK_CLASS}>
               {link.label}
