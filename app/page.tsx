@@ -30,6 +30,8 @@ const ORGANIZATION_LD = {
 }
 
 const MILLER_HREF = '/frontiers/the-inflection-point-was-real'
+/** Starship SN8 lifting off from SpaceX's South Texas site, seen across the water. Forest Katsch / Unsplash, free to use. */
+const MILLER_IMAGE = 'https://images.unsplash.com/photo-1608920585318-b4895fcd2e55?w=1600&q=80'
 
 /** House tile, top of column three. One shows per page load, at random. */
 const ALL_HOUSE_ENTRIES: HouseEntry[] = [
@@ -117,7 +119,7 @@ export default async function Home() {
               date=""
               readTime={`${MILLER_READ_MIN} min read`}
               isLead
-              image="/vancouver-bluesky.jpg"
+              image={MILLER_IMAGE}
               variant="hero-lead"
               href={MILLER_HREF}
             />
