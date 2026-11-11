@@ -7,10 +7,20 @@ import type { SpeakerFace } from '@/lib/speakers'
  * that it cannot read off a moving reel. Rendered on the server.
  */
 export function PeopleList({ speakers }: { speakers: SpeakerFace[] }) {
-  const sorted = [...speakers].sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
+  // One line per person: skip test rows, and fold "AARON LEIBTAG" into "Aaron Leibtag".
+  const byName = new Map<string, SpeakerFace>()
+  for (const speaker of speakers) {
+    const name = speaker.name.trim()
+    if (!name || /^[_\W]/.test(name.normalize('NFD'))) continue
+    const key = name.toLowerCase().replace(/\s+/g, ' ')
+    const kept = byName.get(key)
+    if (!kept || (kept.name === kept.name.toUpperCase() && name !== name.toUpperCase())) byName.set(key, speaker)
+  }
+  const sorted = [...byName.values()].sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
   const groups = new Map<string, SpeakerFace[]>()
   for (const speaker of sorted) {
-    const first = speaker.name.trim().charAt(0).toUpperCase()
+    // "Émeline" files under E.
+    const first = speaker.name.trim().normalize('NFD').charAt(0).toUpperCase()
     const letter = /[A-Z]/.test(first) ? first : '#'
     groups.set(letter, [...(groups.get(letter) ?? []), speaker])
   }
