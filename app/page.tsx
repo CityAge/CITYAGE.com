@@ -8,6 +8,7 @@ import { ArticleCard } from '@/components/article-card'
 import { HeroGrid } from '@/components/hero-grid'
 import { StoryBox } from '@/components/story-box'
 import { HouseTile, type HouseEntry } from '@/components/house-tile'
+import { LeadLiftoff, LIFTOFF_PHOTO } from '@/components/lead-liftoff'
 import { fetchWellStories, storyHref, type SectionStory } from '@/lib/magazine'
 import { fetchDoorSpeakerFaces, stableSpeakerShuffle } from '@/lib/speakers'
 import { NEXT_WEST_OPEN, NORTHERN_CENTURY_OPEN, SITE_URL } from '@/lib/site'
@@ -30,8 +31,6 @@ const ORGANIZATION_LD = {
 }
 
 const MILLER_HREF = '/frontiers/the-inflection-point-was-real'
-/** Starship SN8 lifting off from SpaceX's South Texas site, seen across the water. Forest Katsch / Unsplash, free to use. */
-const MILLER_IMAGE = 'https://images.unsplash.com/photo-1608920585318-b4895fcd2e55?w=1600&q=80'
 
 /** House tile, top of column three. One shows per page load, at random. */
 const ALL_HOUSE_ENTRIES: HouseEntry[] = [
@@ -119,7 +118,8 @@ export default async function Home() {
               date=""
               readTime={`${MILLER_READ_MIN} min read`}
               isLead
-              image={MILLER_IMAGE}
+              image={LIFTOFF_PHOTO}
+              imageOverlay={<LeadLiftoff />}
               variant="hero-lead"
               href={MILLER_HREF}
             />
