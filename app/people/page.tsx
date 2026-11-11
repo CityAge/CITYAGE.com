@@ -3,6 +3,7 @@ import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { fetchPeopleWallFaces, stableSpeakerShuffle } from '@/lib/speakers'
 import { PeopleWall } from './people-wall'
+import { PeopleList } from './people-list'
 
 export const metadata: Metadata = {
   title: 'People — CityAge',
@@ -19,6 +20,7 @@ export default async function PeoplePage() {
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
       <PeopleWall speakers={speakers} />
+      <PeopleList speakers={speakers} />
       <MagazineFooter />
     </div>
   )
