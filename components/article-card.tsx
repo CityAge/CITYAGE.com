@@ -14,9 +14,11 @@ interface ArticleCardProps {
   variant?: 'hero-lead' | 'hero-secondary' | 'hero-tertiary' | 'featured-card' | 'category-list' | 'default'
   linkPrefix?: string
   href?: string
+  /** Drawn over the lead photo (hero-lead only), e.g. a small animation made for that photo. */
+  imageOverlay?: React.ReactNode
 }
 
-export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default', linkPrefix = '/dispatches', href: hrefProp }: ArticleCardProps) {
+export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLead, image, readTime, variant = 'default', linkPrefix = '/dispatches', href: hrefProp, imageOverlay }: ArticleCardProps) {
   const href = hrefProp ?? `${linkPrefix}/${id}`
 
   // Instant Magazine lead — huge black hed. Photo only when a real still exists.
@@ -48,6 +50,7 @@ export function ArticleCard({ id, title, vertical, tagline, excerpt, date, isLea
               sizes="(max-width: 1023px) 92vw, 50vw"
               className="object-cover"
             />
+            {imageOverlay}
           </div>
         ) : null}
       </Link>
