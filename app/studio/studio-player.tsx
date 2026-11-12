@@ -324,8 +324,16 @@ export function StudioPlayer() {
   }
 
   // The reel starts on its own when the page opens, silent, over the Plato screen.
+  // A link of the form /studio?film=<id> opens that film instead (silent until
+  // the viewer turns the sound on, since browsers block autoplay with sound).
   useEffect(() => {
-    playHeroReel(true)
+    const wanted = new URLSearchParams(window.location.search).get('film')
+    const film = wanted ? FILMS.find((f) => f.id === wanted && f.vimeoId) : undefined
+    if (film) {
+      playFilm(film, true)
+    } else {
+      playHeroReel(true)
+    }
     return clearBufferTimer
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -398,7 +406,7 @@ export function StudioPlayer() {
     openBlackPlato()
   }
 
-  function playFilm(film: Film) {
+  function playFilm(film: Film, startMuted = false) {
     if (film.watchUrl && !film.vimeoId) {
       window.open(film.watchUrl, '_blank', 'noopener,noreferrer')
       return
@@ -411,7 +419,7 @@ export function StudioPlayer() {
     heroRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' })
 
     if (film.vimeoId) {
-      playVimeo(film.vimeoId, false, film.thumb || film.stillImage, false)
+      playVimeo(film.vimeoId, false, film.thumb || film.stillImage, startMuted)
       return
     }
 

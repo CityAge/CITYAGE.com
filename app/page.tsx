@@ -49,12 +49,12 @@ const ALL_HOUSE_ENTRIES: HouseEntry[] = [
     href: '/northern-century',
   },
   {
-    // No /studio-still.jpg in public/; the first film's thumbnail stands in.
+    // The picture is Best Day Ever, so the link opens that film on /studio.
     image: '/best-day-ever-thumb.jpg',
     headline: 'CityAge Studio.',
     body: 'Those who tell the stories rule the world.',
     cta: 'Watch',
-    href: '/studio',
+    href: '/studio?film=best-day-ever',
   },
 ]
 const HOUSE_ENTRIES = ALL_HOUSE_ENTRIES
