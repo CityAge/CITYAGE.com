@@ -89,9 +89,9 @@ const nextConfig = {
       { source: '/magazine/:slug/', destination: '/magazine/:slug', permanent: true },
       { source: '/frontiers/:slug/', destination: '/frontiers/:slug', permanent: true },
 
-      // Old addresses Google still asks for, and old pages asked for without their trailing
-      // slash, forwarded to the closest page on cityage.com (see lib/legacy-redirects.mjs).
-      ...legacyRedirects(NEW_PAGES.split('|').map((page) => `/${page}`)),
+      // Old addresses Google still asks for, forwarded to the closest page on cityage.com
+      // (see lib/legacy-redirects.mjs).
+      ...legacyRedirects(),
     ]
   },
 }
