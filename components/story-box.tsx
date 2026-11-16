@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { storyHref, type SectionStory } from '@/lib/magazine'
+import { StoryImage } from '@/components/story-image'
 
 /**
  * The one story box, everywhere except the lead: image (16:10), kicker,
@@ -31,8 +32,7 @@ export function StoryBox({ story }: { story: SectionStory }) {
           className="ca-photo relative w-full overflow-hidden bg-[#EFEDE6] aspect-[16/10]"
           style={{ position: 'relative', overflow: 'hidden', aspectRatio: '16 / 10' }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={story.image_url} alt="" className="object-cover" loading="lazy" decoding="async" />
+          <StoryImage src={story.image_url} alt="" sizes="(max-width: 767px) 100vw, 25vw" />
         </div>
       </Link>
       <span className="type-kicker block mt-4">{story.vertical}</span>
