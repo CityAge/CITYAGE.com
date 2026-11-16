@@ -18,7 +18,7 @@ const jetbrains = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'CityAge | Intelligence for The Urban Planet',
-  description: 'The primary intelligence source for global urban leadership. 25,000 decision-makers across infrastructure, space, energy, defence, and food systems.',
+  description: 'CityAge connects the leaders building the urban planet through invitation-only forums, films and a magazine. Since 2012. A network of 18,000.',
   // Link previews (LinkedIn, X, messages) for every page that does not set its own.
   openGraph: {
     type: 'website',

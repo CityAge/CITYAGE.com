@@ -5,7 +5,7 @@ import Image from '@/components/site-image'
 import { NoteForm } from '@/components/note-form'
 
 export const metadata = {
-  title: 'TheHumanTouch.AI — Our Editorial Philosophy | CityAge',
+  title: 'How CityAge uses AI — CityAge',
   description: 'How CityAge uses AI tools directed by human insight, intuition, and decades of editorial experience to produce original intelligence journalism.',
   alternates: { canonical: '/ai-policy' },
 }
