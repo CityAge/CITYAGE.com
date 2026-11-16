@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Metadata } from 'next'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
@@ -135,11 +136,21 @@ export default function PartnersPage() {
       <main className="flex-grow">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 md:pt-24 pb-24 md:pb-36">
           <div className="max-w-[820px] mx-auto text-center">
-            <h1 className="type-kicker block mb-10">
+            <h1 className="type-kicker block mb-6">
               Knowledge Partners
             </h1>
+            <p className="type-deck text-black/70 mb-10">
+              The organisations that have worked with CityAge since 2012.
+            </p>
             <p className="type-body text-black">
               {NAMES.join(' · ')}
+            </p>
+            <p className="type-body text-black mt-12">
+              To bring your organisation into a CityAge room,{' '}
+              <Link href="/contact?subject=sponsoring" className="underline underline-offset-4 decoration-1 hover:decoration-2">
+                write to us
+              </Link>
+              .
             </p>
           </div>
         </div>

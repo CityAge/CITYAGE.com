@@ -13,7 +13,7 @@ export function StageBand({ top, bottom }: { top: SpeakerFace[]; bottom: Speaker
           <span className={LABEL}>The CityAge Stage</span>
           <span aria-hidden="true" className="h-4 w-px shrink-0 bg-[#C5A059]" />
           <Link href="/people" className={`${LABEL} hover:underline underline-offset-4`}>
-            1,000+ Leaders
+            1,000+ Speakers
           </Link>
         </div>
       </div>
