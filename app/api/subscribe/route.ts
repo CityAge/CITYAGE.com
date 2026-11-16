@@ -56,7 +56,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Please keep interests under 2,000 characters.' }, { status: 400 })
   }
 
-  // Beehiiv when configured; otherwise keep the address ourselves so nothing is lost.
+  // Beehiiv when configured. Either way, one row is written to contact_submissions so the
+  // optional "What interests you?" answer is kept (the public key can insert, not update,
+  // so the row is written once, after the Beehiiv result is known).
+  let beehiivOk = false
   const key = process.env.BEEHIIV_API_KEY
   if (key) {
     try {
@@ -76,45 +79,52 @@ export async function POST(req: Request) {
             utm_source: 'magazine',
             referring_site: 'https://cityage.com/subscribe',
           }),
+          signal: AbortSignal.timeout(15000),
         },
       )
-      if (res.ok || res.status === 409) return NextResponse.json({ ok: true, destination: 'beehiiv' })
+      beehiivOk = res.ok || res.status === 409
     } catch {
       /* fall through to the local record */
     }
   }
 
+  const source = typeof body.source === 'string' && body.source.trim() === 'preview-test' ? 'preview-test' : 'subscribe'
   const supabase = supabaseEnv()
-  if (!supabase) return NextResponse.json({ error: 'Signup unavailable.' }, { status: 503 })
-  try {
-    const res = await fetch(`${supabase.url}/rest/v1/contact_submissions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: supabase.key,
-        Authorization: `Bearer ${supabase.key}`,
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({
-        name: 'Subscribe',
-        email,
-        enquiry: 'Subscribe',
-        source: 'subscribe',
-        message: JSON.stringify({
-          kind: 'newsletter_signup',
-          consent_text: 'By subscribing, you ask to receive the CityAge newsletter by email.',
-          form_version: '2026-09-08',
-          interests: interests || null,
-          beehiiv_status: 'pending',
+  let stored = false
+  if (supabase) {
+    try {
+      const res = await fetch(`${supabase.url}/rest/v1/contact_submissions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: supabase.key,
+          Authorization: `Bearer ${supabase.key}`,
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({
+          name: 'Subscribe',
+          email,
+          enquiry: 'Subscribe',
+          source,
+          message: JSON.stringify({
+            kind: 'newsletter_signup',
+            consent_text: 'By subscribing, you ask to receive the CityAge newsletter by email.',
+            form_version: '2026-11-16',
+            interests: interests || null,
+            beehiiv_status: beehiivOk ? 'subscribed' : 'pending',
+          }),
         }),
-      }),
-    })
-    if (!res.ok) {
-      console.error('[subscribe] storage rejected signup', res.status)
-      return NextResponse.json({ error: 'Could not save signup.' }, { status: 503 })
+      })
+      stored = res.ok
+      if (!res.ok) console.error('[subscribe] storage rejected signup', res.status)
+    } catch (err) {
+      console.error('[subscribe] storage failed', err)
     }
-  } catch {
-    return NextResponse.json({ error: 'Could not save signup.' }, { status: 503 })
   }
-  return NextResponse.json({ ok: true, destination: 'pending' })
+
+  // Beehiiv has them: success, even if the extra row could not be written.
+  if (beehiivOk) return NextResponse.json({ ok: true, destination: 'beehiiv' })
+  // Not in Beehiiv: only a stored row keeps the address.
+  if (stored) return NextResponse.json({ ok: true, destination: 'pending' })
+  return NextResponse.json({ error: 'Could not save signup.' }, { status: 503 })
 }
