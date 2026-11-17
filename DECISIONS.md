@@ -6,7 +6,9 @@
 - Section names and order: Power, Money, Cities, Frontiers, Culture.
 - Speaker faces load server-side from Supabase and sit in a strip directly above the footer, linking to /people.
 - Studio page stays exactly as it is (dark page, Plato line, logo wall, film grid).
-- Purpose page copy stays as it is.
+- Purpose page copy stays as it is. One approved addition (16 Nov 2026): a row of four numbers under "A small room of enormous influence." (100+ forums, 50 cities, 1,000+ speakers, 18,000 in the network).
+- Network figure everywhere is 18,000 (Miro, 16 Nov 2026). Speakers: 1,000+.
+- The newsletter is The Urban Planet, a Sunday letter.
 - Design tokens: Newsreader (variable, optical sizing) for all text; drawn wordmark for the masthead; cream #F9F9F7, gold #C5A059; type scale lead 40 / rail 24 / deck 18 / body 17 / kicker+meta 12 caps.
 - Stories come from the Supabase `magazine` table. Do not hardcode stories.
 - Subscribe goes to Beehiiv.

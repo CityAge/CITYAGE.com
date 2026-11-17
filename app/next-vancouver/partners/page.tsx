@@ -131,7 +131,7 @@ export default function NextVancouverPartners() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 32, marginTop: 56, padding: '40px 0', borderTop: `1px solid rgba(42,37,32,0.12)`, borderBottom: `1px solid rgba(42,37,32,0.12)` }}>
               <Stat value="15" label="Years convening decision-makers" />
               <Stat value="100+" label="CityAge events across North America" />
-              <Stat value="25,000" label="Verified decision-makers in the network" />
+              <Stat value="18,000" label="Leaders in the network" />
             </div>
           </Reveal>
         </section>
@@ -209,7 +209,7 @@ export default function NextVancouverPartners() {
             </Reveal>
           ))}
           <Reveal delay={0.2}>
-            <Body><span style={{ display: 'block', marginTop: 40 }}>Every tier includes presence in the event&apos;s editorial coverage and the post-event brief distributed to CityAge&apos;s network of 25,000 verified decision-makers. The partnership schedule, with investment levels, is available on request.</span></Body>
+            <Body><span style={{ display: 'block', marginTop: 40 }}>Every tier includes presence in the event&apos;s editorial coverage and the post-event brief distributed to CityAge&apos;s network of 18,000 leaders. The partnership schedule, with investment levels, is available on request.</span></Body>
           </Reveal>
         </section>
 

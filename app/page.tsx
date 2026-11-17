@@ -38,8 +38,9 @@ const ALL_HOUSE_ENTRIES: HouseEntry[] = [
     image: '/vancouver-banner.jpg',
     headline: 'The Next West.',
     body: 'Vancouver, January 2027. A half-day. Four rooms in one.',
-    cta: 'Apply for an invitation',
-    href: '/the-next-west',
+    // While the page is held back, the tile is a register-interest note to the house.
+    cta: NEXT_WEST_OPEN ? 'Apply for an invitation' : 'Register your interest',
+    href: NEXT_WEST_OPEN ? '/the-next-west' : '/contact?subject=next-west',
   },
   {
     image: '/northern-century-earth.jpg',
@@ -59,7 +60,6 @@ const ALL_HOUSE_ENTRIES: HouseEntry[] = [
 ]
 const HOUSE_ENTRIES = ALL_HOUSE_ENTRIES
   .filter((e) => NORTHERN_CENTURY_OPEN || e.href !== '/northern-century')
-  .filter((e) => NEXT_WEST_OPEN || e.href !== '/the-next-west')
 
 /** ceil(words / 220) of the Miller page text; it is a static page, not a magazine row. */
 const MILLER_READ_MIN = 2

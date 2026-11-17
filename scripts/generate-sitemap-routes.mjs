@@ -48,4 +48,11 @@ const archive = (await archivedPages(new URL('../public/__archive', import.meta.
   .filter(path => !forwarded.has(path) && !path.startsWith('/category/') && isPublic(path.replace(/\/$/, '')) && !routes.includes(path.replace(/\/$/, '')))
 await writeFile(new URL('../lib/sitemap-archive.generated.json', import.meta.url), `${JSON.stringify([...new Set(archive)].sort(), null, 2)}\n`)
 
+// Old pages without their trailing slash ("/past-events"), for proxy.ts to forward to "/past-events/"
+// so they stay on cityage.com. Leaves out any address the new site owns.
+const allFrozen = await archivedPages(new URL('../public/__archive', import.meta.url).pathname)
+const owned = new Set(routes)
+const bare = [...new Set(allFrozen.map(path => path.replace(/\/$/, '')))].filter(path => !owned.has(path)).sort()
+await writeFile(new URL('../lib/frozen-bare.generated.json', import.meta.url), `${JSON.stringify(bare, null, 2)}\n`)
+
 await writeFile(new URL('../lib/sitemap-routes.generated.json', import.meta.url), `${JSON.stringify([...new Set(routes)].sort(), null, 2)}\n`)

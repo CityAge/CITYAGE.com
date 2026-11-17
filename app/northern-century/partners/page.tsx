@@ -211,7 +211,7 @@ export default function NorthernCenturyPartners() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 32, marginTop: 56, padding: '40px 0', borderTop: `1px solid rgba(184,149,106,0.15)`, borderBottom: `1px solid rgba(184,149,106,0.15)` }}>
               <Stat value="3%" label="Of Earth's surface where consequential decisions are made" />
               <Stat value="100+" label="CityAge convenings over fifteen years" />
-              <Stat value="25,000" label="Verified decision-makers in the network" />
+              <Stat value="18,000" label="Leaders in the network" />
             </div>
           </Reveal>
         </section>
