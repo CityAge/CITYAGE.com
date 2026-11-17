@@ -1,20 +1,18 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
-import { readMinutes, storyHref } from '@/lib/magazine'
+import { fetchRelated, fetchStory, readMinutes, storyHref, type RelatedStory } from '@/lib/magazine'
 import { SITE_URL } from '@/lib/site'
 import Link from 'next/link'
 import { notFound, permanentRedirect } from 'next/navigation'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
 import { ShareRow } from '@/components/share-row'
+import { StoryImage } from '@/components/story-image'
 
+// Each story is cached after its first view and refreshed at most once a minute.
 export const revalidate = 60
-export const dynamic = 'force-dynamic'
-
-
-/** /magazine/[id] takes either the row uuid or its optional slug. */
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-const lookupColumn = (param: string) => (UUID_RE.test(param) ? 'id' : 'slug')
+export function generateStaticParams() {
+  return []
+}
 
 function renderMarkdown(md: string): string {
   // Process line by line for clean, reliable rendering
@@ -69,38 +67,15 @@ function applyInline(text: string): string {
     .replace(/\*(.+?)\*/g, '<em class="italic text-black/70">$1</em>')
 }
 
-type ArticleMeta = {
-  id: string
-  slug: string | null
-  headline: string
-  deck: string | null
-  image_url: string | null
-}
-
-async function fetchArticleMeta(id: string): Promise<ArticleMeta | null> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !key) return null
-  try {
-    const res = await fetch(
-      `${url}/rest/v1/magazine?select=id,slug,headline,deck,image_url&${lookupColumn(id)}=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
-      {
-        headers: { apikey: key, Authorization: `Bearer ${key}` },
-        next: { revalidate: 60 },
-      },
-    )
-    if (!res.ok) return null
-    const rows = (await res.json()) as ArticleMeta[]
-    return Array.isArray(rows) && rows[0]?.headline ? rows[0] : null
-  } catch {
-    return null
-  }
-}
-
 /** Each article gets its own <title> and Open Graph title/description. */
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
-  const article = await fetchArticleMeta(id)
+  let article
+  try {
+    article = await fetchStory(id)
+  } catch {
+    return {}
+  }
   if (!article) return {}
 
   const title = `${article.headline} — CityAge`
@@ -125,54 +100,25 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function MagazineArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  let article: any = null
-  let related: any[] = []
-
-  try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (url && key) {
-      const supabase = await createClient()
-
-      const { data } = await supabase
-        .from('magazine')
-        .select('*')
-        .eq(lookupColumn(id), id)
-        .eq('status', 'published')
-        .single()
-
-      article = data
-
-      if (article) {
-        const { data: rel } = await supabase
-          .from('magazine')
-          .select('id, slug, headline, vertical, image_url, published_at, body')
-          .eq('status', 'published')
-          .eq('vertical', article.vertical)
-          .neq('id', article.id)
-          .order('published_at', { ascending: false })
-          .limit(3)
-        related = rel || []
-      }
-    }
-  } catch (e) {
-    console.error('Supabase error:', e)
-  }
-
+  // A database failure throws here and shows error.tsx ("try again"), never the 404 page.
+  const article = await fetchStory(id)
   if (!article) notFound()
   // Old coded addresses forward permanently to the readable one.
   if (article.slug && id !== article.slug) permanentRedirect(storyHref(article))
+  const related: RelatedStory[] = await fetchRelated(article.vertical, article.id)
 
-  const html = renderMarkdown(article.body)
+  const html = renderMarkdown(article.body || '')
   // Share URLs: the public site, slug when the row has one, else the uuid path.
   const shareUrl = `${SITE_URL}${storyHref(article)}`
   const readMin = readMinutes(article.body)
-  const dateLabel = new Date(article.published_at).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'UTC',
-  })
+  const dateLabel = article.published_at
+    ? new Date(article.published_at).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      })
+    : null
 
   // Tells Google this is a news article, with its date, writer and publisher.
   const jsonLd = {
@@ -181,8 +127,8 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
     headline: article.headline,
     description: article.deck || undefined,
     image: article.image_url ? [article.image_url] : undefined,
-    datePublished: article.published_at,
-    dateModified: article.updated_at || article.published_at,
+    datePublished: article.published_at || undefined,
+    dateModified: article.updated_at || article.published_at || undefined,
     articleSection: article.vertical,
     author: article.author && !/cityage/i.test(article.author)
       ? { '@type': 'Person', name: article.author }
@@ -211,8 +157,12 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                   <span>{article.sub_vertical}</span>
                 </>
               ) : null}
-              <span className="text-black/25">|</span>
-              <time dateTime={article.published_at}>{dateLabel}</time>
+              {dateLabel && article.published_at ? (
+                <>
+                  <span className="text-black/25">|</span>
+                  <time dateTime={article.published_at}>{dateLabel}</time>
+                </>
+              ) : null}
               <span className="text-black/25">|</span>
               <span>{readMin} min read</span>
             </div>
@@ -249,11 +199,7 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
         {article.image_url && (
           <div className="max-w-[960px] mx-auto px-6 pt-10 pb-2">
             <div className="relative w-full aspect-[16/9] overflow-hidden">
-              <img
-                src={article.image_url}
-                alt={article.headline}
-                className="w-full h-full object-cover"
-              />
+              <StoryImage src={article.image_url} alt={article.headline} sizes="(max-width: 960px) 100vw, 960px" priority />
             </div>
             {article.image_credit && (
               <p className="font-mono text-[9px] tracking-[0.1em] text-black/35 mt-2">
@@ -292,11 +238,11 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                       <span className="font-serif font-bold text-[18px] leading-none uppercase tracking-[0.02em] text-black">Recommendations</span>
                     </div>
                     <div className="space-y-8">
-                      {related.map((a: any) => (
+                      {related.map((a) => (
                         <div key={a.id}>
                           {a.image_url && (
-                            <Link href={storyHref(a)} className="block w-full aspect-[16/10] mb-3 overflow-hidden" tabIndex={-1} aria-hidden="true">
-                              <img src={a.image_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                            <Link href={storyHref(a)} className="relative block w-full aspect-[16/10] mb-3 overflow-hidden" tabIndex={-1} aria-hidden="true">
+                              <StoryImage src={a.image_url} alt="" sizes="260px" />
                             </Link>
                           )}
                           <h4 className="font-serif font-medium text-[16px] leading-snug mb-2">
