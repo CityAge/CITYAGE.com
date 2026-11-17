@@ -23,9 +23,10 @@ export function proxy(req: NextRequest) {
   // "/past-events" → "/past-events/" on cityage.com. Without this the request falls through to the
   // live archive, which forwards to archive.cityage.com. Exact match only, so no loop.
   if (FROZEN_BARE.has(pathname)) {
-    const url = req.nextUrl.clone()
+    // A plain URL, not nextUrl: nextUrl drops the trailing slash again when it is turned into a string.
+    const url = new URL(req.url)
     url.pathname = `${pathname}/`
-    return NextResponse.redirect(url, 308)
+    return NextResponse.redirect(url.toString(), 308)
   }
   const isPrivate =
     PRIVATE.some((p) => pathname === p || pathname.startsWith(`${p}/`)) || PRIVATE_EXACT.includes(pathname)
