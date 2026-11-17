@@ -258,13 +258,13 @@ export default async function MagazineArticlePage({ params }: { params: Promise<
                 {/* Subscribe nudge */}
                 <div className="mt-12 bg-black text-white p-6">
                   <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#C5A059] block mb-3">
-                    The Intelligence Letter
+                    The Urban Planet
                   </span>
                   <p className="font-serif text-white/60 text-[13px] leading-relaxed mb-5">
-                    Daily intelligence for leaders of The Urban Planet.
+                    CityAge’s Sunday letter. A five-minute read.
                   </p>
                   <a href="/subscribe" className="block w-full bg-[#C5A059] text-black font-mono text-[9px] font-black tracking-[0.2em] uppercase py-2.5 text-center hover:bg-white transition-colors">
-                    Subscribe Free
+                    Subscribe
                   </a>
                 </div>
               </div>
