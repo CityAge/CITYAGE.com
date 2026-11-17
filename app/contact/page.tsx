@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { MagazineHeader } from '@/components/magazine-header'
 import { MagazineFooter } from '@/components/magazine-footer'
-import { NoteForm } from '@/components/note-form'
+import { NoteForm, type Subject } from '@/components/note-form'
 
 export const metadata: Metadata = {
   title: 'Contact — CityAge',
@@ -15,9 +15,14 @@ export default async function ContactPage({
   searchParams: Promise<{ subject?: string | string[] }>
 }) {
   const { subject } = await searchParams
-  const selectedSubject = subject === 'contribute'
-    ? 'contributing a story or idea'
-    : subject === 'studio' ? 'the Studio' : undefined
+  // ?subject= presets for links elsewhere on the site.
+  const PRESETS: Record<string, Subject> = {
+    contribute: 'contributing a story or idea',
+    studio: 'the Studio',
+    sponsoring: 'sponsoring',
+    'next-west': 'The Next West',
+  }
+  const selectedSubject = typeof subject === 'string' ? PRESETS[subject] : undefined
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F9F7]">
       <MagazineHeader />
