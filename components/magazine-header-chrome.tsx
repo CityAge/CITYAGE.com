@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 // Compact sticky: masthead(py-2) + nav. Used as a swap after the large mark is gone.
 export const HEADER_COMPRESSED_HEIGHT = 124
 
@@ -20,7 +22,7 @@ export function CityAgeMark({
 }) {
   const src = tone === 'cream' ? LOGO_BLACK : LOGO_WHITE
   return (
-    <a id={id} href="/" className="inline-flex items-center justify-center">
+    <Link id={id} href="/" className="inline-flex items-center justify-center">
       <img
         src={src}
         alt="CityAge"
@@ -30,7 +32,7 @@ export function CityAgeMark({
         decoding="async"
         fetchPriority={size === 'large' ? 'high' : 'low'}
       />
-    </a>
+    </Link>
   )
 }
 
