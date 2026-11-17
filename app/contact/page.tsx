@@ -5,7 +5,7 @@ import { NoteForm, type Subject } from '@/components/note-form'
 
 export const metadata: Metadata = {
   title: 'Contact — CityAge',
-  description: 'Every note is read by Miro Cernetig.',
+  description: 'Write to CityAge about sponsoring a forum, speaking, the Studio, press or contributing a story. Every note is read by Miro Cernetig.',
   alternates: { canonical: '/contact' },
 }
 

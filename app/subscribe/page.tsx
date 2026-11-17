@@ -6,7 +6,7 @@ import { SubscribeForm } from './subscribe-form'
 
 export const metadata: Metadata = {
   title: 'Subscribe — CityAge',
-  description: 'The letter. Intelligence for the Urban Planet.',
+  description: 'The Urban Planet is CityAge\u2019s Sunday letter on the people, money and ideas moving through the two per cent of Earth where the future gets decided.',
   alternates: { canonical: '/subscribe' },
 }
 

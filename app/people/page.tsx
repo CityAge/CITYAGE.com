@@ -7,7 +7,7 @@ import { PeopleList } from './people-list'
 
 export const metadata: Metadata = {
   title: 'People — CityAge',
-  description: 'The CityAge Contributors.',
+  description: 'The 1,000+ leaders who have taken the CityAge stage since 2012, listed A to Z.',
   alternates: { canonical: '/people' },
 }
 

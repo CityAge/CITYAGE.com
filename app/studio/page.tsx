@@ -4,7 +4,7 @@ import { StudioPlayer } from './studio-player'
 
 export const metadata: Metadata = {
   title: 'Studio — CityAge',
-  description: 'We put ideas in motion.',
+  description: 'CityAge Studio is the strategy and creative arm of CityAge: films, brands and campaigns by Miro Cernetig and Jeremy Lutter.',
   alternates: { canonical: '/studio' },
 }
 

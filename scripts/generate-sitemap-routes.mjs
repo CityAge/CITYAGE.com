@@ -4,7 +4,9 @@ import config from '../next.config.mjs'
 
 // Access-controlled pages and the redirect into a private partner page.
 // Keep this exclusion policy aligned with new gates; proxy.ts remains unchanged.
-const excluded = ['/northern-century', '/dispatches', '/pulse', '/the-next-west', '/next-vancouver', '/cec/partners', '/space-to-ice/partners', '/held-back']
+const excluded = ['/northern-century', '/dispatches', '/pulse', '/the-next-west', '/next-vancouver', '/cec/partners', '/space-to-ice/partners', '/held-back', '/search']
+// Old WordPress leftovers that are not real pages; served if someone has the address, never listed for Google.
+const notListed = new Set(['/home-news-category/', '/past-events/event-template/'])
 const isPublic = path => !excluded.some(prefix => path === prefix || path.startsWith(`${prefix}/`))
 
 export async function discoverRoutes(directory, segments = []) {
@@ -45,7 +47,7 @@ async function archivedPages(directory, segments = []) {
 }
 const forwarded = new Set((await config.redirects?.() ?? []).filter(r => !r.source.includes(':')).map(r => r.source))
 const archive = (await archivedPages(new URL('../public/__archive', import.meta.url).pathname))
-  .filter(path => !forwarded.has(path) && !path.startsWith('/category/') && isPublic(path.replace(/\/$/, '')) && !routes.includes(path.replace(/\/$/, '')))
+  .filter(path => !forwarded.has(path) && !notListed.has(path) && !path.startsWith('/category/') && isPublic(path.replace(/\/$/, '')) && !routes.includes(path.replace(/\/$/, '')))
 await writeFile(new URL('../lib/sitemap-archive.generated.json', import.meta.url), `${JSON.stringify([...new Set(archive)].sort(), null, 2)}\n`)
 
 // Old pages without their trailing slash ("/past-events"), for proxy.ts to forward to "/past-events/"

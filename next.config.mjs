@@ -83,6 +83,14 @@ const nextConfig = {
       { source: '/forms/', destination: '/contact', permanent: true },
       { source: '/do-you-want-to-do-something-knowledge-partner-inquiry/', destination: '/contact', permanent: true },
       { source: '/home-news/', destination: '/', permanent: true },
+      // A WordPress template page, not an event.
+      { source: '/past-events/event-template/', destination: '/past-events/', permanent: true },
+      // The George Nield interview now lives in the magazine; one address for Google.
+      {
+        source: '/get-ready-for-trips-between-spaceports-and-rocket-ships-to-tokyo/',
+        destination: '/magazine/get-ready-for-trips-between-spaceports-and-rocket-ships-to-tokyo',
+        permanent: true,
+      },
 
       // A trailing slash on a new page or story goes to the clean address.
       { source: `/:page(${NEW_PAGES})/`, destination: '/:page', permanent: true },
