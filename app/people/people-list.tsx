@@ -6,21 +6,37 @@ import type { SpeakerFace } from '@/lib/speakers'
  * for readers who want to scroll it and for Google, which reads names here
  * that it cannot read off a moving reel. Rendered on the server.
  */
+/** Invisible characters that make two copies of one name look different. */
+const HIDDEN = /[\u200B-\u200D\uFEFF]/g
+/** Titles filed under the surname, not under "Dr." or "Ambassador". */
+const HONORIFIC = /^(dr|prof|hon|mayor|senator|minister|ambassador|councillor|chief)\.?\s+/i
+
+const clean = (s: string) => s.replace(HIDDEN, '').normalize('NFC').trim()
+const sortName = (name: string) => clean(name).replace(HONORIFIC, '')
+
+/** "Title, Organisation", skipping a title that already contains the organisation. */
+function roleLine(speaker: SpeakerFace): string | null {
+  const title = speaker.title ? clean(speaker.title) : ''
+  const org = speaker.organisation ? clean(speaker.organisation) : ''
+  if (title && org && !title.toLowerCase().includes(org.toLowerCase())) return `${title}, ${org}`
+  return title || org || null
+}
+
 export function PeopleList({ speakers }: { speakers: SpeakerFace[] }) {
   // One line per person: skip test rows, and fold "AARON LEIBTAG" into "Aaron Leibtag".
   const byName = new Map<string, SpeakerFace>()
   for (const speaker of speakers) {
-    const name = speaker.name.trim()
+    const name = clean(speaker.name)
     if (!name || /^[_\W]/.test(name.normalize('NFD'))) continue
     const key = name.toLowerCase().replace(/\s+/g, ' ')
     const kept = byName.get(key)
-    if (!kept || (kept.name === kept.name.toUpperCase() && name !== name.toUpperCase())) byName.set(key, speaker)
+    if (!kept || (kept.name === kept.name.toUpperCase() && name !== name.toUpperCase())) byName.set(key, { ...speaker, name })
   }
-  const sorted = [...byName.values()].sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
+  const sorted = [...byName.values()].sort((a, b) => sortName(a.name).localeCompare(sortName(b.name), 'en', { sensitivity: 'base' }))
   const groups = new Map<string, SpeakerFace[]>()
   for (const speaker of sorted) {
     // "Émeline" files under E.
-    const first = speaker.name.trim().normalize('NFD').charAt(0).toUpperCase()
+    const first = sortName(speaker.name).normalize('NFD').charAt(0).toUpperCase()
     const letter = /[A-Z]/.test(first) ? first : '#'
     groups.set(letter, [...(groups.get(letter) ?? []), speaker])
   }
@@ -54,7 +70,7 @@ export function PeopleList({ speakers }: { speakers: SpeakerFace[] }) {
                   ) : (
                     speaker.name
                   )}
-                  {speaker.organisation ? <span className="text-black/55">, {speaker.organisation}</span> : null}
+                  {roleLine(speaker) ? <span className="text-black/55">, {roleLine(speaker)}</span> : null}
                 </li>
               ))}
             </ul>

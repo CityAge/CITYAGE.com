@@ -1,4 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import frozenBare from '@/lib/frozen-bare.generated.json'
+
+/** Old WordPress pages kept in the frozen copy, as asked for without the trailing slash. */
+const FROZEN_BARE = new Set<string>(frozenBare)
 
 /**
  * Pages held back from the public while they are worked on.
@@ -15,6 +19,15 @@ const COOKIE = 'ca_preview'
 
 export function proxy(req: NextRequest) {
   const { pathname, searchParams } = req.nextUrl
+
+  // "/past-events" → "/past-events/" on cityage.com. Without this the request falls through to the
+  // live archive, which forwards to archive.cityage.com. Exact match only, so no loop.
+  if (FROZEN_BARE.has(pathname)) {
+    // A plain URL, not nextUrl: nextUrl drops the trailing slash again when it is turned into a string.
+    const url = new URL(req.url)
+    url.pathname = `${pathname}/`
+    return NextResponse.redirect(url.toString(), 308)
+  }
   const isPrivate =
     PRIVATE.some((p) => pathname === p || pathname.startsWith(`${p}/`)) || PRIVATE_EXACT.includes(pathname)
   if (!isPrivate) return NextResponse.next()
@@ -39,5 +52,9 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/the-next-west/:path*', '/northern-century/:path*', '/dispatches/:path*', '/pulse/:path*', '/next-vancouver', '/next-vancouver.html'],
+  matcher: [
+    '/the-next-west/:path*', '/northern-century/:path*', '/dispatches/:path*', '/pulse/:path*', '/next-vancouver', '/next-vancouver.html',
+    // Any page address without a trailing slash or file extension, for the old-page forward above.
+    '/((?!_next/|api/|__archive/|wp-content/|wp-includes/)[^.]*[^/.])',
+  ],
 }

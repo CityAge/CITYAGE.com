@@ -1,3 +1,5 @@
+import { legacyRedirects } from './lib/legacy-redirects.mjs'
+
 /** @type {import('next').NextConfig} */
 /**
  * The old WordPress site lives on at archive.cityage.com (Hostinger). Any address
@@ -94,6 +96,10 @@ const nextConfig = {
       { source: `/:page(${NEW_PAGES})/`, destination: '/:page', permanent: true },
       { source: '/magazine/:slug/', destination: '/magazine/:slug', permanent: true },
       { source: '/frontiers/:slug/', destination: '/frontiers/:slug', permanent: true },
+
+      // Old addresses Google still asks for, forwarded to the closest page on cityage.com
+      // (see lib/legacy-redirects.mjs).
+      ...legacyRedirects(),
     ]
   },
 }

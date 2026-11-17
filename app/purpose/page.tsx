@@ -96,6 +96,21 @@ export default function PurposePage() {
               A small room of enormous influence.
             </p>
 
+            {/* The proof under the line above. Added 16 Nov 2026 with Miro's approval (see DECISIONS.md). */}
+            <dl className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 mb-14 md:mb-16">
+              {[
+                ['100+', 'Forums'],
+                ['50', 'Cities'],
+                ['1,000+', 'Speakers'],
+                ['18,000', 'In the network'],
+              ].map(([value, label]) => (
+                <div key={label}>
+                  <dt className="type-kicker block mb-1">{label}</dt>
+                  <dd className="font-serif text-[2rem] md:text-[2.4rem] leading-none text-black m-0">{value}</dd>
+                </div>
+              ))}
+            </dl>
+
             <h2 className="type-section tracking-tight text-black mb-6">
               Why we do it.
             </h2>

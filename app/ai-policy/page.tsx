@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MagazineHeader } from '@/components/magazine-header'
 import { Navigation } from '@/components/navigation'
 import { MagazineFooter } from '@/components/magazine-footer'
@@ -108,9 +109,9 @@ export default function AIPolicy() {
           </div>
 
           <div className="mt-12 pt-8 border-t border-black/10 text-center">
-            <a href="/" className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
+            <Link href="/" className="font-mono text-[10px] tracking-[0.2em] uppercase text-black/40 hover:text-[#C5A059] transition-colors">
               ← Back to CityAge
-            </a>
+            </Link>
           </div>
 
         </article>

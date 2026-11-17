@@ -78,24 +78,34 @@ export function speakerThumbUrl(
   return parsed.toString()
 }
 
-/** Door only: one small page of faces with shots. Not the full catalog. */
-export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> {
+/** One request for door faces; [] on any failure so the homepage never breaks. */
+async function fetchDoorRows(query: string): Promise<SpeakerRow[]> {
   const env = supabaseEnv()
   if (!env) return []
-  const { url, key } = env
-  const res = await fetch(
-    `${url}/rest/v1/speakers?select=id,name,headshot_url&headshot_url=not.is.null&order=name.asc,id.asc&limit=${limit}`,
-    {
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
-      },
+  try {
+    const res = await fetch(`${env.url}/rest/v1/speakers?${query}`, {
+      headers: { apikey: env.key, Authorization: `Bearer ${env.key}` },
       next: { revalidate: 3600 },
-    },
+    })
+    if (!res.ok) return []
+    const rows = (await res.json()) as SpeakerRow[]
+    return Array.isArray(rows) ? rows : []
+  } catch {
+    return []
+  }
+}
+
+/**
+ * Door only: the featured speakers (is_featured) with a headshot. If fewer than 24 are
+ * ticked, fall back to a page ordered by id, never by name, so the strip is not all A names.
+ */
+export async function fetchDoorSpeakerFaces(limit = 80): Promise<SpeakerFace[]> {
+  let batch = await fetchDoorRows(
+    `select=id,name,headshot_url&is_featured=is.true&headshot_url=not.is.null&order=id.asc&limit=${limit}`,
   )
-  if (!res.ok) return []
-  const batch = (await res.json()) as SpeakerRow[]
-  if (!Array.isArray(batch)) return []
+  if (uniqueByName(batch.map(toFace)).length < 24) {
+    batch = await fetchDoorRows(`select=id,name,headshot_url&headshot_url=not.is.null&order=id.asc&limit=${limit}`)
+  }
   return stableSpeakerShuffle(uniqueByName(batch.map(toFace)))
     .map((face) => ({
       ...face,
