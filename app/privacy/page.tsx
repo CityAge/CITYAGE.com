@@ -40,13 +40,13 @@ export default function PrivacyPolicy() {
           <h2 className="font-serif font-bold text-2xl text-black mt-12 mb-4">What we do with it</h2>
 
           <p>
-            We use your email to send you what you signed up for. We use your messages to reply to you. We use technical information to keep the site running and secure. That is all.
+            We use your email to send you what you signed up for. We use your messages to reply to you. We use technical information to keep the site running and secure, and to count visits so we know which stories people read (through Google Analytics and Vercel Analytics). That is all.
           </p>
 
           <h2 className="font-serif font-bold text-2xl text-black mt-12 mb-4">What we never do</h2>
 
           <p>
-            We do not sell your personal information to anyone, for any reason. We do not share it with third parties, except the services we need to operate this website (such as hosting and email delivery) — and they may only use it to do their job.
+            We do not sell your personal information to anyone, for any reason. We do not share it with third parties, except the services we need to operate this website (such as hosting, email delivery and visit counting) — and they may only use it to do their job.
           </p>
 
           <h2 className="font-serif font-bold text-2xl text-black mt-12 mb-4">Your rights, everywhere</h2>
