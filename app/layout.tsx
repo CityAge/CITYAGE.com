@@ -1,11 +1,17 @@
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
+import Script from 'next/script'
 import { SITE_URL } from '@/lib/site'
 import './globals.css'
 
 // Newsreader (all text) is registered with @font-face in globals.css and
 // preloaded below; --font-serif and --font-display point at it there.
+
+// Google Analytics: the same property the WordPress site used, so the history stays in one place.
+// Only the live site reports; previews would muddy the numbers.
+const GA_ID = 'G-3E3P3Q5S02'
+const GA_ON = process.env.VERCEL_ENV === 'production'
 
 // Monospace for metadata, dates, verticals — not on the first cream screen
 const jetbrains = localFont({
@@ -81,6 +87,14 @@ export default function RootLayout({
       >
         {children}
         <Analytics />
+        {GA_ON ? (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+            <Script id="ga" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA_ID}');`}
+            </Script>
+          </>
+        ) : null}
       </body>
     </html>
   )
