@@ -19,7 +19,17 @@ const EVENTS = [
 
 /** Older pages, reachable from the hamburger only. The event franchises sit under Events. */
 const MORE_LINKS = [
+  { href: '/people', label: 'People' },
   { href: '/contact', label: 'Contact' },
+] as const
+
+/** The section rail, repeated in the menu: on phones the homepage hides the rail, so the menu is the way in. */
+const SECTION_LINKS = [
+  { href: '/power', label: 'Power' },
+  { href: '/money', label: 'Money' },
+  { href: '/cities', label: 'Cities' },
+  { href: '/frontiers', label: 'Frontiers' },
+  { href: '/culture', label: 'Culture' },
 ] as const
 
 const HOUSE_LINK_CLASS =
@@ -191,6 +201,13 @@ export function MagazineUtilityBar() {
               {link.label}
             </Link>
           ))}
+          <div className="border-t border-black/15 pt-3 mt-1 flex flex-col gap-3">
+            {SECTION_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className={HOUSE_LINK_CLASS}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
           <div className="border-t border-black/15 pt-3 mt-1 flex flex-col gap-3">
             <Link href="/contact?subject=contribute" className={`${HOUSE_LINK_CLASS} md:hidden`}>
               Contribute
