@@ -63,6 +63,9 @@
 .pulse-pole { bottom: 20px; left: 20px; display: flex; gap: 8px; }
 .pulse-pole button { font: inherit; font-size: 12px; line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: #C5A059; background: transparent; border: 1px solid #C5A059; padding: 10px 14px; cursor: pointer; }
 .pulse-pole button:hover { background: #C5A059; color: #000; }
+.pulse-surface { display: flex; margin-left: 8px; }
+.pulse-surface button + button { border-left: 0; }
+.pulse-surface button.is-on { background: #C5A059; color: #000; }
 .pulse-pole button:focus-visible, .pulse-layers button:focus-visible { outline: 2px solid #C5A059; outline-offset: 2px; }
 .pulse-attrib { bottom: 12px; right: 12px; font-size: 10px; line-height: 1.3; color: rgba(249, 249, 247, 0.4); text-align: right; }
 .pulse-attrib a { color: inherit; text-decoration: none; }

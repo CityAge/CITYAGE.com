@@ -56,9 +56,12 @@ function poleView(sign: 1 | -1, home: number): { center: [number, number]; zoom:
   }
   return { center: [0, sign * lat], zoom }
 }
-const PROJECT_ZOOM = 7
-const FLY_TO_MS = 1800
-const FLY_BACK_MS = 1400
+/** Landing: close enough to see the site itself (runways, quays, buildings), tilted like a drone arriving. */
+const PROJECT_ZOOM = 15
+const PROJECT_PITCH = 55
+const FLY_TO_MS = 6000
+const FLY_BACK_MS = 4000
+type Surface = 'night' | 'day'
 const DAY = 86_400_000
 /** The pulse glyph: its height in px at the opening zoom, and by zoom 6. */
 const STAR_MIN = 14
@@ -66,6 +69,8 @@ const STAR_MAX = 22
 
 const NASA_TILES =
   'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png'
+const DAY_TILES =
+  'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry/default/2004-08-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg'
 const ESRI_TILES = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
 
 function ageOf(pulseAt: string | null, now: number): Age {
@@ -203,6 +208,7 @@ function buildStyle(): StyleSpecification {
     projection: { type: 'globe' },
     sources: {
       marble: { type: 'raster', tiles: [NASA_TILES], tileSize: 512, maxzoom: 8, attribution: 'NASA GIBS' },
+      day: { type: 'raster', tiles: [DAY_TILES], tileSize: 256, maxzoom: 8, attribution: 'NASA Blue Marble' },
       esri: { type: 'raster', tiles: [ESRI_TILES], tileSize: 256, maxzoom: 18, attribution: 'Esri, Maxar, Earthstar Geographics, and the GIS User Community' },
       coast: { type: 'geojson', data: '/pulse/coastline-110m.json' },
       ocean: { type: 'geojson', data: '/pulse/ocean-110m.json' },
@@ -217,6 +223,14 @@ function buildStyle(): StyleSpecification {
         // 90%, contrast lifted so towns read as points of light
         // desaturated so the lights are warm points on black, not the source's blue haze
         paint: { 'raster-opacity': 0.9, 'raster-contrast': 0.3, 'raster-saturation': -0.7, 'raster-brightness-min': 0, 'raster-fade-duration': 300 },
+      },
+      {
+        // Day: NASA Blue Marble, the real colours of land, ice and sea. Hidden until the Day switch.
+        id: 'day',
+        type: 'raster',
+        source: 'day',
+        layout: { visibility: 'none' },
+        paint: { 'raster-opacity': 1, 'raster-fade-duration': 300 },
       },
       {
         // The sea: deep navy over the marble's black water, so it reads as sea against true black space. Land stays as it is.
@@ -273,6 +287,11 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
   /** The Pulse layer: on, projects within 30 days show the star; off, everything is a dot. */
   const [pulseOn, setPulseOn] = useState(true)
   const pulseOnRef = useRef(true)
+  /** Night (the lights) or Day (Blue Marble); the choice lives in ?surface=day. */
+  const [surface, setSurface] = useState<Surface>(() => {
+    if (typeof window === 'undefined') return 'night'
+    return new URLSearchParams(window.location.search).get('surface') === 'day' ? 'day' : 'night'
+  })
   const embed = mode === 'embed'
   const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -404,7 +423,8 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       pitch: 0,
       bearing: 0,
       attributionControl: false,
-      maxPitch: 0,
+      // Pitch is for the landings only; the reader cannot tilt by hand.
+      maxPitch: 70,
       interactive: true,
       touchPitch: false,
       dragRotate: false,
@@ -490,6 +510,28 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // ---- surface: Day shows Blue Marble and drops the night lights and the navy sea
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    const apply = () => {
+      if (!map.getLayer('day')) return
+      const day = surface === 'day'
+      map.setLayoutProperty('day', 'visibility', day ? 'visible' : 'none')
+      map.setLayoutProperty('marble', 'visibility', day ? 'none' : 'visible')
+      map.setLayoutProperty('ocean', 'visibility', day ? 'none' : 'visible')
+      map.setPaintProperty('coast', 'line-opacity', day ? 0 : 0.22)
+    }
+    if (map.isStyleLoaded()) apply()
+    else map.once('styledata', apply)
+    if (mode === 'page') {
+      const u = new URL(window.location.href)
+      if (surface === 'day') u.searchParams.set('surface', 'day')
+      else u.searchParams.delete('surface')
+      window.history.replaceState(null, '', u.toString())
+    }
+  }, [surface, ready, mode])
+
   // ---- flights
   const flightRef = useRef<number | null>(null)
   const flyToProject = useCallback(
@@ -498,12 +540,12 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
       if (!map) return
       stopIdle()
       if (reduced) {
-        map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM, bearing: 0, pitch: 0 })
+        map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM, bearing: 0, pitch: PROJECT_PITCH })
         setActive(p)
         return
       }
       map.once('moveend', () => setActive(p))
-      map.flyTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM, bearing: 0, pitch: 0, duration: FLY_TO_MS, easing: easeInOut, essential: true })
+      map.flyTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM, bearing: 0, pitch: PROJECT_PITCH, duration: FLY_TO_MS, easing: easeInOut, essential: true })
     },
     [reduced, stopIdle],
   )
@@ -575,7 +617,7 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
           if (p && map) {
             stopIdle()
             setActive(p)
-            map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM })
+            map.jumpTo({ center: [p.lng, p.lat], zoom: PROJECT_ZOOM, pitch: PROJECT_PITCH })
           }
         }
         void now
@@ -877,11 +919,15 @@ export function PulseGlobe({ mode = 'page', initialSlug }: { mode?: 'page' | 'em
         <div className="pulse-chrome pulse-pole">
           <button type="button" onClick={toNorthPole}>90° N</button>
           <button type="button" onClick={toSouthPole}>90° S</button>
+          <span className="pulse-surface" role="group" aria-label="Surface">
+            <button type="button" className={surface === 'night' ? 'is-on' : undefined} aria-pressed={surface === 'night'} onClick={() => setSurface('night')}>Night</button>
+            <button type="button" className={surface === 'day' ? 'is-on' : undefined} aria-pressed={surface === 'day'} onClick={() => setSurface('day')}>Day</button>
+          </span>
         </div>
       ) : null}
 
       <div className="pulse-chrome pulse-attrib">
-        <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre</a> · <a href="https://earthdata.nasa.gov/gibs" target="_blank" rel="noopener">NASA GIBS</a> · Esri, Maxar, Earthstar Geographics, and the GIS User Community
+        <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre</a> · <a href="https://earthdata.nasa.gov/gibs" target="_blank" rel="noopener">NASA GIBS</a> (Black Marble, Blue Marble) · Esri, Maxar, Earthstar Geographics, and the GIS User Community
       </div>
 
       <aside className={`pulse-card${active ? ' is-open' : ''}`} aria-hidden={!active} aria-label="Project">
